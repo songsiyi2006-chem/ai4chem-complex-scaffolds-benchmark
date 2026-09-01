@@ -1,0 +1,20 @@
+# Datasets (auto-downloaded on first run; see README > Data Sources)
+aqsol.csv
+esol.csv
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
