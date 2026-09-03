@@ -1,208 +1,93 @@
-# aqueous-solubility-ml-benchmark
+# AI4Chem — Complex Scaffolds Benchmark
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.14](https://img.shields.io/badge/Python-3.14-blue.svg)](https://www.python.org/)
-[![RDKit](https://img.shields.io/badge/Powered--by-RDKit-green.svg)](https://www.rdkit.org/)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![RDKit](https://img.shields.io/badge/RDKit-2024.03%2B-38B2A3)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Docs](https://img.shields.io/badge/Docs-EN%20%7C%20ZH-informational)
+![ForceFields](https://img.shields.io/badge/Conformers-ETKDGv3%20%2B%20MMFF94%2BUFF-orange)
 
-A reproducible, step-by-step benchmark of **aqueous solubility (log S) prediction**
-for small molecules — evolving from a minimal 4-descriptor QSAR baseline to an
-industrial-grade model trained on the full **AqSolDB** reference database with
-**ECFP4 topological fingerprints** and gradient boosting.
+## Mission
 
-The project culminates in a case study on **Paclitaxel (Taxol®)**, one of the
-most notoriously water-insoluble anticancer natural products, where the final
-model lands **inside the literature-reported solubility range** while the
-baseline overestimates it by ~30×.
+Stress-test frontier, fully open-source 3D conformer pipelines (**RDKit ETKDGv3 + MMFF94/UFF**) against **10 structurally complex, synthetically plausible, unindexed molecular entities** — macrocycles, cubane-type strain cages, beyond-Ro5 PROTAC prototypes, atropisomeric biaryls, perfluorinated cages, zwitterionic B–N dative systems, covalent warheads, helicenes, and sterically jammed peptoids — and quantify their physicochemical profiles, conformational energy landscapes, intramolecular H-bond networks, and **GNN featurization readiness** (PyG-loadable atom/bond tensors).
 
----
+One target (M09) was caught by the pipeline with an **unkekulizable SMILES** — a genuine input-integrity failure — and a programmatically repaired aza-[5]-helicene reference (**M09R**) completes the case study.
 
-## Project Overview
+## Quick Navigation
 
-This repository documents a deliberate *model-complexity progression*, where
-each stage exposes a specific limitation of naive QSAR modeling:
+| Asset | Link |
+|---|---|
+| 🇬🇧 English technical report | [`BENCHMARK_REPORT_EN.md`](./BENCHMARK_REPORT_EN.md) |
+| 🇨🇳 中文技术报告 | [`BENCHMARK_REPORT_ZH.md`](./BENCHMARK_REPORT_ZH.md) |
+| Benchmark pipeline script | [`molecule_benchmark.py`](./molecule_benchmark.py) |
+| Figure generation script | [`generate_assets.py`](./generate_assets.py) |
+| Workspace bootstrap script | [`setup_and_download.py`](./setup_and_download.py) |
+| Machine-readable results | [`bench_results/benchmark_results.json`](./bench_results/benchmark_results.json) |
+| Auto-generated run report | [`bench_results/benchmark_report.md`](./bench_results/benchmark_report.md) |
+| 3D ensembles & minima | `bench_results/sdf/*_ensemble.sdf`, `bench_results/sdf/*_min.sdf` |
+| PyG feature tensors | `bench_results/features/*.npz` |
 
-| Stage | Script | Data | Features | Model |
-|-------|--------|------|----------|-------|
-| 0. Warm-up | `molecules.py` | 2 molecules | MW, formula (RDKit basics) | — |
-| 1. Toy classifier | `predict_solubility.py` | 6 hand-labeled molecules | MolLogP, TPSA | `DecisionTreeClassifier` |
-| 2. Baseline regression | `esol_model.py` | Delaney **ESOL** (1,128 mols) | MolWt, MolLogP, NumRotatableBonds, TPSA | `RandomForestRegressor` |
-| 3. **This benchmark** | `aqsol_model.py` | **AqSolDB** (9,980 mols) | 11 physchem descriptors **+ 2048-bit ECFP4** | `HistGradientBoostingRegressor` |
+## Figure Previews
 
-**Key lessons encoded in the progression:**
+### Fig. 1 — Structural Grid (10 targets + repaired reference)
 
-- A one-feature decision tree (TPSA ≤ 8.53 → insoluble) "solves" the toy problem
-  but says nothing about real chemistry.
-- The ESOL baseline reaches R² ≈ 0.85 but is a *2D descriptor count* model: it
-  cannot see *how* polar groups are buried in a rigid 3D scaffold.
-- AqSolDB (9 curated public datasets, ~10 K diverse drug-like molecules) moves
-  complex natural products from "out-of-distribution" to "seen before".
-- ECFP4 (Morgan, radius = 2) digitizes every local functional-group environment,
-  letting the model learn topology-dependent effects that scalar descriptors
-  (TPSA, MolLogP) average away.
+![Molecular grid](./figures/fig1_molecular_grid.png)
 
-## Benchmark Results
+### Fig. 2 — Chemical Space vs. Conventional Drug-Like Space
 
-### 5-fold cross-validation on AqSolDB
+![Chemical space](./figures/fig2_chemical_space.png)
 
-| Metric | Value |
-|--------|-------|
-| R² | **0.815** |
-| RMSE | **1.019 log units** |
+### Fig. 3 — Structural Complexity Radar
 
-For context, the AqSolDB reference paper reports RMSE ≈ 1.2 for its own
-built-in models; published state-of-the-art models typically land between
-0.95–1.05 log units. Our result is competitive with the current literature
-standard, using only 2D descriptors + fingerprints.
+![Complexity radar](./figures/fig3_radar_complexity.png)
 
-### Head-to-head on the same ESOL test set
+## Benchmark Summary Table
 
-The two regressors are compared on an **identical held-out ESOL test set**
-(n = 226, `random_state=42`). To guarantee a leak-free comparison, the 222
-AqSolDB entries duplicating ESOL test molecules are **excluded from training**
-— without this guard, AqSolDB's embedded ESOL subset would silently leak the
-answers.
+All values computed with RDKit 2026.03.5 (50 conformers/molecule, ETKDGv3 + MMFF94/UFF, all optimizations converged). E in kcal/mol; ΔE_ens = E_max − E_min over the optimized ensemble; Stereo a/u = assigned/unassigned chiral centers; d_min = shortest non-bonded heavy-atom distance (≥ 4 bonds apart) in the E_min conformer; IMHB = intramolecular H-bonds in the E_min conformer.
 
-| Model | Features | R² | RMSE |
-|-------|----------|------|------|
-| Baseline: Random Forest (500 trees) | 4 physchem descriptors | 0.864 | 0.803 |
-| **This work: HistGradientBoosting** | 11 descriptors + ECFP4 (2059-D) | **0.915** | **0.635** |
+| # | Molecule | MW (Da) | cLogP | TPSA (Å²) | Fsp³ | RotB | Stereo a/u | MaxRing | FF | E_min | ΔE_ens | IMHB | d_min (Å) | Risk flags |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| M01 | Macrocyclic chameleon peptide | 529.6 | −0.72 | 165.2 | 0.538 | 5 | 4/0 | 13 | MMFF94 | 67.4 | **43.1** | 2 | 2.73 | MAC, ENTROPY |
+| M02 | Azaspiro-cubane bioisostere | 366.3 | 1.78 | 32.8 | 0.611 | 2 | 0/**5** | 6 | MMFF94 | 106.3 | 8.6 | 0 | 2.78 | STRAIN, UST |
+| M03 | PROTAC prototype (2 fragments) | 815.9 | 2.51 | 241.4 | 0.282 | 16 | 0/1 | 6 | MMFF94 | 29.2† | 12.2† | 1 | 2.75† | BIG, FLEX, FRAG, ENTROPY, UST |
+| M04 | Atropisomeric biaryl | 445.5 | 4.02 | 101.9 | 0.375 | 7 | 2/0 | 6 | MMFF94 | 71.3 | 11.5 | 1 | 2.93 | ATRO (4/4), ENTROPY |
+| M05 | Perfluorinated cage | 395.2 | 1.37 | 66.4 | **0.846** | 3 | 0/7 | 5 | MMFF94 | **−0.15** | 7.9 | 0 | 2.78 | STRAIN, FLUORO, UST |
+| M06 | Oxetane polyketide mimic | 460.6 | 2.61 | 110.3 | 0.522 | 5 | **7/0** | 7 | MMFF94 | 38.0 | 27.4 | 1 | 2.76 | STRAIN, ENTROPY |
+| M07 | B–N dative macrocycle | 342.2 | 1.60 | 44.5 | 0.095 | 1 | 0/0 | 6 | **UFF** | 78.6 | **0.3** | 0 | 3.02 | ZWIT, UFF |
+| M08 | Bicyclo-acrylamide warhead | 360.7 | 2.96 | 58.6 | 0.333 | 4 | 0/2 | 6 | MMFF94 | 8.4 | 6.8 | 0 | 2.89 | STRAIN, UST |
+| M09 | Hetero-[5]-helicene | — | — | — | — | — | — | — | — | — | — | — | — | **unkekulizable SMILES** |
+| M09R | Aza-[5]-helicene (repaired ref.) | 279.3 | 5.69 | 12.9 | 0.000 | 0 | 0/0 | 6 | MMFF94 | 97.2 | **0.0** | 0 | **4.13** | — |
+| M10 | Tetra-ortho peptoid core | 422.6 | 5.51 | 40.6 | 0.481 | 4 | 0/0 | 6 | MMFF94 | **124.0** | 15.1 | 0 | 3.14 | ENTROPY |
 
-**RMSE reduced by 20.9 %** under strictly fair conditions.
+† M03 is a dot-disconnected two-fragment assembly as written; graph and 3D ensemble computed on the 39-heavy-atom major fragment.
 
-![Old vs new model on the same ESOL test set](figures/aqsol_result.png)
-
-The largest gains concentrate in the poorly-soluble region (log S < −5), where
-the baseline systematically underestimates insolubility — precisely the region
-that matters most in drug formulation.
-
-## Case Study: Paclitaxel (Taxol®)
-
-Paclitaxel — a rigid, cage-like taxane diterpenoid (MW 853.9, TPSA 221 Å²,
-MolLogP 3.7, 7 rings, 10 rotatable bonds) — is a canonical stress test for
-solubility models. Despite its huge polar surface area, its measured water
-solubility is only **~0.3–1 μg/mL** because its esters, hydroxyls and amide are
-wrapped inside a rigid scaffold riddled with intramolecular hydrogen bonds.
-
-| Model | Predicted log S | Predicted solubility | Verdict |
-|-------|-----------------|----------------------|---------|
-| Baseline (ESOL 4-descriptor RF) | −4.82 | 12.8 μg/mL | overestimates ~30× |
-| **This work (AqSolDB + ECFP4 + HistGBR)** | **−6.31** | **0.416 μg/mL** | **within literature range** |
-
-**Why the baseline fails:** scalar 2D descriptors see "TPSA = 221 → very
-polar → soluble". They are blind to 3D conformational effects — the polar
-functional groups exist, but they are topologically *buried*.
-
-**Why this model succeeds:**
-
-1. **In-distribution at last.** AqSolDB contains large, complex drug-like
-   molecules; paclitaxel is no longer a far-extrapolation outlier.
-2. **ECFP4 sees functional-group topology.** Each atom environment is
-   fingerprinted, so the model can learn that *where* a hydroxyl or ester sits
-   — solvent-accessible vs. scaffold-buried — controls solubility, something a
-   summed descriptor cannot encode.
-3. **Practical relevance.** This extreme insolubility is why clinical Taxol®
-   requires Cremophor EL solubilization (with its infamous hypersensitivity
-   risk) and why albumin-bound nanoparticles (Abraxane®) were developed. An
-   early-stage flag of "this molecule will be a formulation nightmare" is
-   exactly what computational solubility prediction is for — even before
-   exact numbers are reliable.
-
-![Paclitaxel structure with predicted log S](figures/paclitaxel.png)
-
-## Installation & Usage
-
-### Requirements
-
-- Python ≥ 3.10 (tested on 3.14, Windows x64)
-- Dependencies: see `requirements.txt`
+## Reproduce
 
 ```bash
-git clone https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark.git
-cd aqueous-solubility-ml-benchmark
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# Linux / macOS
-# source .venv/bin/activate
+pip install rdkit pandas numpy scikit-learn matplotlib seaborn torch torch_geometric
 
-pip install -r requirements.txt
+python molecule_benchmark.py --workers 4 --conformers 50   # full pipeline -> bench_results/
+python generate_assets.py                                  # 300-DPI figures -> ./figures/
 ```
-
-### Run the full benchmark
-
-```bash
-# Stage 0 — RDKit warm-up (caffeine & aspirin properties + structures)
-python molecules.py
-
-# Stage 1 — toy decision-tree classifier (6 hand-labeled molecules)
-python predict_solubility.py
-
-# Stage 2 — ESOL baseline regression (auto-downloads esol.csv, ~1128 mols)
-python esol_model.py
-
-# Stage 3 — full benchmark (auto-downloads AqSolDB, ~10 000 mols, ~4 min CPU)
-python aqsol_model.py
-
-# Paclitaxel case study (reuses the Stage-2 pipeline)
-python paclitaxel.py
-```
-
-All datasets are downloaded automatically on first run and cached locally
-(`esol.csv`, `aqsol.csv`). Delete them to force a fresh download.
-
-### Expected outputs
-
-| Script | Output |
-|--------|--------|
-| `molecules.py` | `figures/molecules.png` |
-| `predict_solubility.py` | decision-tree rules, aspirin classification |
-| `esol_model.py` | test-set R²/RMSE, `figures/esol_result.png` |
-| `aqsol_model.py` | 5-fold CV metrics, head-to-head comparison, `figures/aqsol_result.png`, paclitaxel prediction |
-| `paclitaxel.py` | paclitaxel features, log S, μg/mL, `figures/paclitaxel.png` |
 
 ## Repository Structure
 
 ```
-aqueous-solubility-ml-benchmark/
-├── README.md
-├── LICENSE
-├── requirements.txt
-├── molecules.py              # Stage 0: RDKit warm-up
-├── predict_solubility.py     # Stage 1: toy decision-tree classifier
-├── esol_model.py             # Stage 2: ESOL baseline (4 descriptors + RF)
-├── aqsol_model.py            # Stage 3: full benchmark (AqSolDB + ECFP4 + HistGBR)
-├── paclitaxel.py             # Case study: paclitaxel solubility
-└── figures/
-    ├── aqsol_result.png      # Old vs new model, same ESOL test set
-    ├── esol_result.png       # Baseline measured-vs-predicted scatter
-    ├── paclitaxel.png        # Paclitaxel 2D structure
-    └── molecules.png         # Caffeine & aspirin structures
+.
+├── molecule_benchmark.py        # per-molecule pipeline (parse → scaffold → GNN tensors → 3D ensemble → analysis)
+├── generate_assets.py           # publication figures from benchmark_results.json
+├── setup_and_download.py        # one-shot environment/dataset bootstrap + self-check
+├── BENCHMARK_REPORT_EN.md       # English technical report
+├── BENCHMARK_REPORT_ZH.md       # 中文技术报告
+├── figures/                     # fig1–fig3 (300 DPI PNG)
+└── bench_results/
+    ├── benchmark_results.json   # machine-readable records
+    ├── benchmark_report.md      # auto-generated run report
+    ├── sdf/                     # *_ensemble.sdf, *_min.sdf
+    └── features/                # *.npz (PyG-loadable)
 ```
 
-## Data Sources
-
-| Dataset | Source | License / Citation |
-|---------|--------|--------------------|
-| **AqSolDB** | [Harvard Dataverse, doi:10.7910/DVN/OVHAW8](https://doi.org/10.7910/DVN/OVHAW8) | Sorkun, M. C.; Khetan, A.; Er, S. *AqSolDB: a curated reference set of aqueous solubility and 2D descriptors for a diverse set of compounds.* **Sci. Data** 6, 143 (2019). [CC BY 4.0] |
-| **ESOL (Delaney)** | Delaney, J. S. *ESOL: Estimating aqueous solubility directly from molecular structure.* **J. Chem. Inf. Comput. Sci.** 44, 1000–1005 (2004). Mirrored by [DeepChem](https://github.com/deepchem/deepchem). |
-
-## Limitations
-
-- All models are **2D-only**: stereochemistry, 3D conformers, polymorphism,
-  salt/crystal effects and temperature are not modeled. log S predictions are
-  for the neutral form at ~25 °C.
-- ECFP4 fingerprints are hashed (2048 bits); bit collisions are possible.
-- The head-to-head comparison uses a single fixed split; confidence intervals
-  over repeated splits are left as future work.
-- Predictions are **screening-grade flags, not manufacturing specs** — see the
-  paclitaxel discussion above for the correct interpretation.
-
-## Contributing
-
-Issues and pull requests are welcome. Natural extensions: attention-based
-graph neural networks (e.g., Chemprop / D-MPNN), conformal prediction
-intervals, and a repeated-CV leaderboard across all model stages.
+> This repository also preserves the earlier sibling project [`aqueous-solubility-ml-benchmark`](https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark) (ESOL/AqSolDB solubility modeling) in its history — see the initial commit.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [`LICENSE`](./LICENSE).

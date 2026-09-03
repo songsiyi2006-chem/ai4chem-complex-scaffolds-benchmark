@@ -2,19 +2,42 @@
 aqsol.csv
 esol.csv
 
-# Python
+# Byte-compiled / cache
 __pycache__/
 *.py[cod]
-*.egg-info/
-.venv/
+*$py.class
+
+# Environments
 venv/
+.venv/
+env/
 .env
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
 
 # Jupyter
 .ipynb_checkpoints/
 
-# OS / IDE
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
+# Run logs
+logs/
+*.log
+
+# Temporary download staging
+*.part
