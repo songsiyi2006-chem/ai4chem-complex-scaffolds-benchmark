@@ -1,0 +1,46 @@
+{
+  "phase": 4,
+  "reaction": {
+    "name": "Ciamician-Dennstedt skeletal editing core step (simplified :CH2 model): cyclopropa[b]indole -> 2,3-dihydroquinoline",
+    "reactant": "cyclopropa[b]indole (C9H9N)",
+    "product": "c1ccc2c(c1)C=CCN2 (2,3-dihydroquinoline, C9H9N)"
+  },
+  "timestamp": "2026-09-04T18:53:19",
+  "stage1_geometry": {
+    "reactant_atoms": 19,
+    "formula": "C9H9N",
+    "n_images": 9,
+    "e_r_ev": -727.8605050767377,
+    "e_p_ev": -728.0811431598361,
+    "broken_bonds_R_idx": [
+      [
+        4,
+        5
+      ],
+      [
+        6,
+        9
+      ]
+    ],
+    "formed_bonds_R_idx": [
+      [
+        4,
+        9
+      ]
+    ],
+    "mcs_pairing": "MCS + greedy element/distance",
+    "interpolation": "IDPP (ASE)",
+    "engine": "GFN2-xTB"
+  },
+  "stage2_neb": {},
+  "stage3_ts": {},
+  "meta": {
+    "fallbacks": [],
+    "warnings": [
+      "NEB optimizer raised AttributeError: 'NoneType' object has no attribute 'group' \u2014 keeping best band",
+      "figure generation failed: [Errno 2] No such file or directory: 'results_phase4\\\\neb_final_path.xyz'"
+    ]
+  },
+  "fatal_error": null,
+  "all_stages_ok": false
+}
