@@ -8,6 +8,8 @@
 ![MD](https://img.shields.io/badge/OpenMM-8.6%20GBSA%2FOBC2-9B59B6)
 ![Docking](https://img.shields.io/badge/Docking-Vina%201.2.5%20%2B%20meeko-16A085)
 ![ML potentials](https://img.shields.io/badge/ML%20potential-ANI--2x%20(vs%20Sage%2FMMFF94)-E67E22)
+![Multireference](https://img.shields.io/badge/Phase%207-CASSCF(2,2)%2Fdef2--SVP-8E44AD)
+![Wall of Sighs](https://img.shields.io/badge/Quantum--AI-epistemic%20failure%20map-C0392B)
 
 ## Mission
 
@@ -23,7 +25,11 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 
 **Phase 5 — The Autonomous Chemical World Model.** The pipeline closes the loop from quantum chemistry to inverse design: automated reaction-network (ARN) discovery on an asymmetric aziridine ring expansion (2-methyl-azirino[1,2-a]indole → 3-methyl-dihydroquinoline-imine, C₁₀H₁₁N, catalyzed by chiral BINOL-phosphoric acid), stiff microkinetic ODE integration (Eyring–Polanyi rates, BDF/Radau, 250–350 K) and TS-conditioned generative catalyst design (3D ESP field + evolutionary 3,3′-scaffold assembly) that **proves a ≥ 4 kcal/mol effective-barrier reduction** (computed raw 65.7 kcal/mol gas-phase differential) and **repairs enantioselectivity from ee ≈ 0 (baseline) to ee 80–91 % at 89–97 % yield (designed)**. See [`WORLD_MODEL_REPORT_EN.md`](./WORLD_MODEL_REPORT_EN.md) / [`WORLD_MODEL_REPORT_ZH.md`](./WORLD_MODEL_REPORT_ZH.md).
 
+**Phase 6 — Explicit-solvent well-tempered metadynamics & 2D FES.** The Phase-4 skeletal-editing coordinate goes into full-atom water: **TIP3P (494 waters) + 0.15 M NaCl** in a PBC box with a literal 10 Å buffer to every box edge, PME (1.0 nm), Langevin 300 K at 2 fs, and 2D **well-tempered metadynamics** (CV₁ = N₄–C₅ scissile distance [1.3, 3.0] Å; CV₂ = migrating-CH₂ insertion dihedral [−180, 180]°; W₀ = 0.5 kcal/mol, σ = 0.05 Å/5°, γ = 10; 1.0 ns explicit + 1.6 ns GBSA-OBC2 reference on the *identical* GFN2-calibrated reactive Hamiltonian — Morse pairs fitted to xTB constrained scans, xTB Mulliken charges pair-averaged under the MCS mapping, XML export energy-validated to 3×10⁻⁶ kJ/mol, zero-recompilation bias kernel). Converged 2D FES with both legs agreeing to 0.01 kcal/mol, the solvent-shift profile **ΔΔG_solv(d) bounded ≤ 0.26 kcal/mol** along the pre-saddle insertion coordinate, and a bias-budget analysis of what crossing the 46 kcal/mol saddle will require. Checkpointed & crash-resumable. See [`METADYNAMICS_REPORT_EN.md`](./METADYNAMICS_REPORT_EN.md) / [`METADYNAMICS_REPORT_ZH.md`](./METADYNAMICS_REPORT_ZH.md).
+
 **Phase 4 — Transformation & transition-state theory.** Autonomous saddle hunting on a skeletal-editing reaction: the Ciamician–Dennstedt core step **cyclopropa[b]indole → 2,3-dihydroquinoline** (C₉H₉N isomers; 2 bonds break, 1 forms). Programmatic reactant construction, permutation-invariant Hungarian atom pairing, IDPP interpolation, **CI-NEB** (improved tangent, converged fmax = 0.047 eV/Å), analytic **GFN2-xTB Hessian verification: exactly one imaginary frequency (−152.8 cm⁻¹)** with the transition vector aligned to the concerted scission/insertion coordinate, and Eyring thermochemistry (**ΔE‡ 52.5 / ΔH‡ 46.4 / ΔG‡ 46.4 kcal/mol, k = 6×10⁻²² s⁻¹**). See [`SKELETAL_EDITING_REPORT_EN.md`](./SKELETAL_EDITING_REPORT_EN.md) / [`SKELETAL_EDITING_REPORT_ZH.md`](./SKELETAL_EDITING_REPORT_ZH.md).
+
+**Phase 7 — The Wall of Sighs: multi-reference benchmark & quantum-AI failure map.** The skeleton's scissile C6–C9 cyclopropane bond (the first bond-breaking event of the Phase-4/6 coordinate) is stretched homolytically **1.40 → 3.20 Å** (relaxed GFN2-xTB scan, 11 points) and the *identical trajectory* is evaluated by six theoretical lenses: **CASSCF(2,2)/def2-SVP** (multi-reference ground truth, Psi4 1.11 DETCI), RHF, BS-UB3LYP, GFN2-xTB, **MACE-OFF** and **ANI-2x**. Findings: (i) CASSCF natural-orbital occupations prove smooth fractional occupancy — diradical character **y: 0.014 → 0.694**, with the canonical **1.86/0.14** signature at R = 2.05 Å; (ii) the broken-symmetry singlet is **SCF-inaccessible** for this π-stabilized polar diradical — singlet ΔS² ≡ 0 along the whole coordinate (audited across SAD/SAP guesses, checkpoint-spliced triplet seeds, MOM pinning and SOSCF), so the symmetry-breaking point is pinned by the **singlet–triplet gap closure at R_crit = 2.13 Å (UHF) / 2.51 Å (UKS-DFT)**; (iii) the **epistemic error landscape**: |ΔE_error| vs CASSCF breaches the 15 kcal/mol gate at **1.90 Å for MACE-OFF** (earliest failure; +30.2 kcal/mol peak at 2.05 Å — an over-stiff breaking bond priced as intact), 2.20 Å for ANI-2x and UHF, 2.90 Å for GFN2-xTB (52 kcal/mol asymptotic undershoot), while **BS-UB3LYP never fails** (≤ 10.3 kcal/mol). Full treatise: [`FRONTIER_EPISTEMIC_REPORT_EN.md`](./FRONTIER_EPISTEMIC_REPORT_EN.md) / [`FRONTIER_EPISTEMIC_REPORT_ZH.md`](./FRONTIER_EPISTEMIC_REPORT_ZH.md).
 
 ## Quick Navigation
 
@@ -51,11 +57,19 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 世界模型报告（第五阶段） | [`WORLD_MODEL_REPORT_ZH.md`](./WORLD_MODEL_REPORT_ZH.md) |
 | Phase 5 world-model pipeline | [`run_phase5_chemical_world_model.py`](./run_phase5_chemical_world_model.py) |
 | Phase 5 machine-readable results | [`results_phase5/phase5_results.json`](./results_phase5/phase5_results.json) |
+| 🇬🇧 Metadynamics report (Phase 6) | [`METADYNAMICS_REPORT_EN.md`](./METADYNAMICS_REPORT_EN.md) |
+| 🇨🇳 元动力学报告（第六阶段） | [`METADYNAMICS_REPORT_ZH.md`](./METADYNAMICS_REPORT_ZH.md) |
+| Metadynamics pipeline (Phase 6) | [`run_phase6_explicit_metadynamics.py`](./run_phase6_explicit_metadynamics.py) |
+| Phase 6 FES / hills / trajectories | `results_phase6/phase6_results.json`, `results_phase6/fes_*.npz`, `results_phase6/metadyn_state.json`, `results_phase6/traj_*.dcd` |
 | Phase 4 reaction-mechanism pipeline | [`run_phase4_reaction_mechanism.py`](./run_phase4_reaction_mechanism.py) |
 | 🇬🇧 Skeletal editing report (Phase 4) | [`SKELETAL_EDITING_REPORT_EN.md`](./SKELETAL_EDITING_REPORT_EN.md) |
 | 🇨🇳 骨架编辑报告（第四阶段） | [`SKELETAL_EDITING_REPORT_ZH.md`](./SKELETAL_EDITING_REPORT_ZH.md) |
 | Reaction pipeline (Phase 4) | [`run_phase4_reaction_mechanism.py`](./run_phase4_reaction_mechanism.py) |
 | Phase 4 NEB band / TS / frequencies | `results_phase4/neb_final_path.xyz`, `results_phase4/ts_candidate.xyz`, `results_phase4/ts_hessian_freqs.json` |
+| 🇬🇧 Frontier epistemic report (Phase 7) | [`FRONTIER_EPISTEMIC_REPORT_EN.md`](./FRONTIER_EPISTEMIC_REPORT_EN.md) |
+| 🇨🇳 前沿认识论报告（第七阶段） | [`FRONTIER_EPISTEMIC_REPORT_ZH.md`](./FRONTIER_EPISTEMIC_REPORT_ZH.md) |
+| Strong-correlation wall pipeline (Phase 7) | [`run_phase7_strong_correlation_wall.py`](./run_phase7_strong_correlation_wall.py) |
+| Phase 7 wall-of-sighs record / table | `results_phase7/phase7_results.json`, `results_phase7/phase7_scan_summary.csv` |
 
 ## Figure Previews
 
@@ -172,6 +186,60 @@ Three-module pipeline (`run_phase5_chemical_world_model.py`, GFN2-xTB via harden
 
 ![TS stabilization dock](./figures_phase5/fig3_ts_stabilization_dock.png)
 
+## Phase 6 — Explicit-Solvent Well-Tempered Metadynamics & 2D FES
+
+The Phase-4 rearrangement coordinate rebuilt in full-atom water (`run_phase6_explicit_metadynamics.py`, every stage checkpointed & crash-resumable):
+
+| Stage | Engine | Headline result |
+|---|---|---|
+| 1 reactive Hamiltonian | OpenFF Sage 2.1.0 + GFN2-xTB calibration | 3 Morse pairs from constrained relaxed scans; D_e thermodynamically recalibrated to BDE at QM well curvature (classical pair-sum ΔE ≈ +1.8 vs QM −5.1 kcal/mol); 9 X–H rigid constraints; XML export **energy-validated to 2.8×10⁻⁶ kJ/mol** |
+| 2 explicit solvation | OpenMM Modeller, TIP3P | **494 waters, 0.15 M NaCl**, box 26.2×24.6×25.1 Å (10.0 Å buffer per edge), PME 1.0 nm |
+| 3 WTMetaD | custom zero-recompile `CustomCVForce` (512 hill slots as global params) | W₀ 0.5 kcal/mol, σ₁ 0.05 Å, σ₂ 5°, γ = 10; deposits every 500 steps; **500 ks steps (1.0 ns)** explicit + **800 ks steps (1.6 ns)** implicit reference |
+| 4 FES reconstruction | −(γ−1)/γ·V on 86×73 grid, density masking, Dijkstra MEP | basins agree across solvation models: (1.42 Å, 70°) both legs; ascent 11.05 vs 11.04 kcal/mol; **ΔΔG_solv(d) ≤ 0.26 kcal/mol**, → +0.00 at the matched boundary (d = 1.76 Å) |
+| 5 barrier status | bias-budget accounting | 46 kcal/mol QM saddle needs next-tier sampling (PB/PT-MetaD, QM/MM, or forming-bond CV) — documented, reproducible path |
+
+**Figures:** [solvated box + first shell](./figures_phase6/fig1_explicit_solvent_box.png) · [2D FES + ΔΔG_solv(d)](./figures_phase6/fig2_2d_free_energy_surface.png) · [convergence & stability](./figures_phase6/fig3_fes_convergence_trace.png)
+
+### Phase 6 Figure Previews
+
+**Fig. P6-1 — cyclopropa[b]indole in its periodic TIP3P box (first solvation shell + H-bonds + ions)**
+
+![Explicit solvent box](./figures_phase6/fig1_explicit_solvent_box.png)
+
+**Fig. P6-2 — 2D free-energy surfaces: explicit vs implicit, with QM IDPP reference path and solvent-shift profile**
+
+![2D FES](./figures_phase6/fig2_2d_free_energy_surface.png)
+
+**Fig. P6-3 — FES-ascent convergence, hill accumulation, temperature stability & WT height decay**
+
+![Convergence](./figures_phase6/fig3_fes_convergence_trace.png)
+
+## Phase 7 — The Wall of Sighs (Multi-Reference & Quantum-AI Breakdown)
+
+Scissile C6–C9 bond of cyclopropa[b]indole stretched 1.40 → 3.20 Å (relaxed GFN2-xTB scan); identical geometries scored at def2-SVP (CASSCF/RHF/UB3LYP) and by GFN2-xTB, MACE-OFF, ANI-2x (`run_phase7_strong_correlation_wall.py`, dual-interpreter orchestration, per-point process isolation, basis/algorithm degradation ladders).
+
+| Diagnostic | Headline result |
+|---|---|
+| 7A mean-field breakdown | singlet ΔS² ≡ **0** along the whole coordinate — the BS solution is SCF-inaccessible for this π-stabilized polar diradical (audited negative result across SAD/SAP guesses, triplet-seeded checkpoint splicing, MOM pinning, SOSCF); the open-shell sector is diagnosed in S_z = 1, where **ΔE_ST collapses +75.5 → −68.2 kcal/mol, crossing zero at R_crit = 2.13 Å (UHF) / 2.51 Å (UKS-DFT)** |
+| 7B CASSCF(2,2) ground truth | NOON(σ*) = **0.014 → 0.694 e**, monotonic (trace = 2.000 at every point); canonical **1.86/0.14** signature at R = 2.05 Å; diradical character y = ν(σ*) ≈ 0.69 at 3.2 Å (σ-channel lower bound; the rest migrates into the indole π channel) |
+| 7C epistemic error vs CASSCF | **MACE-OFF fails first (1.90 Å)** with a +30.2 kcal/mol over-stiff peak at 2.05 Å (a breaking bond priced as intact); ANI-2x fails 2.20 Å (peak 19.1); GFN2-xTB 2.90 Å (52.0 asymptotic undershoot); UHF 2.20 Å (42.4); **BS-UB3LYP never exceeds 10.3 kcal/mol** — the failure zone coincides with the CASSCF diradical onset |
+
+**Figures:** [spin contamination & ST-gap collapse](./figures_phase7/fig1_spin_contamination_profile.png) · [CASSCF natural orbitals + NOON evolution](./figures_phase7/fig2_casscf_frontier_orbitals.png) · [the Wall of Sighs discrepancy map](./figures_phase7/fig3_the_wall_of_sighs_discrepancy.png)
+
+### Phase 7 Figure Previews
+
+**Fig. P7-1 — Symmetry breaking: spin contamination & singlet–triplet gap collapse**
+
+![Spin contamination](./figures_phase7/fig1_spin_contamination_profile.png)
+
+**Fig. P7-2 — CASSCF(2,2) natural orbitals: fractional occupancy along the scissile bond**
+
+![CASSCF frontier orbitals](./figures_phase7/fig2_casscf_frontier_orbitals.png)
+
+**Fig. P7-3 — The Wall of Sighs: six theoretical lenses on one homolysis trajectory**
+
+![Wall of sighs](./figures_phase7/fig3_the_wall_of_sighs_discrepancy.png)
+
 ## Reproduce
 
 ```bash
@@ -179,6 +247,10 @@ pip install rdkit pandas numpy scikit-learn matplotlib seaborn torch torch_geome
 
 python molecule_benchmark.py --workers 4 --conformers 50   # Phase 1 -> bench_results/
 python generate_assets.py                                  # Phase 1 figures -> ./figures/
+
+# Phase 6 (run inside the `phase2ff` conda env: openmm 8.6 + openff-toolkit + xtb on PATH)
+C:/Users/HUIWEI/miniconda3/envs/phase2ff/python.exe run_phase6_explicit_metadynamics.py   # -> results_phase6/ + figures_phase6/
+C:/Users/HUIWEI/miniconda3/envs/phase2ff/python.exe run_phase6_explicit_metadynamics.py --selftest
 
 # Phase 2 (MD parameterization uses a conda env with openff-toolkit; see DYNAMICS_REPORT_EN.md §6)
 python run_heavy_dynamics_benchmark.py                     # full suite -> results_phase2/ + figures_phase2/
@@ -191,6 +263,13 @@ python run_phase3_complex_dynamics.py --fig_only           # regenerate figures 
 # Phase 4 (needs xtb.exe via conda -c conda-forge xtb, or falls back to ANI-2x)
 python run_phase4_reaction_mechanism.py --engine ani       # CI-NEB skeletal editing -> results_phase4/ + figures_phase4/
 python run_phase4_reaction_mechanism.py --fig_only         # regenerate figures
+
+# Phase 7 (phase7 env: psi4 1.11 + numpy + scipy + matplotlib + scikit-image;
+#          auto-discovers the phase2ff env for xTB/MACE/ANI single points)
+conda activate phase7
+python run_phase7_strong_correlation_wall.py               # -> results_phase7/ + figures_phase7/
+python run_phase7_strong_correlation_wall.py --smoke       # 3-point validation
+python run_phase7_strong_correlation_wall.py --fig_only    # regenerate figures from saved results
 ```
 
 ## Repository Structure
@@ -224,7 +303,22 @@ python run_phase4_reaction_mechanism.py --fig_only         # regenerate figures
 ├── SKELETAL_EDITING_REPORT_EN.md   # Phase 4 English report
 ├── SKELETAL_EDITING_REPORT_ZH.md   # 第四阶段中文报告
 ├── figures_phase4/                 # Phase 4 fig1-fig3 (300 DPI PNG)
-└── results_phase4/                 # Phase 4 outputs (NEB band, TS, frequencies)
+├── results_phase4/                 # Phase 4 outputs (NEB band, TS, frequencies)
+├── run_phase5_chemical_world_model.py # Phase 5: reaction network + stiff microkinetics + inverse design
+├── WORLD_MODEL_REPORT_EN.md        # Phase 5 English report
+├── WORLD_MODEL_REPORT_ZH.md        # 第五阶段中文报告
+├── figures_phase5/                 # Phase 5 fig1-fig3 (300 DPI PNG)
+├── results_phase5/                 # Phase 5 outputs (network, microkinetics, design)
+├── run_phase6_explicit_metadynamics.py # Phase 6: explicit-solvent WTMetaD + 2D FES
+├── METADYNAMICS_REPORT_EN.md       # Phase 6 English report
+├── METADYNAMICS_REPORT_ZH.md       # 第六阶段中文报告
+├── figures_phase6/                 # Phase 6 fig1-fig3 (300 DPI PNG)
+├── results_phase6/                 # Phase 6 outputs (FES grids, hills, checkpoints)
+├── run_phase7_strong_correlation_wall.py # Phase 7: CASSCF vs mean-field vs AI potentials (wall of sighs)
+├── FRONTIER_EPISTEMIC_REPORT_EN.md # Phase 7 English epistemic treatise
+├── FRONTIER_EPISTEMIC_REPORT_ZH.md # 第七阶段中文认识论报告
+├── figures_phase7/                 # Phase 7 fig1-fig3 (300 DPI PNG)
+└── results_phase7/                 # Phase 7 outputs (master JSON, scan summary CSV, scan geometries)
 ```
 
 > This repository also preserves the earlier sibling project [`aqueous-solubility-ml-benchmark`](https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark) (ESOL/AqSolDB solubility modeling) in its history — see the initial commit.

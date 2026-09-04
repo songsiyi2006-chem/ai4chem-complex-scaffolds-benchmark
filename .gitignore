@@ -41,3 +41,12 @@ logs/
 
 # Temporary download staging
 *.part
+
+# Phase 7 heavy intermediates (kept local; science lands in JSON/CSV/PNG)
+results_phase7/cubes/
+results_phase7/logs/
+results_phase7/checkpoints/
+results_phase7/_probe/
+
+# Phase 6 MD checkpoints (platform-bound binaries, re-creatable)
+results_phase6/*.chk
