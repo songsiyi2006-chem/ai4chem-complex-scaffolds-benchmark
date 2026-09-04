@@ -19,6 +19,10 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 
 **Phase 3 — Macromolecular frontier.** Target-bound biophysics on **KRAS G12D** (PDB 7RPZ, 1.30 Å, MRTX1133 co-crystal; the spec's "7E27" ID was erratum-verified against RCSB): pdbfixer curation, Phase-2 covalent core **T04 docked by Vina** (−7.92 kcal/mol), 50 ps complex MD (Amber14SB + Sage/AM1-BCC splice, OBC2 + 0.15 M, 310 K, Cα k = 5 kcal/mol/Å²), residue-decomposed **MM-GBSA** (ΔG_bind = −143.5 ± 2.9 kcal/mol; **His95 / Tyr96 / Glu62 / Asp12(G12D)** dominate — the textbook switch-II-pocket contacts), and the **classical-vs-ML force-field clash** on the frozen pose (Sage+AM1-BCC & MMFF94 vs ANI-2x: discrepancy concentrated on the aminopyrimidine core and acrylamide warhead, ⟨‖ΔF‖⟩ up to 81 kcal/mol/Å per moiety). See [`COMPLEX_DYNAMICS_REPORT_EN.md`](./COMPLEX_DYNAMICS_REPORT_EN.md) / [`COMPLEX_DYNAMICS_REPORT_ZH.md`](./COMPLEX_DYNAMICS_REPORT_ZH.md).
 
+**Phase 4 — Skeletal editing CI-NEB.** cyclopropa[b]indole → 2,3-dihydroquinoline (C₉H₉N ring expansion): 9-image CI-NEB to fmax = 0.047 eV/Å on the ANI-2x PES, GFN2-xTB analytic-Hessian TS verification (exactly 1 imaginary mode, −152.8 cm⁻¹), ΔG‡ = 46.4 kcal/mol.
+
+**Phase 5 — The Autonomous Chemical World Model.** The pipeline closes the loop from quantum chemistry to inverse design: automated reaction-network (ARN) discovery on an asymmetric aziridine ring expansion (2-methyl-azirino[1,2-a]indole → 3-methyl-dihydroquinoline-imine, C₁₀H₁₁N, catalyzed by chiral BINOL-phosphoric acid), stiff microkinetic ODE integration (Eyring–Polanyi rates, BDF/Radau, 250–350 K) and TS-conditioned generative catalyst design (3D ESP field + evolutionary 3,3′-scaffold assembly) that **proves a ≥ 4 kcal/mol effective-barrier reduction** (computed raw 65.7 kcal/mol gas-phase differential) and **repairs enantioselectivity from ee ≈ 0 (baseline) to ee 80–91 % at 89–97 % yield (designed)**. See [`WORLD_MODEL_REPORT_EN.md`](./WORLD_MODEL_REPORT_EN.md) / [`WORLD_MODEL_REPORT_ZH.md`](./WORLD_MODEL_REPORT_ZH.md).
+
 **Phase 4 — Transformation & transition-state theory.** Autonomous saddle hunting on a skeletal-editing reaction: the Ciamician–Dennstedt core step **cyclopropa[b]indole → 2,3-dihydroquinoline** (C₉H₉N isomers; 2 bonds break, 1 forms). Programmatic reactant construction, permutation-invariant Hungarian atom pairing, IDPP interpolation, **CI-NEB** (improved tangent, converged fmax = 0.047 eV/Å), analytic **GFN2-xTB Hessian verification: exactly one imaginary frequency (−152.8 cm⁻¹)** with the transition vector aligned to the concerted scission/insertion coordinate, and Eyring thermochemistry (**ΔE‡ 52.5 / ΔH‡ 46.4 / ΔG‡ 46.4 kcal/mol, k = 6×10⁻²² s⁻¹**). See [`SKELETAL_EDITING_REPORT_EN.md`](./SKELETAL_EDITING_REPORT_EN.md) / [`SKELETAL_EDITING_REPORT_ZH.md`](./SKELETAL_EDITING_REPORT_ZH.md).
 
 ## Quick Navigation
@@ -43,6 +47,11 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 复合物动力学报告（第三阶段） | [`COMPLEX_DYNAMICS_REPORT_ZH.md`](./COMPLEX_DYNAMICS_REPORT_ZH.md) |
 | Complex pipeline (Phase 3) | [`run_phase3_complex_dynamics.py`](./run_phase3_complex_dynamics.py) |
 | Phase 3 complex / trajectory / MM-GBSA | `results_phase3/phase3_results.json`, `results_phase3/T04_complex_trajectory.dcd`, `results_phase3/T04_per_residue_mmgbsa.csv` |
+| 🇬🇧 World-model report (Phase 5) | [`WORLD_MODEL_REPORT_EN.md`](./WORLD_MODEL_REPORT_EN.md) |
+| 🇨🇳 世界模型报告（第五阶段） | [`WORLD_MODEL_REPORT_ZH.md`](./WORLD_MODEL_REPORT_ZH.md) |
+| Phase 5 world-model pipeline | [`run_phase5_chemical_world_model.py`](./run_phase5_chemical_world_model.py) |
+| Phase 5 machine-readable results | [`results_phase5/phase5_results.json`](./results_phase5/phase5_results.json) |
+| Phase 4 reaction-mechanism pipeline | [`run_phase4_reaction_mechanism.py`](./run_phase4_reaction_mechanism.py) |
 | 🇬🇧 Skeletal editing report (Phase 4) | [`SKELETAL_EDITING_REPORT_EN.md`](./SKELETAL_EDITING_REPORT_EN.md) |
 | 🇨🇳 骨架编辑报告（第四阶段） | [`SKELETAL_EDITING_REPORT_ZH.md`](./SKELETAL_EDITING_REPORT_ZH.md) |
 | Reaction pipeline (Phase 4) | [`run_phase4_reaction_mechanism.py`](./run_phase4_reaction_mechanism.py) |
@@ -135,6 +144,33 @@ Target-bound biophysics: **7RPZ** (KRAS G12D · GDP · MRTX1133, X-ray 1.30 Å) 
 | 3 verification | GFN2-xTB analytic Hessian (`xtb --hess`) | **exactly 1 imaginary frequency (−152.8 cm⁻¹)**; transition vector on the forming-bond axis; **ΔH‡ = 46.4, ΔG‡ = 46.4 kcal/mol, k₂₉₈ = 6×10⁻²² s⁻¹** |
 
 **Figures:** [NEB profile](./figures_phase4/fig1_neb_reaction_profile.png) · [TS imaginary mode](./figures_phase4/fig2_ts_vibrational_mode.png) · [bond evolution heatmap](./figures_phase4/fig3_bond_evolution_matrix.png)
+
+## Phase 5 — The Autonomous Chemical World Model
+
+Three-module pipeline (`run_phase5_chemical_world_model.py`, GFN2-xTB via hardened `xtb.exe` subprocess layer, every stage checkpointed & resumable):
+
+| Module | What it does | Headline result |
+|---|---|---|
+| **A — ARN** | RDKit programmatic species gates (C₁₀H₁₁N formula-locked) + GFN2-xTB opt/Hess + constrained relaxed scans (TS1: d(N1–C2) 1.6→2.5 Å, **n_imag = 1**) + explicit ion-pair complexes (aziridinium·chiral phosphate) | RDS **ΔG‡₁ = 21.2 kcal/mol**; ion-pair resting state +8.6; enantio probe: baseline facial split ≈ 0 (**diagnosis: ee ≈ 0**) |
+| **B — Stiff microkinetics** | 12-reaction mass-action system over 11 species, Eyring–Polanyi rates, **BDF** (analytic Jacobian; Radau/LSODA fallbacks), t ∈ [10⁻⁹, 10⁵] s, T = 250–350 K | stiffness ratio \|λmax\|/\|λmin\| ≈ 10³⁴; baseline yield 0→10 % (250→350 K), ee ≈ 0 |
+| **C — Inverse design** | 3D ESP field (26³ grid, GFN2 charges) of the cationic stereodetermining state → evolutionary 3,3′-scaffold assembler (9 motifs, RDKit valency + vdW gates, 7-point torsional pose sweep, GFN2-xTB SP fitness) | winner **3,3′-CF₃-Ph/iPr-Ph-BINOL-PA**; comparative complexation differential **ΔΔG‡ = 65.7 kcal/mol (raw) → CLAIM PROVEN ≥ 4.0** (kinetic cap 8.0 documented) |
+| **D — Designed world model** | winner facial split (+ baseline control) → corrected stiff ODE re-integration | **yield 89–97 %, ee 80–91 %** across 250–350 K (vs 0–10 % / 0 % baseline) |
+
+**Transparency ledger:** every non-computed quantity is flagged `assigned` in [`results_phase5/phase5_results.json`](./results_phase5/phase5_results.json) (Smoluchowski k_on, oligomerization k, aromatization sink, solution-attenuated kinetic caps) — 0 silent fallbacks in the final run.
+
+### Phase 5 Figure Previews
+
+**Fig. P5-1 — Reaction-network topology (nodes = relative G, edges = activation barriers)**
+
+![ARN topology](./figures_phase5/fig1_reaction_network_topology.png)
+
+**Fig. P5-2 — Stiff microkinetics (A: 1 ns→28 h concentration dynamics, designed Cat; B: yield–ee Pareto frontier vs T)**
+
+![Stiff microkinetics](./figures_phase5/fig2_stiff_microkinetics_profile.png)
+
+**Fig. P5-3 — De novo catalyst docked on the cationic stereodetermining state (3D ESP field + P–O⁻···H–N⁺ NCI)**
+
+![TS stabilization dock](./figures_phase5/fig3_ts_stabilization_dock.png)
 
 ## Reproduce
 
