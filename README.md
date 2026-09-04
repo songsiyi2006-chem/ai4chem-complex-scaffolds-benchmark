@@ -19,6 +19,8 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 
 **Phase 3 — Macromolecular frontier.** Target-bound biophysics on **KRAS G12D** (PDB 7RPZ, 1.30 Å, MRTX1133 co-crystal; the spec's "7E27" ID was erratum-verified against RCSB): pdbfixer curation, Phase-2 covalent core **T04 docked by Vina** (−7.92 kcal/mol), 50 ps complex MD (Amber14SB + Sage/AM1-BCC splice, OBC2 + 0.15 M, 310 K, Cα k = 5 kcal/mol/Å²), residue-decomposed **MM-GBSA** (ΔG_bind = −143.5 ± 2.9 kcal/mol; **His95 / Tyr96 / Glu62 / Asp12(G12D)** dominate — the textbook switch-II-pocket contacts), and the **classical-vs-ML force-field clash** on the frozen pose (Sage+AM1-BCC & MMFF94 vs ANI-2x: discrepancy concentrated on the aminopyrimidine core and acrylamide warhead, ⟨‖ΔF‖⟩ up to 81 kcal/mol/Å per moiety). See [`COMPLEX_DYNAMICS_REPORT_EN.md`](./COMPLEX_DYNAMICS_REPORT_EN.md) / [`COMPLEX_DYNAMICS_REPORT_ZH.md`](./COMPLEX_DYNAMICS_REPORT_ZH.md).
 
+**Phase 4 — Transformation & transition-state theory.** Autonomous saddle hunting on a skeletal-editing reaction: the Ciamician–Dennstedt core step **cyclopropa[b]indole → 2,3-dihydroquinoline** (C₉H₉N isomers; 2 bonds break, 1 forms). Programmatic reactant construction, permutation-invariant Hungarian atom pairing, IDPP interpolation, **CI-NEB** (improved tangent, converged fmax = 0.047 eV/Å), analytic **GFN2-xTB Hessian verification: exactly one imaginary frequency (−152.8 cm⁻¹)** with the transition vector aligned to the concerted scission/insertion coordinate, and Eyring thermochemistry (**ΔE‡ 52.5 / ΔH‡ 46.4 / ΔG‡ 46.4 kcal/mol, k = 6×10⁻²² s⁻¹**). See [`SKELETAL_EDITING_REPORT_EN.md`](./SKELETAL_EDITING_REPORT_EN.md) / [`SKELETAL_EDITING_REPORT_ZH.md`](./SKELETAL_EDITING_REPORT_ZH.md).
+
 ## Quick Navigation
 
 | Asset | Link |
@@ -41,6 +43,10 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 复合物动力学报告（第三阶段） | [`COMPLEX_DYNAMICS_REPORT_ZH.md`](./COMPLEX_DYNAMICS_REPORT_ZH.md) |
 | Complex pipeline (Phase 3) | [`run_phase3_complex_dynamics.py`](./run_phase3_complex_dynamics.py) |
 | Phase 3 complex / trajectory / MM-GBSA | `results_phase3/phase3_results.json`, `results_phase3/T04_complex_trajectory.dcd`, `results_phase3/T04_per_residue_mmgbsa.csv` |
+| 🇬🇧 Skeletal editing report (Phase 4) | [`SKELETAL_EDITING_REPORT_EN.md`](./SKELETAL_EDITING_REPORT_EN.md) |
+| 🇨🇳 骨架编辑报告（第四阶段） | [`SKELETAL_EDITING_REPORT_ZH.md`](./SKELETAL_EDITING_REPORT_ZH.md) |
+| Reaction pipeline (Phase 4) | [`run_phase4_reaction_mechanism.py`](./run_phase4_reaction_mechanism.py) |
+| Phase 4 NEB band / TS / frequencies | `results_phase4/neb_final_path.xyz`, `results_phase4/ts_candidate.xyz`, `results_phase4/ts_hessian_freqs.json` |
 
 ## Figure Previews
 
@@ -118,6 +124,18 @@ Target-bound biophysics: **7RPZ** (KRAS G12D · GDP · MRTX1133, X-ray 1.30 Å) 
 
 **Figures:** [pose + pocket contacts](./figures_phase3/fig1_binding_pose_pocket.png) · [per-residue MM-GBSA](./figures_phase3/fig2_per_residue_mmgbsa.png) · [ML vs classical force gap](./figures_phase3/fig3_ml_vs_classical_ff_gap.png)
 
+## Phase 4 — Skeletal Editing CI-NEB Suite
+
+**R** cyclopropa[b]indole → **P** 2,3-dihydroquinoline (C₉H₉N; Ciamician–Dennstedt ring-expansion core step, :CH₂ model).
+
+| Stage | Engine | Headline result |
+|---|---|---|
+| 1 pairing + IDPP | RDKit + Hungarian distance profiles | chemically faithful mapping: **2 bonds broken, 1 formed**; 9-image IDPP band |
+| 2 CI-NEB | ANI-2x PES, ASE improved-tangent | converged **fmax = 0.047 eV/Å** (64 steps); TS = image 4; ΔE‡ = 52.5 kcal/mol; ΔE_rxn = −9.5 |
+| 3 verification | GFN2-xTB analytic Hessian (`xtb --hess`) | **exactly 1 imaginary frequency (−152.8 cm⁻¹)**; transition vector on the forming-bond axis; **ΔH‡ = 46.4, ΔG‡ = 46.4 kcal/mol, k₂₉₈ = 6×10⁻²² s⁻¹** |
+
+**Figures:** [NEB profile](./figures_phase4/fig1_neb_reaction_profile.png) · [TS imaginary mode](./figures_phase4/fig2_ts_vibrational_mode.png) · [bond evolution heatmap](./figures_phase4/fig3_bond_evolution_matrix.png)
+
 ## Reproduce
 
 ```bash
@@ -133,6 +151,10 @@ python run_heavy_dynamics_benchmark.py --fig_only          # regenerate figures 
 # Phase 3 (phase2ff env with Library/bin on PATH; see report §8)
 python run_phase3_complex_dynamics.py                      # complex suite -> results_phase3/ + figures_phase3/
 python run_phase3_complex_dynamics.py --fig_only           # regenerate figures from saved results
+
+# Phase 4 (needs xtb.exe via conda -c conda-forge xtb, or falls back to ANI-2x)
+python run_phase4_reaction_mechanism.py --engine ani       # CI-NEB skeletal editing -> results_phase4/ + figures_phase4/
+python run_phase4_reaction_mechanism.py --fig_only         # regenerate figures
 ```
 
 ## Repository Structure
@@ -161,7 +183,12 @@ python run_phase3_complex_dynamics.py --fig_only           # regenerate figures 
 ├── COMPLEX_DYNAMICS_REPORT_ZH.md   # 第三阶段中文报告
 ├── figures_phase3/                 # Phase 3 fig1-fig3 (300 DPI PNG)
 ├── results_phase3/                 # Phase 3 outputs (docking, DCD, MM-GBSA)
-└── tools/vina.exe                  # AutoDock Vina 1.2.5 CLI (no win/py312 wheel)
+├── tools/vina.exe                  # AutoDock Vina 1.2.5 CLI (no win/py312 wheel)
+├── run_phase4_reaction_mechanism.py# Phase 4: CI-NEB skeletal editing + TS verification
+├── SKELETAL_EDITING_REPORT_EN.md   # Phase 4 English report
+├── SKELETAL_EDITING_REPORT_ZH.md   # 第四阶段中文报告
+├── figures_phase4/                 # Phase 4 fig1-fig3 (300 DPI PNG)
+└── results_phase4/                 # Phase 4 outputs (NEB band, TS, frequencies)
 ```
 
 > This repository also preserves the earlier sibling project [`aqueous-solubility-ml-benchmark`](https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark) (ESOL/AqSolDB solubility modeling) in its history — see the initial commit.

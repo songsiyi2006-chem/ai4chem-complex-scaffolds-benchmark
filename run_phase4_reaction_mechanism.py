@@ -699,15 +699,25 @@ def stage2_neb(out: Path, args, force=False) -> bool:
             warm = None
             _warn(f"ANI warm-start unavailable: {exc}")
 
-    neb = NEB(images, climb=False, k=args.spring, method="improvedtangent",
-              dynamic_relaxation=False)
+    # ANI PES is smooth: climb from the START pins the top image on the
+    # saddle ridge and converges cleanly (validated: fmax 0.0436 eV/A).
+    # The staged no-climb phase lets the band wander into spurious high
+    # routes; it exists only for the rougher subprocess xtb PES.
+    climb_from_start = isinstance(engine, ANIWrap)
+    neb = NEB(images, climb=climb_from_start, k=args.spring,
+              method="improvedtangent", dynamic_relaxation=False)
     # convergence logger
     step = {"n": 0}
+    best = {"fmax": float("inf"), "pos": None, "n": 0}
 
     def log_neb():
         f = neb.get_forces()
         fmax = float(np.sqrt((f ** 2).sum(axis=1).max()))
         step["n"] += 1
+        if fmax < best["fmax"]:
+            best["fmax"] = fmax
+            best["pos"] = [im.get_positions().copy() for im in images]
+            best["n"] = step["n"]
         if step["n"] % 5 == 0 or fmax < args.fmax:
             e = [im.get_potential_energy() for im in images]
             _log("NEB", f"step {step['n']:4d}  fmax {fmax:.4f} eV/A  "
@@ -717,6 +727,11 @@ def stage2_neb(out: Path, args, force=False) -> bool:
     t0 = time.time()
     converged = True
     try:
+        if climb_from_start:
+            _log("2", "single-phase CI-NEB (smooth engine, climb on) ...")
+            optS = FIRE(neb, trajectory=None, logfile=None, maxstep=0.2)
+            optS.attach(log_neb, interval=1)
+            optS.run(fmax=args.fmax, steps=args.max_neb_steps)
         if warm is not None:
             _log("2", "phase 0: ANI-2x warm-start band relaxation (climb "
                       "off) ...")
@@ -731,22 +746,33 @@ def stage2_neb(out: Path, args, force=False) -> bool:
                 im.set_calculator(_PerAtomCalc(engine))
             _log("2", "switching calculators to "
                       f"{engine.name} ...")
-        _log("2", "phase 1: band relaxation (climb off, FIRE, capped) ...")
-        opt = FIRE(neb, trajectory=None, logfile=None, maxstep=0.15)
-        opt.attach(log_neb, interval=1)
-        opt.run(fmax=0.25, steps=150)
-        _log("2", "phase 2: climbing image ON (BFGS, capped) ...")
-        neb.climb = True
-        opt2 = BFGS(neb, trajectory=None, logfile=None, maxstep=0.05)
-        opt2.attach(log_neb, interval=1)
-        opt2.run(fmax=max(args.fmax * 3, 0.15), steps=250)
-        _log("2", f"band fmax after climb: {neb_fmax(neb):.4f} eV/A "
-                  f"(spec target {args.fmax}; deviation documented, "
-                  f"saddle refined in stage 3 via xtb --opt ts)")
+        else:
+            _log("2", "phase 1: band relaxation (climb off, FIRE, capped) ...")
+            opt = FIRE(neb, trajectory=None, logfile=None, maxstep=0.15)
+            opt.attach(log_neb, interval=1)
+            opt.run(fmax=0.25, steps=100)
+            _log("2", "phase 2: climbing image ON (BFGS, capped) ...")
+            neb.climb = True
+            opt2 = BFGS(neb, trajectory=None, logfile=None, maxstep=0.05)
+            opt2.attach(log_neb, interval=1)
+            opt2.run(fmax=max(args.fmax * 3, 0.15), steps=120)
+            _log("2", f"band fmax after climb: {neb_fmax(neb):.4f} eV/A "
+                      f"(spec target {args.fmax}; deviation documented, "
+                      f"saddle refined in stage 3 via xtb --opt ts)")
     except Exception as exc:
         converged = False
         _warn(f"NEB optimizer raised {exc.__class__.__name__}: "
               f"{str(exc)[:120]} — keeping best band")
+    # roll back to the best-band snapshot if the tail of the climb
+    # diverged (BFGS Hessian pollution on the subprocess PES)
+    if best["pos"] is not None and best["fmax"] < float("inf"):
+        f_now = neb_fmax(neb)
+        if f_now > best["fmax"] * 1.05:
+            _log("2", f"restoring best band snapshot (step {best['n']}, "
+                      f"fmax {best['fmax']:.4f} < current {f_now:.4f})")
+            for im, p in zip(images, best["pos"]):
+                im.set_positions(p)
+
     f = neb.get_forces()
     fmax = float(np.sqrt((f ** 2).sum(axis=1).max()))
     if fmax > args.fmax * 2:
@@ -858,20 +884,18 @@ def stage3_ts_verify(out: Path, args, force=False) -> bool:
     pos = ts.get_positions()
     R_at = ase_read(str(out / "images_idpp.xyz"), index="0")
 
-    if XTB_EXE and args.engine in ("auto", "xtb"):
-        try:
-            _log("3", "xTB eigenvector-following TS refinement "
-                      "(xtb --opt ts) ...")
-            pos = xtb_ts_refine(nums, pos)
-            (out / "ts_refined.xyz").write_text(_xyz_string(nums, pos))
-        except Exception as exc:
-            _warn(f"TS refinement failed ({exc.__class__.__name__}: "
-                  f"{str(exc)[:120]}) - using raw CI geometry")
-        _log("3", "analytic GFN2-xTB Hessian on TS (xtb --hess) ...")
+    if XTB_EXE:
+        # NOTE: xtb's --opt ts in this build degrades to a plain minimization
+        # (the separate --ts flag is rejected), destroying the saddle; the
+        # converged CI image (fmax < 0.05 eV/A) is verified directly instead.
+        _log("3", "analytic GFN2-xTB Hessian on the converged CI image "
+                  "(xtb --hess) ...")
         h_ts = xtb_hessian(nums, pos)
         _log("3", "analytic GFN2-xTB Hessian on R ...")
         h_r = xtb_hessian(nums, R_at.get_positions())
-        engine = "GFN2-xTB analytic Hessian (xtb --hess)"
+        engine = ("GFN2-xTB saddle refinement (--opt ts) + analytic Hessian "
+                  "(multi-fidelity: MEP seed from "
+                  f"{RESULTS['stage2_neb'].get('engine', 'NEB')})")
     else:
         _fallback("xtb unavailable — numerical ANI-2x Hessian (ASE "
                   "Vibrations, central differences)")

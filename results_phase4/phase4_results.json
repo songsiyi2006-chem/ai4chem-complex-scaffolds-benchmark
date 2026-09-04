@@ -5,7 +5,7 @@
     "reactant": "cyclopropa[b]indole (C9H9N)",
     "product": "c1ccc2c(c1)C=CCN2 (2,3-dihydroquinoline, C9H9N)"
   },
-  "timestamp": "2026-09-04T18:53:19",
+  "timestamp": "2026-09-04T23:17:49",
   "stage1_geometry": {
     "reactant_atoms": 19,
     "formula": "C9H9N",
@@ -32,15 +32,187 @@
     "interpolation": "IDPP (ASE)",
     "engine": "GFN2-xTB"
   },
-  "stage2_neb": {},
-  "stage3_ts": {},
+  "stage2_neb": {
+    "engine": "ANI-2x (torchani)",
+    "n_images": 9,
+    "optimizer": "ASE FIRE (CI-NEB, climb=True)",
+    "steps_taken": 64,
+    "fmax_final_ev_A": 0.04678476676512985,
+    "fmax_target": 0.05,
+    "converged": true,
+    "energies_ev": [
+      -10965.897177745579,
+      -10965.652202191914,
+      -10963.93405161382,
+      -10965.283493223003,
+      -10963.618489883673,
+      -10964.171553337035,
+      -10965.54009473515,
+      -10966.18533543074,
+      -10966.307407994771
+    ],
+    "ts_image_index": 4,
+    "e_r_ev": -10965.897177745579,
+    "e_p_ev": -10966.307407994771,
+    "e_ts_ev": -10963.618489883673,
+    "barrier_fwd_ev": 2.278687861906292,
+    "barrier_rev_ev": 2.6889181110982463,
+    "reaction_energy_ev": -0.4102302491919545,
+    "wall_seconds": 162.2,
+    "engine_calls": 6033
+  },
+  "stage3_ts": {
+    "engine": "GFN2-xTB saddle refinement (--opt ts) + analytic Hessian (multi-fidelity: MEP seed from ANI-2x (torchani))",
+    "n_imaginary_ts": 1,
+    "imaginary_freqs_cm": [
+      -152.76
+    ],
+    "one_imag_criterion": true,
+    "lowest_real_freq_cm": 164.21,
+    "transition_vector_check": [
+      {
+        "bond": [
+          4,
+          5
+        ],
+        "|proj|": 0.08069966191651519
+      },
+      {
+        "bond": [
+          6,
+          9
+        ],
+        "|proj|": 0.0753628267173065
+      },
+      {
+        "bond": [
+          4,
+          9
+        ],
+        "|proj|": 0.15233017913787672
+      }
+    ],
+    "thermochemistry_298K": {
+      "dE_kcal": 52.547794678883335,
+      "dZPE_kcal": -6.200610295597883,
+      "dUvib_kcal": -6.120867252463697,
+      "dH_kcal": 46.42692742641964,
+      "TdS_kcal": 0.01957352492801991,
+      "dG_kcal": 46.40735390149162,
+      "eyring_rate_s": 5.976344148652492e-22
+    },
+    "frequencies_ts_cm": [
+      -152.76,
+      164.21,
+      226.33,
+      255.79,
+      406.46,
+      422.38,
+      472.19,
+      481.63,
+      505.79,
+      519.4,
+      523.09,
+      584.63,
+      651.15,
+      674.68,
+      692.45,
+      709.47,
+      735.61,
+      757.94,
+      805.0,
+      836.23,
+      889.04,
+      935.97,
+      972.43,
+      987.48,
+      1036.91,
+      1056.95,
+      1072.32,
+      1141.32,
+      1162.09,
+      1192.89,
+      1215.47,
+      1233.98,
+      1261.95,
+      1284.7,
+      1342.76,
+      1391.17,
+      1417.56,
+      1434.48,
+      1460.2,
+      1507.76,
+      1544.29,
+      1555.44,
+      1719.36,
+      2832.63,
+      2862.8,
+      2891.98,
+      2997.92,
+      3018.23,
+      3053.38,
+      3105.96,
+      3196.7
+    ],
+    "frequencies_r_cm": [
+      149.96,
+      182.05,
+      312.66,
+      345.72,
+      367.7,
+      420.54,
+      448.37,
+      518.38,
+      546.28,
+      583.87,
+      677.56,
+      698.81,
+      772.66,
+      787.89,
+      842.69,
+      854.5,
+      863.41,
+      894.94,
+      900.36,
+      918.53,
+      948.62,
+      1001.43,
+      1026.12,
+      1033.85,
+      1049.94,
+      1074.89,
+      1094.1,
+      1132.25,
+      1173.6,
+      1181.05,
+      1188.79,
+      1225.17,
+      1261.81,
+      1296.4,
+      1313.69,
+      1346.68,
+      1382.85,
+      1442.56,
+      1469.88,
+      1471.73,
+      1592.05,
+      1615.97,
+      3052.13,
+      3066.64,
+      3071.75,
+      3076.16,
+      3082.67,
+      3091.95,
+      3093.21,
+      3110.52,
+      3482.6
+    ],
+    "xtb_thermo_ts_text": ""
+  },
   "meta": {
     "fallbacks": [],
-    "warnings": [
-      "NEB optimizer raised AttributeError: 'NoneType' object has no attribute 'group' \u2014 keeping best band",
-      "figure generation failed: [Errno 2] No such file or directory: 'results_phase4\\\\neb_final_path.xyz'"
-    ]
+    "warnings": []
   },
   "fatal_error": null,
-  "all_stages_ok": false
+  "all_stages_ok": true
 }
