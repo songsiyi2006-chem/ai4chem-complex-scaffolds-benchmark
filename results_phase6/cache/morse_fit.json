@@ -1,0 +1,63 @@
+{
+  "method": "GFN2-xTB constrained relaxed scans (sequential warm-started; breaking pairs on the reactant, forming pair on the product); robust Morse fit E(r)=off+De(1-exp(-a(r-Re)))^2-De with trailing trim of non-dissociative relaxation",
+  "break_nc": {
+    "De_kcal": 119.6897344030144,
+    "Re_A": 1.4476117121059047,
+    "a_invA": 1.7817326786232999,
+    "offset_kcal": 118.86210970016295,
+    "residual_rms_kcal": 15.55937565040331,
+    "scan_molecule": "reactant",
+    "scan_r_A": [
+      1.4,
+      1.6199999999999999,
+      1.8399999999999999,
+      2.0599999999999996,
+      2.28,
+      2.5,
+      2.7199999999999998,
+      2.9399999999999995
+    ],
+    "scan_E_rel_kcal": [
+      0.0,
+      8.061445866303984,
+      28.929316462126735,
+      51.46198808055124,
+      71.23853036057335,
+      85.8019887679402,
+      94.60690381230233,
+      58.70651720829483
+    ]
+  },
+  "break_cc": {
+    "De_kcal": 87.71167885817016,
+    "Re_A": 1.4839226155715872,
+    "a_invA": 1.638352690738629,
+    "offset_kcal": 87.18203818104118,
+    "residual_rms_kcal": 1.1438207602617982,
+    "scan_molecule": "reactant",
+    "scan_r_A": [
+      1.45,
+      1.67,
+      1.89,
+      2.11,
+      2.33,
+      2.55,
+      2.7699999999999996
+    ],
+    "scan_E_rel_kcal": [
+      0.0,
+      4.365884037670185,
+      21.346492077322182,
+      36.50883711685674,
+      47.74873517224478,
+      57.67820221415968,
+      68.5147326464903
+    ]
+  },
+  "form_nc": {
+    "De_kcal": 119.6897344030144,
+    "Re_A": 1.4599919314845546,
+    "a_invA": 1.7817326786232999,
+    "source": "break_nc fit reused for the forming N-C pair (same bond type); Re from product"
+  }
+}

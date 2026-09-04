@@ -1,0 +1,152 @@
+<ForceField>
+ <AtomTypes>
+  <Type name="L0" class="L0" element="C" mass="12.011000"/>
+  <Type name="L1" class="L1" element="C" mass="12.011000"/>
+  <Type name="L2" class="L2" element="C" mass="12.011000"/>
+  <Type name="L3" class="L3" element="C" mass="12.011000"/>
+  <Type name="L4" class="L4" element="N" mass="14.007000"/>
+  <Type name="L5" class="L5" element="C" mass="12.011000"/>
+  <Type name="L6" class="L6" element="C" mass="12.011000"/>
+  <Type name="L7" class="L7" element="C" mass="12.011000"/>
+  <Type name="L8" class="L8" element="C" mass="12.011000"/>
+  <Type name="L9" class="L9" element="C" mass="12.011000"/>
+  <Type name="L10" class="L10" element="H" mass="1.008000"/>
+  <Type name="L11" class="L11" element="H" mass="1.008000"/>
+  <Type name="L12" class="L12" element="H" mass="1.008000"/>
+  <Type name="L13" class="L13" element="H" mass="1.008000"/>
+  <Type name="L14" class="L14" element="H" mass="1.008000"/>
+  <Type name="L15" class="L15" element="H" mass="1.008000"/>
+  <Type name="L16" class="L16" element="H" mass="1.008000"/>
+  <Type name="L17" class="L17" element="H" mass="1.008000"/>
+  <Type name="L18" class="L18" element="H" mass="1.008000"/>
+ </AtomTypes>
+ <Residues>
+  <Residue name="LIG">
+   <Atom name="C0" type="L0"/>
+   <Atom name="C1" type="L1"/>
+   <Atom name="C2" type="L2"/>
+   <Atom name="C3" type="L3"/>
+   <Atom name="N4" type="L4"/>
+   <Atom name="C5" type="L5"/>
+   <Atom name="C6" type="L6"/>
+   <Atom name="C7" type="L7"/>
+   <Atom name="C8" type="L8"/>
+   <Atom name="C9" type="L9"/>
+   <Atom name="H10" type="L10"/>
+   <Atom name="H11" type="L11"/>
+   <Atom name="H12" type="L12"/>
+   <Atom name="H13" type="L13"/>
+   <Atom name="H14" type="L14"/>
+   <Atom name="H15" type="L15"/>
+   <Atom name="H16" type="L16"/>
+   <Atom name="H17" type="L17"/>
+   <Atom name="H18" type="L18"/>
+   <Bond from="0" to="1"/>
+   <Bond from="1" to="2"/>
+   <Bond from="2" to="3"/>
+   <Bond from="3" to="4"/>
+   <Bond from="4" to="5"/>
+   <Bond from="5" to="6"/>
+   <Bond from="6" to="7"/>
+   <Bond from="7" to="8"/>
+   <Bond from="8" to="0"/>
+   <Bond from="7" to="3"/>
+   <Bond from="5" to="9"/>
+   <Bond from="6" to="9"/>
+   <Bond from="0" to="10"/>
+   <Bond from="1" to="11"/>
+   <Bond from="2" to="12"/>
+   <Bond from="4" to="13"/>
+   <Bond from="5" to="14"/>
+   <Bond from="6" to="15"/>
+   <Bond from="8" to="16"/>
+   <Bond from="9" to="17"/>
+   <Bond from="9" to="18"/>
+   <Constraint atomName1="C0" atomName2="H10" distance="0.1081823674"/>
+   <Constraint atomName1="C1" atomName2="H11" distance="0.1081823674"/>
+   <Constraint atomName1="C2" atomName2="H12" distance="0.1081823674"/>
+   <Constraint atomName1="N4" atomName2="H13" distance="0.1022553377"/>
+   <Constraint atomName1="C5" atomName2="H14" distance="0.1090139506"/>
+   <Constraint atomName1="C6" atomName2="H15" distance="0.1090139506"/>
+   <Constraint atomName1="C8" atomName2="H16" distance="0.1081823674"/>
+   <Constraint atomName1="C9" atomName2="H17" distance="0.1090139506"/>
+   <Constraint atomName1="C9" atomName2="H18" distance="0.1090139506"/>
+  </Residue>
+ </Residues>
+ <HarmonicBondForce>
+  <Bond type1="L0" type2="L1" length="0.1394445703" k="320137.3237"/>
+  <Bond type1="L0" type2="L8" length="0.1394445703" k="320137.3237"/>
+  <Bond type1="L1" type2="L2" length="0.1394445703" k="320137.3237"/>
+  <Bond type1="L2" type2="L3" length="0.1394445703" k="320137.3237"/>
+  <Bond type1="L3" type2="L4" length="0.1389681127" k="268033.3534"/>
+  <Bond type1="L3" type2="L7" length="0.1394445703" k="320137.3237"/>
+  <Bond type1="L4" type2="L5" length="0.1464201977" k="191251.8721"/>
+  <Bond type1="L5" type2="L6" length="0.1527940217" k="175722.5302"/>
+  <Bond type1="L5" type2="L9" length="0.1527940217" k="175722.5302"/>
+  <Bond type1="L6" type2="L7" length="0.1503434271" k="202587.5736"/>
+  <Bond type1="L6" type2="L9" length="0.1527940217" k="175722.5302"/>
+  <Bond type1="L7" type2="L8" length="0.1394445703" k="320137.3237"/>
+ </HarmonicBondForce>
+ <HarmonicAngleForce>
+  <Angle type1="L0" type2="L1" type3="L2" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L0" type2="L1" type3="L11" angle="2.088565961" k="258.4154306"/>
+  <Angle type1="L0" type2="L8" type3="L7" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L0" type2="L8" type3="L16" angle="2.088565961" k="258.4154306"/>
+  <Angle type1="L1" type2="L0" type3="L8" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L1" type2="L0" type3="L10" angle="2.088565961" k="258.4154306"/>
+  <Angle type1="L1" type2="L2" type3="L3" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L1" type2="L2" type3="L12" angle="2.088565961" k="258.4154306"/>
+  <Angle type1="L2" type2="L1" type3="L11" angle="2.088565961" k="258.4154306"/>
+  <Angle type1="L2" type2="L3" type3="L4" angle="2.153533585" k="395.9622346"/>
+  <Angle type1="L2" type2="L3" type3="L7" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L3" type2="L2" type3="L12" angle="2.088565961" k="258.4154306"/>
+  <Angle type1="L3" type2="L4" type3="L5" angle="2.079993307" k="632.3804549"/>
+  <Angle type1="L3" type2="L4" type3="L13" angle="2.052089404" k="297.7093991"/>
+  <Angle type1="L3" type2="L7" type3="L6" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L3" type2="L7" type3="L8" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L4" type2="L3" type3="L7" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L4" type2="L5" type3="L6" angle="1.920965224" k="507.0519602"/>
+  <Angle type1="L4" type2="L5" type3="L9" angle="1.920965224" k="507.0519602"/>
+  <Angle type1="L4" type2="L5" type3="L14" angle="1.920965224" k="507.0519602"/>
+  <Angle type1="L5" type2="L4" type3="L13" angle="2.052089404" k="297.7093991"/>
+  <Angle type1="L5" type2="L6" type3="L7" angle="1.920965224" k="507.0519602"/>
+  <Angle type1="L5" type2="L6" type3="L9" angle="1.062090134" k="513.4460546"/>
+  <Angle type1="L5" type2="L6" type3="L15" angle="2.040951114" k="268.2643866"/>
+  <Angle type1="L5" type2="L9" type3="L6" angle="1.062090134" k="513.4460546"/>
+  <Angle type1="L5" type2="L9" type3="L17" angle="2.040951114" k="268.2643866"/>
+  <Angle type1="L5" type2="L9" type3="L18" angle="2.040951114" k="268.2643866"/>
+  <Angle type1="L6" type2="L5" type3="L9" angle="1.062090134" k="513.4460546"/>
+  <Angle type1="L6" type2="L5" type3="L14" angle="2.040951114" k="268.2643866"/>
+  <Angle type1="L6" type2="L7" type3="L8" angle="2.091452478" k="615.2213905"/>
+  <Angle type1="L6" type2="L9" type3="L17" angle="2.040951114" k="268.2643866"/>
+  <Angle type1="L6" type2="L9" type3="L18" angle="2.040951114" k="268.2643866"/>
+  <Angle type1="L7" type2="L6" type3="L9" angle="1.920965224" k="507.0519602"/>
+  <Angle type1="L7" type2="L6" type3="L15" angle="1.920965224" k="507.0519602"/>
+  <Angle type1="L7" type2="L8" type3="L16" angle="2.088565961" k="258.4154306"/>
+  <Angle type1="L8" type2="L0" type3="L10" angle="2.088565961" k="258.4154306"/>
+  <Angle type1="L9" type2="L5" type3="L14" angle="2.040951114" k="268.2643866"/>
+  <Angle type1="L9" type2="L6" type3="L15" angle="2.040951114" k="268.2643866"/>
+  <Angle type1="L17" type2="L9" type3="L18" angle="1.98921667" k="150.2969402"/>
+ </HarmonicAngleForce>
+ <NonbondedForce coulomb14scale="0.833333" lj14scale="0.5">
+  <Atom type="L0" charge="-0.04407072" sigma="0.3480646887" epsilon="0.3635030558"/>
+  <Atom type="L1" charge="-0.033409915" sigma="0.3480646887" epsilon="0.3635030558"/>
+  <Atom type="L2" charge="-0.05748872" sigma="0.3480646887" epsilon="0.3635030558"/>
+  <Atom type="L3" charge="0.06602478" sigma="0.3480646887" epsilon="0.3635030558"/>
+  <Atom type="L4" charge="-0.210336335" sigma="0.3206876024" epsilon="0.7016212989"/>
+  <Atom type="L5" charge="-0.00426343" sigma="0.3379531762" epsilon="0.4553891161"/>
+  <Atom type="L6" charge="-0.03591906" sigma="0.3379531762" epsilon="0.4553891161"/>
+  <Atom type="L7" charge="-0.008329435" sigma="0.3480646887" epsilon="0.3635030558"/>
+  <Atom type="L8" charge="-0.03801148" sigma="0.3480646887" epsilon="0.3635030558"/>
+  <Atom type="L9" charge="-0.02018958" sigma="0.3379531762" epsilon="0.4553891161"/>
+  <Atom type="L10" charge="0.02498078" sigma="0.2572581535" epsilon="0.06531785996"/>
+  <Atom type="L11" charge="0.027355165" sigma="0.2572581535" epsilon="0.06531785996"/>
+  <Atom type="L12" charge="0.024798095" sigma="0.2572581535" epsilon="0.06531785996"/>
+  <Atom type="L13" charge="0.147968235" sigma="0.1103427677" epsilon="0.0589559689"/>
+  <Atom type="L14" charge="0.023870135" sigma="0.2583225711" epsilon="0.06865628538"/>
+  <Atom type="L15" charge="0.031013375" sigma="0.2644543413" epsilon="0.06602135608"/>
+  <Atom type="L16" charge="0.028507865" sigma="0.2572581535" epsilon="0.06531785996"/>
+  <Atom type="L17" charge="0.036274525" sigma="0.2644543413" epsilon="0.06602135608"/>
+  <Atom type="L18" charge="0.04122572" sigma="0.2644543413" epsilon="0.06602135608"/>
+ </NonbondedForce>
+</ForceField>

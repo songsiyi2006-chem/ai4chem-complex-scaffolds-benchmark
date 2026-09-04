@@ -1,0 +1,414 @@
+{
+  "phase": 6,
+  "title": "Explicit-solvent well-tempered metadynamics & 2D free energy surface reconstruction of the cyclopropa[b]indole ring expansion",
+  "timestamp": "2026-09-05T03:14:07",
+  "system": {
+    "stage0": {
+      "engine": "GFN2-xTB (xtb.exe)",
+      "xtb_exe": "C:\\Users\\HUIWEI\\miniconda3\\envs\\phase2ff\\Library\\bin\\xtb.exe",
+      "n_atoms": 19,
+      "formula": "C9H9N",
+      "broken_in_R": [
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          9
+        ]
+      ],
+      "formed_in_R": [
+        [
+          4,
+          9
+        ]
+      ],
+      "cv_reactant_qm": [
+        1.4983597265009496,
+        69.64568347702313
+      ],
+      "cv_product_qm": [
+        2.4653122256622995,
+        -151.33123200368337
+      ],
+      "idpp_path_cv": [
+        [
+          1.4313462589835957,
+          67.17941296859647
+        ],
+        [
+          1.5546601855049846,
+          48.543590470696934
+        ],
+        [
+          1.8247668577248366,
+          -13.195361174712753
+        ],
+        [
+          2.1179214456592104,
+          -54.204008364679886
+        ],
+        [
+          1.8499795112843809,
+          -65.746692281669
+        ],
+        [
+          1.9797342361294534,
+          -85.36119244795613
+        ],
+        [
+          2.1932955940476524,
+          -103.04831023811215
+        ],
+        [
+          2.395554195454109,
+          -127.17178065010278
+        ],
+        [
+          2.428453230022617,
+          -155.37492714612813
+        ]
+      ],
+      "charges_source": "results_phase6\\cache\\charges_*.txt",
+      "charge_total_e": 6.938893903907228e-18,
+      "q_range_e": [
+        -0.21033633499999999,
+        0.147968235
+      ]
+    },
+    "explicit": {
+      "n_atoms": 1503,
+      "n_water": 494,
+      "n_na": 1,
+      "n_cl": 1,
+      "box_nm": [
+        2.62218,
+        2.45785,
+        2.5072099999999997
+      ],
+      "padding_nm": 1.0,
+      "cutoff_nm": 1.0,
+      "electrostatics": "PME, tolerance 1e-4",
+      "water_model": "TIP3P (amber14/tip3p.xml)",
+      "ionic_strength_M": 0.15,
+      "integrator": "LangevinMiddle 300 K, friction 1/ps, dt 2 fs, HBonds",
+      "dof": 3024,
+      "morse_kj": {
+        "break_nc": [
+          303.7584,
+          22.87719040070678,
+          0.14476117121059046
+        ],
+        "break_cc": [
+          347.6904,
+          16.831995204036946,
+          0.14839226155715873
+        ],
+        "form_nc": [
+          303.7584,
+          22.87719040070678,
+          0.14599919314845547
+        ]
+      },
+      "build_s": 90.60504221916199
+    },
+    "implicit": {
+      "n_atoms": 19,
+      "implicit_model": "GBSA-OBC2; Bondi radii (C 1.70, N 1.55, H 1.20 A), OBC2 screening (C .72, N .79, H .85), eps_solute 1, eps_solvent 78.5",
+      "dof": 54
+    }
+  },
+  "force_field": {
+    "valence_ff": "OpenFF Sage 2.1.0 (openff-2.1.0.offxml) on the reactant valence graph",
+    "charges": "GFN2-xTB Mulliken, (reactant+product)/2 under the Phase-4 pairing",
+    "n_particles": 19,
+    "coulomb14Scale": 0.833333,
+    "lj14Scale": 0.5,
+    "xml": "results_phase6\\solute_sage.xml",
+    "n_bonds": 12,
+    "n_angles": 39,
+    "n_torsions": 114,
+    "n_improper_entries": 16,
+    "n_xh_constraints": 9,
+    "energy_reference_kjmol": -30.55860478965735,
+    "energy_xml_kjmol": -30.558601979021404,
+    "energy_abs_diff_kjmol": 2.810635944427986e-06
+  },
+  "morse_calibration": {
+    "method": "GFN2-xTB constrained relaxed scans (sequential warm-started; breaking pairs on the reactant, forming pair on the product); robust Morse fit E(r)=off+De(1-exp(-a(r-Re)))^2-De with trailing trim of non-dissociative relaxation",
+    "break_nc": {
+      "De_kcal": 119.6897344030144,
+      "Re_A": 1.4476117121059047,
+      "a_invA": 1.7817326786232999,
+      "offset_kcal": 118.86210970016295,
+      "residual_rms_kcal": 15.55937565040331,
+      "scan_molecule": "reactant",
+      "scan_r_A": [
+        1.4,
+        1.6199999999999999,
+        1.8399999999999999,
+        2.0599999999999996,
+        2.28,
+        2.5,
+        2.7199999999999998,
+        2.9399999999999995
+      ],
+      "scan_E_rel_kcal": [
+        0.0,
+        8.061445866303984,
+        28.929316462126735,
+        51.46198808055124,
+        71.23853036057335,
+        85.8019887679402,
+        94.60690381230233,
+        58.70651720829483
+      ]
+    },
+    "break_cc": {
+      "De_kcal": 87.71167885817016,
+      "Re_A": 1.4839226155715872,
+      "a_invA": 1.638352690738629,
+      "offset_kcal": 87.18203818104118,
+      "residual_rms_kcal": 1.1438207602617982,
+      "scan_molecule": "reactant",
+      "scan_r_A": [
+        1.45,
+        1.67,
+        1.89,
+        2.11,
+        2.33,
+        2.55,
+        2.7699999999999996
+      ],
+      "scan_E_rel_kcal": [
+        0.0,
+        4.365884037670185,
+        21.346492077322182,
+        36.50883711685674,
+        47.74873517224478,
+        57.67820221415968,
+        68.5147326464903
+      ]
+    },
+    "form_nc": {
+      "De_kcal": 119.6897344030144,
+      "Re_A": 1.4599919314845546,
+      "a_invA": 1.7817326786232999,
+      "source": "break_nc fit reused for the forming N-C pair (same bond type); Re from product"
+    }
+  },
+  "explicit": {
+    "steps": 500000,
+    "n_hills": 512,
+    "target_steps": 500000,
+    "sim_time_ps": 1000.0
+  },
+  "implicit": {
+    "steps": 800000,
+    "n_hills": 512,
+    "target_steps": 800000,
+    "sim_time_ps": 1600.0
+  },
+  "fes": {
+    "explicit": {
+      "n_hills": 512,
+      "reactant_basin": {
+        "idx": [
+          6,
+          50
+        ],
+        "cv": [
+          1.4200000000000002,
+          70.0
+        ],
+        "G_kcal": -11.051813386282326
+      },
+      "product_basin": null,
+      "saddle_cv": null,
+      "saddle_G_kcal": null,
+      "dG_act_kcal": null,
+      "dG_rxn_kcal": null,
+      "d_limit_A": 1.7800000000000005,
+      "ascent_at_limit_kcal": 11.047412445789337,
+      "convergence": [
+        {
+          "frac": 0.15,
+          "n_hills": 77,
+          "time_ps": 77.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 5.224992329224464
+        },
+        {
+          "frac": 0.3,
+          "n_hills": 154,
+          "time_ps": 154.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 7.005451498090888
+        },
+        {
+          "frac": 0.5,
+          "n_hills": 256,
+          "time_ps": 256.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 8.731298200141053
+        },
+        {
+          "frac": 0.7,
+          "n_hills": 358,
+          "time_ps": 358.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 10.007687628707307
+        },
+        {
+          "frac": 0.85,
+          "n_hills": 435,
+          "time_ps": 435.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 10.438011250234624
+        },
+        {
+          "frac": 1.0,
+          "n_hills": 512,
+          "time_ps": 512.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 11.047412445789337
+        }
+      ]
+    },
+    "implicit": {
+      "n_hills": 512,
+      "reactant_basin": {
+        "idx": [
+          6,
+          50
+        ],
+        "cv": [
+          1.4200000000000002,
+          70.0
+        ],
+        "G_kcal": -11.046101763980207
+      },
+      "product_basin": null,
+      "saddle_cv": null,
+      "saddle_G_kcal": null,
+      "dG_act_kcal": null,
+      "dG_rxn_kcal": null,
+      "d_limit_A": 1.7600000000000005,
+      "ascent_at_limit_kcal": 11.035167053108013,
+      "convergence": [
+        {
+          "frac": 0.15,
+          "n_hills": 77,
+          "time_ps": 154.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 5.365302591057219
+        },
+        {
+          "frac": 0.3,
+          "n_hills": 154,
+          "time_ps": 308.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 7.142694329004794
+        },
+        {
+          "frac": 0.5,
+          "n_hills": 256,
+          "time_ps": 512.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 8.650401907629917
+        },
+        {
+          "frac": 0.7,
+          "n_hills": 358,
+          "time_ps": 716.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 9.797439077110466
+        },
+        {
+          "frac": 0.85,
+          "n_hills": 435,
+          "time_ps": 870.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 10.47449072117258
+        },
+        {
+          "frac": 1.0,
+          "n_hills": 512,
+          "time_ps": 1024.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 11.035167053108013
+        }
+      ]
+    },
+    "ddg_profile": {
+      "d_A": [
+        1.3,
+        1.32,
+        1.34,
+        1.36,
+        1.38,
+        1.4,
+        1.42,
+        1.44,
+        1.46,
+        1.48,
+        1.5,
+        1.52,
+        1.54,
+        1.56,
+        1.58,
+        1.6,
+        1.62,
+        1.64,
+        1.66,
+        1.68,
+        1.7,
+        1.72,
+        1.74,
+        1.76
+      ],
+      "ddG_solv_kcal": [
+        -0.016,
+        0.044,
+        0.119,
+        0.119,
+        0.111,
+        0.074,
+        0.0,
+        0.007,
+        0.018,
+        0.051,
+        0.112,
+        0.192,
+        0.246,
+        0.258,
+        0.236,
+        0.179,
+        0.105,
+        0.037,
+        -0.003,
+        -0.016,
+        -0.015,
+        -0.009,
+        -0.001,
+        0.002
+      ],
+      "d_max_matched_A": 1.7600000000000005,
+      "ddG_at_dmax_kcal": 0.00243178902831076
+    }
+  },
+  "meta": {
+    "fallbacks": [],
+    "warnings": [],
+    "platform": "OpenCL",
+    "platforms_available": [
+      "Reference",
+      "CPU",
+      "OpenCL"
+    ]
+  },
+  "fatal_error": null,
+  "all_stages_ok": true,
+  "wall_time_min": 40.72508345842361
+}
