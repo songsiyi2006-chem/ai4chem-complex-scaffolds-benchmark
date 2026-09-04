@@ -1,7 +1,7 @@
 {
   "phase": 6,
   "title": "Explicit-solvent well-tempered metadynamics & 2D free energy surface reconstruction of the cyclopropa[b]indole ring expansion",
-  "timestamp": "2026-09-05T03:14:07",
+  "timestamp": "2026-09-05T05:02:53",
   "system": {
     "stage0": {
       "engine": "GFN2-xTB (xtb.exe)",
@@ -93,7 +93,7 @@
       "water_model": "TIP3P (amber14/tip3p.xml)",
       "ionic_strength_M": 0.15,
       "integrator": "LangevinMiddle 300 K, friction 1/ps, dt 2 fs, HBonds",
-      "dof": 3024,
+      "dof": 3015,
       "morse_kj": {
         "break_nc": [
           303.7584,
@@ -111,12 +111,12 @@
           0.14599919314845547
         ]
       },
-      "build_s": 90.60504221916199
+      "build_s": 72.99716186523438
     },
     "implicit": {
       "n_atoms": 19,
       "implicit_model": "GBSA-OBC2; Bondi radii (C 1.70, N 1.55, H 1.20 A), OBC2 screening (C .72, N .79, H .85), eps_solute 1, eps_solvent 78.5",
-      "dof": 54
+      "dof": 45
     }
   },
   "force_field": {
@@ -201,14 +201,14 @@
   "explicit": {
     "steps": 500000,
     "n_hills": 512,
-    "target_steps": 500000,
-    "sim_time_ps": 1000.0
+    "target_steps": 200000,
+    "sim_time_ps": 400.0
   },
   "implicit": {
     "steps": 800000,
     "n_hills": 512,
-    "target_steps": 800000,
-    "sim_time_ps": 1600.0
+    "target_steps": 500000,
+    "sim_time_ps": 1000.0
   },
   "fes": {
     "explicit": {
@@ -222,57 +222,57 @@
           1.4200000000000002,
           70.0
         ],
-        "G_kcal": -11.051813386282326
+        "G_kcal": -11.313931166689077
       },
       "product_basin": null,
       "saddle_cv": null,
       "saddle_G_kcal": null,
       "dG_act_kcal": null,
       "dG_rxn_kcal": null,
-      "d_limit_A": 1.7800000000000005,
-      "ascent_at_limit_kcal": 11.047412445789337,
+      "d_limit_A": 1.8000000000000005,
+      "ascent_at_limit_kcal": 11.311611968174917,
       "convergence": [
         {
           "frac": 0.15,
           "n_hills": 77,
           "time_ps": 77.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 5.224992329224464
+          "ascent_kcal": 5.255584142711483
         },
         {
           "frac": 0.3,
           "n_hills": 154,
           "time_ps": 154.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 7.005451498090888
+          "ascent_kcal": 7.302640209815757
         },
         {
           "frac": 0.5,
           "n_hills": 256,
           "time_ps": 256.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 8.731298200141053
+          "ascent_kcal": 8.911811947007836
         },
         {
           "frac": 0.7,
           "n_hills": 358,
           "time_ps": 358.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 10.007687628707307
+          "ascent_kcal": 10.042407711124557
         },
         {
           "frac": 0.85,
           "n_hills": 435,
           "time_ps": 435.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 10.438011250234624
+          "ascent_kcal": 10.698532882848227
         },
         {
           "frac": 1.0,
           "n_hills": 512,
           "time_ps": 512.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 11.047412445789337
+          "ascent_kcal": 11.311611968174917
         }
       ]
     },
@@ -287,57 +287,57 @@
           1.4200000000000002,
           70.0
         ],
-        "G_kcal": -11.046101763980207
+        "G_kcal": -11.102300401777342
       },
       "product_basin": null,
       "saddle_cv": null,
       "saddle_G_kcal": null,
       "dG_act_kcal": null,
       "dG_rxn_kcal": null,
-      "d_limit_A": 1.7600000000000005,
-      "ascent_at_limit_kcal": 11.035167053108013,
+      "d_limit_A": 1.7800000000000005,
+      "ascent_at_limit_kcal": 11.098147320292314,
       "convergence": [
         {
           "frac": 0.15,
           "n_hills": 77,
           "time_ps": 154.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 5.365302591057219
+          "ascent_kcal": 5.199303478536277
         },
         {
           "frac": 0.3,
           "n_hills": 154,
           "time_ps": 308.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 7.142694329004794
+          "ascent_kcal": 7.146829894059671
         },
         {
           "frac": 0.5,
           "n_hills": 256,
           "time_ps": 512.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 8.650401907629917
+          "ascent_kcal": 8.770452479221213
         },
         {
           "frac": 0.7,
           "n_hills": 358,
           "time_ps": 716.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 9.797439077110466
+          "ascent_kcal": 9.907485468847153
         },
         {
           "frac": 0.85,
           "n_hills": 435,
           "time_ps": 870.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 10.47449072117258
+          "ascent_kcal": 10.587396596776836
         },
         {
           "frac": 1.0,
           "n_hills": 512,
           "time_ps": 1024.0,
           "dG_act_kcal": null,
-          "ascent_kcal": 11.035167053108013
+          "ascent_kcal": 11.098147320292314
         }
       ]
     },
@@ -366,36 +366,38 @@
         1.7,
         1.72,
         1.74,
-        1.76
+        1.76,
+        1.78
       ],
       "ddG_solv_kcal": [
-        -0.016,
-        0.044,
-        0.119,
-        0.119,
-        0.111,
-        0.074,
+        0.176,
+        0.176,
+        0.174,
+        0.16,
+        0.124,
+        0.066,
         0.0,
-        0.007,
-        0.018,
-        0.051,
-        0.112,
-        0.192,
-        0.246,
-        0.258,
-        0.236,
-        0.179,
-        0.105,
-        0.037,
-        -0.003,
-        -0.016,
-        -0.015,
-        -0.009,
-        -0.001,
-        0.002
+        -0.047,
+        -0.054,
+        -0.017,
+        0.045,
+        0.103,
+        0.083,
+        0.005,
+        -0.084,
+        -0.147,
+        -0.16,
+        -0.12,
+        -0.046,
+        0.038,
+        0.104,
+        0.152,
+        0.183,
+        0.199,
+        0.207
       ],
-      "d_max_matched_A": 1.7600000000000005,
-      "ddG_at_dmax_kcal": 0.00243178902831076
+      "d_max_matched_A": 1.7800000000000005,
+      "ddG_at_dmax_kcal": 0.20695382564135478
     }
   },
   "meta": {
@@ -410,5 +412,5 @@
   },
   "fatal_error": null,
   "all_stages_ok": true,
-  "wall_time_min": 40.72508345842361
+  "wall_time_min": 2.3809231917063394
 }

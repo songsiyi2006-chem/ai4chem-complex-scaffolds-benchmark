@@ -1352,14 +1352,15 @@ def figures(assets, fes_ex, fes_im, ddg_profile=None):
         for o in water_o:
             water_oh[int(o)] = bonded_h.get(int(o), [])
         hbonds = []
+        HB_CUT = 2.8                        # H...acceptor display cutoff
         for ni in n_idx:                    # solute N-H ... O(water)
             for h in bonded_h.get(int(ni), []):
                 for o in shell:
-                    if np.linalg.norm(pos[o] - pos[h]) < 2.6:
+                    if np.linalg.norm(pos[o] - pos[h]) < HB_CUT:
                         hbonds.append((h, int(o)))
             for o in shell:                 # H-O(water) ... N(solute)
                 for h in water_oh.get(int(o), []):
-                    if np.linalg.norm(pos[h] - pos[ni]) < 2.6:
+                    if np.linalg.norm(pos[h] - pos[ni]) < HB_CUT:
                         hbonds.append((int(h), int(ni)))
 
         ion_na = np.array([i for i, r in enumerate(resn) if r == "NA"])
@@ -1410,9 +1411,9 @@ def figures(assets, fes_ex, fes_im, ddg_profile=None):
         ax.set_title(f"fig. 1 — cyclopropa[b]indole in explicit TIP3P / "
                      f"{IONIC_M:.2f} M NaCl — PBC box "
                      f"{box[0]:.1f}$\\times${box[1]:.1f}"
-                     f"$\\times${box[2]:.1f} $\\AA$, PME cut-off 10.0 "
-                     f"$\\AA$, green dotted = H-bonds to the pyrrolic N-H",
-                     fontsize=10)
+                     f"$\\times${box[2]:.1f} $\\AA$, PME cut-off 10.0 $\\AA$"
+                     + (f", green dashed = {len(hbonds)} H-bonds to the "
+                        f"pyrrolic N-H" if hbonds else ""), fontsize=10)
         ax.set_xlabel("x ($\\AA$)")
         ax.set_ylabel("y ($\\AA$)")
         ax.set_zlabel("z ($\\AA$)")
@@ -1462,9 +1463,8 @@ def figures(assets, fes_ex, fes_im, ddg_profile=None):
                 dl = fes.get("d_limit_A")
                 if dl:
                     ax.axvline(dl, color="r", ls="--", lw=1.4)
-                    ax.text(dl - 0.03, 150, "sampled boundary",
-                            rotation=90, color="r", fontsize=8,
-                            va="bottom", ha="right")
+                    ax.text(dl, 172, "sampled boundary", rotation=0,
+                            color="r", fontsize=8, ha="right", va="top")
             for bsn, name, mk in ((fes.get("reactant_basin"), "R", "o"),):
                 if bsn:
                     ax.plot(bsn["cv"][0], bsn["cv"][1], mk, ms=11,
@@ -1567,7 +1567,8 @@ def figures(assets, fes_ex, fes_im, ddg_profile=None):
             v = np.asarray(v, float)
             if len(v) < k:
                 return v
-            return np.convolve(v, np.ones(k) / k, mode="same")
+            vp = np.pad(v, (k // 2, k - 1 - k // 2), mode="edge")
+            return np.convolve(vp, np.ones(k) / k, mode="valid")
 
         for leg in ("explicit", "implicit"):
             s = series[leg]
