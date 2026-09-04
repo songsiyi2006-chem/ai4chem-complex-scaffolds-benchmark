@@ -1,0 +1,120 @@
+{
+  "force_field": "Amber14SB (protein) + Sage-2.1/AM1-BCC (ligand+GDP) + GBSA/OBC2 implicit",
+  "ionic_strength_M": 0.15,
+  "temperature_K": 310.0,
+  "dt_fs": 1.0,
+  "dt_note": "spec dt = 2.0 fs diverges for the Sage-spliced small molecules' angle modes at 310 K; production ran at 1.0 fs, documented deviation",
+  "ca_restraint_kcal_mol_A2": 5.0,
+  "equil_steps": 5000,
+  "production_steps": 50000,
+  "production_ps": 50.0,
+  "n_atoms": 2785,
+  "n_frames": 200,
+  "steps_per_second": null,
+  "wall_seconds": null,
+  "md": {
+    "n_frames": 200,
+    "ca_rmsd_mean_A": 0.3467800221246935,
+    "ca_rmsd_max_A": 0.390276029483838,
+    "pocket_ca_rmsd_mean_A": 0.3523114917519431,
+    "lig_rmsd_mean_A": 1.2746073904023065,
+    "lig_rmsd_max_A": 1.6646196438953182,
+    "temp_mean_k": NaN,
+    "pe_mean_kj_mol": NaN,
+    "plif_top": [
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2741,
+        "residue": "A:TYR96",
+        "persistence": 517
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2740,
+        "residue": "A:TYR96",
+        "persistence": 460
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2738,
+        "residue": "A:TYR96",
+        "persistence": 373
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2742,
+        "residue": "A:TYR96",
+        "persistence": 369
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2740,
+        "residue": "A:TYR64",
+        "persistence": 313
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2741,
+        "residue": "A:TYR64",
+        "persistence": 289
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2733,
+        "residue": "A:ALA11",
+        "persistence": 283
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2736,
+        "residue": "A:TYR96",
+        "persistence": 237
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2747,
+        "residue": "A:TYR96",
+        "persistence": 194
+      },
+      {
+        "type": "hbond",
+        "lig_atom": 2739,
+        "residue": "A:HIS95",
+        "persistence": 163
+      },
+      {
+        "type": "hbond",
+        "lig_atom": 2737,
+        "residue": "A:TYR96",
+        "persistence": 160
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2747,
+        "residue": "A:TYR64",
+        "persistence": 150
+      },
+      {
+        "type": "hbond",
+        "lig_atom": 2739,
+        "residue": "A:TYR64",
+        "persistence": 132
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2735,
+        "residue": "A:ALA11",
+        "persistence": 129
+      },
+      {
+        "type": "hydrophobic",
+        "lig_atom": 2743,
+        "residue": "A:TYR96",
+        "persistence": 121
+      }
+    ]
+  },
+  "dcd": "results_phase3\\T04_complex_trajectory.dcd",
+  "final_pdb": "results_phase3\\complex_final.pdb",
+  "note": "metrics replayed from completed DCD (temperature/PE columns unavailable)"
+}

@@ -1,0 +1,52 @@
+{
+  "pdb_id": "7RPZ",
+  "n_protein_atoms_raw": 1342,
+  "n_missing_residue_segments": 0,
+  "n_missing_atoms": 7,
+  "pocket_centroid_A": [
+    1.7136136363636363,
+    4.92690909090909,
+    -23.163636363636364
+  ],
+  "pocket_radius_A": 10.0,
+  "pocket_residues": [
+    "A:8:VAL",
+    "A:9:VAL",
+    "A:10:GLY",
+    "A:11:ALA",
+    "A:12:ASP",
+    "A:16:LYS",
+    "A:37:GLU",
+    "A:58:THR",
+    "A:59:ALA",
+    "A:60:GLY",
+    "A:61:GLN",
+    "A:62:GLU",
+    "A:63:GLU",
+    "A:64:TYR",
+    "A:65:SER",
+    "A:68:ARG",
+    "A:69:ASP",
+    "A:72:MET",
+    "A:92:ASP",
+    "A:93:ILE",
+    "A:94:HIS",
+    "A:95:HIS",
+    "A:96:TYR",
+    "A:97:ARG",
+    "A:98:GLU",
+    "A:99:GLN",
+    "A:100:ILE",
+    "A:102:ARG"
+  ],
+  "native_ligand_atoms": 44,
+  "cofactors": {
+    "GDP": 28,
+    "MG": 1
+  },
+  "ph": 7.4,
+  "artifacts": {
+    "protein": "results_phase3\\7RPZ_fixed_protein.pdb",
+    "native_ligand_sdf": "results_phase3\\native_ligand.sdf"
+  }
+}

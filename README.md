@@ -6,6 +6,8 @@
 ![Docs](https://img.shields.io/badge/Docs-EN%20%7C%20ZH-informational)
 ![ForceFields](https://img.shields.io/badge/Conformers-ETKDGv3%20%2B%20MMFF94%2BUFF-orange)
 ![MD](https://img.shields.io/badge/OpenMM-8.6%20GBSA%2FOBC2-9B59B6)
+![Docking](https://img.shields.io/badge/Docking-Vina%201.2.5%20%2B%20meeko-16A085)
+![ML potentials](https://img.shields.io/badge/ML%20potential-ANI--2x%20(vs%20Sage%2FMMFF94)-E67E22)
 
 ## Mission
 
@@ -14,6 +16,8 @@
 One target (M09) was caught by the pipeline with an **unkekulizable SMILES** — a genuine input-integrity failure — and a programmatically repaired aza-[5]-helicene reference (**M09R**) completes the case study.
 
 **Phase 2 — Heavy dynamics suite.** Five next-generation med-chem targets (CRBN molecular glue, ADC Val-Cit-PAB linker, bicyclic disulfide peptidomimetic, allosteric covalent inhibitor core, VHL-mimetic hybrid) advance into **relaxed torsional barrier scanning** (36-point MMFF94 scans, ΔE‡ = 7.8–72.8 kcal/mol) and **production molecular dynamics** (OpenMM 8.6, Sage 2.1.0 valence + MMFF94 charges, GBSA/OBC2, 300 K, 200 ps) — labeling the fourth dimension that 2D GNNs cannot see. See [`DYNAMICS_REPORT_EN.md`](./DYNAMICS_REPORT_EN.md) / [`DYNAMICS_REPORT_ZH.md`](./DYNAMICS_REPORT_ZH.md).
+
+**Phase 3 — Macromolecular frontier.** Target-bound biophysics on **KRAS G12D** (PDB 7RPZ, 1.30 Å, MRTX1133 co-crystal; the spec's "7E27" ID was erratum-verified against RCSB): pdbfixer curation, Phase-2 covalent core **T04 docked by Vina** (−7.92 kcal/mol), 50 ps complex MD (Amber14SB + Sage/AM1-BCC splice, OBC2 + 0.15 M, 310 K, Cα k = 5 kcal/mol/Å²), residue-decomposed **MM-GBSA** (ΔG_bind = −143.5 ± 2.9 kcal/mol; **His95 / Tyr96 / Glu62 / Asp12(G12D)** dominate — the textbook switch-II-pocket contacts), and the **classical-vs-ML force-field clash** on the frozen pose (Sage+AM1-BCC & MMFF94 vs ANI-2x: discrepancy concentrated on the aminopyrimidine core and acrylamide warhead, ⟨‖ΔF‖⟩ up to 81 kcal/mol/Å per moiety). See [`COMPLEX_DYNAMICS_REPORT_EN.md`](./COMPLEX_DYNAMICS_REPORT_EN.md) / [`COMPLEX_DYNAMICS_REPORT_ZH.md`](./COMPLEX_DYNAMICS_REPORT_ZH.md).
 
 ## Quick Navigation
 
@@ -33,6 +37,10 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 3D ensembles & minima | `bench_results/sdf/*_ensemble.sdf`, `bench_results/sdf/*_min.sdf` |
 | PyG feature tensors | `bench_results/features/*.npz` |
 | Phase 2 scans / trajectory | `results_phase2/T0*_torsion_scan.csv`, `results_phase2/T02_trajectory.dcd` |
+| 🇬🇧 Complex dynamics report (Phase 3) | [`COMPLEX_DYNAMICS_REPORT_EN.md`](./COMPLEX_DYNAMICS_REPORT_EN.md) |
+| 🇨🇳 复合物动力学报告（第三阶段） | [`COMPLEX_DYNAMICS_REPORT_ZH.md`](./COMPLEX_DYNAMICS_REPORT_ZH.md) |
+| Complex pipeline (Phase 3) | [`run_phase3_complex_dynamics.py`](./run_phase3_complex_dynamics.py) |
+| Phase 3 complex / trajectory / MM-GBSA | `results_phase3/phase3_results.json`, `results_phase3/T04_complex_trajectory.dcd`, `results_phase3/T04_per_residue_mmgbsa.csv` |
 
 ## Figure Previews
 
@@ -96,6 +104,20 @@ All values computed with RDKit 2026.03.5 (50 conformers/molecule, ETKDGv3 + MMFF
 
 ![MedChem radar](./figures_phase2/fig3_medchem_radar.png)
 
+## Phase 3 — KRAS G12D Complex Dynamics Suite
+
+Target-bound biophysics: **7RPZ** (KRAS G12D · GDP · MRTX1133, X-ray 1.30 Å) + Phase-2 covalent core **T04** docked into the switch-II pocket.
+
+| Stage | Engine | Headline result |
+|---|---|---|
+| 1A curation | pdbfixer @ pH 7.4 | 2,681-atom protein; pocket = 28 residues within 10 Å of MRTX1133 |
+| 2 docking | meeko + Vina 1.2.5 CLI | T04 pose #1 **ΔG = −7.92 kcal/mol** (−7.30 / −7.11 for #2/#3) |
+| 3 FF duality | Sage2.1+AM1-BCC & MMFF94 vs **ANI-2x** | ⟨‖ΔF‖⟩ = 24.7 (Sage) / 9.8 (MMFF94) kcal/mol/Å; **strain peaks on the 2-aminopyrimidine core (81) & acrylamide warhead (47)** |
+| 4 complex MD | Amber14SB splice + OBC2, 310 K, 0.15 M | 2,785 atoms, 50 ps; ⟨Cα RMSD⟩ **0.35 Å**, ligand 1.28 Å; PLIF: Tyr96 dominant |
+| 5 MM-GBSA | end-point, 40 frames | **ΔG_bind = −143.5 ± 2.9 kcal/mol**; top residues **His95 −8.7, Tyr96 −6.3, Glu62 −4.5, Asp12 −4.3** |
+
+**Figures:** [pose + pocket contacts](./figures_phase3/fig1_binding_pose_pocket.png) · [per-residue MM-GBSA](./figures_phase3/fig2_per_residue_mmgbsa.png) · [ML vs classical force gap](./figures_phase3/fig3_ml_vs_classical_ff_gap.png)
+
 ## Reproduce
 
 ```bash
@@ -107,6 +129,10 @@ python generate_assets.py                                  # Phase 1 figures -> 
 # Phase 2 (MD parameterization uses a conda env with openff-toolkit; see DYNAMICS_REPORT_EN.md §6)
 python run_heavy_dynamics_benchmark.py                     # full suite -> results_phase2/ + figures_phase2/
 python run_heavy_dynamics_benchmark.py --fig_only          # regenerate figures from saved results
+
+# Phase 3 (phase2ff env with Library/bin on PATH; see report §8)
+python run_phase3_complex_dynamics.py                      # complex suite -> results_phase3/ + figures_phase3/
+python run_phase3_complex_dynamics.py --fig_only           # regenerate figures from saved results
 ```
 
 ## Repository Structure
@@ -129,7 +155,13 @@ python run_heavy_dynamics_benchmark.py --fig_only          # regenerate figures 
 │   ├── benchmark_report.md         # auto-generated run report
 │   ├── sdf/                        # *_ensemble.sdf, *_min.sdf
 │   └── features/                   # *.npz (PyG-loadable)
-└── results_phase2/                 # Phase 2 outputs (scans, system.xml, DCD, metrics)
+├── results_phase2/                 # Phase 2 outputs (scans, system.xml, DCD, metrics)
+├── run_phase3_complex_dynamics.py  # Phase 3: KRAS complex dynamics + MM-GBSA + ML-benchmark
+├── COMPLEX_DYNAMICS_REPORT_EN.md   # Phase 3 English report
+├── COMPLEX_DYNAMICS_REPORT_ZH.md   # 第三阶段中文报告
+├── figures_phase3/                 # Phase 3 fig1-fig3 (300 DPI PNG)
+├── results_phase3/                 # Phase 3 outputs (docking, DCD, MM-GBSA)
+└── tools/vina.exe                  # AutoDock Vina 1.2.5 CLI (no win/py312 wheel)
 ```
 
 > This repository also preserves the earlier sibling project [`aqueous-solubility-ml-benchmark`](https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark) (ESOL/AqSolDB solubility modeling) in its history — see the initial commit.

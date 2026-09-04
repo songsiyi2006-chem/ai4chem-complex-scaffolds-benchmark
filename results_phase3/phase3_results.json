@@ -1,0 +1,760 @@
+{
+  "phase": 3,
+  "target": {
+    "pdb_id": "7RPZ",
+    "name": "KRAS G12D switch-II pocket (PDB 7RPZ, GDP + MRTX1133 co-crystal, X-ray 1.30 A)",
+    "native_ligand": "6IC"
+  },
+  "ligand": {
+    "id": "T04",
+    "name": "T04 allosteric covalent inhibitor core (switch-II pocket)",
+    "smiles": "C=CC(=O)N1CCN(CC1)c2nc(Nc3ccc(F)c(Cl)c3)nc4c2c(C#C)c(c5ccccc5)n4C"
+  },
+  "timestamp": "2026-09-04T12:31:35",
+  "stage1a_curation": {
+    "pdb_id": "7RPZ",
+    "n_protein_atoms_raw": 1342,
+    "n_missing_residue_segments": 0,
+    "n_missing_atoms": 7,
+    "pocket_centroid_A": [
+      1.7136136363636363,
+      4.92690909090909,
+      -23.163636363636364
+    ],
+    "pocket_radius_A": 10.0,
+    "pocket_residues": [
+      "A:8:VAL",
+      "A:9:VAL",
+      "A:10:GLY",
+      "A:11:ALA",
+      "A:12:ASP",
+      "A:16:LYS",
+      "A:37:GLU",
+      "A:58:THR",
+      "A:59:ALA",
+      "A:60:GLY",
+      "A:61:GLN",
+      "A:62:GLU",
+      "A:63:GLU",
+      "A:64:TYR",
+      "A:65:SER",
+      "A:68:ARG",
+      "A:69:ASP",
+      "A:72:MET",
+      "A:92:ASP",
+      "A:93:ILE",
+      "A:94:HIS",
+      "A:95:HIS",
+      "A:96:TYR",
+      "A:97:ARG",
+      "A:98:GLU",
+      "A:99:GLN",
+      "A:100:ILE",
+      "A:102:ARG"
+    ],
+    "native_ligand_atoms": 44,
+    "cofactors": {
+      "GDP": 28,
+      "MG": 1
+    },
+    "ph": 7.4,
+    "artifacts": {
+      "protein": "results_phase3\\7RPZ_fixed_protein.pdb",
+      "native_ligand_sdf": "results_phase3\\native_ligand.sdf"
+    }
+  },
+  "stage2_docking": {
+    "engine": "AutoDock Vina v1.2.5 CLI executable (python API wheel unavailable on win/py312) + meeko PDBQT",
+    "center_A": [
+      1.7136136363636363,
+      4.92690909090909,
+      -23.163636363636364
+    ],
+    "box_A": [
+      22.0,
+      22.0,
+      22.0
+    ],
+    "exhaustiveness": 16,
+    "n_poses_requested": 9,
+    "top3_delta_g_kcal_mol": [
+      -7.918,
+      -7.304,
+      -7.113
+    ],
+    "top3_full_energies": [
+      [
+        -7.918,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        -7.304,
+        4.136,
+        7.438,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        -7.113,
+        4.58,
+        8.322,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "dock_seconds": 16.70515513420105,
+    "pose1_pdb": "results_phase3\\T04_pose1.pdb",
+    "pose1_sdf": "results_phase3\\T04_pose1.sdf",
+    "poses_pdbqt": "results_phase3\\T04_docked_poses.pdbqt"
+  },
+  "stage3_ff_duality": {
+    "ligand_atoms": 61,
+    "gaff2": {
+      "energy_kcal_mol": -732.4408616966374,
+      "provenance": "Sage-2.1 valence+vdW with AM1-BCC (NAGL openff-gnn-am1bcc-1.0.0) [GAFF2 fallback: openmmforcefields unavailable offline]",
+      "f_norm_max": 132.5316725931921
+    },
+    "mmff94": {
+      "energy_kcal_mol": 37.74298171751458,
+      "forces": "central finite differences, h = 1e-3 A",
+      "f_norm_max": 36.13527027057728
+    },
+    "ml": {
+      "available": true,
+      "engine": "ANI-2x (torchani, ASE-style adapter)",
+      "e_kcal_mol": -47151.95971446509,
+      "f_norm_max_kcal_mol_A": 1.7448610067367554,
+      "parity": {
+        "gaff2": {
+          "e_kcal_mol": -732.4408616966374,
+          "pearson_r_fnorm": 0.6984660010825212,
+          "mean_cosine": 0.4833862981180547,
+          "df_atom_mean": 24.739968044629688,
+          "df_atom_max": 135.38313812697717
+        },
+        "mmff94": {
+          "e_kcal_mol": 37.74298171751458,
+          "pearson_r_fnorm": 0.638155427399106,
+          "mean_cosine": 0.5547187807289424,
+          "df_atom_mean": 9.775813140641976,
+          "df_atom_max": 42.794538909917485
+        }
+      },
+      "per_atom": {
+        "elements": [
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "N",
+          "C",
+          "C",
+          "N",
+          "C",
+          "N",
+          "C",
+          "C",
+          "C",
+          "C",
+          "F",
+          "C",
+          "CL",
+          "C",
+          "N",
+          "C",
+          "N",
+          "C",
+          "C",
+          "N",
+          "C",
+          "O",
+          "C",
+          "C",
+          "C",
+          "C",
+          "C",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H",
+          "H"
+        ],
+        "moieties": [
+          "alkyne linker",
+          "alkyne linker",
+          "aromatic C (other)",
+          "aromatic C (other)",
+          "phenyl",
+          "phenyl",
+          "phenyl",
+          "phenyl",
+          "phenyl",
+          "phenyl",
+          "other",
+          "other",
+          "2-aminopyrimidine (heteroar.)",
+          "2-aminopyrimidine (heteroar.)",
+          "2-aminopyrimidine (heteroar.)",
+          "2-aminopyrimidine (heteroar.)",
+          "halophenyl (F/Cl)",
+          "halophenyl (F/Cl)",
+          "halophenyl (F/Cl)",
+          "halophenyl (F/Cl)",
+          "halophenyl (F/Cl)",
+          "halophenyl (F/Cl)",
+          "halophenyl (F/Cl)",
+          "halophenyl (F/Cl)",
+          "2-aminopyrimidine (heteroar.)",
+          "2-aminopyrimidine (heteroar.)",
+          "piperazine",
+          "piperazine",
+          "piperazine",
+          "acrylamide warhead",
+          "acrylamide warhead",
+          "acrylamide warhead",
+          "acrylamide warhead",
+          "acrylamide warhead",
+          "piperazine",
+          "piperazine",
+          "2-aminopyrimidine (heteroar.)",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other",
+          "other"
+        ],
+        "df_gaff_norm": [
+          65.05123281725876,
+          50.500995165304715,
+          32.580077007359755,
+          13.777944919165593,
+          8.404767852870549,
+          14.118223236571252,
+          14.56646899931079,
+          14.068213002971959,
+          15.222435632344746,
+          15.149608352591887,
+          22.800053555466302,
+          12.977452398055805,
+          72.93083709268605,
+          135.38313812697717,
+          82.69342985559118,
+          121.51811772629284,
+          12.232121960999555,
+          16.66242385352211,
+          9.275723383238171,
+          9.418651957057081,
+          6.494536215854882,
+          10.694278252511824,
+          1.3139800508389028,
+          17.140057747301277,
+          61.59048231763009,
+          30.92563361019481,
+          72.01754237975804,
+          27.552255276986482,
+          11.262131919669008,
+          27.89105966413573,
+          43.52494703492555,
+          63.52419373798272,
+          55.29219419718365,
+          44.0371155639727,
+          2.506295507887969,
+          24.710692366651546,
+          61.76280136791588,
+          6.055439078931633,
+          3.827369050902413,
+          4.785011571218243,
+          4.235306697436695,
+          4.807862173246439,
+          3.7467132986320166,
+          2.4937714651648935,
+          5.975884148846224,
+          4.039353763024368,
+          68.85268931899522,
+          4.008638658489974,
+          4.589264504174908,
+          9.326350750215038,
+          12.687588243402818,
+          6.943226049571277,
+          6.258792062383751,
+          7.21864540194914,
+          6.600408104654532,
+          4.982427991390622,
+          3.8299072056687726,
+          5.723557988131382,
+          7.65453849960663,
+          10.612759966087557,
+          8.31043062324903
+        ],
+        "df_mmff_norm": [
+          24.779441624598224,
+          0.825345932338155,
+          2.6594336341739444,
+          0.9698904187962514,
+          0.5437657208717469,
+          8.62673985046497,
+          9.249236108560543,
+          8.525283542149891,
+          9.90005174970704,
+          9.769273241520693,
+          2.6401043934686386,
+          5.263166748836514,
+          1.7031566426054985,
+          15.86000633670547,
+          36.26968797720096,
+          42.794538909917485,
+          22.571206206227718,
+          8.307133122182073,
+          10.625609019974892,
+          0.536312978191274,
+          0.17491589341588276,
+          1.3769756716731805,
+          0.38403546920917636,
+          14.849171081070512,
+          16.83724845695286,
+          3.961800516118712,
+          10.453336304663964,
+          5.8136555451704695,
+          4.562746116701217,
+          1.6354811518505574,
+          10.074009482161877,
+          6.829215287695494,
+          24.41836543902133,
+          6.289380105922858,
+          6.194766332846397,
+          14.615053809400308,
+          2.372887285640226,
+          25.566905715638914,
+          8.894160029170253,
+          9.201271106250204,
+          9.070539617446364,
+          9.14152240324657,
+          8.753798132833111,
+          5.883048694142453,
+          5.3233435368654245,
+          5.747564578129081,
+          24.79252058971341,
+          8.351163320220351,
+          10.20282871304104,
+          10.887396730987643,
+          11.460168697789989,
+          6.260150194706499,
+          6.795938689954123,
+          7.549475871888786,
+          12.634162381511981,
+          11.568220009201626,
+          9.76485849511329,
+          7.430338735871754,
+          7.639670502382804,
+          12.013118537452161,
+          8.130008187595633
+        ]
+      },
+      "moiety_strain_gaff2": {
+        "2-aminopyrimidine (heteroar.)": {
+          "n_atoms": 7,
+          "df_mean": 80.97206287104116,
+          "df_max": 135.38313812697717
+        },
+        "alkyne linker": {
+          "n_atoms": 2,
+          "df_mean": 57.77611399128174,
+          "df_max": 65.05123281725876
+        },
+        "acrylamide warhead": {
+          "n_atoms": 5,
+          "df_mean": 46.85390203964007,
+          "df_max": 63.52419373798272
+        },
+        "piperazine": {
+          "n_atoms": 5,
+          "df_mean": 27.60978349019061,
+          "df_max": 72.01754237975804
+        },
+        "aromatic C (other)": {
+          "n_atoms": 2,
+          "df_mean": 23.179010963262673,
+          "df_max": 32.580077007359755
+        },
+        "phenyl": {
+          "n_atoms": 6,
+          "df_mean": 13.588286179443529,
+          "df_max": 15.222435632344746
+        },
+        "halophenyl (F/Cl)": {
+          "n_atoms": 8,
+          "df_mean": 10.403971677665474,
+          "df_max": 17.140057747301277
+        },
+        "other": {
+          "n_atoms": 26,
+          "df_mean": 9.359363175726758,
+          "df_max": 68.85268931899522
+        }
+      },
+      "moiety_strain_mmff94": {
+        "2-aminopyrimidine (heteroar.)": {
+          "n_atoms": 7,
+          "df_mean": 17.114189446448744,
+          "df_max": 42.794538909917485
+        },
+        "alkyne linker": {
+          "n_atoms": 2,
+          "df_mean": 12.80239377846819,
+          "df_max": 24.779441624598224
+        },
+        "acrylamide warhead": {
+          "n_atoms": 5,
+          "df_mean": 9.849290293330423,
+          "df_max": 24.41836543902133
+        },
+        "other": {
+          "n_atoms": 26,
+          "df_mean": 9.65251710051764,
+          "df_max": 25.566905715638914
+        },
+        "piperazine": {
+          "n_atoms": 5,
+          "df_mean": 8.32791162175647,
+          "df_max": 14.615053809400308
+        },
+        "phenyl": {
+          "n_atoms": 6,
+          "df_mean": 7.769058368879147,
+          "df_max": 9.90005174970704
+        },
+        "halophenyl (F/Cl)": {
+          "n_atoms": 8,
+          "df_mean": 7.353169930243089,
+          "df_max": 22.571206206227718
+        },
+        "aromatic C (other)": {
+          "n_atoms": 2,
+          "df_mean": 1.814662026485098,
+          "df_max": 2.6594336341739444
+        }
+      }
+    },
+    "moiety_atom_counts": {
+      "alkyne linker": 2,
+      "aromatic C (other)": 2,
+      "phenyl": 6,
+      "other": 26,
+      "2-aminopyrimidine (heteroar.)": 7,
+      "halophenyl (F/Cl)": 8,
+      "piperazine": 5,
+      "acrylamide warhead": 5
+    }
+  },
+  "stage4_complex_md": {
+    "force_field": "Amber14SB (protein) + Sage-2.1/AM1-BCC (ligand+GDP) + GBSA/OBC2 implicit",
+    "ionic_strength_M": 0.15,
+    "temperature_K": 310.0,
+    "dt_fs": 1.0,
+    "dt_note": "spec dt = 2.0 fs diverges for the Sage-spliced small molecules' angle modes at 310 K; production ran at 1.0 fs, documented deviation",
+    "ca_restraint_kcal_mol_A2": 5.0,
+    "equil_steps": 5000,
+    "production_steps": 50000,
+    "production_ps": 50.0,
+    "n_atoms": 2785,
+    "n_frames": 200,
+    "steps_per_second": null,
+    "wall_seconds": null,
+    "md": {
+      "n_frames": 200,
+      "ca_rmsd_mean_A": 0.3467800221246935,
+      "ca_rmsd_max_A": 0.390276029483838,
+      "pocket_ca_rmsd_mean_A": 0.3523114917519431,
+      "lig_rmsd_mean_A": 1.2746073904023065,
+      "lig_rmsd_max_A": 1.6646196438953182,
+      "temp_mean_k": NaN,
+      "pe_mean_kj_mol": NaN,
+      "plif_top": [
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2741,
+          "residue": "A:TYR96",
+          "persistence": 517
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2740,
+          "residue": "A:TYR96",
+          "persistence": 460
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2738,
+          "residue": "A:TYR96",
+          "persistence": 373
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2742,
+          "residue": "A:TYR96",
+          "persistence": 369
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2740,
+          "residue": "A:TYR64",
+          "persistence": 313
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2741,
+          "residue": "A:TYR64",
+          "persistence": 289
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2733,
+          "residue": "A:ALA11",
+          "persistence": 283
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2736,
+          "residue": "A:TYR96",
+          "persistence": 237
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2747,
+          "residue": "A:TYR96",
+          "persistence": 194
+        },
+        {
+          "type": "hbond",
+          "lig_atom": 2739,
+          "residue": "A:HIS95",
+          "persistence": 163
+        },
+        {
+          "type": "hbond",
+          "lig_atom": 2737,
+          "residue": "A:TYR96",
+          "persistence": 160
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2747,
+          "residue": "A:TYR64",
+          "persistence": 150
+        },
+        {
+          "type": "hbond",
+          "lig_atom": 2739,
+          "residue": "A:TYR64",
+          "persistence": 132
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2735,
+          "residue": "A:ALA11",
+          "persistence": 129
+        },
+        {
+          "type": "hydrophobic",
+          "lig_atom": 2743,
+          "residue": "A:TYR96",
+          "persistence": 121
+        }
+      ]
+    },
+    "dcd": "results_phase3\\T04_complex_trajectory.dcd",
+    "final_pdb": "results_phase3\\complex_final.pdb",
+    "note": "metrics replayed from completed DCD (temperature/PE columns unavailable)"
+  },
+  "stage5_mmgbsa": {
+    "frames": 40,
+    "dg_bind_kcal_mol": -143.4740921096769,
+    "dg_bind_std": 2.8460766897563174,
+    "components": {
+      "dE_nb_mean": -102.2420501317333,
+      "dG_gb_mean": -38.0991068897184,
+      "dG_sa_mean": -3.132935088225203,
+      "gamma_sa": 0.005
+    },
+    "per_frame": {
+      "dg": [
+        -146.2567932979596,
+        -138.8947507481616,
+        -142.92527299645437,
+        -146.85837147930505,
+        -146.76296660834902,
+        -141.75232401664607,
+        -143.69632556872153,
+        -145.64893525123352,
+        -143.53374406682022,
+        -140.92315418917724,
+        -140.7239219760227,
+        -142.34311610763802,
+        -144.78986631984841,
+        -142.4593482214299,
+        -140.32854703509537,
+        -141.30961231955803,
+        -146.3144079498035,
+        -138.8813620901689,
+        -142.2018759795938,
+        -149.90538788840792,
+        -144.86618962724543,
+        -147.58867532450202,
+        -150.05435100637706,
+        -142.61136220883108,
+        -146.34932317611975,
+        -148.55191543584874,
+        -141.81530432634455,
+        -140.98153688901897,
+        -143.1891692341366,
+        -142.74336590279566,
+        -143.95068936202634,
+        -144.26443169645876,
+        -143.43569444558105,
+        -139.42758730182013,
+        -139.21357773858557,
+        -143.43671853853695,
+        -142.39825002996167,
+        -142.0293265452796,
+        -141.05674363083367,
+        -144.48938785637807
+      ]
+    },
+    "per_residue_top10": [
+      {
+        "residue": "HIS95",
+        "vdW": -6.451285668322338,
+        "elec": -5.585820818875922,
+        "gb_polar": 3.3892395508130075,
+        "total": -8.647866936385253
+      },
+      {
+        "residue": "TYR96",
+        "vdW": -5.533804848750153,
+        "elec": -2.468930684707244,
+        "gb_polar": 1.6693548417052253,
+        "total": -6.333380691752172
+      },
+      {
+        "residue": "GLU62",
+        "vdW": -4.600377229991908,
+        "elec": 7.232904483157183,
+        "gb_polar": -7.1704101754254514,
+        "total": -4.537882922260176
+      },
+      {
+        "residue": "ASP12",
+        "vdW": -4.052878474002328,
+        "elec": -4.075799726069408,
+        "gb_polar": 3.7961469945972617,
+        "total": -4.332531205474474
+      },
+      {
+        "residue": "ASP92",
+        "vdW": -3.738325313007552,
+        "elec": -4.391265150087079,
+        "gb_polar": 4.090497772357491,
+        "total": -4.0390926907371405
+      },
+      {
+        "residue": "TYR64",
+        "vdW": -2.674930378097705,
+        "elec": -11.292536182808059,
+        "gb_polar": 10.523851869456257,
+        "total": -3.443614691449506
+      },
+      {
+        "residue": "ALA11",
+        "vdW": -2.40868959274835,
+        "elec": 3.905612732775222,
+        "gb_polar": -3.8457836847330373,
+        "total": -2.3488605447061652
+      },
+      {
+        "residue": "ARG68",
+        "vdW": -1.611575410242504,
+        "elec": 9.764830845819374,
+        "gb_polar": -10.114981985643238,
+        "total": -1.961726550066368
+      },
+      {
+        "residue": "LYS88",
+        "vdW": -1.8657301183893644,
+        "elec": -1.7169788127573582,
+        "gb_polar": 1.7675445408145805,
+        "total": -1.8151643903321422
+      },
+      {
+        "residue": "GLN99",
+        "vdW": -1.293140154285657,
+        "elec": 8.443130287232533,
+        "gb_polar": -8.293662460919897,
+        "total": -1.1436723279730217
+      }
+    ],
+    "decomposition_validation": {
+      "my_cross_nb_kcal": -68.8866991738438,
+      "openmm_cross_nb_kcal": 89.45889044446176,
+      "rel_err": 1.7700374868455397,
+      "nb_exact": false,
+      "gb_note": "GB per-residue = Still pair terms with intrinsic OBC radii (approximate; screening-level accuracy)"
+    },
+    "sasa_mean_complex": 14909.856430065574
+  },
+  "meta": {
+    "fallbacks": [],
+    "warnings": []
+  },
+  "fatal_error": null,
+  "all_stages_ok": true
+}
