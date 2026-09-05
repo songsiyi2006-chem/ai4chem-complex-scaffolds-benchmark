@@ -1,0 +1,55 @@
+{
+ "complete": true,
+ "refs": {
+  "H2_eq_R1.4011": {
+   "hf": -1.133467607766582,
+   "fci": -1.1744419396190842,
+   "ccsdt": -1.1738672387384907,
+   "source": "Psi4 1.11 DETCI aug-cc-pV{T,Q}Z CBS (computed in this work)"
+  },
+  "H2_R2.5": {
+   "hf": -1.0387109912358214,
+   "fci": -1.0939430140605797,
+   "ccsdt": -1.093560315025227,
+   "source": "Psi4 1.11 DETCI aug-cc-pV{T,Q}Z CBS (computed in this work)"
+  },
+  "H2_R4.0": {
+   "hf": -0.9116375405223853,
+   "fci": -1.016336945748376,
+   "ccsdt": -1.016190186240328,
+   "source": "Psi4 1.11 DETCI aug-cc-pV{T,Q}Z CBS (computed in this work)"
+  },
+  "H2_R6.0": {
+   "hf": -0.8247459549416609,
+   "fci": -1.000740584214517,
+   "ccsdt": -1.0007175501683452,
+   "source": "Psi4 1.11 DETCI aug-cc-pV{T,Q}Z CBS (computed in this work)"
+  },
+  "He": {
+   "hf": -2.8615449138273026,
+   "fci": -2.903699030496968,
+   "ccsdt": -2.902533599546042,
+   "source": "Psi4 1.11 DETCI aug-cc-pV{T,Q}Z CBS (computed in this work)"
+  }
+ },
+ "literature": {
+  "H2_eq": {
+   "hf": -1.13363,
+   "ccsdt": -1.1744757,
+   "fci": -1.1744757,
+   "source": "Kolos-Wolniewicz 1968 exact BO limit (CCSD(T) = FCI for 2 electrons)"
+  },
+  "H2_diss": {
+   "hf": null,
+   "ccsdt": -1.0,
+   "fci": -1.0,
+   "source": "exact separated-atom limit 2 x H(-1/2)"
+  },
+  "He": {
+   "hf": -2.86168,
+   "ccsdt": -2.90364,
+   "fci": -2.9037244,
+   "source": "Pekeris 1958 exact nonrelativistic limit"
+  }
+ }
+}
