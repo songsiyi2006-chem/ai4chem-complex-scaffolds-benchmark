@@ -13,10 +13,11 @@
 ![Phase 8](https://img.shields.io/badge/Phase%208-TDDFT%20%2B%20MECI%20%2B%20FSSH%20photodynamics-FF69B4)
 ![Self-Driving Lab](https://img.shields.io/badge/Phase%209-Opentrons%20OT--2%20%2B%20closed--loop%20twin-E74C3C)
 ![SDL](https://img.shields.io/badge/Autonomy-50%20robot%20experiments%2C%200%20humans-27AE60)
+![Phase 11](https://img.shields.io/badge/Phase%2011-neural%20wavefunction%20VMC%20%C2%B7%20chemical%20accuracy-9B59B6)
 
 ## Mission
 
-**Nine-phase master architecture — from silicon prediction to embodied execution.**
+**Twelve-phase master architecture (the Pantheon, complete) — from silicon prediction to embodied execution.**
 
 **Phase 1 — Conformer & descriptor suite.** Stress-test frontier, fully open-source 3D conformer pipelines (**RDKit ETKDGv3 + MMFF94/UFF**) against **10 structurally complex, synthetically plausible, unindexed molecular entities** — macrocycles, cubane-type strain cages, beyond-Ro5 PROTAC prototypes, atropisomeric biaryls, perfluorinated cages, zwitterionic B–N dative systems, covalent warheads, helicenes, and sterically jammed peptoids — and quantify their physicochemical profiles, conformational energy landscapes, intramolecular H-bond networks, and **GNN featurization readiness** (PyG-loadable atom/bond tensors).
 
@@ -40,7 +41,11 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 
 **Phase 9 — The Self-Driving Lab Compiler: robotic hardware execution & Bayesian closed-loop twin.** The pivot from prediction to embodiment: the Phase-4/5 synthesis world model is (9A) **compiled into Opentrons OT-2 robot code** — `output_ot2_protocol.py` in `opentrons.protocol_api` v2.15 syntax with calibrated liquid classes for volatile DCM / toluene / viscous DMSO / MeOH / EtOH (tuned flow rates, 10 µL air gaps, blow-out, touch-tip, volume-routed P300/P20 dosing), a Temperature-Module deck (4–95 °C), quench + two-stage serial dilution to 1:800 for HPLC, an AutoProtocol **JSON-LD** cloud-lab export, and **three-layer validation up to a real `opentrons_simulate` run (rc = 0)**; (9B) optimized by **safety-constrained multi-objective Bayesian active learning** (maximize yield / minimize E-factor / minimize catalyst cost; exact guardrails: adiabatic ΔT_ad < 30 K, T < T_boil − 15 °C via Antoine–Raoult, microfluidic ΔP < 15 bar — **83.5 % of naive design space is rejected as unsafe**) using Matérn-5/2 GPs + constrained minimax-Tchebycheff q-EI with local penalization: **50 robotic experiments over 8 rounds** converge to **91.9 % yield / 79.9–84.5 % ee** — inside the Phase-5 prediction envelope (89–97 % / 80–91 %); (9C) closed by an **in-line HPLC telemetry twin**: EMG chromatograms A(t, λ) at 210/254/280 nm with dead time, drift and noise, an automated ALS + multi-EMG deconvolution agent quantifying conversion/yield/ee, and a **hallucination audit** bounding measured-vs-truth error at |ΔY| ≤ 2.8 %, |Δee| ≤ 5.6 % across all 50 experiments. Full treatise: [`SELF_DRIVING_LAB_REPORT_EN.md`](./SELF_DRIVING_LAB_REPORT_EN.md) / [`SELF_DRIVING_LAB_REPORT_ZH.md`](./SELF_DRIVING_LAB_REPORT_ZH.md).
 
+**Phase 10 — The grand convergence: multi-scale continuous-flow cyber-physical digital twin.** The molecular world model is wired into a plant: a 10.0 m × 1.0 mm coiled microreactor (7.85 mL, counter-current jacket) running the Phase-4/5 strain-release aziridine ring expansion at production rate is simulated as a genuine multi-scale object — **Module 10A** integrates the coupled advection–diffusion–reaction PDEs (Method of Lines, IMEX: trapezoidal-implicit Taylor–Aris diffusion + TVD-RK2 advection/reaction with depletion-aware adaptive substepping) for a 9-field state (7 species + channel temperature + counter-current coolant); **Module 10B** renders operando multi-modal PAT telemetry (in-line 785 nm Raman with Lorentzian fingerprints + fluorescence drift, UV-Vis 254/310 nm, 1 Hz Hagen–Poiseuille ΔP and thermal ports) under four injected industrial anomalies — pump cavitation, precursor impurity spike, progressive channel clogging, coolant vapor lock; **Module 10C** closes the loop with a torch Soft-Actor-Critic agent (18-dim PAT state, 5 continuous pumps/jacket/BPR actions, the commanded reward form) deployed behind an NMPC-style supervisory shield: on the acceptance timeline the open loop runs away to **ΔT ≈ 71 K** while the autonomous agent alarms predictively at ΔT = 13 K, dilute-quenches and arrests the excursion at **ΔT = 14 K (worst re-ignition peak 21.1 K — the 40 K threshold is never approached), on-spec yield +28 %**; **Module 10D** completes the cradle-to-gate account (STY ≈ 6.8 × 10³ kg m⁻³ h⁻¹, PMI/E-factor, CO₂e and $ per kg) over a 1–64 channel numbering-up Pareto grid. See [`FLOW_CYBERPHYSICAL_REPORT_EN.md`](./FLOW_CYBERPHYSICAL_REPORT_EN.md) / [`FLOW_CYBERPHYSICAL_REPORT_ZH.md`](./FLOW_CYBERPHYSICAL_REPORT_ZH.md).
+
 **Phase 8 — Beyond the Born–Oppenheimer sea: excited-state photodynamics.** The pipeline leaves the single-surface regime entirely: **TDA-B3LYP/def2-SVP** vertical excitations of *real trans-azobenzene* (10 singlets + triplets, NTO particle–hole pairs, σ = 0.2 eV UV-Vis; S₁ n→π\* 2.36 eV / 526 nm f = 0.044, S₂ π→π\* 4.06 eV / 306 nm f = 0.82) reveal the S₁ funnel collapsing to **0.17 eV at a 90° CNNC torsion**; **SA-CASSCF(4,4) on diazene** (the minimal N=N chromophore) plus a **Bearpark–Robb–Schlegel penalty optimization** converges the S₁/S₀ conical intersection to **ΔE₁₀ = 0.0227 eV in 16 steps** (|g| = 0.371 Eh/Å, h reconstructed by gap-lifting over 52 directions); and a **300-trajectory Tully-FSSH ensemble** (dt = 0.5 fs, 500 fs, exact 2×2 propagator, GP decoherence) on an all-ab-initio-parameterized 2-state/3-mode model yields **τ₁/₂ = 330 fs, Φ_Z = 0.27, Φ_E = 0.35** — inside the experimental azobenzene envelope. See [`PHOTOCHEMISTRY_REPORT_EN.md`](./PHOTOCHEMISTRY_REPORT_EN.md) / [`PHOTOCHEMISTRY_REPORT_ZH.md`](./PHOTOCHEMISTRY_REPORT_ZH.md).
+
+**Phase 11 — The Quantum Singularity: continuous neural wavefunctions & deep variational QMC.** Every prior phase discretized the electronic state in a precomputed function basis; Phase 11 removes the basis and solves the ab initio Schrödinger equation directly in continuous 3N space (`run_phase11_neural_wavefunction_vmc.py`, pure PyTorch float64, CUDA-auto): a **FermiNet/PauliNet-family ansatz** — Coulomb-law-only featurization, **3 permutation-equivariant interaction blocks**, **8 backflow determinants** with tanh-bounded contracted Gaussian envelopes, and an **exact-Kato-cusp isotropic Jastrow** — is optimized by **variational quantum Monte Carlo** (2,048 vectorized Metropolis walkers, acceptance locked 45–55 %; kinetic energy from the **exact reverse-mode-AD Laplacian**, FD-cross-validated to 2.4 × 10⁻⁷; the exact REINFORCE/Rayleigh gradient with 5σ clipping). Benchmarks vs **in-house Psi4 DETCI FCI/CBS + the Kolos-Wolniewicz & Pekeris exact limits**: **H₂ @ equilibrium solved to 0.389 mEₕ (4× inside chemical accuracy, 40.5 mEₕ below HF, ~97 % of correlation energy)**; **H₂ @ 2.5 a₀ also lands at 0.38 mEₕ, and H₂ @ 6 a₀ 1.55 mEₕ from FCI/CBS (0.81 mEₕ from the exact 2 × H dissociation limit)** — the static-correlation regime that broke six methods in Phase 7, here handled variationally with no symmetry breaking; **He reaches −2.90243 Eₕ (1.27 mEₕ from Pekeris, ~99 % of correlation) — four of the five benchmark systems inside chemical accuracy**. Local-energy variance collapses 1–2 orders of magnitude — the zero-variance-principle certificate of eigenstate convergence — and the engineering log documents three physics bugs the variational principle itself caught (a +0.5·Nₑ Hamiltonian shift, a non-decaying ansatz, cusp double-counting). Full treatise: [`NEURAL_WAVEFUNCTION_REPORT_EN.md`](./NEURAL_WAVEFUNCTION_REPORT_EN.md) / [`NEURAL_WAVEFUNCTION_REPORT_ZH.md`](./NEURAL_WAVEFUNCTION_REPORT_ZH.md).
 
 ## Quick Navigation
 
@@ -90,6 +95,14 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | Self-driving lab compiler (Phase 9) | [`run_phase9_self_driving_lab_compiler.py`](./run_phase9_self_driving_lab_compiler.py) |
 | Compiled OT-2 protocol (root artifact) | [`output_ot2_protocol.py`](./output_ot2_protocol.py) |
 | Phase 9 protocol / JSON-LD / validation / master record | `results_phase9/output_ot2_protocol_champion.py`, `results_phase9/autoprotocol_workflow.jsonld`, `results_phase9/ot2_validation_report.json`, `results_phase9/phase9_results.json` |
+| 🇬🇧 Flow cyber-physical report (Phase 10) | [`FLOW_CYBERPHYSICAL_REPORT_EN.md`](./FLOW_CYBERPHYSICAL_REPORT_EN.md) |
+| 🇨🇳 流程信息物理 twin 报告（第十阶段） | [`FLOW_CYBERPHYSICAL_REPORT_ZH.md`](./FLOW_CYBERPHYSICAL_REPORT_ZH.md) |
+| Continuous-flow digital twin pipeline (Phase 10) | [`run_phase10_cyberphysical_flow_twin.py`](./run_phase10_cyberphysical_flow_twin.py) |
+| Phase 10 record / episodes / TEA / PAT telemetry | `results_phase10/phase10_results.json`, `results_phase10/episode_*.npy`, `results_phase10/tea_pareto_points.csv`, `results_phase10/pat_telemetry.npy` |
+| 🇬🇧 Neural-wavefunction VMC report (Phase 11) | [`NEURAL_WAVEFUNCTION_REPORT_EN.md`](./NEURAL_WAVEFUNCTION_REPORT_EN.md) |
+| 🇨🇳 神经波函数 VMC 报告（第十一阶段） | [`NEURAL_WAVEFUNCTION_REPORT_ZH.md`](./NEURAL_WAVEFUNCTION_REPORT_ZH.md) |
+| Neural-QMC pipeline (Phase 11) | [`run_phase11_neural_wavefunction_vmc.py`](./run_phase11_neural_wavefunction_vmc.py) |
+| Phase 11 record / references / convergence / density grid | `results_phase11/phase11_results.json`, `results_phase11/references.json`, `results_phase11/convergence_*.csv`, `results_phase11/density_slice_H2_eq.npz` |
 
 ## Figure Previews
 
@@ -270,6 +283,35 @@ The Born–Oppenheimer pivot: real-chromophore TD-DFT + minimal-chromophore MECI
 
 **Figures:** [deck architecture](./figures_phase9/fig1_robotic_deck_architecture.png) · [Bayesian Pareto frontier](./figures_phase9/fig2_bayesian_pareto_frontier.png) · [in-line HPLC deconvolution](./figures_phase9/fig3_inline_hplc_deconvolution.png)
 
+
+## Phase 10 — Multi-Scale Continuous-Flow Digital Twin, Operando PAT & Cyber-Physical RL Control
+
+`run_phase10_cyberphysical_flow_twin.py` — the grand-integration milestone; four modules, one plant:
+
+| Module | What it does | Headline result |
+|---|---|---|
+| **10A continuum twin** | 9-field MOL PDE plant (7 species + T + counter-current Tc) over a 10 m × 1 mm coil: IMEX time stepping — implicit Taylor–Aris diffusion (banded solve) + TVD-RK2 advection/reaction with depletion-aware adaptive substepping; Hagen–Poiseuille ΔP, Graetz film U, counter-current jacket energy balance | nominal steady state **X = 98 %, S = 96 %, ee = 85.3 %**, STY ≈ 6.8 × 10³ kg m⁻³ h⁻¹ at ΔT ≈ 5 K |
+| **10B operando PAT** | in-line Raman (Lorentzian bands × 8 analytes, laser OU fluctuation, fluorescence baseline), UV-Vis 254/310 nm, ΔP + thermal ports; cavitation / impurity / fouling / coolant-fault injections; 6-measurement deconvolution agent | hallucination audit **mean rel. err ≈ 0.6 %, max ≈ 6 %** vs plant truth |
+| **10C cyber-physical control** | torch SAC (twin-Q, auto-α) on domain-randomized fault episodes + NMPC-style shield (predictive trip, dilute-quench, safe-holding ramp); reward = w₁·Yield + w₂·Selectivity − w₃·Carbon − w₄·I(runaway) − w₅·ΔP | acceptance timeline: open loop **ΔT = 71.6 K breach** (instantaneous selectivity → 0), autonomous agent **alarms at ΔT = 13 K, arrests at 14 K, worst peak 21.1 K** (40 K never crossed), on-spec yield **+28 %** |
+| **10D TEA / LCA** | steady-state PFR + counter-current iteration over 1–64 channels × flow × jacket T × catalyst loading; STY, PMI, E-factor, CO₂e and $ breakdown with solvent recovery & catalyst amortization | 3-objective Pareto surface (cost–carbon–STY) extracted over the design grid |
+
+**Figures:** [PDE reactor profile](./figures_phase10/fig1_continuous_pde_reactor_profile.png) · [operando PAT dashboard](./figures_phase10/fig2_operando_pat_sensor_telemetry.png) · [RL control dynamics](./figures_phase10/fig3_rl_cyberphysical_control_dynamics.png) · [TEA Pareto](./figures_phase10/fig4_techno_economic_pareto_analysis.png)
+
+## Phase 11 — Continuous Neural Wavefunctions & Deep Variational QMC
+
+The endgame of the ab initio ladder (`run_phase11_neural_wavefunction_vmc.py`; pure PyTorch, no quantum-chemistry engine inside the solver — Psi4 1.11 DETCI only computes the classical references):
+
+| Component | Headline result |
+|---|---|
+| **11A antisymmetric neural ansatz** | Coulomb-only featurization → 3 equivariant blocks → 8 backflow determinants (tanh-bounded contracted Gaussian envelopes) + exact-Kato-cusp Jastrow; same-spin exchange sign flip **machine-exact (0.0e+00)**; nuclear cusp slope measured **−1.97 vs exact −2Z = −2** |
+| **11B vectorized MCMC** | 2,048 parallel walkers, adaptive Gaussian proposals locked to **50.3 ± 1.5 % acceptance**, 400-sweep burn-in, blocked production error bars |
+| **11C variational minimization** | exact reverse-mode-AD Laplacian (FD-cross-validated **2.4 × 10⁻⁷**); REINFORCE/Rayleigh gradient with 5σ clip; **H₂(eq) = −1.174087 ± 0.000215 → 0.389 mEₕ from exact FCI (4× inside chemical accuracy)**, 40.5 mEₕ below HF |
+| **Dissociation (static correlation)** | H₂ curve smooth and asymptotically exact; **2.5 a₀ = −1.093561 (0.38 mEₕ, PASS)**; **6.0 a₀ = −0.999191 (1.55 mEₕ from FCI/CBS, 0.81 mEₕ from the 2 × H limit — PASS)**; 4.0 a₀ near-miss at 2.4 mEₕ — the Phase-7 wall-of-sighs regime, handled with no symmetry breaking |
+| **He atom** | **−2.902427 ± 0.000492** vs Pekeris −2.903724 (**1.27 mEₕ, PASS**; ~99 % of correlation energy) |
+| **Zero-variance audit** | σ²(E_L) collapses 1–2 orders of magnitude on every system (2.2 × 10⁻² → 1.6 × 10⁻³ Eₕ² on H₂) — eigenstate-convergence certificate |
+
+**Figures:** [VMC convergence + dissociation curve](./figures_phase11/fig1_vmc_energy_convergence.png) · [density slice with exact Kato cusps](./figures_phase11/fig2_electron_density_slice.png) · [local-energy variance collapse](./figures_phase11/fig3_local_energy_variance.png)
+
 ### Phase 7 Figure Previews
 
 **Fig. P7-1 — Symmetry breaking: spin contamination & singlet–triplet gap collapse**
@@ -312,6 +354,38 @@ The Born–Oppenheimer pivot: real-chromophore TD-DFT + minimal-chromophore MECI
 
 ![HPLC deconvolution](./figures_phase9/fig3_inline_hplc_deconvolution.png)
 
+### Phase 10 Figure Previews
+
+**Fig. P10-1 — Multi-scale PDE reactor profile (z vs t)**
+
+![PDE reactor profile](./figures_phase10/fig1_continuous_pde_reactor_profile.png)
+
+**Fig. P10-2 — Operando multi-modal PAT dashboard (Raman waterfall · UV-Vis · ΔP · thermal)**
+
+![PAT dashboard](./figures_phase10/fig2_operando_pat_sensor_telemetry.png)
+
+**Fig. P10-3 — RL cyber-physical control dynamics (runaway arrest)**
+
+![RL control dynamics](./figures_phase10/fig3_rl_cyberphysical_control_dynamics.png)
+
+**Fig. P10-4 — Techno-economic & lifecycle Pareto analysis**
+
+![TEA Pareto](./figures_phase10/fig4_techno_economic_pareto_analysis.png)
+
+### Phase 11 Figure Previews
+
+**Fig. P11-1 — Variational convergence vs HF / CCSD(T) / exact FCI, and the H₂ dissociation curve (chemical-accuracy band shaded)**
+
+![VMC energy convergence](./figures_phase11/fig1_vmc_energy_convergence.png)
+
+**Fig. P11-2 — Learned all-electron density |Ψ|² with exact electron–nuclear Kato cusps (plane map, nuclear zoom, 1-D cut vs the Kato law)**
+
+![Electron density slice](./figures_phase11/fig2_electron_density_slice.png)
+
+**Fig. P11-3 — Zero-variance principle: local-energy distribution collapse and σ²(E_L) trajectories on all five systems**
+
+![Local energy variance](./figures_phase11/fig3_local_energy_variance.png)
+
 ## Reproduce
 
 ```bash
@@ -352,6 +426,12 @@ python run_phase9_self_driving_lab_compiler.py --fig_only  # regenerate figures 
 C:/Users/HUIWEI/miniconda3/envs/phase2ff/python.exe -m venv .ot2env
 .ot2env/Scripts/python.exe -m pip install "opentrons==8.3.0"
 .ot2env/Scripts/opentrons_simulate.exe output_ot2_protocol.py   # -> rc 0
+
+# Phase 11 (pure torch/numpy/matplotlib; CUDA auto-detected if present.
+#          Psi4 1.11 in the `phase7` env optionally supplies FCI/CBS references)
+python run_phase11_neural_wavefunction_vmc.py                   # all systems -> results_phase11/ + figures_phase11/
+python run_phase11_neural_wavefunction_vmc.py --smoke           # 40-epoch validation pass
+python run_phase11_neural_wavefunction_vmc.py --systems H2_eq_R1.4011,He --epochs 1500
 ```
 
 ## Repository Structure
@@ -407,6 +487,21 @@ C:/Users/HUIWEI/miniconda3/envs/phase2ff/python.exe -m venv .ot2env
 ├── SELF_DRIVING_LAB_REPORT_ZH.md   # 第九阶段中文报告
 ├── figures_phase9/                 # Phase 9 fig1-fig3 (300 DPI PNG)
 └── results_phase9/                 # Phase 9 outputs (master JSON, champion protocol, JSON-LD, validation report)
+├── run_phase10_cyberphysical_flow_twin.py # Phase 10: multi-scale flow PDE twin + operando PAT + SAC/NMPC control + TEA/LCA
+├── FLOW_CYBERPHYSICAL_REPORT_EN.md # Phase 10 English treatise
+├── FLOW_CYBERPHYSICAL_REPORT_ZH.md # 第十阶段中文报告
+├── figures_phase10/                # Phase 10 fig1-fig4 (300 DPI PNG)
+└── results_phase10/                # Phase 10 outputs (master JSON, episode fields, PAT telemetry, TEA Pareto)
+```
+
+### Phase 11 additions
+
+```text
+├── run_phase11_neural_wavefunction_vmc.py  # Phase 11: FermiNet/PauliNet-family neural wavefunction + VMC solver
+├── NEURAL_WAVEFUNCTION_REPORT_EN.md        # Phase 11 English treatise
+├── NEURAL_WAVEFUNCTION_REPORT_ZH.md        # 第十一阶段中文报告
+├── figures_phase11/                        # Phase 11 fig1-fig3 (300 DPI PNG)
+└── results_phase11/                        # Phase 11 outputs (master JSON, FCI/CBS references, per-epoch CSVs, density npz)
 ```
 
 > This repository also preserves the earlier sibling project [`aqueous-solubility-ml-benchmark`](https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark) (ESOL/AqSolDB solubility modeling) in its history — see the initial commit.
