@@ -1,0 +1,39 @@
+{
+ "scan": {
+  "180": {
+   "tag": "azo_phi180",
+   "phi": 180.0,
+   "file": "results_phase8\\azo_phi180.xyz"
+  },
+  "140": {
+   "tag": "azo_phi140",
+   "phi": 140.0,
+   "file": "results_phase8\\azo_phi140.xyz"
+  },
+  "100": {
+   "tag": "azo_phi100",
+   "phi": 100.0,
+   "file": "results_phase8\\azo_phi100.xyz"
+  },
+  "90": {
+   "tag": "azo_phi090",
+   "phi": 90.0,
+   "file": "results_phase8\\azo_phi090.xyz"
+  },
+  "80": {
+   "tag": "azo_phi080",
+   "phi": 80.0,
+   "file": "results_phase8\\azo_phi080.xyz"
+  },
+  "40": {
+   "tag": "azo_phi040",
+   "phi": 40.0,
+   "file": "results_phase8\\azo_phi040.xyz"
+  },
+  "0": {
+   "tag": "azo_phi000",
+   "phi": 0.0,
+   "file": "results_phase8\\azo_phi000.xyz"
+  }
+ }
+}

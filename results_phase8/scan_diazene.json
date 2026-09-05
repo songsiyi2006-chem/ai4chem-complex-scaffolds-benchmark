@@ -1,0 +1,86 @@
+{
+ "scan_torsion": {
+  "180": {
+   "tag": "dia_phi180",
+   "phi": 180.0,
+   "file": "results_phase8\\dia_phi180.xyz"
+  },
+  "160": {
+   "tag": "dia_phi160",
+   "phi": 160.0,
+   "file": "results_phase8\\dia_phi160.xyz"
+  },
+  "140": {
+   "tag": "dia_phi140",
+   "phi": 140.0,
+   "file": "results_phase8\\dia_phi140.xyz"
+  },
+  "120": {
+   "tag": "dia_phi120",
+   "phi": 120.0,
+   "file": "results_phase8\\dia_phi120.xyz"
+  },
+  "100": {
+   "tag": "dia_phi100",
+   "phi": 100.0,
+   "file": "results_phase8\\dia_phi100.xyz"
+  },
+  "90": {
+   "tag": "dia_phi090",
+   "phi": 90.0,
+   "file": "results_phase8\\dia_phi090.xyz"
+  },
+  "80": {
+   "tag": "dia_phi080",
+   "phi": 80.0,
+   "file": "results_phase8\\dia_phi080.xyz"
+  },
+  "60": {
+   "tag": "dia_phi060",
+   "phi": 60.0,
+   "file": "results_phase8\\dia_phi060.xyz"
+  },
+  "40": {
+   "tag": "dia_phi040",
+   "phi": 40.0,
+   "file": "results_phase8\\dia_phi040.xyz"
+  },
+  "20": {
+   "tag": "dia_phi020",
+   "phi": 20.0,
+   "file": "results_phase8\\dia_phi020.xyz"
+  },
+  "0": {
+   "tag": "dia_phi000",
+   "phi": 0.0,
+   "file": "results_phase8\\dia_phi000.xyz"
+  }
+ },
+ "scan_stretch": {
+  "-0.10": {
+   "tag": "dia_stretch-010",
+   "d": -0.1,
+   "file": "results_phase8\\dia_stretch-010.xyz"
+  },
+  "-0.05": {
+   "tag": "dia_stretch-005",
+   "d": -0.05,
+   "file": "results_phase8\\dia_stretch-005.xyz"
+  },
+  "+0.00": {
+   "tag": "dia_stretch+000",
+   "d": 0.0,
+   "file": "results_phase8\\dia_stretch+000.xyz"
+  },
+  "+0.05": {
+   "tag": "dia_stretch+005",
+   "d": 0.05,
+   "file": "results_phase8\\dia_stretch+005.xyz"
+  },
+  "+0.10": {
+   "tag": "dia_stretch+010",
+   "d": 0.1,
+   "file": "results_phase8\\dia_stretch+010.xyz"
+  }
+ }
+}

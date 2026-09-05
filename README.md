@@ -10,6 +10,7 @@
 ![ML potentials](https://img.shields.io/badge/ML%20potential-ANI--2x%20(vs%20Sage%2FMMFF94)-E67E22)
 ![Multireference](https://img.shields.io/badge/Phase%207-CASSCF(2,2)%2Fdef2--SVP-8E44AD)
 ![Wall of Sighs](https://img.shields.io/badge/Quantum--AI-epistemic%20failure%20map-C0392B)
+![Phase 8](https://img.shields.io/badge/Phase%208-TDDFT%20%2B%20MECI%20%2B%20FSSH%20photodynamics-FF69B4)
 ![Self-Driving Lab](https://img.shields.io/badge/Phase%209-Opentrons%20OT--2%20%2B%20closed--loop%20twin-E74C3C)
 ![SDL](https://img.shields.io/badge/Autonomy-50%20robot%20experiments%2C%200%20humans-27AE60)
 
@@ -38,6 +39,8 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 **Phase 8 (part of the Phase-5 world model) — TS-conditioned generative catalyst design**, renumbered here as the 8th pillar of the master architecture: the 3,3′-scaffold evolutionary assembler whose winner catalyst (3,3′-CF₃-Ph/iPr-Ph-BINOL phosphoric acid) is the physical target the Phase-9 robot actually runs.
 
 **Phase 9 — The Self-Driving Lab Compiler: robotic hardware execution & Bayesian closed-loop twin.** The pivot from prediction to embodiment: the Phase-4/5 synthesis world model is (9A) **compiled into Opentrons OT-2 robot code** — `output_ot2_protocol.py` in `opentrons.protocol_api` v2.15 syntax with calibrated liquid classes for volatile DCM / toluene / viscous DMSO / MeOH / EtOH (tuned flow rates, 10 µL air gaps, blow-out, touch-tip, volume-routed P300/P20 dosing), a Temperature-Module deck (4–95 °C), quench + two-stage serial dilution to 1:800 for HPLC, an AutoProtocol **JSON-LD** cloud-lab export, and **three-layer validation up to a real `opentrons_simulate` run (rc = 0)**; (9B) optimized by **safety-constrained multi-objective Bayesian active learning** (maximize yield / minimize E-factor / minimize catalyst cost; exact guardrails: adiabatic ΔT_ad < 30 K, T < T_boil − 15 °C via Antoine–Raoult, microfluidic ΔP < 15 bar — **83.5 % of naive design space is rejected as unsafe**) using Matérn-5/2 GPs + constrained minimax-Tchebycheff q-EI with local penalization: **50 robotic experiments over 8 rounds** converge to **91.9 % yield / 79.9–84.5 % ee** — inside the Phase-5 prediction envelope (89–97 % / 80–91 %); (9C) closed by an **in-line HPLC telemetry twin**: EMG chromatograms A(t, λ) at 210/254/280 nm with dead time, drift and noise, an automated ALS + multi-EMG deconvolution agent quantifying conversion/yield/ee, and a **hallucination audit** bounding measured-vs-truth error at |ΔY| ≤ 2.8 %, |Δee| ≤ 5.6 % across all 50 experiments. Full treatise: [`SELF_DRIVING_LAB_REPORT_EN.md`](./SELF_DRIVING_LAB_REPORT_EN.md) / [`SELF_DRIVING_LAB_REPORT_ZH.md`](./SELF_DRIVING_LAB_REPORT_ZH.md).
+
+**Phase 8 — Beyond the Born–Oppenheimer sea: excited-state photodynamics.** The pipeline leaves the single-surface regime entirely: **TDA-B3LYP/def2-SVP** vertical excitations of *real trans-azobenzene* (10 singlets + triplets, NTO particle–hole pairs, σ = 0.2 eV UV-Vis; S₁ n→π\* 2.36 eV / 526 nm f = 0.044, S₂ π→π\* 4.06 eV / 306 nm f = 0.82) reveal the S₁ funnel collapsing to **0.17 eV at a 90° CNNC torsion**; **SA-CASSCF(4,4) on diazene** (the minimal N=N chromophore) plus a **Bearpark–Robb–Schlegel penalty optimization** converges the S₁/S₀ conical intersection to **ΔE₁₀ = 0.0227 eV in 16 steps** (|g| = 0.371 Eh/Å, h reconstructed by gap-lifting over 52 directions); and a **300-trajectory Tully-FSSH ensemble** (dt = 0.5 fs, 500 fs, exact 2×2 propagator, GP decoherence) on an all-ab-initio-parameterized 2-state/3-mode model yields **τ₁/₂ = 330 fs, Φ_Z = 0.27, Φ_E = 0.35** — inside the experimental azobenzene envelope. See [`PHOTOCHEMISTRY_REPORT_EN.md`](./PHOTOCHEMISTRY_REPORT_EN.md) / [`PHOTOCHEMISTRY_REPORT_ZH.md`](./PHOTOCHEMISTRY_REPORT_ZH.md).
 
 ## Quick Navigation
 
@@ -78,6 +81,10 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 前沿认识论报告（第七阶段） | [`FRONTIER_EPISTEMIC_REPORT_ZH.md`](./FRONTIER_EPISTEMIC_REPORT_ZH.md) |
 | Strong-correlation wall pipeline (Phase 7) | [`run_phase7_strong_correlation_wall.py`](./run_phase7_strong_correlation_wall.py) |
 | Phase 7 wall-of-sighs record / table | `results_phase7/phase7_results.json`, `results_phase7/phase7_scan_summary.csv` |
+| 🇬🇧 Photochemistry report (Phase 8) | [`PHOTOCHEMISTRY_REPORT_EN.md`](./PHOTOCHEMISTRY_REPORT_EN.md) |
+| 🇨🇳 光化学报告（第八阶段） | [`PHOTOCHEMISTRY_REPORT_ZH.md`](./PHOTOCHEMISTRY_REPORT_ZH.md) |
+| Photodynamics pipeline (Phase 8) | [`run_phase8_photochemical_dynamics.py`](./run_phase8_photochemical_dynamics.py) |
+| Phase 8 record / geometries / cubes | `results_phase8/phase8_results.json`, `results_phase8/meci.xyz`, `results_phase8/nto_cubes/**.cube`, `results_phase8/fssh_population.npz` |
 | 🇬🇧 Self-driving lab report (Phase 9) | [`SELF_DRIVING_LAB_REPORT_EN.md`](./SELF_DRIVING_LAB_REPORT_EN.md) |
 | 🇨🇳 自驱动实验室报告（第九阶段） | [`SELF_DRIVING_LAB_REPORT_ZH.md`](./SELF_DRIVING_LAB_REPORT_ZH.md) |
 | Self-driving lab compiler (Phase 9) | [`run_phase9_self_driving_lab_compiler.py`](./run_phase9_self_driving_lab_compiler.py) |
@@ -239,6 +246,18 @@ Scissile C6–C9 bond of cyclopropa[b]indole stretched 1.40 → 3.20 Å (relaxed
 
 **Figures:** [spin contamination & ST-gap collapse](./figures_phase7/fig1_spin_contamination_profile.png) · [CASSCF natural orbitals + NOON evolution](./figures_phase7/fig2_casscf_frontier_orbitals.png) · [the Wall of Sighs discrepancy map](./figures_phase7/fig3_the_wall_of_sighs_discrepancy.png)
 
+## Phase 8 — Excited-State Photochemistry, Conical Intersections & Non-Adiabatic Dynamics
+
+The Born–Oppenheimer pivot: real-chromophore TD-DFT + minimal-chromophore MECI + surface-hopping photodynamics (`run_phase8_photochemical_dynamics.py`; multi-interpreter orchestration, checkpoint-resume against this Psi4 build's DETCI hard aborts, finite-difference CASSCF gradients where analytic gradients return silent zeros).
+
+| Module | Headline result |
+|---|---|
+| **8A azobenzene TD-DFT** | S₁ n→π\* **2.357 eV / 526 nm, f = 0.044** (hole 63 % N — NTO-verified); S₂ π→π\* **4.057 eV / 306 nm, f = 0.82**; σ = 0.2 eV simulated UV-Vis with the UVA isomerization band; rigid torsion scan: S₁ collapses **2.30 → 0.17 eV at φ = 90°** |
+| **8B diazene MECI** | SA-CASSCF(4,4)/6-31G + Bearpark–Robb–Schlegel penalty: **ΔE₁₀ = 0.0227 eV in 16 steps** (gate 0.05 eV); branching space **\|g\| = 0.371 Eh/Å**, h = 0.157 Eh/Å by directional gap-lifting (localized state-overlap fallback, 52 directions); seam pinned on the N=N-lengthening side where the S₀ surface softens (230 cm⁻¹) |
+| **8C Tully-FSSH** | 300 trajectories, dt = 0.5 fs, 500 fs on an all-ab-initio 2-state/3-mode model (mirror-anchored torsional diabats, CAS stretch-relaxation spline, h-vector-projected couplings, GP decoherence): **τ₁/₂ = 330 fs, τ_exp = 350 fs, Φ_Z = 0.27, Φ_E = 0.35** (203 hops, 4 frustrated) |
+
+**Figures:** [UV-Vis spectrum + NTO pairs + torsion funnel](./figures_phase8/fig1_uv_vis_absorption_spectrum.png) · [CI double cone + branching plane](./figures_phase8/fig2_conical_intersection_topology.png) · [FSSH populations & quantum yields](./figures_phase8/fig3_fssh_population_trajectories.png)
+
 ## Phase 9 — Self-Driving Lab Compiler (OT-2 Execution & Closed-Loop Twin)
 
 `run_phase9_self_driving_lab_compiler.py` — three modules, one JSON contract:
@@ -264,6 +283,20 @@ Scissile C6–C9 bond of cyclopropa[b]indole stretched 1.40 → 3.20 Å (relaxed
 **Fig. P7-3 — The Wall of Sighs: six theoretical lenses on one homolysis trajectory**
 
 ![Wall of sighs](./figures_phase7/fig3_the_wall_of_sighs_discrepancy.png)
+
+### Phase 8 Figure Previews
+
+**Fig. P8-1 — Simulated UV-Vis spectrum, NTO particle–hole pairs & the torsional funnel of trans-azobenzene**
+
+![UV-Vis spectrum](./figures_phase8/fig1_uv_vis_absorption_spectrum.png)
+
+**Fig. P8-2 — The S₁/S₀ conical intersection: double cone, branching plane & penalty-MECI convergence**
+
+![Conical intersection topology](./figures_phase8/fig2_conical_intersection_topology.png)
+
+**Fig. P8-3 — Tully-FSSH photodynamics: population decay, hop statistics & quantum yields**
+
+![FSSH photodynamics](./figures_phase8/fig3_fssh_population_trajectories.png)
 
 ### Phase 9 Figure Previews
 
