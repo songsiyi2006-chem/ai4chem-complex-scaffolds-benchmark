@@ -1,0 +1,39 @@
+{
+ "geometry": "N 0.00 0.00 1.08\nC 0.00 1.24 0.62\nN 0.00 1.30 -0.76\nC 0.00 0.10 -1.24\nC 0.00 -1.10 -0.42\nH 0.00 -0.02 2.08\nH 0.00 2.15 1.22\nH 0.00 0.20 -2.32\nH 0.00 -2.10 -0.62",
+ "charge": 1,
+ "multiplicity": 2,
+ "tiers": [
+  [
+   "BP86",
+   "def2-SVP"
+  ],
+  [
+   "B3LYP",
+   "def2-SVP"
+  ],
+  [
+   "HF",
+   "def2-SVP"
+  ]
+ ],
+ "memory": "2 GB",
+ "threads": 8,
+ "maxiter": 300,
+ "npz": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a2_imid_radcat.npz",
+ "json": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a2_imid_radcat.json",
+ "out_log": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a2_imid_radcat.out",
+ "tiers_key": [
+  [
+   "BP86",
+   "def2-SVP"
+  ],
+  [
+   "B3LYP",
+   "def2-SVP"
+  ],
+  [
+   "HF",
+   "def2-SVP"
+  ]
+ ]
+}

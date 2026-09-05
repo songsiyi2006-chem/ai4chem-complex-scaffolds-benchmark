@@ -1,0 +1,31 @@
+{
+ "converged": true,
+ "tier": [
+  "B3LYP",
+  "def2-SVP"
+ ],
+ "fallback": null,
+ "spec_tiers": [
+  [
+   "BP86",
+   "def2-SVP"
+  ],
+  [
+   "B3LYP",
+   "def2-SVP"
+  ],
+  [
+   "HF",
+   "def2-SVP"
+  ]
+ ],
+ "E": -1998.2567233345453,
+ "E_accepted": -1998.2569417466739,
+ "E_bracket_eH": 0.00021841212947038002,
+ "acceptance": "plateau",
+ "S2": 0.0,
+ "seconds": 289.3675971031189,
+ "rho0_total": 11190.20414231272,
+ "rho0_spin": 0.520879510046143,
+ "compute_phi_ok": true
+}

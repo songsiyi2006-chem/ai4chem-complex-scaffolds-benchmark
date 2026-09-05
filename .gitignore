@@ -58,3 +58,4 @@ results_phase6/*.chk
 results_phase8/nto_cubes/
 results_phase8/_probe/
 results_phase8/_xtb_*/
+results_phase13/_scratch_*/

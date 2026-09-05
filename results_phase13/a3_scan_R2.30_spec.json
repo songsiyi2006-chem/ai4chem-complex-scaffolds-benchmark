@@ -1,0 +1,39 @@
+{
+ "geometry": "Fe 0.0 0.0 0.0\nO  0.0 0.0 1.625\nN  2.00 0.0 0.0\nN -2.00 0.0 0.0\nN  0.0 2.00 0.0\nN  0.0 -2.00 0.0\nH  2.82 0.65 0.35\nH -2.82 -0.65 0.35\nH  0.65 2.82 0.35\nH -0.65 -2.82 0.35\nS  0.0 0.0 -2.32\nH  0.42 0.28 -3.64\nC  0.0 0.0 5.0150\nH  0.0 0.0 3.9250\nH  0.9416 0.0 5.3764\nH -0.4708 0.8154 5.3764\nH -0.4708 -0.8154 5.3764",
+ "charge": 1,
+ "multiplicity": 3,
+ "tiers": [
+  [
+   "BP86",
+   "def2-SVP"
+  ],
+  [
+   "B3LYP",
+   "def2-SVP"
+  ],
+  [
+   "HF",
+   "def2-SVP"
+  ]
+ ],
+ "memory": "2 GB",
+ "threads": 8,
+ "maxiter": 300,
+ "npz": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a3_scan_R2.30.npz",
+ "json": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a3_scan_R2.30.json",
+ "out_log": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a3_scan_R2.30.out",
+ "tiers_key": [
+  [
+   "BP86",
+   "def2-SVP"
+  ],
+  [
+   "B3LYP",
+   "def2-SVP"
+  ],
+  [
+   "HF",
+   "def2-SVP"
+  ]
+ ]
+}

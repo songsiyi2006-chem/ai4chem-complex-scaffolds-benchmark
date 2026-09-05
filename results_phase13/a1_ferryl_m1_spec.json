@@ -1,0 +1,43 @@
+{
+ "geometry": "Fe 0.0 0.0 0.0\nO  0.0 0.0 1.625\nN  2.00 0.0 0.0\nN -2.00 0.0 0.0\nN  0.0 2.00 0.0\nN  0.0 -2.00 0.0\nH  2.82 0.65 0.35\nH -2.82 -0.65 0.35\nH  0.65 2.82 0.35\nH -0.65 -2.82 0.35\nS  0.0 0.0 -2.32\nH  0.42 0.28 -3.64",
+ "charge": 1,
+ "multiplicity": 1,
+ "tiers": [
+  [
+   "BP86",
+   "def2-SVP"
+  ],
+  [
+   "B3LYP",
+   "def2-SVP"
+  ],
+  [
+   "HF",
+   "def2-SVP"
+  ]
+ ],
+ "memory": "2 GB",
+ "threads": 8,
+ "maxiter": 300,
+ "npz": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a1_ferryl_m1.npz",
+ "json": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a1_ferryl_m1.json",
+ "out_log": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase13\\a1_ferryl_m1.out",
+ "density_grid": {
+  "box": 4.2,
+  "step": 0.3
+ },
+ "tiers_key": [
+  [
+   "BP86",
+   "def2-SVP"
+  ],
+  [
+   "B3LYP",
+   "def2-SVP"
+  ],
+  [
+   "HF",
+   "def2-SVP"
+  ]
+ ]
+}

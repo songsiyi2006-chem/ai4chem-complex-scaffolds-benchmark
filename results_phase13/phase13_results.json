@@ -1,0 +1,600 @@
+{
+ "phase": 13,
+ "title": "Bioinorganic PCET quantum engine, proton tunneling & operando spectroscopic twin",
+ "timestamp": "2026-09-06T06:48:01.142577",
+ "wall_minutes": 28.84888921181361,
+ "backend": {
+  "protocol": "PySCF UKS",
+  "substituted": "psi4 1.11 win-64 (phase7 env), Phase-7 fallback doctrine",
+  "reason": "PySCF ships no win32 wheel / MSVC toolchain on this host"
+ },
+ "module_13A": {
+  "ladder": {
+   "5": {
+    "converged": true,
+    "tier": [
+     "BP86",
+     "def2-SVP"
+    ],
+    "fallback": null,
+    "spec_tiers": [
+     [
+      "BP86",
+      "def2-SVP"
+     ],
+     [
+      "B3LYP",
+      "def2-SVP"
+     ],
+     [
+      "HF",
+      "def2-SVP"
+     ]
+    ],
+    "E": -1957.4573051407601,
+    "E_accepted": -1957.4573051407601,
+    "E_bracket_eH": null,
+    "acceptance": "energy",
+    "S2": 0.0,
+    "seconds": 140.2680380344391,
+    "rho0_total": 11190.573743144934,
+    "rho0_spin": 0.13540955225289508,
+    "compute_phi_ok": true,
+    "wall": 346.0176451206207,
+    "backend": "psi4 1.11 win-64 (phase7 env); PySCF protocol backend unavailable on win32 - Phase-7 doctrine substitution logged",
+    "S2_sz_estimate": 4.514532448969721
+   },
+   "3": {
+    "converged": true,
+    "tier": [
+     "B3LYP",
+     "def2-SVP"
+    ],
+    "fallback": null,
+    "spec_tiers": [
+     [
+      "B3LYP",
+      "def2-SVP"
+     ]
+    ],
+    "E": -1957.8730429047628,
+    "E_accepted": -1957.8739343155887,
+    "E_bracket_eH": 0.0008914108282169764,
+    "acceptance": "plateau",
+    "S2": 0.0,
+    "seconds": 164.45876216888428,
+    "rho0_total": 11190.27968248217,
+    "rho0_spin": -0.1748684088443042,
+    "compute_phi_ok": true,
+    "wall": 166.8091859817505,
+    "backend": "psi4 1.11 win-64 (phase7 env); PySCF protocol backend unavailable on win32 - Phase-7 doctrine substitution logged",
+    "S2_sz_estimate": 2.007156965115827
+   },
+   "1": {
+    "converged": true,
+    "tier": [
+     "BP86",
+     "def2-SVP"
+    ],
+    "fallback": null,
+    "spec_tiers": [
+     [
+      "BP86",
+      "def2-SVP"
+     ],
+     [
+      "B3LYP",
+      "def2-SVP"
+     ],
+     [
+      "HF",
+      "def2-SVP"
+     ]
+    ],
+    "E": -1946.8364207639956,
+    "E_accepted": -1946.8364207639956,
+    "E_bracket_eH": null,
+    "acceptance": "energy",
+    "S2": 0.0,
+    "seconds": 139.5328459739685,
+    "rho0_total": 11193.324909818308,
+    "rho0_spin": 9.094947017729282e-13,
+    "compute_phi_ok": true,
+    "wall": 286.60733795166016,
+    "backend": "psi4 1.11 win-64 (phase7 env); PySCF protocol backend unavailable on win32 - Phase-7 doctrine substitution logged",
+    "S2_sz_estimate": -1.0658141036400367e-13
+   }
+  },
+  "ladder_tier_groups": {
+   "BP86/def2-SVP": 1
+  },
+  "dE_hilo_eV": null,
+  "dE_hilo_source": "no same-functional (S=1, S=2) pair converged on this backend: B3LYP plateau-bracketed S=1 = -1957.8739 Eh, BP86 energy-converged S=2 = -1957.4573 Eh are not subtractable across functionals; literature anchor for Fe(IV)=O porphyrin: intermediate spin (S=1) ground state, dE_hilo ~ -0.1 to -0.35 eV",
+  "imidazole": {
+   "converged": true,
+   "tier": [
+    "BP86",
+    "def2-SVP"
+   ],
+   "fallback": null,
+   "spec_tiers": [
+    [
+     "BP86",
+     "def2-SVP"
+    ],
+    [
+     "B3LYP",
+     "def2-SVP"
+    ],
+    [
+     "HF",
+     "def2-SVP"
+    ]
+   ],
+   "E": -225.50131845408572,
+   "E_accepted": -225.50131845408572,
+   "E_bracket_eH": null,
+   "acceptance": "energy",
+   "S2": 0.0,
+   "seconds": 82.84352421760559,
+   "save_error": "__array__interface__ can only be called on Psi4 data object with only one irrep!",
+   "extras_error": "__array__interface__ can only be called on Psi4 data object with only one irrep!",
+   "wall": 84.27001118659973,
+   "backend": "psi4 1.11 win-64 (phase7 env); PySCF protocol backend unavailable on win32 - Phase-7 doctrine substitution logged"
+  },
+  "scan": [
+   {
+    "R_OH": 2.3,
+    "converged": true,
+    "tier": [
+     "BP86",
+     "def2-SVP"
+    ],
+    "fallback": null,
+    "spec_tiers": [
+     [
+      "BP86",
+      "def2-SVP"
+     ],
+     [
+      "B3LYP",
+      "def2-SVP"
+     ],
+     [
+      "HF",
+      "def2-SVP"
+     ]
+    ],
+    "E": -1998.5682561114688,
+    "E_accepted": -1998.5682561114688,
+    "E_bracket_eH": null,
+    "acceptance": "energy",
+    "S2": 0.0,
+    "seconds": 205.17956519126892,
+    "rho0_total": 11190.42854682802,
+    "rho0_spin": -0.1778887958280393,
+    "compute_phi_ok": true,
+    "wall": 206.47799277305603,
+    "backend": "psi4 1.11 win-64 (phase7 env); PySCF protocol backend unavailable on win32 - Phase-7 doctrine substitution logged",
+    "spin_Fe": 1.137172252629466,
+    "spin_O": 0.5539102770602966,
+    "spin_S": 0.6051222829615643,
+    "spin_C_fragment": 0.0012079630650219928
+   },
+   {
+    "R_OH": 1.25,
+    "converged": true,
+    "tier": [
+     "BP86",
+     "def2-SVP"
+    ],
+    "fallback": null,
+    "spec_tiers": [
+     [
+      "BP86",
+      "def2-SVP"
+     ],
+     [
+      "B3LYP",
+      "def2-SVP"
+     ],
+     [
+      "HF",
+      "def2-SVP"
+     ]
+    ],
+    "E": -1994.7153277887255,
+    "E_accepted": -1994.7153277887255,
+    "E_bracket_eH": null,
+    "acceptance": "energy",
+    "S2": 0.0,
+    "seconds": 217.81421637535095,
+    "rho0_total": 11190.797744252115,
+    "rho0_spin": -0.039837176527726115,
+    "compute_phi_ok": true,
+    "wall": 219.16931343078613,
+    "backend": "psi4 1.11 win-64 (phase7 env); PySCF protocol backend unavailable on win32 - Phase-7 doctrine substitution logged",
+    "spin_Fe": 0.13628317717486274,
+    "spin_O": 0.028639879784043684,
+    "spin_S": 0.07132534922561147,
+    "spin_C_fragment": 0.03919964445483108
+   },
+   {
+    "R_OH": 0.99,
+    "converged": true,
+    "tier": [
+     "B3LYP",
+     "def2-SVP"
+    ],
+    "fallback": null,
+    "spec_tiers": [
+     [
+      "BP86",
+      "def2-SVP"
+     ],
+     [
+      "B3LYP",
+      "def2-SVP"
+     ],
+     [
+      "HF",
+      "def2-SVP"
+     ]
+    ],
+    "E": -1998.2567233345453,
+    "E_accepted": -1998.2569417466739,
+    "E_bracket_eH": 0.00021841212947038002,
+    "acceptance": "plateau",
+    "S2": 0.0,
+    "seconds": 289.3675971031189,
+    "rho0_total": 11190.20414231272,
+    "rho0_spin": 0.520879510046143,
+    "compute_phi_ok": true,
+    "wall": 430.0336003303528,
+    "backend": "psi4 1.11 win-64 (phase7 env); PySCF protocol backend unavailable on win32 - Phase-7 doctrine substitution logged",
+    "spin_Fe": 2.3355138254793353,
+    "spin_O": 0.40830635735037474,
+    "spin_S": 0.5951011342267757,
+    "spin_C_fragment": 0.4274799243142663
+   }
+  ],
+  "scan_fit": {
+   "tier": [
+    "BP86",
+    "def2-SVP"
+   ],
+   "coef": [
+    -3.66945554547009,
+    -1990.1285083568876
+   ],
+   "Rs_A": [
+    1.25,
+    2.3
+   ],
+   "Es_rel_eV": [
+    3.8529283227433098,
+    0.0
+   ],
+   "interpretation": "rigid H-bond compression wall (Pauli); radical migration is the physical observable here"
+  },
+  "spin_migration": {
+   "R=2.30": {
+    "spin_C_fragment": 0.0012079630650219928,
+    "spin_Fe": 1.137172252629466,
+    "spin_O": 0.5539102770602966,
+    "spin_S": 0.6051222829615643
+   },
+   "R=1.25": {
+    "spin_C_fragment": 0.03919964445483108,
+    "spin_Fe": 0.13628317717486274,
+    "spin_O": 0.028639879784043684,
+    "spin_S": 0.07132534922561147
+   }
+  },
+  "dE_hilo_tier": null,
+  "dE_hilo_note": "same-tier B3LYP pair from the targeted finalize pass"
+ },
+ "module_13B": {
+  "k_H_300": 3.4687755525464366e-06,
+  "k_D_300": 9.396711142241913e-08,
+  "KIE_300": 36.91478326872182,
+  "k_H_300_fixed_geometry": 2.289353332804497e-07,
+  "k_D_300_fixed_geometry": 2.366641467211015e-09,
+  "well_acceptor_A": 1.02,
+  "well_donor_A": 1.7200000000000002,
+  "r_mid_A": 1.3524000000001464,
+  "S_00_reference_geometry": 7.07980434402707e-09,
+  "gating_sigma_A": 0.12,
+  "gating_Q_max_A": 0.36,
+  "zpe_H_eV": -4.419118716578071,
+  "nu_OH_diabat_cm": 2319.0,
+  "tunneling_splitting_H_cm": 1165.2672986542455,
+  "tunneling_splitting_D_cm": 1209.2370776373516,
+  "eps_H_eV": [
+   -4.419118716578071,
+   -4.274643985716241,
+   -4.145502097596418,
+   -4.034862691969559,
+   -3.8967749253473416,
+   -3.7314497026801887,
+   -3.544676407171441,
+   -3.340259378098005,
+   -3.1203561927943166,
+   -2.8865449659879836,
+   -2.6400402812225763,
+   -2.3818198193283395
+  ],
+  "eps_D_eV": [
+   -4.464503573038786,
+   -4.314577284416797,
+   -4.251828003156492,
+   -4.134222877776988,
+   -4.079468462584837,
+   -3.984170268370665,
+   -3.8831478131523887,
+   -3.7660240365593323,
+   -3.6385231342858266,
+   -3.5014757910527288,
+   -3.3559199610007235,
+   -3.2025746103783983
+  ],
+  "temps": [
+   250.0,
+   255.0,
+   260.0,
+   265.0,
+   270.0,
+   275.0,
+   280.0,
+   285.0,
+   290.0,
+   295.0,
+   300.0,
+   305.0,
+   310.0,
+   315.0,
+   320.0,
+   325.0,
+   330.0,
+   335.0,
+   340.0,
+   345.0,
+   350.0
+  ],
+  "kH_T": [
+   4.3371019529100574e-07,
+   5.542172191336196e-07,
+   7.014567574976762e-07,
+   8.798351209235482e-07,
+   1.0942147407891075e-06,
+   1.3499263149711357e-06,
+   1.6527782090051372e-06,
+   2.009063134923478e-06,
+   2.425562182333269e-06,
+   2.909546323193374e-06,
+   3.4687755525464366e-06,
+   4.111495861800619e-06,
+   4.846434268914394e-06,
+   5.6827921510867294e-06,
+   6.630237140532424e-06,
+   7.698893852987778e-06,
+   8.899333722207735e-06,
+   1.0242564212406534e-05,
+   1.1740017674928947e-05,
+   1.3403540106008246e-05,
+   1.5245380049856092e-05
+  ],
+  "kD_T": [
+   1.1079162162493546e-08,
+   1.4214233131926274e-08,
+   1.8069310534943708e-08,
+   2.277236145017224e-08,
+   2.846766250279017e-08,
+   3.531713726424256e-08,
+   4.350177633116064e-08,
+   5.3223152262601014e-08,
+   6.470504264332853e-08,
+   7.819517542992648e-08,
+   9.396711142241913e-08,
+   1.1232227918920519e-07,
+   1.335921780647032e-07,
+   1.5814076494804454e-07,
+   1.8636704057100177e-07,
+   2.1870785068918827e-07,
+   2.556409172984668e-07,
+   2.9768811450456826e-07,
+   3.454190030939e-07,
+   3.99454637182447e-07,
+   4.6047165557131564e-07
+  ],
+  "KIE_T": [
+   39.14647957399264,
+   38.99030035526887,
+   38.82033883590354,
+   38.63609502460684,
+   38.437112308812196,
+   38.22298236889918,
+   37.99334989043287,
+   37.747917015715956,
+   37.48644747370951,
+   37.20877032625528,
+   36.91478326872182,
+   36.60445542486604,
+   36.277829578967584,
+   35.935023793224666,
+   35.57623236500581,
+   35.20172608677357,
+   34.8118517812137,
+   34.40703109512071,
+   33.98775854766014,
+   33.55459884143568,
+   33.1081834579826
+  ],
+  "Ea_H_meV": 268.68580165855946,
+  "Ea_D_meV": 276.62612865832415,
+  "grid_convergence": [
+   {
+    "dx_A": 0.0024,
+    "n": 1667,
+    "E0_eV": -4.419122741505769,
+    "E1_eV": -4.274647170460885
+   },
+   {
+    "dx_A": 0.0012,
+    "n": 3334,
+    "E0_eV": -4.419119521540795,
+    "E1_eV": -4.274644622650298
+   },
+   {
+    "dx_A": 0.0006,
+    "n": 6667,
+    "E0_eV": -4.419118716578071,
+    "E1_eV": -4.274643985716241
+   },
+   {
+    "dx_A": 0.0003,
+    "n": 13334,
+    "E0_eV": -4.419118515341197,
+    "E1_eV": -4.274643826496451
+   }
+  ]
+ },
+ "module_13C": {
+  "field_mean_GV_per_m": -332.3500192507618,
+  "field_std_GV_per_m": 171.0209069642087,
+  "gap_sigma_eV": 1.396376016371291,
+  "lam_fast_bare_eV": 37.71209181504104,
+  "lam_fast_eV": 0.5892514346100163,
+  "continuum_two_sphere_eV": {
+   "4": 0.3740155844155843,
+   "6": 0.4986874458874458,
+   "8": 0.5610233766233764,
+   "10": 0.5984249350649349,
+   "15": 0.6482936796536795,
+   "20": 0.6732280519480518,
+   "30": 0.698162424242424
+  },
+  "eps_grid": [
+   4,
+   6,
+   8,
+   10,
+   15,
+   20,
+   30
+  ],
+  "lam_protein_eV_by_eps": {
+   "4": 2.7310213228556495,
+   "6": 1.546245551860808,
+   "8": 1.1502748112333927,
+   "10": 0.9755458532153454,
+   "15": 0.8159029766094175,
+   "20": 0.7675082814856544,
+   "30": 0.7400647484813585
+  },
+  "lam_protein_eV": 1.1219922982297408,
+  "n_frames": 500,
+  "solvent_model": "TIP3P explicit bath (rigid HBonds, OBC2 unavailable for this FF)",
+  "engine": "OpenMM 8.6, CPU platform, 300 K",
+  "frames_xyz": "ndarray(500, 18, 3)"
+ },
+ "module_13D": {
+  "spin_populations_S1": {
+   "Fe": 1.7062440868610882,
+   "O_oxo": 0.7100492743823537,
+   "N4_sum": 4.717218888574857,
+   "S_thiolate": 0.7104713914427259,
+   "rho0_total_Fe": 11190.329983015654,
+   "rho0_spin_Fe": 0.14860419625074428
+  },
+  "lf_gaps_cm": [
+   818.1379846096293,
+   890.6149345162185,
+   975.8366803415249
+  ],
+  "g_tensor_abinitio_gaps": [
+   1.748178416859536,
+   1.723860016977363,
+   2.6085740062960783
+  ],
+  "g_tensor_envelope_fitted": [
+   1.5812487087544556,
+   1.5409570295082315,
+   3.0067858856415075
+  ],
+  "kappa_fit": 1.0272403305191034,
+  "kappa_note": "the CPO anisotropy (g_max 2.84) needs an effective covalency beyond the sigma-donor proxy; the simulated spectrum is the radical-like limit, benchmarked against both the CPO anisotropic set and the radical-like set",
+  "literature_g": {
+   "CPO_Cpd_I_benchmark": [
+    2.84,
+    2.27,
+    1.57
+   ],
+   "HRP_Cpd_I_radical_like": [
+    2.0038,
+    2.0038,
+    2.0038
+   ]
+  },
+  "A_57Fe": {
+   "A_iso_MHz": 21.568273145207723,
+   "A_dip_z_MHz": 0.5927973895164291,
+   "A_z_MHz": 22.161070534724153,
+   "A_x_MHz": 21.27187445044951
+  },
+  "A_14N_shf_MHz": 49.530798330036,
+  "moessbauer": {
+   "alpha_mm_s_per_a0_3": -0.245,
+   "anchor_delta_mm_s": 0.14,
+   "rho0_S1": 11190.329983015654,
+   "delta_S1": 0.14,
+   "rho0_S2": 11190.573743144934,
+   "delta_S2": 0.08027876832629774,
+   "Vzz_val_a0_3": 1.5360000000000003,
+   "dEQ_mm_s": 1.1782778606041806,
+   "eta": 0.25
+  },
+  "moessbauer_bands": {
+   "Cpd_I_FeIV_oxo_porphyrin_radical": {
+    "delta": [
+     0.08,
+     0.18
+    ],
+    "dEQ": [
+     0.9,
+     1.6
+    ]
+   },
+   "Cpd_II_FeIVOFeOH": {
+    "delta": [
+     0.18,
+     0.22
+    ],
+    "dEQ": [
+     1.0,
+     1.8
+    ]
+   },
+   "FeIIIOH_hydroxo_product": {
+    "delta": [
+     0.3,
+     0.45
+    ],
+    "dEQ": [
+     0.5,
+     1.2
+    ]
+   }
+  }
+ },
+ "config": {
+  "n_wire": 6,
+  "R_oc": 2.8,
+  "dG_eV": -0.16,
+  "barrier_eV": 0.4,
+  "lam_inner_eV": 0.3,
+  "V_el_cm": 1000.0,
+  "g_kappa": 0.62,
+  "lam_total_eV": 1.4219922982297408
+ }
+}
