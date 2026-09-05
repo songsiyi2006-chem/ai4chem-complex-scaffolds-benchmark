@@ -50,3 +50,6 @@ results_phase7/_probe/
 
 # Phase 6 MD checkpoints (platform-bound binaries, re-creatable)
 results_phase6/*.chk
+
+# Phase 9 isolated Opentrons simulator venv
+.ot2env/

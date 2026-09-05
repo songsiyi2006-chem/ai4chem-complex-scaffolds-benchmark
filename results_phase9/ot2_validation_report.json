@@ -1,0 +1,20 @@
+{
+  "round1": {
+    "path": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\output_ot2_protocol.py",
+    "py_compile": "PASS",
+    "ast_audit": "PASS",
+    "ast_findings": [],
+    "opentrons_simulate_binary": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\.ot2env\\Scripts\\opentrons_simulate.exe",
+    "opentrons_simulate_attempts": [],
+    "opentrons_simulate": "PASS (opentrons_simulate rc=0)"
+  },
+  "champion": {
+    "path": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase9\\output_ot2_protocol_champion.py",
+    "py_compile": "PASS",
+    "ast_audit": "PASS",
+    "ast_findings": [],
+    "opentrons_simulate_binary": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\.ot2env\\Scripts\\opentrons_simulate.exe",
+    "opentrons_simulate_attempts": [],
+    "opentrons_simulate": "PASS (opentrons_simulate rc=0)"
+  }
+}

@@ -1,0 +1,6355 @@
+{
+  "phase": 9,
+  "title": "Self-driving lab compiler: Opentrons OT-2 hardware execution & Bayesian closed-loop analytical twin",
+  "timestamp": "2026-09-05T08:18:58",
+  "phase5_anchor": {
+    "source_results": "results_phase5/phase5_results.json",
+    "reaction": "2-methyl-azirino[1,2-a]indole -> (R)-3-methyl-2,3-dihydroquinoline-imine + (S)-enantiomer (C10H11N asymmetric ring expansion)",
+    "catalyst": "3,3'-bis(4-CF3-phenyl)/3-[(iPr)phenyl]-BINOL phosphoric acid (Phase-5C designed winner)",
+    "catalyst_smiles": "O=P1(O)Oc2c(c3ccc(C(F)(F)F)cc3)cc3ccccc3c2-c2c(c3cc(C(C)C)ccc3)cc3ccccc3c2O1",
+    "dG_rds_kcal_mol": 21.243508754690993,
+    "ddG_stereo_kcal_mol": 1.5,
+    "reference_298K_yield_pct": 95.39,
+    "reference_298K_ee_pct": 85.27,
+    "dG_rxn_kcal_mol": -2.9412558148324024,
+    "substrate_MW": 171.2,
+    "product_MW": 145.2,
+    "catalyst_MW": 634.62,
+    "solvent_system": "DCM / toluene blend, 200 uL micro-scale wells"
+  },
+  "surrogate_ledger_assigned": {
+    "dG_solv_amp_kcal": 1.3,
+    "dG_bg_kcal": 27.0,
+    "cat_aggregation_molpct": 7.0,
+    "cat_aggregation_depth": 0.3,
+    "side_pre": 0.035,
+    "side_T_scale_K": 32.0,
+    "side_phi_gain": 0.55,
+    "dH_eff_kJ_mol": 72.0,
+    "well_volume_uL": 200.0,
+    "substrate_stock_M": 0.5,
+    "substrate_volume_uL": 40.0,
+    "catalyst_stock_mM": 25.0,
+    "quench_volume_uL": 20.0,
+    "is_stock_mM": 200.0,
+    "rho_dcm": 1.326,
+    "rho_tol": 0.867,
+    "rho_meoh": 0.792,
+    "cp_dcm": 0.12,
+    "cp_tol": 1.7,
+    "catalyst_price_usd_mmol": 480.0,
+    "yield_noise_pct": 1.2,
+    "ee_noise_pct": 1.5,
+    "efactor_noise_frac": 0.02,
+    "R_cal": 0.00198720425864083,
+    "kB_over_h_per_s": 6212371900000.0
+  },
+  "module_9A": {
+    "target_platform": "Opentrons OT-2, protocol API v2.15",
+    "deck_layout": {
+      "1": {
+        "labware": "opentrons_96_tiprack_300ul",
+        "alias": "P300 tip rack (filter)",
+        "role": "tips_p300"
+      },
+      "2": {
+        "labware": "opentrons_96_tiprack_20ul",
+        "alias": "P20 tip rack (filter)",
+        "role": "tips_p20"
+      },
+      "3": {
+        "labware": "usascientific_12_reservoir_22ml",
+        "alias": "Solvent reservoir",
+        "role": "solvents",
+        "wells": {
+          "A1": "DCM",
+          "A2": "toluene",
+          "A3": "HPLC diluent",
+          "A4": "MeOH (quench)",
+          "A5": "EtOH (rinse)",
+          "A6": "empty reserve"
+        }
+      },
+      "4": {
+        "labware": "usascientific_12_reservoir_22ml",
+        "alias": "Reagent reservoir",
+        "role": "reagents",
+        "wells": {
+          "A1": "substrate stock 0.50 M in toluene",
+          "A2": "catalyst stock 25 mM in toluene (Phase-5C winner CPA)",
+          "A3": "IS stock 200 mM TMB in DMSO"
+        }
+      },
+      "7": {
+        "labware": "opentrons_96_wellplate_200ul_pcr_full_skirt",
+        "alias": "Reaction plate (96 x 200 uL PCR) on Temperature Module GEN2",
+        "role": "reaction_plate",
+        "module": "temperature module gen2",
+        "module_range_c": [
+          4.0,
+          95.0
+        ]
+      },
+      "9": {
+        "labware": "opentrons_24_aluminumblock_nest_1.5ml_snapcap",
+        "alias": "Aluminum block: sealed catalyst master stock (1.5 mL, A1)",
+        "role": "stock_block"
+      },
+      "11": {
+        "labware": "opentrons_24_tuberack_eppendorf_1.5ml_safelock_snapcap",
+        "alias": "HPLC vial rack (2 vials per experiment: 1:40 + 1:20 serial dilution)",
+        "role": "hplc_vials"
+      },
+      "12": {
+        "labware": "opentrons_fixed_trash",
+        "alias": "Fixed trash (slot 12)",
+        "role": "trash"
+      }
+    },
+    "liquid_classes": {
+      "dcm": {
+        "label": "DCM (dichloromethane, volatile)",
+        "rho_g_ml": 1.326,
+        "viscosity_mPas": 0.43,
+        "bp_c": 39.6,
+        "vapor_pressure_mbar_20c": 473,
+        "aspirate_ul_s": 35,
+        "dispense_ul_s": 50,
+        "air_gap_ul": 10,
+        "prewet_cycles": 2,
+        "mix_reps": 0,
+        "touch_tip": true,
+        "tip_immersion_mm": 6,
+        "note": "vapor-lock prone: slow aspirate, deep tip immersion, immediate dispense, 10 uL air gap"
+      },
+      "toluene": {
+        "label": "Toluene (anhydrous)",
+        "rho_g_ml": 0.867,
+        "viscosity_mPas": 0.59,
+        "bp_c": 110.6,
+        "vapor_pressure_mbar_20c": 29,
+        "aspirate_ul_s": 70,
+        "dispense_ul_s": 90,
+        "air_gap_ul": 10,
+        "prewet_cycles": 2,
+        "mix_reps": 0,
+        "touch_tip": true,
+        "tip_immersion_mm": 4,
+        "note": "reference organic class"
+      },
+      "dmso": {
+        "label": "DMSO (internal-standard stock carrier, viscous)",
+        "rho_g_ml": 1.1,
+        "viscosity_mPas": 1.99,
+        "bp_c": 189.0,
+        "vapor_pressure_mbar_20c": 0.6,
+        "aspirate_ul_s": 12,
+        "dispense_ul_s": 18,
+        "air_gap_ul": 10,
+        "prewet_cycles": 3,
+        "mix_reps": 3,
+        "touch_tip": true,
+        "tip_immersion_mm": 2,
+        "note": "viscous: slowest flows, triple pre-wet, reverse-dispense residual tracking"
+      },
+      "meoh": {
+        "label": "Methanol (quench)",
+        "rho_g_ml": 0.792,
+        "viscosity_mPas": 0.54,
+        "bp_c": 64.7,
+        "vapor_pressure_mbar_20c": 128,
+        "aspirate_ul_s": 55,
+        "dispense_ul_s": 75,
+        "air_gap_ul": 10,
+        "prewet_cycles": 2,
+        "mix_reps": 3,
+        "touch_tip": true,
+        "tip_immersion_mm": 3,
+        "note": "quench delivery into thermostated wells; EtOH co-rinse suppresses vapor bubbles"
+      },
+      "etoh": {
+        "label": "Ethanol (tip rinse / vapor-suppression rinse)",
+        "rho_g_ml": 0.789,
+        "viscosity_mPas": 1.07,
+        "bp_c": 78.4,
+        "vapor_pressure_mbar_20c": 59,
+        "aspirate_ul_s": 55,
+        "dispense_ul_s": 75,
+        "air_gap_ul": 10,
+        "prewet_cycles": 1,
+        "mix_reps": 0,
+        "touch_tip": true,
+        "tip_immersion_mm": 3,
+        "note": "post-organic tip conditioning"
+      },
+      "hplc_diluent": {
+        "label": "HPLC diluent (MeCN + 0.1% FA + IS)",
+        "rho_g_ml": 0.786,
+        "viscosity_mPas": 0.37,
+        "bp_c": 81.6,
+        "vapor_pressure_mbar_20c": 97,
+        "aspirate_ul_s": 80,
+        "dispense_ul_s": 100,
+        "air_gap_ul": 10,
+        "prewet_cycles": 1,
+        "mix_reps": 0,
+        "touch_tip": false,
+        "tip_immersion_mm": 4,
+        "note": "analytical class, highest flows"
+      }
+    },
+    "compiled_files": {
+      "round1": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\output_ot2_protocol.py",
+      "champion": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase9\\output_ot2_protocol_champion.py",
+      "autoprotocol_jsonld": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase9\\autoprotocol_workflow.jsonld"
+    },
+    "validation": {
+      "round1": {
+        "path": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\output_ot2_protocol.py",
+        "py_compile": "PASS",
+        "ast_audit": "PASS",
+        "ast_findings": [],
+        "opentrons_simulate_binary": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\.ot2env\\Scripts\\opentrons_simulate.exe",
+        "opentrons_simulate_attempts": [],
+        "opentrons_simulate": "PASS (opentrons_simulate rc=0)"
+      },
+      "champion": {
+        "path": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\results_phase9\\output_ot2_protocol_champion.py",
+        "py_compile": "PASS",
+        "ast_audit": "PASS",
+        "ast_findings": [],
+        "opentrons_simulate_binary": "C:\\Users\\HUIWEI\\.zcode\\workspace\\default\\.ot2env\\Scripts\\opentrons_simulate.exe",
+        "opentrons_simulate_attempts": [],
+        "opentrons_simulate": "PASS (opentrons_simulate rc=0)"
+      },
+      "round1_trace": {}
+    }
+  },
+  "module_9B": {
+    "objectives": [
+      "maximize yield (%)",
+      "minimize E-factor",
+      "minimize cost ($/mol)"
+    ],
+    "guardrails": {
+      "G1_exotherm": {
+        "limit": 30.0,
+        "unit": "K",
+        "expr": "dT_ad = dH_eff * C / (rho\u00b7Cp) < 30 K"
+      },
+      "G2_boiling": {
+        "limit": 15.0,
+        "unit": "degC",
+        "expr": "T_reaction < T_boil(DCM/toluene blend) - 15 degC"
+      },
+      "G3_viscosity": {
+        "limit": 15.0,
+        "unit": "bar",
+        "expr": "microfluidic sampling dP < 15 bar (Hagen-Poiseuille)"
+      }
+    },
+    "bounds": {
+      "T_c": [
+        25.0,
+        90.0
+      ],
+      "cat_molpct": [
+        1.0,
+        10.0
+      ],
+      "t_h": [
+        1.0,
+        24.0
+      ],
+      "phi_tol": [
+        0.0,
+        1.0
+      ]
+    },
+    "n_experiments": 50,
+    "rounds": 8,
+    "batch_q": 5,
+    "hypervolume_trace": [
+      0.7348416666666666,
+      0.8147333333333333,
+      0.82125,
+      0.8196,
+      0.8198,
+      0.8476916666666666,
+      0.8485083333333333,
+      0.8478583333333334,
+      0.8479333333333333
+    ],
+    "pareto_indices": [
+      1,
+      6,
+      23,
+      30,
+      44,
+      46,
+      47
+    ],
+    "pareto_table": [
+      {
+        "label": "INIT-02",
+        "x": [
+          30.848847264423966,
+          8.059758855961263,
+          20.80418537463993,
+          0.2908321972936392
+        ],
+        "yield_pct": 91.87948984367941,
+        "e_factor": 251.16233868176118,
+        "cost_usd_per_mol": 42.106070217014185
+      },
+      {
+        "label": "INIT-07",
+        "x": [
+          33.648639265447855,
+          1.9920403929427266,
+          16.929053470492363,
+          0.44199211429804564
+        ],
+        "yield_pct": 89.35190636520903,
+        "e_factor": 129.2587443006941,
+        "cost_usd_per_mol": 10.701275747876114
+      },
+      {
+        "label": "R3-4",
+        "x": [
+          45.201937896199524,
+          2.1399645302444696,
+          23.823890395462513,
+          0.7506610108539462
+        ],
+        "yield_pct": 89.59765394229103,
+        "e_factor": 117.70355120319391,
+        "cost_usd_per_mol": 11.464395877808855
+      },
+      {
+        "label": "R5-1",
+        "x": [
+          60.806442270986736,
+          1.0375191755592823,
+          15.931681887246668,
+          0.9783782120794058
+        ],
+        "yield_pct": 87.85688791799976,
+        "e_factor": 93.14945077613217,
+        "cost_usd_per_mol": 5.66841389525733
+      },
+      {
+        "label": "R7-5",
+        "x": [
+          40.30305565800518,
+          9.516342452727258,
+          22.02672529872507,
+          0.9869589256122708
+        ],
+        "yield_pct": 91.88661902920752,
+        "e_factor": 274.1766356957041,
+        "cost_usd_per_mol": 49.71174721160572
+      },
+      {
+        "label": "R8-2",
+        "x": [
+          28.522586789913476,
+          5.358967773616314,
+          23.87422480341047,
+          0.3979383362457156
+        ],
+        "yield_pct": 91.2351708154412,
+        "e_factor": 198.82830417654196,
+        "cost_usd_per_mol": 28.19422058779637
+      },
+      {
+        "label": "R8-3",
+        "x": [
+          44.837877373211086,
+          1.1869356269016862,
+          13.938260103575885,
+          0.683235190808773
+        ],
+        "yield_pct": 88.41755038010535,
+        "e_factor": 102.00030131826895,
+        "cost_usd_per_mol": 6.443620055787057
+      }
+    ],
+    "champions": [
+      {
+        "label": "INIT-02",
+        "x": [
+          30.848847264423966,
+          8.059758855961263,
+          20.80418537463993,
+          0.2908321972936392
+        ],
+        "yield_pct": 91.87948984367941,
+        "ee_pct": 84.54901776159792,
+        "e_factor": 251.16233868176118,
+        "cost_usd_per_mol": 42.106070217014185
+      },
+      {
+        "label": "R3-4",
+        "x": [
+          45.201937896199524,
+          2.1399645302444696,
+          23.823890395462513,
+          0.7506610108539462
+        ],
+        "yield_pct": 89.59765394229103,
+        "ee_pct": 75.91681082663625,
+        "e_factor": 117.70355120319391,
+        "cost_usd_per_mol": 11.464395877808855
+      },
+      {
+        "label": "R5-1",
+        "x": [
+          60.806442270986736,
+          1.0375191755592823,
+          15.931681887246668,
+          0.9783782120794058
+        ],
+        "yield_pct": 87.85688791799976,
+        "ee_pct": 52.38170549685145,
+        "e_factor": 93.14945077613217,
+        "cost_usd_per_mol": 5.66841389525733
+      },
+      {
+        "label": "R7-5",
+        "x": [
+          40.30305565800518,
+          9.516342452727258,
+          22.02672529872507,
+          0.9869589256122708
+        ],
+        "yield_pct": 91.88661902920752,
+        "ee_pct": 79.9069801759219,
+        "e_factor": 274.1766356957041,
+        "cost_usd_per_mol": 49.71174721160572
+      }
+    ]
+  },
+  "module_9C": {
+    "hplc_config": {
+      "t_min": 12.5,
+      "dt_min": 0.005,
+      "t0_dead_min": 0.42,
+      "wavelengths_nm": [
+        210,
+        254,
+        280
+      ],
+      "path_cm": 1.0,
+      "dilution_factor": 800.0,
+      "noise_mau": 0.4,
+      "W_cal_min": 0.2,
+      "baseline_mau": {
+        "offset": 2.0,
+        "slope": 6.0,
+        "wobble_amp": 1.2,
+        "wobble_period": 4.7
+      },
+      "components": {
+        "IS_TMB": {
+          "tR": 2.05,
+          "sigma": 0.07,
+          "tau": 0.12,
+          "eps": [
+            38000,
+            4200,
+            900
+          ]
+        },
+        "Cat": {
+          "tR": 3.4,
+          "sigma": 0.09,
+          "tau": 0.25,
+          "eps": [
+            41000,
+            9800,
+            6100
+          ]
+        },
+        "Substrate": {
+          "tR": 6.2,
+          "sigma": 0.08,
+          "tau": 0.22,
+          "eps": [
+            51000,
+            6800,
+            5900
+          ]
+        },
+        "Product_R": {
+          "tR": 7.35,
+          "sigma": 0.06,
+          "tau": 0.15,
+          "eps": [
+            47000,
+            7400,
+            8800
+          ]
+        },
+        "Product_S": {
+          "tR": 7.98,
+          "sigma": 0.06,
+          "tau": 0.15,
+          "eps": [
+            47000,
+            7400,
+            8800
+          ]
+        },
+        "Side_elim": {
+          "tR": 9.6,
+          "sigma": 0.11,
+          "tau": 0.55,
+          "eps": [
+            39000,
+            5200,
+            2400
+          ]
+        },
+        "Side_poly": {
+          "tR": 11.2,
+          "sigma": 0.2,
+          "tau": 1.0,
+          "eps": [
+            26000,
+            3100,
+            2100
+          ]
+        }
+      },
+      "IS_conc_reaction_uM": 5000.0
+    },
+    "deconvolution_agent": "ALS baseline + prominence peak detection + bounded multi-EMG fit",
+    "hallucination_audit": {
+      "n": 50,
+      "d_yield_mean": -1.3877247274403388,
+      "d_yield_max": 2.80739980612087,
+      "d_ee_mean": 1.7377101592818622,
+      "d_ee_max": 5.622046181257886
+    }
+  },
+  "campaign": {
+    "history": [
+      {
+        "condition_label": "INIT-01",
+        "round": 0,
+        "x": [
+          79.12586843129247,
+          3.1378573020920157,
+          12.005957630462945,
+          0.9823088212311268
+        ],
+        "well": "A1",
+        "obj_measured": {
+          "yield_pct": 84.7200701605517,
+          "e_factor": 144.61323043896599,
+          "cost_usd_per_mol": 17.778213617503443,
+          "ee_pct": 38.66415902258294
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 84.7200701605517,
+          "ee_pct": 38.66415902258294,
+          "side_area_frac": 0.08304859524974613,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3695403695129977,
+          "fits": [
+            [
+              [
+                108.66564485061092,
+                7.770443008960597,
+                0.0600991231511072,
+                0.19194655524427612
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                48.06648494640974,
+                8.401026538048635,
+                0.059908606869000604,
+                0.1882634086982266
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.957539034997401,
+                2.46156469164748,
+                0.07528477013589224,
+                0.17161689956158904
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                9.61503275083219,
+                3.8050654191119766,
+                0.0919902949496638,
+                0.4343638354240103
+              ],
+              "Cat"
+            ],
+            [
+              [
+                15.605694420938134,
+                10.015159715309736,
+                0.11435345719185534,
+                0.7710798479167654
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.25,
+            2.54,
+            3.94,
+            5.58,
+            7.84,
+            8.47,
+            10.2
+          ]
+        },
+        "obs": {
+          "yield_pct": 86.23331832519271,
+          "ee_pct": 37.94530866279185,
+          "e_factor": 147.64833544421984,
+          "cost_usd_per_mol": 17.802013504047835,
+          "dT_ad_K": 4.920577065095966,
+          "T_boil_c": 104.40057208398792,
+          "eta_mPas": 0.17842418245963887,
+          "dP_bar": 5.815724156023147,
+          "side_frac": 0.1538114055933247,
+          "x_cat": 1.0,
+          "x_bg": 0.996438936558337,
+          "v_mix_uL": 127.44857079163194,
+          "m_product_mg": 2.4569816495968597
+        },
+        "guardrail": {
+          "g": [
+            -25.079422934904034,
+            -10.27470365269545,
+            -9.184275843976852
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-02",
+        "round": 0,
+        "x": [
+          30.848847264423966,
+          8.059758855961263,
+          20.80418537463993,
+          0.2908321972936392
+        ],
+        "well": "B1",
+        "obj_measured": {
+          "yield_pct": 91.87948984367941,
+          "e_factor": 251.16233868176118,
+          "cost_usd_per_mol": 42.106070217014185,
+          "ee_pct": 84.54901776159792
+        },
+        "meas": {
+          "conv_pct": 98.54636116544125,
+          "yield_pct": 91.87948984367941,
+          "ee_pct": 84.54901776159792,
+          "side_area_frac": 0.05166199887240036,
+          "n_peaks_fit": 7,
+          "resid_rms_mAU": 1.1694439539971349,
+          "fits": [
+            [
+              [
+                156.84549382856164,
+                7.770344703290167,
+                0.0599272504199146,
+                0.19302937519766167
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                13.131562382245262,
+                8.403222529281033,
+                0.0610574065872724,
+                0.17593705070654153
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                20.951604388898016,
+                3.8159080670906156,
+                0.08865642093164418,
+                0.3553745817000378
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.85222584963892,
+                2.463713510948583,
+                0.07650422263024531,
+                0.16613015939401635
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                8.724341351043671,
+                9.991549511449092,
+                0.13547256810856806,
+                1.171906941081421
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                2.130185548574957,
+                11.555000000000001,
+                0.3499999999999999,
+                0.21686852310209317
+              ],
+              "Side_poly"
+            ],
+            [
+              [
+                2.471186018749865,
+                6.305000000000003,
+                0.3499999999999999,
+                0.1433747006939417
+              ],
+              "Substrate"
+            ]
+          ],
+          "detected_tR": [
+            1.44,
+            2.56,
+            3.95,
+            6.61,
+            7.85,
+            8.45,
+            10.25,
+            11.86
+          ]
+        },
+        "obs": {
+          "yield_pct": 93.23706334588236,
+          "ee_pct": 83.48494943272318,
+          "e_factor": 262.36672252925155,
+          "cost_usd_per_mol": 42.387772000479416,
+          "dT_ad_K": 10.41853372645638,
+          "T_boil_c": 45.93859729796014,
+          "eta_mPas": 0.4213294525367583,
+          "dP_bar": 13.733205000484281,
+          "side_frac": 0.05000451913583469,
+          "x_cat": 0.9999986292059866,
+          "x_bg": 0.01827207040142398,
+          "v_mix_uL": 107.76096457615495,
+          "m_product_mg": 2.6504481208341066
+        },
+        "guardrail": {
+          "g": [
+            -19.58146627354362,
+            -0.08975003353617694,
+            -1.266794999515719
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-03",
+        "round": 0,
+        "x": [
+          43.17398202139884,
+          4.361047090031207,
+          6.674311891198158,
+          0.6656892969086767
+        ],
+        "well": "C1",
+        "obj_measured": {
+          "yield_pct": 89.13573740348184,
+          "e_factor": 172.53955703570583,
+          "cost_usd_per_mol": 23.484436929482445,
+          "ee_pct": 85.61023903621121
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 89.13573740348184,
+          "ee_pct": 85.61023903621121,
+          "side_area_frac": 0.04765938092626816,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.282131002275972,
+          "fits": [
+            [
+              [
+                153.03667611669525,
+                7.7703126555620425,
+                0.05995421611228892,
+                0.1931104132952084
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                11.864438079746149,
+                8.403811798713127,
+                0.060709776405112395,
+                0.1740827723155281
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                12.355876207071178,
+                3.8093507018950605,
+                0.08772780810817651,
+                0.4019088088067514
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.852605394791535,
+                2.4630794207567694,
+                0.07516334726578651,
+                0.16922510290512224
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                9.163622555440657,
+                9.9994664897778,
+                0.1287152583370587,
+                1.0301947823523947
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.02,
+            2.54,
+            3.94,
+            7.84,
+            8.44,
+            10.28
+          ]
+        },
+        "obs": {
+          "yield_pct": 90.442598723737,
+          "ee_pct": 84.41437858284968,
+          "e_factor": 179.93152316316772,
+          "cost_usd_per_mol": 23.18284659281986,
+          "dT_ad_K": 6.021322756379251,
+          "T_boil_c": 60.643134219034266,
+          "eta_mPas": 0.35860647589063205,
+          "dP_bar": 11.688753820212975,
+          "side_frac": 0.060765633848691464,
+          "x_cat": 0.9999906396600409,
+          "x_bg": 0.03451403325115687,
+          "v_mix_uL": 122.55581163987517,
+          "m_product_mg": 2.6221761574435205
+        },
+        "guardrail": {
+          "g": [
+            -23.978677243620748,
+            -2.469152197635424,
+            -3.311246179787025
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-04",
+        "round": 0,
+        "x": [
+          58.9510103315115,
+          7.032950789667666,
+          14.815513430163264,
+          0.8391667928919198
+        ],
+        "well": "D1",
+        "obj_measured": {
+          "yield_pct": 87.4664306761004,
+          "e_factor": 231.50350599502113,
+          "cost_usd_per_mol": 38.59556578387848,
+          "ee_pct": 60.65570422832246
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 87.4664306761004,
+          "ee_pct": 60.65570422832246,
+          "side_area_frac": 0.05375948721523571,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2948493851255256,
+          "fits": [
+            [
+              [
+                129.9808244036116,
+                7.770438569364347,
+                0.06001638662813218,
+                0.19249032537315197
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                31.832072347174183,
+                8.402032277296941,
+                0.060250705755919585,
+                0.1842277511443309
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                18.50734786366282,
+                3.8148938434544584,
+                0.08827158011003118,
+                0.36200656337104214
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.8638328020368995,
+                2.4626965942217196,
+                0.07588506333056838,
+                0.16689833366578252
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                10.577818635238177,
+                10.016419047262012,
+                0.11824429536748761,
+                0.8643099139456887
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.56,
+            3.96,
+            5.86,
+            7.84,
+            8.46,
+            10.25
+          ]
+        },
+        "obs": {
+          "yield_pct": 89.00612255558934,
+          "ee_pct": 59.59552003386346,
+          "e_factor": 241.4262637891265,
+          "cost_usd_per_mol": 37.89791239961311,
+          "dT_ad_K": 5.292873525075709,
+          "T_boil_c": 75.86058553011515,
+          "eta_mPas": 0.2666722137985688,
+          "dP_bar": 8.692162767114436,
+          "side_frac": 0.08984172654153062,
+          "x_cat": 1.0,
+          "x_bg": 0.4673320472075557,
+          "v_mix_uL": 111.86819684132934,
+          "m_product_mg": 2.58678384744845
+        },
+        "guardrail": {
+          "g": [
+            -24.70712647492429,
+            -1.9095751986036476,
+            -6.307837232885564
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-05",
+        "round": 0,
+        "x": [
+          69.86218149773777,
+          5.478414881043136,
+          23.00190466362983,
+          0.9280165267735723
+        ],
+        "well": "E1",
+        "obj_measured": {
+          "yield_pct": 86.38505332561003,
+          "e_factor": 199.43833489483856,
+          "cost_usd_per_mol": 30.440904319278957,
+          "ee_pct": 43.038413453146745
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 86.38505332561003,
+          "ee_pct": 43.038413453146745,
+          "side_area_frac": 0.0645517134707633,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2957487585967231,
+          "fits": [
+            [
+              [
+                114.2965240072868,
+                7.770460835337538,
+                0.05994194481320226,
+                0.1921832383172906
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                45.51582464509175,
+                8.401601535832294,
+                0.06030803757732156,
+                0.18655693715729965
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                14.931541183705535,
+                3.8121287766467993,
+                0.08789619607832931,
+                0.37935894329585074
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.87005432368863,
+                2.4624516083364876,
+                0.07576674421944687,
+                0.17064754311017102
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                12.463478462806185,
+                10.015534482644602,
+                0.11334906600251742,
+                0.8046741883501434
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.7,
+            2.54,
+            3.94,
+            7.85,
+            8.47,
+            10.25
+          ]
+        },
+        "obs": {
+          "yield_pct": 87.98259405758678,
+          "ee_pct": 42.187315478884315,
+          "e_factor": 201.52635065071476,
+          "cost_usd_per_mol": 29.891016590790013,
+          "dT_ad_K": 5.04306352929009,
+          "T_boil_c": 90.23295488347492,
+          "eta_mPas": 0.21530128003829604,
+          "dP_bar": 7.017730656687557,
+          "side_frac": 0.11939659893751153,
+          "x_cat": 1.0,
+          "x_bg": 0.9755534210129262,
+          "v_mix_uL": 118.08634047582746,
+          "m_product_mg": 2.5547716143373287
+        },
+        "guardrail": {
+          "g": [
+            -24.95693647070991,
+            -5.370773385737152,
+            -7.982269343312443
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-06",
+        "round": 0,
+        "x": [
+          54.09333426039666,
+          5.900201099924743,
+          8.370545043610036,
+          0.8110374462604524
+        ],
+        "well": "F1",
+        "obj_measured": {
+          "yield_pct": 88.51353662477179,
+          "e_factor": 208.95278292604598,
+          "cost_usd_per_mol": 31.996196694407914,
+          "ee_pct": 70.7548759337664
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 88.51353662477179,
+          "ee_pct": 70.7548759337664,
+          "side_area_frac": 0.05060100199113642,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.280651690697054,
+          "fits": [
+            [
+              [
+                139.8055911746016,
+                7.7703382886347825,
+                0.05995484154461519,
+                0.1929111080123516
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                23.9444515812262,
+                8.402279185526742,
+                0.059813687239965135,
+                0.18250772879325952
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                15.97156240422293,
+                3.814039751233954,
+                0.08810516301038378,
+                0.3759259252438945
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.843620580543772,
+                2.462818808783871,
+                0.07419133342408421,
+                0.1701732050312812
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                9.890242539625936,
+                10.008897817581122,
+                0.12300952948070419,
+                0.9046658289540717
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.3,
+            2.55,
+            3.96,
+            6.23,
+            7.84,
+            8.46,
+            10.18
+          ]
+        },
+        "obs": {
+          "yield_pct": 89.98327126618952,
+          "ee_pct": 69.61495916569595,
+          "e_factor": 206.43015538286258,
+          "cost_usd_per_mol": 31.784926346668392,
+          "dT_ad_K": 5.386802667008166,
+          "T_boil_c": 72.5801277124578,
+          "eta_mPas": 0.2943111178699917,
+          "dP_bar": 9.593050975418494,
+          "side_frac": 0.07853235796117712,
+          "x_cat": 0.9999999999999999,
+          "x_bg": 0.1739022451914478,
+          "v_mix_uL": 116.39919560030103,
+          "m_product_mg": 2.5875184442795343
+        },
+        "guardrail": {
+          "g": [
+            -24.613197332991835,
+            -3.4867934520611357,
+            -5.406949024581506
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-07",
+        "round": 0,
+        "x": [
+          33.648639265447855,
+          1.9920403929427266,
+          16.929053470492363,
+          0.44199211429804564
+        ],
+        "well": "G1",
+        "obj_measured": {
+          "yield_pct": 89.35190636520903,
+          "e_factor": 129.2587443006941,
+          "cost_usd_per_mol": 10.701275747876114,
+          "ee_pct": 85.87813168465647
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 89.35190636520903,
+          "ee_pct": 85.87813168465647,
+          "side_area_frac": 0.04475697374012125,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3279692046383451,
+          "fits": [
+            [
+              [
+                153.6292301130536,
+                7.7702605373386335,
+                0.05993483843073371,
+                0.19326467549644447
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                11.671796662583084,
+                8.403542310143076,
+                0.05962465739775805,
+                0.17586344767731144
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.991673809494997,
+                2.461910656082271,
+                0.07548168217536476,
+                0.17323447153383834
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                6.84388391700891,
+                3.7994028994003073,
+                0.08062313437268741,
+                0.48849122808684503
+              ],
+              "Cat"
+            ],
+            [
+              [
+                8.346414698188166,
+                9.990543050226494,
+                0.1365105576245743,
+                1.0800997741667906
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.51,
+            2.53,
+            3.45,
+            3.95,
+            7.84,
+            8.44,
+            10.23
+          ]
+        },
+        "obs": {
+          "yield_pct": 90.61666201500267,
+          "ee_pct": 84.782155339962,
+          "e_factor": 120.89898973177033,
+          "cost_usd_per_mol": 10.52363011351374,
+          "dT_ad_K": 7.833689990979253,
+          "T_boil_c": 50.35790198077905,
+          "eta_mPas": 0.4141226068669355,
+          "dP_bar": 13.498298353453968,
+          "side_frac": 0.05076388985550043,
+          "x_cat": 0.9961380514513756,
+          "x_bg": 0.022513852832328984,
+          "v_mix_uL": 132.0318384282291,
+          "m_product_mg": 2.638580902767588
+        },
+        "guardrail": {
+          "g": [
+            -22.166310009020748,
+            -1.7092627153311923,
+            -1.5017016465460316
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-08",
+        "round": 0,
+        "x": [
+          81.91747839096934,
+          9.163828757591546,
+          3.1230895202606916,
+          0.9609720594063402
+        ],
+        "well": "H1",
+        "obj_measured": {
+          "yield_pct": 80.79516154726961,
+          "e_factor": 321.4295135269153,
+          "cost_usd_per_mol": 54.44184675675779,
+          "ee_pct": 44.01474520266463
+        },
+        "meas": {
+          "conv_pct": 98.58958842752233,
+          "yield_pct": 80.79516154726961,
+          "ee_pct": 44.01474520266463,
+          "side_area_frac": 0.0816336791993665,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.136883942639135,
+          "fits": [
+            [
+              [
+                107.63017508550296,
+                7.77046273053946,
+                0.05996479397634107,
+                0.192141600654529
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                41.840873776945806,
+                8.4012844961428,
+                0.06010205752525838,
+                0.1870772193952951
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                23.79746535486514,
+                3.816039505780975,
+                0.08939198812388803,
+                0.3527435007121483
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.9484047828236815,
+                2.4624457266360857,
+                0.07485204475812976,
+                0.17151361352749106
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                16.14374262524161,
+                10.019644336599507,
+                0.11010677565959887,
+                0.7346920429167837
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                2.3976996732120233,
+                6.44500000000156,
+                0.34999999999999676,
+                0.0528370366138654
+              ],
+              "Substrate"
+            ]
+          ],
+          "detected_tR": [
+            1.12,
+            2.54,
+            3.94,
+            6.75,
+            7.84,
+            8.47,
+            10.19
+          ]
+        },
+        "obs": {
+          "yield_pct": 82.24074517796885,
+          "ee_pct": 43.17152956618402,
+          "e_factor": 296.1089029417896,
+          "cost_usd_per_mol": 53.30056828307976,
+          "dT_ad_K": 4.96625003165086,
+          "T_boil_c": 98.0919838894078,
+          "eta_mPas": 0.16674892723420687,
+          "dP_bar": 5.435170001837012,
+          "side_frac": 0.1702646107897509,
+          "x_cat": 1.0,
+          "x_bg": 0.8649023484129679,
+          "v_mix_uL": 103.34468496963382,
+          "m_product_mg": 2.3965305799257295
+        },
+        "guardrail": {
+          "g": [
+            -25.03374996834914,
+            -1.1745054984384637,
+            -9.564829998162988
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-09",
+        "round": 0,
+        "x": [
+          87.30654281564057,
+          3.4291074238717556,
+          15.616268184967339,
+          0.9813842663541439
+        ],
+        "well": "A2",
+        "obj_measured": {
+          "yield_pct": 76.16310183508128,
+          "e_factor": 174.09994070646172,
+          "cost_usd_per_mol": 21.61114140312358,
+          "ee_pct": 39.54951142536421
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 76.16310183508128,
+          "ee_pct": 39.54951142536421,
+          "side_area_frac": 0.1068859278826519,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2887076028313051,
+          "fits": [
+            [
+              [
+                98.31384375996413,
+                7.770536589281773,
+                0.06004577361445886,
+                0.19203196143124296
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                42.58789463493623,
+                8.401359672802807,
+                0.060050560142975676,
+                0.18747598069094779
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                18.771098020488513,
+                10.018549367134886,
+                0.11182436807929821,
+                0.71901527530113
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                5.871061153065328,
+                2.462432459263993,
+                0.07687023070458043,
+                0.16691280835538475
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                10.07415049767624,
+                3.808125456261255,
+                0.08751850915717198,
+                0.4182936940083032
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            2.55,
+            3.9,
+            7.85,
+            8.47,
+            10.18
+          ]
+        },
+        "obs": {
+          "yield_pct": 77.53805238830611,
+          "ee_pct": 38.7557813544767,
+          "e_factor": 165.68881450162084,
+          "cost_usd_per_mol": 20.54230902496011,
+          "dT_ad_K": 4.922492665048599,
+          "T_boil_c": 104.1023528351626,
+          "eta_mPas": 0.14899573930368895,
+          "dP_bar": 4.856506042329801,
+          "side_frac": 0.1987407245915241,
+          "x_cat": 1.0,
+          "x_bg": 0.9999999848537637,
+          "v_mix_uL": 126.28357030451298,
+          "m_product_mg": 2.326856934376489
+        },
+        "guardrail": {
+          "g": [
+            -25.0775073349514,
+            -1.7958100195220368,
+            -10.143493957670199
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "INIT-10",
+        "round": 0,
+        "x": [
+          39.02976246085018,
+          7.22605886682868,
+          1.3828663667663932,
+          0.5712600014731288
+        ],
+        "well": "B2",
+        "obj_measured": {
+          "yield_pct": 85.68777833598187,
+          "e_factor": 248.09481723216962,
+          "cost_usd_per_mol": 40.47844772538905,
+          "ee_pct": 86.63439735996697
+        },
+        "meas": {
+          "conv_pct": 95.76989074127265,
+          "yield_pct": 85.68777833598187,
+          "ee_pct": 86.63439735996697,
+          "side_area_frac": 0.049407026952860617,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 0.9832018720409056,
+          "fits": [
+            [
+              [
+                147.9286535553663,
+                7.7705070324430014,
+                0.05992954363151832,
+                0.1922241175780529
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                10.593736366200169,
+                8.404806769130536,
+                0.06056195081966777,
+                0.16971017901755428
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                18.276400896828473,
+                3.816427849786886,
+                0.08825752904541444,
+                0.34481703711032263
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.973124412616296,
+                2.4634304621673864,
+                0.07698368633991694,
+                0.16724944039237602
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                7.191185739836503,
+                6.627557524906016,
+                0.09453665735103907,
+                0.2199888936350784
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                9.873323615711428,
+                9.989302341973127,
+                0.14074780071417142,
+                1.1717773717104762
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.56,
+            3.94,
+            6.73,
+            7.85,
+            8.46,
+            10.19
+          ]
+        },
+        "obs": {
+          "yield_pct": 87.40270923666355,
+          "ee_pct": 85.2679369267727,
+          "e_factor": 253.81447989490886,
+          "cost_usd_per_mol": 40.264883412119865,
+          "dT_ad_K": 6.61872037182724,
+          "T_boil_c": 55.535364326976435,
+          "eta_mPas": 0.3821059106307588,
+          "dP_bar": 12.454716305718321,
+          "side_frac": 0.0562023724631253,
+          "x_cat": 0.9505807887689743,
+          "x_bg": 0.004052570513977671,
+          "v_mix_uL": 111.09576453268528,
+          "m_product_mg": 2.501571374876492
+        },
+        "guardrail": {
+          "g": [
+            -23.38127962817276,
+            -1.5056018661262556,
+            -2.5452836942816788
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": null
+      },
+      {
+        "condition_label": "R1-1",
+        "round": 1,
+        "x": [
+          25.778317470103502,
+          1.0647675190120935,
+          4.891360078006983,
+          0.16712647955864668
+        ],
+        "well": "A1",
+        "obj_measured": {
+          "yield_pct": 10.262918809849436,
+          "e_factor": 976.7964748769284,
+          "cost_usd_per_mol": 49.79951791446579,
+          "ee_pct": 88.88876599790245
+        },
+        "meas": {
+          "conv_pct": 14.23872462212855,
+          "yield_pct": 10.262918809849436,
+          "ee_pct": 88.88876599790245,
+          "side_area_frac": 0.054709906308099014,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.8734874229553464,
+          "fits": [
+            [
+              [
+                145.79416814238147,
+                6.6212028717845355,
+                0.0803457239785553,
+                0.27775511944146
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                17.931588143144378,
+                7.759968098435666,
+                0.07998380363667852,
+                0.1684349611649711
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                1.054811655077083,
+                8.41420840637526,
+                0.05972646210329256,
+                0.10483968192352694
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                6.298824638639989,
+                2.458934742426174,
+                0.0756270913055761,
+                0.18496684066351418
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                3.9790741039016075,
+                3.7892726923774647,
+                0.09933051843876164,
+                0.45156008965074335
+              ],
+              "Cat"
+            ],
+            [
+              [
+                10.13173879064884,
+                10.035000000000002,
+                0.26002274725155067,
+                0.8572523849757208
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.54,
+            3.91,
+            6.73,
+            7.84,
+            8.45,
+            10.34
+          ]
+        },
+        "obs": {
+          "yield_pct": 9.657884648221884,
+          "ee_pct": 83.26671981664457,
+          "e_factor": 900.3653165153396,
+          "cost_usd_per_mol": 45.59329621094434,
+          "dT_ad_K": 15.006199129657837,
+          "T_boil_c": 43.15939350449986,
+          "eta_mPas": 0.4542637285796569,
+          "dP_bar": 14.806695499941366,
+          "side_frac": 0.045116930647390044,
+          "x_cat": 0.1222019687385757,
+          "x_bg": 0.0019956336516809836,
+          "v_mix_uL": 135.74092992395163,
+          "m_product_mg": 0.32553047562835913
+        },
+        "guardrail": {
+          "g": [
+            -14.993800870342163,
+            -2.381076034396358,
+            -0.19330450005863398
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8147333333333333
+      },
+      {
+        "condition_label": "R1-2",
+        "round": 1,
+        "x": [
+          43.07504088617861,
+          1.0659208437427878,
+          1.5050256038084626,
+          0.89617177285254
+        ],
+        "well": "B1",
+        "obj_measured": {
+          "yield_pct": 16.346243057716865,
+          "e_factor": 507.325197549928,
+          "cost_usd_per_mol": 31.300281244441557,
+          "ee_pct": 84.54211993394419
+        },
+        "meas": {
+          "conv_pct": 22.095028626691626,
+          "yield_pct": 16.346243057716865,
+          "ee_pct": 84.54211993394419,
+          "side_area_frac": 0.0645885967391032,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.6053895847333146,
+          "fits": [
+            [
+              [
+                132.43845133462423,
+                6.621332098782622,
+                0.08041544113461692,
+                0.2765507538427393
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                27.90327570814595,
+                7.766351177660516,
+                0.06929350874349885,
+                0.17637750575389896
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                2.3372739486302567,
+                8.41074327873968,
+                0.060954113172092136,
+                0.12336954495601336
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                6.165141624169717,
+                2.458756551881723,
+                0.07452312826827805,
+                0.18201765338815257
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                4.0382797872304526,
+                3.7876215113909475,
+                0.09565057748421259,
+                0.4769707777968637
+              ],
+              "Cat"
+            ],
+            [
+              [
+                11.937242826982516,
+                9.975726407735506,
+                0.18701639834816886,
+                1.1999999999999962
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            0.91,
+            2.54,
+            3.89,
+            6.72,
+            7.85,
+            8.45,
+            10.21
+          ]
+        },
+        "obs": {
+          "yield_pct": 16.393964772686974,
+          "ee_pct": 79.6579684479481,
+          "e_factor": 483.37895247030974,
+          "cost_usd_per_mol": 28.89458323213063,
+          "dT_ad_K": 5.125033226556929,
+          "T_boil_c": 84.18517179291729,
+          "eta_mPas": 0.38452694109378,
+          "dP_bar": 12.533629629866216,
+          "side_frac": 0.05277295555854547,
+          "x_cat": 0.19440198653381047,
+          "x_bg": 0.007781622381008435,
+          "v_mix_uL": 135.73631662502885,
+          "m_product_mg": 0.5142169279872968
+        },
+        "guardrail": {
+          "g": [
+            -24.87496677344307,
+            -26.110130906738675,
+            -2.4663703701337845
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8147333333333333
+      },
+      {
+        "condition_label": "R1-3",
+        "round": 1,
+        "x": [
+          61.30740585271269,
+          1.0358860958367586,
+          3.5688799107447267,
+          0.9891422502696514
+        ],
+        "well": "C1",
+        "obj_measured": {
+          "yield_pct": 74.99867259718081,
+          "e_factor": 107.27894801345526,
+          "cost_usd_per_mol": 6.629788352018576,
+          "ee_pct": 66.05929514720435
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 74.99867259718081,
+          "ee_pct": 66.05929514720435,
+          "side_area_frac": 0.06519802314133298,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.248862362308948,
+          "fits": [
+            [
+              [
+                115.20159705329013,
+                7.770346164772924,
+                0.059997384874284035,
+                0.19259826096858335
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                23.54594725149439,
+                8.402109672920805,
+                0.06044694186444411,
+                0.183952958591723
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.956382531483275,
+                2.4605771290168104,
+                0.07375618985277421,
+                0.17612757667729784
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                10.443941724604157,
+                10.011047187776201,
+                0.11943654846159321,
+                0.8766328327173247
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                5.040143611894511,
+                3.781622099962696,
+                0.09232870575536445,
+                0.6551794938931051
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            1.61,
+            2.55,
+            3.98,
+            5.95,
+            7.84,
+            8.47,
+            10.22
+          ]
+        },
+        "obs": {
+          "yield_pct": 76.24496204876499,
+          "ee_pct": 65.06711862691463,
+          "e_factor": 107.31086489244399,
+          "cost_usd_per_mol": 6.644903280152899,
+          "dT_ad_K": 4.906593425088891,
+          "T_boil_c": 106.68410043882113,
+          "eta_mPas": 0.2645881618900094,
+          "dP_bar": 8.624233236151014,
+          "side_frac": 0.08772859693252615,
+          "x_cat": 0.846731863220685,
+          "x_bg": 0.18441505441298223,
+          "v_mix_uL": 135.85645561665297,
+          "m_product_mg": 2.1730073197928466
+        },
+        "guardrail": {
+          "g": [
+            -25.093406574911107,
+            -30.376694586108442,
+            -6.375766763848986
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8147333333333333
+      },
+      {
+        "condition_label": "R1-4",
+        "round": 1,
+        "x": [
+          40.908662378787994,
+          1.0266490709036589,
+          21.51993150357157,
+          0.9940848983824253
+        ],
+        "well": "D1",
+        "obj_measured": {
+          "yield_pct": 59.172128707049,
+          "e_factor": 135.7068698482862,
+          "cost_usd_per_mol": 8.328102517208436,
+          "ee_pct": 79.61566156508209
+        },
+        "meas": {
+          "conv_pct": 77.43088184885661,
+          "yield_pct": 59.172128707049,
+          "ee_pct": 79.61566156508209,
+          "side_area_frac": 0.06926898112394375,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.3242212086906289,
+          "fits": [
+            [
+              [
+                98.3112296563598,
+                7.771075461638671,
+                0.06008686607956864,
+                0.18781701032908157
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                11.157208451680832,
+                8.406862250211587,
+                0.0605433892822737,
+                0.15980907643532044
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                38.36750085694375,
+                6.625200791717018,
+                0.08183247384551584,
+                0.25078961311633974
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                6.144494433293655,
+                2.4590275363323273,
+                0.07338959524786481,
+                0.18130699206502185
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                4.224538114117758,
+                3.7877701648535624,
+                0.09784778602415897,
+                0.5150388563545394
+              ],
+              "Cat"
+            ],
+            [
+              [
+                11.77429027630329,
+                10.004843154924831,
+                0.19817156632211863,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.53,
+            3.93,
+            6.72,
+            7.85,
+            8.45,
+            10.22
+          ]
+        },
+        "obs": {
+          "yield_pct": 61.97952851316987,
+          "ee_pct": 76.9404049489954,
+          "e_factor": 128.7254524591244,
+          "cost_usd_per_mol": 7.939672496687822,
+          "dT_ad_K": 4.896669000054284,
+          "T_boil_c": 108.42841834739522,
+          "eta_mPas": 0.4150490817278003,
+          "dP_bar": 13.528496738863401,
+          "side_frac": 0.04621981468719541,
+          "x_cat": 0.6745629207274251,
+          "x_bg": 0.07917227549286177,
+          "v_mix_uL": 135.89340371638536,
+          "m_product_mg": 1.8024253185644918
+        },
+        "guardrail": {
+          "g": [
+            -25.103330999945715,
+            -52.51975596860723,
+            -1.4715032611365988
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8147333333333333
+      },
+      {
+        "condition_label": "R1-5",
+        "round": 1,
+        "x": [
+          35.82170378882438,
+          1.0558451507240534,
+          12.165568285621703,
+          0.9602234745398164
+        ],
+        "well": "E1",
+        "obj_measured": {
+          "yield_pct": 31.58311780654455,
+          "e_factor": 256.33270436743743,
+          "cost_usd_per_mol": 16.046727098061456,
+          "ee_pct": 83.86884893608354
+        },
+        "meas": {
+          "conv_pct": 41.50016207698538,
+          "yield_pct": 31.58311780654455,
+          "ee_pct": 83.86884893608354,
+          "side_area_frac": 0.06298126632045056,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.4506815359335536,
+          "fits": [
+            [
+              [
+                99.44972446912486,
+                6.622022038015811,
+                0.08066632229554639,
+                0.27220042578373954
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                53.71615153134415,
+                7.769833039336602,
+                0.06322590484321182,
+                0.1830853607313823
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                4.712616410763271,
+                8.41008889241248,
+                0.06027092770095145,
+                0.14445647189561894
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                6.007758146831182,
+                2.4594385374951515,
+                0.07523251815869322,
+                0.17620808790195597
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                3.9944796252515458,
+                3.7962203040522864,
+                0.09314186934134694,
+                0.4687676795694368
+              ],
+              "Cat"
+            ],
+            [
+              [
+                11.284023037860669,
+                10.000424462935177,
+                0.21933172133454487,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.56,
+            3.94,
+            6.72,
+            7.84,
+            8.47,
+            10.27
+          ]
+        },
+        "obs": {
+          "yield_pct": 32.79592695810745,
+          "ee_pct": 79.96221081498695,
+          "e_factor": 236.77277372497937,
+          "cost_usd_per_mol": 14.728166502331367,
+          "dT_ad_K": 4.96790893359545,
+          "T_boil_c": 97.89046341253544,
+          "eta_mPas": 0.45960926146458947,
+          "dP_bar": 14.980932782674895,
+          "side_frac": 0.040340740265869104,
+          "x_cat": 0.372584826831151,
+          "x_bg": 0.02225074045964537,
+          "v_mix_uL": 135.7766193971038,
+          "m_product_mg": 0.9992850585063
+        },
+        "guardrail": {
+          "g": [
+            -25.03209106640455,
+            -47.06875962371106,
+            -0.01906721732510519
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8147333333333333
+      },
+      {
+        "condition_label": "R2-1",
+        "round": 2,
+        "x": [
+          30.490301931276917,
+          1.3611119939014316,
+          6.424333114176989,
+          0.47573939710855484
+        ],
+        "well": "A2",
+        "obj_measured": {
+          "yield_pct": 56.78501694777468,
+          "e_factor": 173.5456893987698,
+          "cost_usd_per_mol": 11.505389840308752,
+          "ee_pct": 87.74867728258877
+        },
+        "meas": {
+          "conv_pct": 66.47703448959177,
+          "yield_pct": 56.78501694777468,
+          "ee_pct": 87.74867728258877,
+          "side_area_frac": 0.05769997898233576,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.4616845873518016,
+          "fits": [
+            [
+              [
+                98.61713434808028,
+                7.770718833694518,
+                0.06058955983907773,
+                0.1879681837005112
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                6.435147005302895,
+                8.409524081525406,
+                0.059310584518874186,
+                0.1474565416184824
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                56.989041367694,
+                6.62365067160643,
+                0.08121351408684203,
+                0.26096628993944293
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                6.268783221774028,
+                2.4574384372068,
+                0.07480606434017133,
+                0.18586523403209224
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                5.112857281906301,
+                3.789414113838037,
+                0.08871278591901013,
+                0.4863466643611372
+              ],
+              "Cat"
+            ],
+            [
+              [
+                10.619230722627051,
+                10.160000000000002,
+                0.3499999999999999,
+                0.7409036416081616
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.21,
+            2.54,
+            3.94,
+            6.73,
+            7.84,
+            8.44,
+            10.46
+          ]
+        },
+        "obs": {
+          "yield_pct": 59.11007212027503,
+          "ee_pct": 84.99175483651669,
+          "e_factor": 167.706376605946,
+          "cost_usd_per_mol": 11.168001242221276,
+          "dT_ad_K": 7.457347106440395,
+          "T_boil_c": 51.55642050315464,
+          "eta_mPas": 0.4483370057914895,
+          "dP_bar": 14.613514371632176,
+          "side_frac": 0.04522168179788937,
+          "x_cat": 0.6380185041922654,
+          "x_bg": 0.005380957541360698,
+          "v_mix_uL": 134.55555202439427,
+          "m_product_mg": 1.6988547810742551
+        },
+        "guardrail": {
+          "g": [
+            -22.542652893559605,
+            -6.066118571877723,
+            -0.38648562836782396
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.82125
+      },
+      {
+        "condition_label": "R2-2",
+        "round": 2,
+        "x": [
+          25.900247804820538,
+          9.472890809178352,
+          9.44773127231747,
+          0.04623184073716402
+        ],
+        "well": "B2",
+        "obj_measured": {
+          "yield_pct": 48.57898038778367,
+          "e_factor": 551.4366700753483,
+          "cost_usd_per_mol": 93.599897571112,
+          "ee_pct": 85.94819084499045
+        },
+        "meas": {
+          "conv_pct": 57.053888783954996,
+          "yield_pct": 48.57898038778367,
+          "ee_pct": 85.94819084499045,
+          "side_area_frac": 0.05949109332983845,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.36760867332191,
+          "fits": [
+            [
+              [
+                83.5568550248745,
+                7.770522418554613,
+                0.06132669686684938,
+                0.18667237027566552
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                6.314258692525316,
+                8.409748678056259,
+                0.060319021372505464,
+                0.1485696913287786
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                73.0083890672765,
+                6.622881987509384,
+                0.08084385196161023,
+                0.26664512236340654
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                24.092539292245785,
+                3.816858221795934,
+                0.08915313682008845,
+                0.3444946057712294
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.992626105033135,
+                2.4608765598851616,
+                0.07627009360053845,
+                0.17190278744885598
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                12.205816449753149,
+                9.99868787423511,
+                0.2141361475738041,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.46,
+            2.54,
+            3.95,
+            6.73,
+            7.84,
+            8.45,
+            10.28
+          ]
+        },
+        "obs": {
+          "yield_pct": 50.494482822642816,
+          "ee_pct": 83.06195907578946,
+          "e_factor": 537.9171527696031,
+          "cost_usd_per_mol": 91.19597846814621,
+          "dT_ad_K": 28.58471341527415,
+          "T_boil_c": 40.94308302677587,
+          "eta_mPas": 0.4372614432181244,
+          "dP_bar": 14.25250715886809,
+          "side_frac": 0.04768279122770767,
+          "x_cat": 0.5452114667007404,
+          "x_bg": 0.003924499490984279,
+          "v_mix_uL": 102.10843676328659,
+          "m_product_mg": 1.447920421331086
+        },
+        "guardrail": {
+          "g": [
+            -1.4152865847258482,
+            -0.04283522195532896,
+            -0.7474928411319102
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.82125
+      },
+      {
+        "condition_label": "R2-3",
+        "round": 2,
+        "x": [
+          25.610578963533044,
+          9.174962372519076,
+          2.801220903173089,
+          0.051192114129662514
+        ],
+        "well": "C2",
+        "obj_measured": {
+          "yield_pct": 19.54555487469982,
+          "e_factor": 1373.7322230623533,
+          "cost_usd_per_mol": 225.31884958199697,
+          "ee_pct": 88.29578937897976
+        },
+        "meas": {
+          "conv_pct": 23.340022008888017,
+          "yield_pct": 19.54555487469982,
+          "ee_pct": 88.29578937897976,
+          "side_area_frac": 0.057518362182501975,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.654198190034885,
+          "fits": [
+            [
+              [
+                130.32196258489037,
+                6.621365940997965,
+                0.08034687309011974,
+                0.2762583945160887
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                34.04319757683136,
+                7.767053085499034,
+                0.06662784133616749,
+                0.18061443332107707
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                2.1160789413633077,
+                8.412514652225326,
+                0.06074031968061673,
+                0.11773416883805735
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                23.36430369554717,
+                3.8173132254903277,
+                0.09059618285382869,
+                0.3390692880013635
+              ],
+              "Cat"
+            ],
+            [
+              [
+                6.24390718066951,
+                2.4585068918039177,
+                0.07773770117922847,
+                0.17968630785621692
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                11.967070287114808,
+                9.973982250543923,
+                0.20498381295931925,
+                1.1999999999999995
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.55,
+            3.94,
+            6.72,
+            7.83,
+            8.46,
+            10.21
+          ]
+        },
+        "obs": {
+          "yield_pct": 19.649330711417612,
+          "ee_pct": 84.25197830250545,
+          "e_factor": 1358.3300939626686,
+          "cost_usd_per_mol": 225.73382878106653,
+          "dT_ad_K": 27.517531394790932,
+          "T_boil_c": 41.02612961249298,
+          "eta_mPas": 0.44069766977635455,
+          "dP_bar": 14.364510731056448,
+          "side_frac": 0.047155782433594966,
+          "x_cat": 0.21323634237471534,
+          "x_bg": 0.0011139449279190528,
+          "v_mix_uL": 103.3001505099237,
+          "m_product_mg": 0.5665594571873264
+        },
+        "guardrail": {
+          "g": [
+            -2.4824686052090676,
+            -0.4155506489599361,
+            -0.6354892689435516
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.82125
+      },
+      {
+        "condition_label": "R2-4",
+        "round": 2,
+        "x": [
+          31.371766636148095,
+          1.0371878389269114,
+          13.058353365398943,
+          0.6033471617847681
+        ],
+        "well": "D2",
+        "obj_measured": {
+          "yield_pct": 69.45688549985543,
+          "e_factor": 127.07999698679312,
+          "cost_usd_per_mol": 7.1677582301894835,
+          "ee_pct": 85.4516014928423
+        },
+        "meas": {
+          "conv_pct": 82.8527582366096,
+          "yield_pct": 69.45688549985543,
+          "ee_pct": 85.4516014928423,
+          "side_area_frac": 0.0627791916112244,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.2436267104813983,
+          "fits": [
+            [
+              [
+                119.14823851854179,
+                7.770932104930945,
+                0.05999243636325687,
+                0.18930103750331748
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                9.346999656190773,
+                8.408602938588118,
+                0.06060648263906638,
+                0.1546196622315259
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                29.15031099776368,
+                6.62615581349663,
+                0.08283474882662,
+                0.24492135034551044
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                6.082287844256289,
+                2.4609488395427004,
+                0.07781446331615256,
+                0.17250297955706875
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                4.0055516987768005,
+                3.790294720534481,
+                0.09155116445322099,
+                0.48323660114306355
+              ],
+              "Cat"
+            ],
+            [
+              [
+                11.235523641301937,
+                10.009100983255198,
+                0.20669343382863703,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.55,
+            3.95,
+            6.71,
+            7.84,
+            8.45,
+            10.21
+          ]
+        },
+        "obs": {
+          "yield_pct": 72.17500741108108,
+          "ee_pct": 83.0587396011217,
+          "e_factor": 124.16468904880489,
+          "cost_usd_per_mol": 6.7842363741889224,
+          "dT_ad_K": 6.394611640803547,
+          "T_boil_c": 57.114205205914345,
+          "eta_mPas": 0.4564989634968072,
+          "dP_bar": 14.879552830841552,
+          "side_frac": 0.0434869948024872,
+          "x_cat": 0.798644959763213,
+          "x_bg": 0.012441863693868904,
+          "v_mix_uL": 135.85124864429235,
+          "m_product_mg": 2.1310532132068367
+        },
+        "guardrail": {
+          "g": [
+            -23.605388359196454,
+            -10.74243856976625,
+            -0.12044716915844766
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.82125
+      },
+      {
+        "condition_label": "R2-5",
+        "round": 2,
+        "x": [
+          32.43392962962389,
+          1.1267992267385125,
+          21.895962100476027,
+          0.6292041856795549
+        ],
+        "well": "E2",
+        "obj_measured": {
+          "yield_pct": 85.86801408067947,
+          "e_factor": 104.77334800411442,
+          "cost_usd_per_mol": 6.298778824980206,
+          "ee_pct": 83.61098576855285
+        },
+        "meas": {
+          "conv_pct": 97.62753756442194,
+          "yield_pct": 85.86801408067947,
+          "ee_pct": 83.61098576855285,
+          "side_area_frac": 0.04516347194056009,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.1067686544293605,
+          "fits": [
+            [
+              [
+                145.83837407990924,
+                7.77043475542711,
+                0.05996327357499403,
+                0.19251167292348242
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                13.017451969347823,
+                8.40299784637823,
+                0.0597277253194779,
+                0.17595163682636777
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.879927191069892,
+                2.4624977642385804,
+                0.07550052572676523,
+                0.16995435296272765
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                4.033186140482705,
+                6.623303539733485,
+                0.15961872376203462,
+                0.16452072002545964
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                8.192853723554236,
+                9.990860749139197,
+                0.1337484617810671,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                4.442633338689438,
+                3.791293356046711,
+                0.0922585904566444,
+                0.5152961557085831
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            0.98,
+            1.54,
+            2.55,
+            3.96,
+            6.69,
+            7.84,
+            8.45,
+            10.27
+          ]
+        },
+        "obs": {
+          "yield_pct": 87.36414664406344,
+          "ee_pct": 82.40622831501156,
+          "e_factor": 106.50142161664635,
+          "cost_usd_per_mol": 6.154178429968007,
+          "dT_ad_K": 6.23061878155124,
+          "T_boil_c": 58.496955752017016,
+          "eta_mPas": 0.4493508316848177,
+          "dP_bar": 14.646559958035043,
+          "side_frac": 0.04432674980340056,
+          "x_cat": 0.956924674586455,
+          "x_bg": 0.024300192206867743,
+          "v_mix_uL": 135.49280309304595,
+          "m_product_mg": 2.552197658889641
+        },
+        "guardrail": {
+          "g": [
+            -23.76938121844876,
+            -11.063026122393126,
+            -0.3534400419649568
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.82125
+      },
+      {
+        "condition_label": "R3-1",
+        "round": 3,
+        "x": [
+          29.326517754234374,
+          1.3884369730949402,
+          22.212369710206985,
+          0.31538380309939384
+        ],
+        "well": "A3",
+        "obj_measured": {
+          "yield_pct": 77.97701171486682,
+          "e_factor": 131.05603330679835,
+          "cost_usd_per_mol": 8.546746437559474,
+          "ee_pct": 84.26152595760315
+        },
+        "meas": {
+          "conv_pct": 92.75100977232462,
+          "yield_pct": 77.97701171486682,
+          "ee_pct": 84.26152595760315,
+          "side_area_frac": 0.05647236898604184,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.0152015711288997,
+          "fits": [
+            [
+              [
+                132.90550930580613,
+                7.77067323054878,
+                0.059929159868921736,
+                0.19130317421345308
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                11.351962366697485,
+                8.40582332886062,
+                0.06006155245187072,
+                0.16667474948759545
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                12.323283387048146,
+                6.628759671746095,
+                0.08681085695798998,
+                0.22903529208284637
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                6.101304982830827,
+                2.4595879717641718,
+                0.07393535161177671,
+                0.18071694853620784
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                4.443131673387046,
+                3.8012740253237642,
+                0.0911771931228082,
+                0.4059558031006173
+              ],
+              "Cat"
+            ],
+            [
+              [
+                10.002839538777964,
+                9.998467471109798,
+                0.16608802034354028,
+                1.1999999999999955
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.55,
+            3.96,
+            6.74,
+            7.85,
+            8.45,
+            10.23
+          ]
+        },
+        "obs": {
+          "yield_pct": 80.09768159289736,
+          "ee_pct": 82.5601287452984,
+          "e_factor": 121.90173255434821,
+          "cost_usd_per_mol": 8.062051748922803,
+          "dT_ad_K": 9.858050349430968,
+          "T_boil_c": 46.56828002775285,
+          "eta_mPas": 0.43882841579263054,
+          "dP_bar": 14.303582523920932,
+          "side_frac": 0.047140322611422286,
+          "x_cat": 0.903047730947575,
+          "x_bg": 0.015522694319514918,
+          "v_mix_uL": 134.44625210762024,
+          "m_product_mg": 2.400592461832176
+        },
+        "guardrail": {
+          "g": [
+            -20.141949650569032,
+            -2.241762273518475,
+            -0.696417476079068
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8196
+      },
+      {
+        "condition_label": "R3-2",
+        "round": 3,
+        "x": [
+          31.813702383078635,
+          1.18824197165668,
+          2.028465206734836,
+          0.3352830857038498
+        ],
+        "well": "B3",
+        "obj_measured": {
+          "yield_pct": 21.00025219341591,
+          "e_factor": 452.5570061118447,
+          "cost_usd_per_mol": 27.159490330979306,
+          "ee_pct": 86.50309520716813
+        },
+        "meas": {
+          "conv_pct": 25.176662631657997,
+          "yield_pct": 21.00025219341591,
+          "ee_pct": 86.50309520716813,
+          "side_area_frac": 0.06481666618245889,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.5797642403078849,
+          "fits": [
+            [
+              [
+                127.19967352618141,
+                6.621548034915754,
+                0.08045153507526041,
+                0.2756161591746339
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                36.228661316379494,
+                7.767684915226476,
+                0.06616082579243947,
+                0.1809650916232474
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                2.62180524143994,
+                8.411980364553921,
+                0.06034396632218559,
+                0.12187589468138317
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                6.17402976544656,
+                2.4592655882736727,
+                0.07837512278330591,
+                0.17828947394119374
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                4.370859561489192,
+                3.7964401854270204,
+                0.0927743365227935,
+                0.46199832339872426
+              ],
+              "Cat"
+            ],
+            [
+              [
+                12.239633296377177,
+                9.97636576207654,
+                0.19144604719272867,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.55,
+            3.96,
+            6.72,
+            7.84,
+            8.46,
+            10.26
+          ]
+        },
+        "obs": {
+          "yield_pct": 21.314642048549477,
+          "ee_pct": 82.01696405303073,
+          "e_factor": 477.2959626130205,
+          "cost_usd_per_mol": 27.226942463890715,
+          "dT_ad_K": 9.454128201903412,
+          "T_boil_c": 47.100919122549556,
+          "eta_mPas": 0.4178940090067162,
+          "dP_bar": 13.621226951046737,
+          "side_frac": 0.05047647313030653,
+          "x_cat": 0.22972424075794784,
+          "x_bg": 0.0020755786698294365,
+          "v_mix_uL": 135.24703211337328,
+          "m_product_mg": 0.6083364855706215
+        },
+        "guardrail": {
+          "g": [
+            -20.545871798096588,
+            -0.28721673947092086,
+            -1.3787730489532635
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8196
+      },
+      {
+        "condition_label": "R3-3",
+        "round": 3,
+        "x": [
+          45.54761382751167,
+          8.637401258572936,
+          23.314570447430015,
+          0.7614209400489926
+        ],
+        "well": "C3",
+        "obj_measured": {
+          "yield_pct": 89.47812302174432,
+          "e_factor": 258.5468449447576,
+          "cost_usd_per_mol": 46.33481865849477,
+          "ee_pct": 75.39109480563779
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 89.47812302174432,
+          "ee_pct": 75.39109480563779,
+          "side_area_frac": 0.04547863532751543,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2786112002946672,
+          "fits": [
+            [
+              [
+                145.16641011091983,
+                7.770363610438793,
+                0.05990454505586783,
+                0.19284070494228858
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                20.36811747930715,
+                8.402753999026617,
+                0.06056790981314835,
+                0.17965003503541047
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                22.33621342745674,
+                3.8160500914357978,
+                0.08847288919102451,
+                0.3535923324277377
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.887107374765284,
+                2.4638316418116757,
+                0.07604412380666586,
+                0.16891695986923655
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                9.231687058055247,
+                10.003546057286707,
+                0.12056108039339172,
+                1.067751848884012
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.41,
+            1.54,
+            2.56,
+            3.94,
+            7.84,
+            8.46,
+            10.25
+          ]
+        },
+        "obs": {
+          "yield_pct": 90.96618339411975,
+          "ee_pct": 74.23006298145718,
+          "e_factor": 266.1880833470585,
+          "cost_usd_per_mol": 45.74044149559759,
+          "dT_ad_K": 5.572911432159115,
+          "T_boil_c": 67.72266008969126,
+          "eta_mPas": 0.3500543359302123,
+          "dP_bar": 11.40999739679624,
+          "side_frac": 0.061942072881913196,
+          "x_cat": 1.0,
+          "x_bg": 0.15651787902051995,
+          "v_mix_uL": 105.45039496570826,
+          "m_product_mg": 2.632210352300337
+        },
+        "guardrail": {
+          "g": [
+            -24.427088567840883,
+            -7.175046262179592,
+            -3.590002603203761
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8196
+      },
+      {
+        "condition_label": "R3-4",
+        "round": 3,
+        "x": [
+          45.201937896199524,
+          2.1399645302444696,
+          23.823890395462513,
+          0.7506610108539462
+        ],
+        "well": "D3",
+        "obj_measured": {
+          "yield_pct": 89.59765394229103,
+          "e_factor": 117.70355120319391,
+          "cost_usd_per_mol": 11.464395877808855,
+          "ee_pct": 75.91681082663625
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 89.59765394229103,
+          "ee_pct": 75.91681082663625,
+          "side_area_frac": 0.050257611707323305,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.3083815557601601,
+          "fits": [
+            [
+              [
+                145.796035236457,
+                7.770371121797666,
+                0.05992835079624736,
+                0.19294865278423956
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                19.959624556781417,
+                8.40265955867976,
+                0.05952759911621945,
+                0.18137588052354953
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.865000426967664,
+                2.462848652872035,
+                0.07632142433887078,
+                0.16821902390209256
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                7.075053465129953,
+                3.7995087225885142,
+                0.0860737272064877,
+                0.4570380399848945
+              ],
+              "Cat"
+            ],
+            [
+              [
+                4.132355063291634,
+                10.020964950473315,
+                0.12716376284216022,
+                0.4038042927760299
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                5.323703656278823,
+                10.395000000000643,
+                0.34999999999999987,
+                1.1999999999998157
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.36,
+            2.54,
+            3.93,
+            5.89,
+            7.84,
+            8.45,
+            10.2,
+            10.7
+          ]
+        },
+        "obs": {
+          "yield_pct": 91.06456905629125,
+          "ee_pct": 74.7211604210113,
+          "e_factor": 120.22828315094746,
+          "cost_usd_per_mol": 11.330832836501884,
+          "dT_ad_K": 5.617044738260194,
+          "T_boil_c": 66.79569835237737,
+          "eta_mPas": 0.35161501046259747,
+          "dP_bar": 11.460867477592242,
+          "side_frac": 0.06166596952600429,
+          "x_cat": 0.9999999941337178,
+          "x_bg": 0.15285777446647408,
+          "v_mix_uL": 131.44014187902212,
+          "m_product_mg": 2.632586148821238
+        },
+        "guardrail": {
+          "g": [
+            -24.382955261739806,
+            -6.593760456177847,
+            -3.5391325224077583
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8196
+      },
+      {
+        "condition_label": "R3-5",
+        "round": 3,
+        "x": [
+          27.909208885394037,
+          1.0029523661360145,
+          3.542949015274644,
+          0.32467566058039665
+        ],
+        "well": "E3",
+        "obj_measured": {
+          "yield_pct": 19.936889352560748,
+          "e_factor": 479.1175177351331,
+          "cost_usd_per_mol": 24.147053596575862,
+          "ee_pct": 89.25529883898619
+        },
+        "meas": {
+          "conv_pct": 22.86697726237097,
+          "yield_pct": 19.936889352560748,
+          "ee_pct": 89.25529883898619,
+          "side_area_frac": 0.0634190043140412,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.6243721217726617,
+          "fits": [
+            [
+              [
+                131.12613865396932,
+                6.621451430843353,
+                0.08031009904884752,
+                0.27656608936794685
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                34.90174805913285,
+                7.76710715632768,
+                0.06658142008097698,
+                0.18114983465664275
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                1.9814972431045366,
+                8.410266662074593,
+                0.05759021731977893,
+                0.12642867190499885
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                6.139123107667004,
+                2.460686187760532,
+                0.07549526483276764,
+                0.17896362568233395
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                3.9146153885033423,
+                3.787529138555286,
+                0.09592719428206366,
+                0.4865363513825807
+              ],
+              "Cat"
+            ],
+            [
+              [
+                12.057244363268522,
+                9.969313856339259,
+                0.23050898420957497,
+                1.1999999999999602
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.54,
+            3.95,
+            6.72,
+            7.83,
+            8.45,
+            10.18
+          ]
+        },
+        "obs": {
+          "yield_pct": 19.995228530470108,
+          "ee_pct": 85.40724161611168,
+          "e_factor": 481.3789489975515,
+          "cost_usd_per_mol": 25.256198373559524,
+          "dT_ad_K": 9.66430240083383,
+          "T_boil_c": 46.81442432253266,
+          "eta_mPas": 0.4539626951631595,
+          "dP_bar": 14.796883336096986,
+          "side_frac": 0.04490210549626421,
+          "x_cat": 0.20780672782160203,
+          "x_bg": 0.0020082361151868566,
+          "v_mix_uL": 135.98819053545594,
+          "m_product_mg": 0.5535414877275843
+        },
+        "guardrail": {
+          "g": [
+            -20.33569759916617,
+            -3.9052154371386223,
+            -0.20311666390301397
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8196
+      },
+      {
+        "condition_label": "R4-1",
+        "round": 4,
+        "x": [
+          36.46686035208404,
+          9.363992553204298,
+          3.4035145100206137,
+          0.9906387738883495
+        ],
+        "well": "A4",
+        "obj_measured": {
+          "yield_pct": 49.63291667913177,
+          "e_factor": 504.9863135829087,
+          "cost_usd_per_mol": 90.559183829466,
+          "ee_pct": 86.89075476610789
+        },
+        "meas": {
+          "conv_pct": 57.66788051046099,
+          "yield_pct": 49.63291667913177,
+          "ee_pct": 86.89075476610789,
+          "side_area_frac": 0.05635261489826344,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.3477348355578354,
+          "fits": [
+            [
+              [
+                85.80238264950809,
+                7.7704699537425626,
+                0.06122580211351497,
+                0.18703961701344013
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                6.018513206885678,
+                8.410700982409438,
+                0.062168769728469166,
+                0.14321589937104925
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                71.96460313221633,
+                6.622952569371081,
+                0.08072471271099385,
+                0.26652968756224765
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                23.697783572564813,
+                3.817601823490384,
+                0.08886947152491045,
+                0.341180487533446
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.95523245285443,
+                2.4642300613057078,
+                0.07773094297883217,
+                0.16870205332235677
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                11.551736713499515,
+                9.998774369112377,
+                0.22655270516027437,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.52,
+            3.94,
+            6.73,
+            7.84,
+            8.46,
+            10.21
+          ]
+        },
+        "obs": {
+          "yield_pct": 51.590525434532374,
+          "ee_pct": 83.90098301645777,
+          "e_factor": 505.827018658569,
+          "cost_usd_per_mol": 88.78323247892618,
+          "dT_ad_K": 4.903571796431773,
+          "T_boil_c": 107.2037007959932,
+          "eta_mPas": 0.45719295096970886,
+          "dP_bar": 14.902173305569214,
+          "side_frac": 0.040324495679027336,
+          "x_cat": 0.5492230461059168,
+          "x_bg": 0.006889966399064473,
+          "v_mix_uL": 102.54402978718281,
+          "m_product_mg": 1.470171352778887
+        },
+        "guardrail": {
+          "g": [
+            -25.096428203568227,
+            -55.73684044390916,
+            -0.09782669443078618
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8198
+      },
+      {
+        "condition_label": "R4-2",
+        "round": 4,
+        "x": [
+          38.43299072235823,
+          9.898502788506448,
+          9.043360818177462,
+          0.9846065044403076
+        ],
+        "well": "B4",
+        "obj_measured": {
+          "yield_pct": 82.86985470933642,
+          "e_factor": 320.89178608460077,
+          "cost_usd_per_mol": 57.334254478278915,
+          "ee_pct": 83.75250164134435
+        },
+        "meas": {
+          "conv_pct": 95.55024935248242,
+          "yield_pct": 82.86985470933642,
+          "ee_pct": 83.75250164134435,
+          "side_area_frac": 0.04287150842813418,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.0682643159278251,
+          "fits": [
+            [
+              [
+                140.8547737998316,
+                7.770433970312287,
+                0.059923239434971035,
+                0.1923009702160189
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                12.454457412440764,
+                8.404233614124898,
+                0.05909277302817487,
+                0.17219841884358206
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                24.785210712993013,
+                3.818729410492839,
+                0.08951136534813715,
+                0.33598078327281683
+              ],
+              "Cat"
+            ],
+            [
+              [
+                6.1352216090256055,
+                2.460677931795387,
+                0.0781759893462221,
+                0.1735797939764184
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                7.564576100779894,
+                6.6270652587048176,
+                0.09215296745488775,
+                0.2279514035877335
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                8.590809314932134,
+                9.99024980860091,
+                0.15226467767814325,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.55,
+            3.95,
+            6.71,
+            7.84,
+            8.45,
+            10.16
+          ]
+        },
+        "obs": {
+          "yield_pct": 84.68328098534586,
+          "ee_pct": 82.21429521045602,
+          "e_factor": 306.94173999274244,
+          "cost_usd_per_mol": 55.647126217668394,
+          "dT_ad_K": 4.915840930131569,
+          "T_boil_c": 105.15254700437765,
+          "eta_mPas": 0.43706463607533513,
+          "dP_bar": 14.246092243363817,
+          "side_frac": 0.043056486372384205,
+          "x_cat": 0.9284129297014505,
+          "x_bg": 0.02409040158578568,
+          "v_mix_uL": 100.4059888459742,
+          "m_product_mg": 2.479502886273761
+        },
+        "guardrail": {
+          "g": [
+            -25.08415906986843,
+            -51.719556282019425,
+            -0.7539077566361829
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8198
+      },
+      {
+        "condition_label": "R4-3",
+        "round": 4,
+        "x": [
+          89.62985089048743,
+          3.415199742652476,
+          2.1564072500914335,
+          0.999216141179204
+        ],
+        "well": "C4",
+        "obj_measured": {
+          "yield_pct": 80.44588030511662,
+          "e_factor": 158.74085668203952,
+          "cost_usd_per_mol": 20.377623692545058,
+          "ee_pct": 39.842913168729986
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 80.44588030511662,
+          "ee_pct": 39.842913168729986,
+          "side_area_frac": 0.10681623993418433,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3323629116017635,
+          "fits": [
+            [
+              [
+                104.06052285218684,
+                7.770474477273236,
+                0.059954559991347245,
+                0.192180015725353
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                44.764355712278906,
+                8.401296342416918,
+                0.060165656721581855,
+                0.1881687561661896
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                19.71288802803851,
+                10.018801194647597,
+                0.11209252795210349,
+                0.7159449495736416
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                5.905244574963387,
+                2.46280289416562,
+                0.0749247180601388,
+                0.17077239613997328
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                10.106529615701307,
+                3.809024560370741,
+                0.08961105736992929,
+                0.41862300849348216
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            1.4,
+            2.54,
+            3.95,
+            7.84,
+            8.46,
+            10.21
+          ]
+        },
+        "obs": {
+          "yield_pct": 81.87707706478265,
+          "ee_pct": 39.11726453463816,
+          "e_factor": 165.6811540268905,
+          "cost_usd_per_mol": 20.814468910264697,
+          "dT_ad_K": 4.886532600297126,
+          "T_boil_c": 110.32861032549698,
+          "eta_mPas": 0.14231399858934912,
+          "dP_bar": 4.638715155797591,
+          "side_frac": 0.21111987672519403,
+          "x_cat": 1.0,
+          "x_bg": 0.9586451959938881,
+          "v_mix_uL": 126.3392010293901,
+          "m_product_mg": 2.2871182761384232
+        },
+        "guardrail": {
+          "g": [
+            -25.113467399702873,
+            -5.698759435009549,
+            -10.361284844202409
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8198
+      },
+      {
+        "condition_label": "R4-4",
+        "round": 4,
+        "x": [
+          25.23495613131672,
+          3.2361008767038584,
+          23.524236852303147,
+          0.07328678015619516
+        ],
+        "well": "D4",
+        "obj_measured": {
+          "yield_pct": 51.20240877442749,
+          "e_factor": 296.1043376301458,
+          "cost_usd_per_mol": 30.337018472334954,
+          "ee_pct": 87.59564738313773
+        },
+        "meas": {
+          "conv_pct": 64.28501204759327,
+          "yield_pct": 51.20240877442749,
+          "ee_pct": 87.59564738313773,
+          "side_area_frac": 0.06547913867283307,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.380690785593044,
+          "fits": [
+            [
+              [
+                88.84947844993668,
+                7.770707255721709,
+                0.06088819209378908,
+                0.18716216020627854
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                5.8749777827541765,
+                8.409426081186828,
+                0.05916169166878755,
+                0.14717747371425427
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                60.71547951909145,
+                6.62315406987053,
+                0.08082199351407261,
+                0.2641993607846038
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                6.140293523024127,
+                2.459326964507208,
+                0.074818077137995,
+                0.1792421901883269
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                9.41633991467891,
+                3.807959153261901,
+                0.09012217675369802,
+                0.40148454171271614
+              ],
+              "Cat"
+            ],
+            [
+              [
+                11.981228595192531,
+                10.000377424449306,
+                0.20707585958643185,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.2,
+            2.53,
+            3.95,
+            6.73,
+            7.84,
+            8.44,
+            10.25
+          ]
+        },
+        "obs": {
+          "yield_pct": 53.3060348015526,
+          "ee_pct": 84.78137456001446,
+          "e_factor": 247.8534768600869,
+          "cost_usd_per_mol": 27.611511751675344,
+          "dT_ad_K": 23.62748051009124,
+          "T_boil_c": 41.403634233382036,
+          "eta_mPas": 0.4472439559465432,
+          "dP_bar": 14.577886485886198,
+          "side_frac": 0.04617703712092933,
+          "x_cat": 0.6140095779423103,
+          "x_bg": 0.008789187845650637,
+          "v_mix_uL": 127.05559649318457,
+          "m_product_mg": 1.6336902429043363
+        },
+        "guardrail": {
+          "g": [
+            -6.372519489908761,
+            -1.1686781020653143,
+            -0.4221135141138017
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8198
+      },
+      {
+        "condition_label": "R4-5",
+        "round": 4,
+        "x": [
+          39.17433264199644,
+          5.24731080699712,
+          1.512517780996859,
+          0.9961962066590786
+        ],
+        "well": "E4",
+        "obj_measured": {
+          "yield_pct": 21.803768034721397,
+          "e_factor": 763.277470835439,
+          "cost_usd_per_mol": 115.5171520513198,
+          "ee_pct": 85.90494806871583
+        },
+        "meas": {
+          "conv_pct": 29.858498857598015,
+          "yield_pct": 21.803768034721397,
+          "ee_pct": 85.90494806871583,
+          "side_area_frac": 0.05797658587876463,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.51522697530447,
+          "fits": [
+            [
+              [
+                119.24055194208337,
+                6.621584801703888,
+                0.08036210568506692,
+                0.2757963209261413
+              ],
+              "Substrate"
+            ],
+            [
+              [
+                37.49421236882417,
+                7.768019706735964,
+                0.06570517850917276,
+                0.18113909030822134
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                2.842758495410417,
+                8.411243598868671,
+                0.06164781845110308,
+                0.12791634799985874
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                13.628707874677415,
+                3.8166906463119523,
+                0.08817399547538828,
+                0.3506059701150232
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.958363587025123,
+                2.4622031786545295,
+                0.0766063970340985,
+                0.16912205451078371
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                11.026638330113833,
+                9.971785863920898,
+                0.2081000160168556,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.17,
+            2.54,
+            3.92,
+            6.72,
+            7.84,
+            8.46,
+            10.14
+          ]
+        },
+        "obs": {
+          "yield_pct": 22.205946176802215,
+          "ee_pct": 81.80310665783261,
+          "e_factor": 651.883901983185,
+          "cost_usd_per_mol": 99.44774039516372,
+          "dT_ad_K": 4.892477802966745,
+          "T_boil_c": 109.19886989760471,
+          "eta_mPas": 0.4314585235408756,
+          "dP_bar": 14.063361384583416,
+          "side_frac": 0.043718182877439775,
+          "x_cat": 0.2756951682254427,
+          "x_bg": 0.004523749581821779,
+          "v_mix_uL": 119.01075677201152,
+          "m_product_mg": 0.7354949897328319
+        },
+        "guardrail": {
+          "g": [
+            -25.107522197033255,
+            -55.024537255608266,
+            -0.9366386154165838
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8198
+      },
+      {
+        "condition_label": "R5-1",
+        "round": 5,
+        "x": [
+          60.806442270986736,
+          1.0375191755592823,
+          15.931681887246668,
+          0.9783782120794058
+        ],
+        "well": "A5",
+        "obj_measured": {
+          "yield_pct": 87.85688791799976,
+          "e_factor": 93.14945077613217,
+          "cost_usd_per_mol": 5.66841389525733,
+          "ee_pct": 52.38170549685145
+        },
+        "meas": {
+          "conv_pct": 98.31856326277313,
+          "yield_pct": 87.85688791799976,
+          "ee_pct": 52.38170549685145,
+          "side_area_frac": 0.0542251379879719,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.1508280076433173,
+          "fits": [
+            [
+              [
+                123.83698739046234,
+                7.77041536771822,
+                0.060005644584308376,
+                0.192340998292344
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                38.69825525783719,
+                8.40163415052438,
+                0.06026117389266121,
+                0.18572013014447497
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                6.000679115450193,
+                2.461639641600227,
+                0.07416960724974479,
+                0.1741190871594122
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                10.112756277280265,
+                10.013428911335113,
+                0.1153423025897973,
+                0.8614695097609494
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                4.98860183143397,
+                3.778824757785908,
+                0.0968865849104465,
+                0.609074563423947
+              ],
+              "Cat"
+            ],
+            [
+              [
+                2.858442453285672,
+                6.3400000000024415,
+                0.3499999999999946,
+                0.13146395541580533
+              ],
+              "Substrate"
+            ]
+          ],
+          "detected_tR": [
+            2.54,
+            3.9,
+            5.86,
+            6.64,
+            7.84,
+            8.46,
+            10.25
+          ]
+        },
+        "obs": {
+          "yield_pct": 89.39221798947507,
+          "ee_pct": 51.43478697936031,
+          "e_factor": 90.48519584918377,
+          "cost_usd_per_mol": 5.550015700582118,
+          "dT_ad_K": 4.928760189262431,
+          "T_boil_c": 103.14955096194433,
+          "eta_mPas": 0.26667697721364647,
+          "dP_bar": 8.692318030306623,
+          "side_frac": 0.08700028629231042,
+          "x_cat": 0.999822332948924,
+          "x_bg": 0.5746808904780182,
+          "v_mix_uL": 135.84992329776287,
+          "m_product_mg": 2.605792140450895
+        },
+        "guardrail": {
+          "g": [
+            -25.07123981073757,
+            -27.343108690957592,
+            -6.307681969693377
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8476916666666666
+      },
+      {
+        "condition_label": "R5-2",
+        "round": 5,
+        "x": [
+          76.0265519702807,
+          1.082142198458314,
+          23.805687558837235,
+          0.9504244951531291
+        ],
+        "well": "B5",
+        "obj_measured": {
+          "yield_pct": 85.48963308377445,
+          "e_factor": 99.59110712718733,
+          "cost_usd_per_mol": 6.075920980395175,
+          "ee_pct": 37.34460933967963
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 85.48963308377445,
+          "ee_pct": 37.34460933967963,
+          "side_area_frac": 0.07871440431470425,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.386606236467623,
+          "fits": [
+            [
+              [
+                108.60924739097287,
+                7.770537367821788,
+                0.060058096443515355,
+                0.19168136443054787
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                49.54657381400987,
+                8.4016901874556,
+                0.060419101881758086,
+                0.18662317286289723
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                6.031167443281257,
+                2.4612443794042456,
+                0.07455329631727,
+                0.17756135156072414
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                14.469233569462036,
+                10.018711092172962,
+                0.10874629392621585,
+                0.7939914519926882
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                5.163165039697552,
+                3.7831349128028213,
+                0.08637359540997716,
+                0.6330619014215091
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            1.11,
+            2.54,
+            3.93,
+            5.42,
+            7.84,
+            8.47,
+            10.19
+          ]
+        },
+        "obs": {
+          "yield_pct": 87.1382025476661,
+          "ee_pct": 36.566681157807885,
+          "e_factor": 97.38706611801263,
+          "cost_usd_per_mol": 6.058529547293365,
+          "dT_ad_K": 4.9899858264363,
+          "T_boil_c": 95.36022945821566,
+          "eta_mPas": 0.1892361162701319,
+          "dP_bar": 6.168138407097166,
+          "side_frac": 0.1426365030338089,
+          "x_cat": 1.0,
+          "x_bg": 0.9996172458748749,
+          "v_mix_uL": 135.67143120616674,
+          "m_product_mg": 2.48974547619215
+        },
+        "guardrail": {
+          "g": [
+            -25.0100141735637,
+            -4.333677487934949,
+            -8.831861592902834
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8476916666666666
+      },
+      {
+        "condition_label": "R5-3",
+        "round": 5,
+        "x": [
+          82.26521151605994,
+          1.4237792007625103,
+          23.358146627433598,
+          0.9954377571120858
+        ],
+        "well": "C5",
+        "obj_measured": {
+          "yield_pct": 78.8076969424984,
+          "e_factor": 110.75860380875756,
+          "cost_usd_per_mol": 8.671919658617282,
+          "ee_pct": 40.093990588429044
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 78.8076969424984,
+          "ee_pct": 40.093990588429044,
+          "side_area_frac": 0.09376153622447114,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3190129285560817,
+          "fits": [
+            [
+              [
+                102.12448397226277,
+                7.770482900585267,
+                0.06000581007511303,
+                0.19194006580647713
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                43.669755371359244,
+                8.40135466622894,
+                0.06022851022031435,
+                0.18724440132094725
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.842576677648637,
+                2.4630388434813537,
+                0.07401025322012349,
+                0.17185171185625037
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                16.26953762311732,
+                10.021292009198769,
+                0.11521823178337115,
+                0.7378560372471668
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                5.614028787988164,
+                3.791256211801156,
+                0.09098173679105495,
+                0.5263599362031547
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            1.44,
+            2.55,
+            3.92,
+            5.36,
+            7.84,
+            8.46,
+            10.25
+          ]
+        },
+        "obs": {
+          "yield_pct": 80.29679393381541,
+          "ee_pct": 39.31302768667446,
+          "e_factor": 109.17950676600682,
+          "cost_usd_per_mol": 8.215621178405403,
+          "dT_ad_K": 4.893980113798119,
+          "T_boil_c": 108.92029816919768,
+          "eta_mPas": 0.16715968607497347,
+          "dP_bar": 5.448558658462001,
+          "side_frac": 0.16815295360842628,
+          "x_cat": 1.0,
+          "x_bg": 0.9999998248918527,
+          "v_mix_uL": 134.30488319694996,
+          "m_product_mg": 2.415683805800893
+        },
+        "guardrail": {
+          "g": [
+            -25.10601988620188,
+            -11.655086653137744,
+            -9.551441341537998
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8476916666666666
+      },
+      {
+        "condition_label": "R5-4",
+        "round": 5,
+        "x": [
+          86.57013609074056,
+          8.38283929694444,
+          23.96575956698507,
+          0.9918601233512163
+        ],
+        "well": "D5",
+        "obj_measured": {
+          "yield_pct": 78.06885701247052,
+          "e_factor": 295.5965492001113,
+          "cost_usd_per_mol": 51.54120370803668,
+          "ee_pct": 42.403102416893745
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 78.06885701247052,
+          "ee_pct": 42.403102416893745,
+          "side_area_frac": 0.0943368685278354,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3310242915848987,
+          "fits": [
+            [
+              [
+                102.83453882662921,
+                7.7704348458004935,
+                0.059983538742990006,
+                0.19215653780769235
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                41.59284664644123,
+                8.40134200215569,
+                0.06012491606861392,
+                0.18727879394326147
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                21.97886016327904,
+                3.8149431190432197,
+                0.08885260169976388,
+                0.3605557422099467
+              ],
+              "Cat"
+            ],
+            [
+              [
+                17.958786273467656,
+                10.019552645405975,
+                0.11231298453826834,
+                0.7114191672179152
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                6.003660137329497,
+                2.4605439298698206,
+                0.07502448904019676,
+                0.17466032302007006
+              ],
+              "IS_TMB"
+            ]
+          ],
+          "detected_tR": [
+            2.52,
+            3.94,
+            7.84,
+            8.47,
+            10.19
+          ]
+        },
+        "obs": {
+          "yield_pct": 79.50834680837687,
+          "ee_pct": 41.5498365277821,
+          "e_factor": 276.6425884295035,
+          "cost_usd_per_mol": 49.850763281768685,
+          "dT_ad_K": 4.901116559671432,
+          "T_boil_c": 107.63319653192275,
+          "eta_mPas": 0.15189533952327972,
+          "dP_bar": 4.951018315315548,
+          "side_frac": 0.1928382641221844,
+          "x_cat": 1.0,
+          "x_bg": 0.9999999999918101,
+          "v_mix_uL": 106.46864281222224,
+          "m_product_mg": 2.3439976809884087
+        },
+        "guardrail": {
+          "g": [
+            -25.098883440328567,
+            -6.063060441182188,
+            -10.048981684684453
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8476916666666666
+      },
+      {
+        "condition_label": "R5-5",
+        "round": 5,
+        "x": [
+          80.28528711758554,
+          9.595973583869636,
+          21.79015253391117,
+          0.9948917776346207
+        ],
+        "well": "E5",
+        "obj_measured": {
+          "yield_pct": 82.70614411374828,
+          "e_factor": 312.7532516189426,
+          "cost_usd_per_mol": 55.691960610841214,
+          "ee_pct": 42.27613868558485
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 82.70614411374828,
+          "ee_pct": 42.27613868558485,
+          "side_area_frac": 0.07695310618957078,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2787118991160282,
+          "fits": [
+            [
+              [
+                108.84577517821796,
+                7.7704569654525475,
+                0.06005549246210716,
+                0.19208076413330316
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                44.16059143221637,
+                8.401385725624595,
+                0.06011646305470934,
+                0.18723284082200786
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                24.77956168128994,
+                3.81593506895114,
+                0.08891038838006295,
+                0.35241468424397204
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.844632499629007,
+                2.4625508577913626,
+                0.07488539383824924,
+                0.16935138331511065
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                15.309018576394868,
+                10.019028622124377,
+                0.11192877969448836,
+                0.7439491461878488
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            0.89,
+            2.54,
+            3.94,
+            6.35,
+            7.84,
+            8.47,
+            10.18
+          ]
+        },
+        "obs": {
+          "yield_pct": 84.18768580527788,
+          "ee_pct": 41.469336375775846,
+          "e_factor": 309.2214096526763,
+          "cost_usd_per_mol": 54.71192218801967,
+          "dT_ad_K": 4.89506386136329,
+          "T_boil_c": 108.72101974784749,
+          "eta_mPas": 0.1745738278614668,
+          "dP_bar": 5.690222108390619,
+          "side_frac": 0.15812335925027357,
+          "x_cat": 1.0,
+          "x_bg": 0.9999912843053236,
+          "v_mix_uL": 101.61610566452146,
+          "m_product_mg": 2.444808912408588
+        },
+        "guardrail": {
+          "g": [
+            -25.10493613863671,
+            -13.435732630261953,
+            -9.309777891609382
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8476916666666666
+      },
+      {
+        "condition_label": "R6-1",
+        "round": 6,
+        "x": [
+          31.993944169953465,
+          9.713077697902918,
+          14.595179870724678,
+          0.5945927919819951
+        ],
+        "well": "A6",
+        "obj_measured": {
+          "yield_pct": 89.2830324381088,
+          "e_factor": 302.96783130299366,
+          "cost_usd_per_mol": 52.219074192235816,
+          "ee_pct": 83.53835561170945
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 89.2830324381088,
+          "ee_pct": 83.53835561170945,
+          "side_area_frac": 0.03942917215675416,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2740195365222613,
+          "fits": [
+            [
+              [
+                151.578463858886,
+                7.770316213415547,
+                0.0599243950649039,
+                0.19318404643836037
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                13.595146151615303,
+                8.403320292374483,
+                0.06028711883402018,
+                0.17724421029539075
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                24.87687879643158,
+                3.8164755926063463,
+                0.08858963586388352,
+                0.3488448475407037
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.926847709063692,
+                2.461744948418015,
+                0.07645042814594004,
+                0.1684021946925761
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                8.04440850828375,
+                9.997503169809933,
+                0.14228517056170878,
+                1.1699212775703964
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            0.81,
+            2.56,
+            3.95,
+            7.84,
+            8.44,
+            10.22
+          ]
+        },
+        "obs": {
+          "yield_pct": 90.59649049464433,
+          "ee_pct": 82.40286148570804,
+          "e_factor": 293.4676797955895,
+          "cost_usd_per_mol": 50.79767727698305,
+          "dT_ad_K": 6.45337896513867,
+          "T_boil_c": 56.66918704226214,
+          "eta_mPas": 0.4491381160346518,
+          "dP_bar": 14.639626505809114,
+          "side_frac": 0.044550476656122974,
+          "x_cat": 0.9999990173145065,
+          "x_bg": 0.015240079615724156,
+          "v_mix_uL": 101.14768920838833,
+          "m_product_mg": 2.665329202127832
+        },
+        "guardrail": {
+          "g": [
+            -23.54662103486133,
+            -9.675242872308672,
+            -0.3603734941908865
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8485083333333333
+      },
+      {
+        "condition_label": "R6-2",
+        "round": 6,
+        "x": [
+          70.77477821614593,
+          1.0904454039409757,
+          4.284940148703754,
+          0.9148795073851943
+        ],
+        "well": "B6",
+        "obj_measured": {
+          "yield_pct": 84.7511464124706,
+          "e_factor": 101.013905648842,
+          "cost_usd_per_mol": 6.1758904280102005,
+          "ee_pct": 50.82838393991768
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 84.7511464124706,
+          "ee_pct": 50.82838393991768,
+          "side_area_frac": 0.07192643989626916,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3116604136587622,
+          "fits": [
+            [
+              [
+                118.24162566664673,
+                7.770403103535404,
+                0.059938232040759834,
+                0.1924035886952759
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                38.54799519642392,
+                8.401654197258068,
+                0.05999406258341818,
+                0.18619291733180166
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.859110737648713,
+                2.462415949855599,
+                0.07279462752173484,
+                0.17480549294101344
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                12.981535175637353,
+                10.016506466425277,
+                0.11741293158297508,
+                0.7866811679845063
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                4.85322711488908,
+                3.785530929903306,
+                0.09289657003927074,
+                0.5932222006936211
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            1.39,
+            2.56,
+            3.91,
+            5.66,
+            7.84,
+            8.47,
+            10.21
+          ]
+        },
+        "obs": {
+          "yield_pct": 86.25306774612542,
+          "ee_pct": 49.93675311316168,
+          "e_factor": 97.80704714589478,
+          "cost_usd_per_mol": 6.087347721800269,
+          "dT_ad_K": 5.075921036956037,
+          "T_boil_c": 87.58415695482262,
+          "eta_mPas": 0.21021009984985684,
+          "dP_bar": 6.851783982888057,
+          "side_frac": 0.12390787617937729,
+          "x_cat": 0.9999667253999234,
+          "x_bg": 0.5369976374062864,
+          "v_mix_uL": 135.6382183842361,
+          "m_product_mg": 2.496971960412149
+        },
+        "guardrail": {
+          "g": [
+            -24.924078963043964,
+            -1.8093787386766849,
+            -8.148216017111942
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8485083333333333
+      },
+      {
+        "condition_label": "R6-3",
+        "round": 6,
+        "x": [
+          70.46309801284224,
+          1.6096699563786387,
+          1.9293810306116939,
+          0.9061289262026548
+        ],
+        "well": "C6",
+        "obj_measured": {
+          "yield_pct": 82.88140442610946,
+          "e_factor": 117.60264844567506,
+          "cost_usd_per_mol": 9.322254906413574,
+          "ee_pct": 63.75244284886942
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 82.88140442610946,
+          "ee_pct": 63.75244284886942,
+          "side_area_frac": 0.07587277782491623,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2864035354590762,
+          "fits": [
+            [
+              [
+                125.54130008406483,
+                7.770423333067313,
+                0.05995439747572733,
+                0.192344713510949
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                27.78929810423767,
+                8.401863040984983,
+                0.06019060663527915,
+                0.18440776647915286
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.8566751104577515,
+                2.4626672615708234,
+                0.07455320069151838,
+                0.16971949523157753
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                13.550839356584081,
+                10.01346940116631,
+                0.11660457356226804,
+                0.8219554977232532
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                5.861376450668801,
+                3.793373449544873,
+                0.08862241333428383,
+                0.5023413235083435
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            1.24,
+            2.54,
+            3.96,
+            5.79,
+            6.32,
+            7.84,
+            8.47,
+            10.18
+          ]
+        },
+        "obs": {
+          "yield_pct": 84.331332087759,
+          "ee_pct": 62.75097346053352,
+          "e_factor": 108.90260395476223,
+          "cost_usd_per_mol": 9.08195950362332,
+          "dT_ad_K": 5.098547517406434,
+          "T_boil_c": 85.94383395046214,
+          "eta_mPas": 0.21111383844769174,
+          "dP_bar": 6.88124128134225,
+          "side_frac": 0.1234042667884417,
+          "x_cat": 0.9991085466965881,
+          "x_bg": 0.28409725301980426,
+          "v_mix_uL": 133.56132017448545,
+          "m_product_mg": 2.470558412752391
+        },
+        "guardrail": {
+          "g": [
+            -24.901452482593566,
+            -0.4807359376198974,
+            -8.11875871865775
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8485083333333333
+      },
+      {
+        "condition_label": "R6-4",
+        "round": 6,
+        "x": [
+          33.572592469863594,
+          9.901906595565379,
+          12.462491110898554,
+          0.619262239895761
+        ],
+        "well": "D6",
+        "obj_measured": {
+          "yield_pct": 89.33486884810794,
+          "e_factor": 311.34754418403304,
+          "cost_usd_per_mol": 53.20335975365396,
+          "ee_pct": 80.56920968443579
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 89.33486884810794,
+          "ee_pct": 80.56920968443579,
+          "side_area_frac": 0.040341313723967674,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.236424627256018,
+          "fits": [
+            [
+              [
+                149.21292165278155,
+                7.770315656744338,
+                0.059899360258341444,
+                0.19316138459259957
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                16.056585716218127,
+                8.402651193937057,
+                0.05957630897871471,
+                0.1799903388997829
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                25.47138878420243,
+                3.8166001367813545,
+                0.08915345816249398,
+                0.34945654535643184
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.985879993865102,
+                2.4600997797799,
+                0.07481565232059957,
+                0.17547463849649533
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                8.269832501855621,
+                10.000000000000002,
+                0.1397507954125497,
+                1.1861174367038076
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.52,
+            3.95,
+            7.84,
+            8.45,
+            10.3
+          ]
+        },
+        "obs": {
+          "yield_pct": 90.67337982853104,
+          "ee_pct": 79.45771510982937,
+          "e_factor": 288.66749941663596,
+          "cost_usd_per_mol": 51.87128511251664,
+          "dT_ad_K": 6.292037285429808,
+          "T_boil_c": 57.9527341194659,
+          "eta_mPas": 0.43695792738620787,
+          "dP_bar": 14.242614080861067,
+          "side_frac": 0.04618261300743216,
+          "x_cat": 0.999998174046725,
+          "x_bg": 0.01643942502909046,
+          "v_mix_uL": 100.39237361773849,
+          "m_product_mg": 2.6609068219055807
+        },
+        "guardrail": {
+          "g": [
+            -23.707962714570193,
+            -9.380141649602308,
+            -0.7573859191389332
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8485083333333333
+      },
+      {
+        "condition_label": "R6-5",
+        "round": 6,
+        "x": [
+          53.47048508003354,
+          1.4012307999655604,
+          7.7097799042239785,
+          0.7788357846438885
+        ],
+        "well": "E6",
+        "obj_measured": {
+          "yield_pct": 86.7206720053611,
+          "e_factor": 108.61904877704369,
+          "cost_usd_per_mol": 7.755829935703095,
+          "ee_pct": 72.67231161115544
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 86.7206720053611,
+          "ee_pct": 72.67231161115544,
+          "side_area_frac": 0.05414906586006675,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3477810469139406,
+          "fits": [
+            [
+              [
+                138.51189482165626,
+                7.770346455615296,
+                0.06002667851498104,
+                0.19278944213999666
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                21.921348388261762,
+                8.402544015670758,
+                0.06050330093455068,
+                0.18087772119727596
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                5.952157258288609,
+                2.4622266938921165,
+                0.07493486233069238,
+                0.17325185789320802
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                9.86778425734558,
+                10.008000182991022,
+                0.1120223465593986,
+                0.9343673846175662
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                5.980508517580256,
+                3.785482217918246,
+                0.09001325574677804,
+                0.5870193294195237
+              ],
+              "Cat"
+            ]
+          ],
+          "detected_tR": [
+            1.54,
+            2.56,
+            3.99,
+            7.84,
+            8.46,
+            10.21
+          ]
+        },
+        "obs": {
+          "yield_pct": 88.11083786894204,
+          "ee_pct": 71.5014288245186,
+          "e_factor": 106.5329622062562,
+          "cost_usd_per_mol": 7.55735272182749,
+          "dT_ad_K": 5.504430200424042,
+          "T_boil_c": 69.31138605794752,
+          "eta_mPas": 0.2955664920455963,
+          "dP_bar": 9.633969811740263,
+          "side_frac": 0.07852762538057455,
+          "x_cat": 0.9998280293058895,
+          "x_bg": 0.1497777215932582,
+          "v_mix_uL": 134.39507680013776,
+          "m_product_mg": 2.584507708693631
+        },
+        "guardrail": {
+          "g": [
+            -24.495569799575957,
+            -0.8409009779139751,
+            -5.366030188259737
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8485083333333333
+      },
+      {
+        "condition_label": "R7-1",
+        "round": 7,
+        "x": [
+          42.37133889924735,
+          9.827618206851184,
+          23.200611118227243,
+          0.9966402351856232
+        ],
+        "well": "A7",
+        "obj_measured": {
+          "yield_pct": 91.23502834246983,
+          "e_factor": 278.71124118750436,
+          "cost_usd_per_mol": 51.70444756789414,
+          "ee_pct": 76.53769367118882
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 91.23502834246983,
+          "ee_pct": 76.53769367118882,
+          "side_area_frac": 0.03914857427738139,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2562829533121285,
+          "fits": [
+            [
+              [
+                148.98439874184785,
+                7.770355888766479,
+                0.05995326605012815,
+                0.1928611241396299
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                19.800403691721375,
+                8.402085396913202,
+                0.06022332597788342,
+                0.18074480325224682
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                25.12066307570872,
+                3.8169403057671527,
+                0.08837066774268741,
+                0.34738647186300664
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.890540287833999,
+                2.4627149476723145,
+                0.07671710498969862,
+                0.16675427785170266
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                8.140414390695152,
+                9.994142325912646,
+                0.1299208514423716,
+                1.180480502291854
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.56,
+            3.92,
+            7.85,
+            8.45,
+            10.19
+          ]
+        },
+        "obs": {
+          "yield_pct": 92.69747916302465,
+          "ee_pct": 75.40375521963044,
+          "e_factor": 291.16476280117655,
+          "cost_usd_per_mol": 51.41280192787132,
+          "dT_ad_K": 4.89160000131933,
+          "T_boil_c": 109.36290665196168,
+          "eta_mPas": 0.4022072493693724,
+          "dP_bar": 13.109918081951786,
+          "side_frac": 0.04829683475608762,
+          "x_cat": 0.9999488853386347,
+          "x_bg": 0.10342950888418667,
+          "v_mix_uL": 100.68952717259526,
+          "m_product_mg": 2.6644946505955174
+        },
+        "guardrail": {
+          "g": [
+            -25.10839999868067,
+            -51.99156775271433,
+            -1.8900819180482138
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8478583333333334
+      },
+      {
+        "condition_label": "R7-2",
+        "round": 7,
+        "x": [
+          36.40327476430684,
+          6.232390381395817,
+          22.92433472815901,
+          0.9634207710623741
+        ],
+        "well": "B7",
+        "obj_measured": {
+          "yield_pct": 90.01597442862742,
+          "e_factor": 210.9516341013805,
+          "cost_usd_per_mol": 33.23351662922844,
+          "ee_pct": 80.50824209944177
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 90.01597442862742,
+          "ee_pct": 80.50824209944177,
+          "side_area_frac": 0.029766109153171932,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3845994139328222,
+          "fits": [
+            [
+              [
+                150.29978407106347,
+                7.770427648579161,
+                0.060036071613381654,
+                0.19276872371254683
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                16.229768621897218,
+                8.40290188527559,
+                0.060168174486171934,
+                0.17906845947016728
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                16.80291423667222,
+                3.8136164062675744,
+                0.08913018212720968,
+                0.36832353315073335
+              ],
+              "Cat"
+            ],
+            [
+              [
+                6.004931773616819,
+                2.4612697569926496,
+                0.0760060191714435,
+                0.173645779144446
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                5.8087413042844345,
+                10.145000000000001,
+                0.34999999999999676,
+                0.44147881572028885
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.4,
+            2.55,
+            3.95,
+            7.84,
+            8.46,
+            10.45
+          ]
+        },
+        "obs": {
+          "yield_pct": 91.41224553713575,
+          "ee_pct": 79.39993301283187,
+          "e_factor": 207.98334877681845,
+          "cost_usd_per_mol": 32.57624303746554,
+          "dT_ad_K": 4.960850701096337,
+          "T_boil_c": 98.75979697874578,
+          "eta_mPas": 0.4541920178292914,
+          "dP_bar": 14.80435809288478,
+          "side_frac": 0.04099270210702009,
+          "x_cat": 0.9955955239385667,
+          "x_bg": 0.04509225650023618,
+          "v_mix_uL": 115.07043847441673,
+          "m_product_mg": 2.666806479324188
+        },
+        "guardrail": {
+          "g": [
+            -25.039149298903663,
+            -47.35652221443894,
+            -0.19564190711522045
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8478583333333334
+      },
+      {
+        "condition_label": "R7-3",
+        "round": 7,
+        "x": [
+          38.809750117361546,
+          7.260902957990766,
+          22.576037854887545,
+          0.9910853365436196
+        ],
+        "well": "C7",
+        "obj_measured": {
+          "yield_pct": 90.74747881755799,
+          "e_factor": 229.1056597118782,
+          "cost_usd_per_mol": 38.405842952864916,
+          "ee_pct": 82.69952727065503
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 90.74747881755799,
+          "ee_pct": 82.69952727065503,
+          "side_area_frac": 0.03889724708207577,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2466832871728135,
+          "fits": [
+            [
+              [
+                153.3605736989875,
+                7.770382054221207,
+                0.060051061149307784,
+                0.192833502838438
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                14.522262113494762,
+                8.403757264194772,
+                0.06033880525579839,
+                0.17667856076149702
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                19.113161124077216,
+                3.8151057491860283,
+                0.08810773120396634,
+                0.3622747255673931
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.783955459839928,
+                2.46479220125081,
+                0.07606766094462467,
+                0.16540800078446952
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                7.802089233505624,
+                9.997638697900758,
+                0.14080580699539402,
+                1.171420768304556
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.54,
+            3.94,
+            7.84,
+            8.46,
+            10.27
+          ]
+        },
+        "obs": {
+          "yield_pct": 92.15328913282445,
+          "ee_pct": 81.5156766090445,
+          "e_factor": 222.9317868469819,
+          "cost_usd_per_mol": 37.90195307476645,
+          "dT_ad_K": 4.902672964014879,
+          "T_boil_c": 107.3601654643133,
+          "eta_mPas": 0.4342814982479367,
+          "dP_bar": 14.155376054172342,
+          "side_frac": 0.04337439662774491,
+          "x_cat": 0.9986907514685132,
+          "x_bg": 0.0622252665058195,
+          "v_mix_uL": 110.95638816803694,
+          "m_product_mg": 2.670342035207866
+        },
+        "guardrail": {
+          "g": [
+            -25.09732703598512,
+            -53.55041534695175,
+            -0.8446239458276583
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8478583333333334
+      },
+      {
+        "condition_label": "R7-4",
+        "round": 7,
+        "x": [
+          35.51403009798378,
+          8.216562471352518,
+          22.82978988159448,
+          0.9177374942228198
+        ],
+        "well": "D7",
+        "obj_measured": {
+          "yield_pct": 89.42580239894431,
+          "e_factor": 261.7844951759338,
+          "cost_usd_per_mol": 44.10304275106809,
+          "ee_pct": 83.49603474564846
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 89.42580239894431,
+          "ee_pct": 83.49603474564846,
+          "side_area_frac": 0.03788676234873173,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.265911128266197,
+          "fits": [
+            [
+              [
+                151.78584133342613,
+                7.770338433753407,
+                0.06002668517539165,
+                0.19287832395099544
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                13.651893104620825,
+                8.403049295415617,
+                0.0599189403808291,
+                0.1778064435301883
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                21.430614610833242,
+                3.815481813755945,
+                0.08822763518466283,
+                0.3575703020376709
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.907639469946569,
+                2.4610973588117995,
+                0.07601155219579646,
+                0.1692540913055319
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                7.591266576255073,
+                9.985375983415725,
+                0.14435347610794302,
+                1.1999999999999997
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.31,
+            2.52,
+            3.96,
+            7.85,
+            8.45,
+            10.21
+          ]
+        },
+        "obs": {
+          "yield_pct": 90.75365790931406,
+          "ee_pct": 82.38672467722087,
+          "e_factor": 247.03558822956919,
+          "cost_usd_per_mol": 42.78098367116653,
+          "dT_ad_K": 5.0686604031734355,
+          "T_boil_c": 88.14058805342381,
+          "eta_mPas": 0.4569995237770463,
+          "dP_bar": 14.895868559310651,
+          "side_frac": 0.04109070801404915,
+          "x_cat": 0.9998071826422193,
+          "x_bg": 0.03957160820869121,
+          "v_mix_uL": 107.13375011458993,
+          "m_product_mg": 2.677177983587819
+        },
+        "guardrail": {
+          "g": [
+            -24.931339596826565,
+            -37.626557955440035,
+            -0.10413144068934876
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8478583333333334
+      },
+      {
+        "condition_label": "R7-5",
+        "round": 7,
+        "x": [
+          40.30305565800518,
+          9.516342452727258,
+          22.02672529872507,
+          0.9869589256122708
+        ],
+        "well": "E7",
+        "obj_measured": {
+          "yield_pct": 91.88661902920752,
+          "e_factor": 274.1766356957041,
+          "cost_usd_per_mol": 49.71174721160572,
+          "ee_pct": 79.9069801759219
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 91.88661902920752,
+          "ee_pct": 79.9069801759219,
+          "side_area_frac": 0.03757623086848515,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3139535080969778,
+          "fits": [
+            [
+              [
+                152.9121583701112,
+                7.770282053154857,
+                0.05999417357802624,
+                0.19303192481694018
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                17.078086833922743,
+                8.402921333575735,
+                0.05982585611129913,
+                0.1795133610603209
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                24.484363327563745,
+                3.8166086957697636,
+                0.08904533424033484,
+                0.3496289743123335
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.947908704830278,
+                2.462150542381923,
+                0.0753624781467685,
+                0.17104632647776793
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                7.825162906891834,
+                9.988253545728677,
+                0.13205910838023055,
+                1.14374315831659
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.54,
+            3.92,
+            7.84,
+            8.46,
+            10.23
+          ]
+        },
+        "obs": {
+          "yield_pct": 93.25865151463327,
+          "ee_pct": 78.7557712458782,
+          "e_factor": 281.8018465883886,
+          "cost_usd_per_mol": 49.71175800855486,
+          "dT_ad_K": 4.911027976034852,
+          "T_boil_c": 105.93889116487702,
+          "eta_mPas": 0.4197375948307297,
+          "dP_bar": 13.681318506253062,
+          "side_frac": 0.04557461097170459,
+          "x_cat": 0.9997494766292057,
+          "x_bg": 0.07457782764191112,
+          "v_mix_uL": 101.93463018909097,
+          "m_product_mg": 2.66838683705831
+        },
+        "guardrail": {
+          "g": [
+            -25.088972023965148,
+            -50.63583550687184,
+            -1.3186814937469382
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8478583333333334
+      },
+      {
+        "condition_label": "R8-1",
+        "round": 8,
+        "x": [
+          36.73187731299549,
+          4.167726791463792,
+          23.857414765283465,
+          0.5094611439853907
+        ],
+        "well": "A8",
+        "obj_measured": {
+          "yield_pct": 89.58760108004103,
+          "e_factor": 173.62197980168034,
+          "cost_usd_per_mol": 22.330197882129784,
+          "ee_pct": 82.49658738536775
+        },
+        "meas": {
+          "conv_pct": 98.49248422081286,
+          "yield_pct": 89.58760108004103,
+          "ee_pct": 82.49658738536775,
+          "side_area_frac": 0.04481895871104786,
+          "n_peaks_fit": 6,
+          "resid_rms_mAU": 1.085356558283868,
+          "fits": [
+            [
+              [
+                151.23224108962987,
+                7.770348986208549,
+                0.06003814467047382,
+                0.19288796508977343
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                14.504820908446042,
+                8.403492372039207,
+                0.061159630917879994,
+                0.17628224384724772
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                11.934564331455851,
+                3.808302992603378,
+                0.08757988520887919,
+                0.4069713245462974
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.818184205867479,
+                2.4632303995120592,
+                0.0744358543301109,
+                0.16746918325488566
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                8.729950523012638,
+                9.998315583725686,
+                0.1315446637787698,
+                1.1123838848816794
+              ],
+              "Side_elim"
+            ],
+            [
+              [
+                2.5627768246181306,
+                6.380000000000001,
+                0.3499999999999999,
+                0.14225429209410775
+              ],
+              "Substrate"
+            ]
+          ],
+          "detected_tR": [
+            1.42,
+            2.53,
+            3.96,
+            6.68,
+            7.84,
+            8.45,
+            10.26
+          ]
+        },
+        "obs": {
+          "yield_pct": 90.91177757397423,
+          "ee_pct": 81.37384581956303,
+          "e_factor": 169.9952667776435,
+          "cost_usd_per_mol": 21.983737940007607,
+          "dT_ad_K": 7.127376268817967,
+          "T_boil_c": 52.85328066054109,
+          "eta_mPas": 0.3946987188924858,
+          "dP_bar": 12.865178039045643,
+          "side_frac": 0.05402449475162396,
+          "x_cat": 0.999999999964738,
+          "x_bg": 0.04911274575589564,
+          "v_mix_uL": 123.32909283414483,
+          "m_product_mg": 2.642625082691101
+        },
+        "guardrail": {
+          "g": [
+            -22.87262373118203,
+            -1.121403347545595,
+            -2.1348219609543566
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8479333333333333
+      },
+      {
+        "condition_label": "R8-2",
+        "round": 8,
+        "x": [
+          28.522586789913476,
+          5.358967773616314,
+          23.87422480341047,
+          0.3979383362457156
+        ],
+        "well": "B8",
+        "obj_measured": {
+          "yield_pct": 91.2351708154412,
+          "e_factor": 198.82830417654196,
+          "cost_usd_per_mol": 28.19422058779637,
+          "ee_pct": 83.23867859159425
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 91.2351708154412,
+          "ee_pct": 83.23867859159425,
+          "side_area_frac": 0.04174772773343111,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3191456673549191,
+          "fits": [
+            [
+              [
+                154.63976230702346,
+                7.770334498363247,
+                0.060010678610526794,
+                0.19300198864247156
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                14.145303701542788,
+                8.403102569879247,
+                0.059842150727602635,
+                0.1779199997917495
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                14.739654518924107,
+                3.811283960118767,
+                0.08896995394790892,
+                0.38288790187402505
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.952366774051961,
+                2.462184289755498,
+                0.07346742655126616,
+                0.17401536867391218
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                8.25485947836903,
+                9.993951725567028,
+                0.14338406095868725,
+                1.1999999999986675
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            1.03,
+            2.52,
+            3.93,
+            7.84,
+            8.45,
+            10.22
+          ]
+        },
+        "obs": {
+          "yield_pct": 92.56525537133588,
+          "ee_pct": 82.18313726582629,
+          "e_factor": 198.02148368498075,
+          "cost_usd_per_mol": 28.01718385774816,
+          "dT_ad_K": 8.410507023849563,
+          "T_boil_c": 48.923823019950305,
+          "eta_mPas": 0.45760764972486406,
+          "dP_bar": 14.915690383437148,
+          "side_frac": 0.0441966720350152,
+          "x_cat": 0.9999792087775019,
+          "x_bg": 0.014768091827655483,
+          "v_mix_uL": 118.56412890553474,
+          "m_product_mg": 2.6662109928416053
+        },
+        "guardrail": {
+          "g": [
+            -21.58949297615044,
+            -5.4012362300368295,
+            -0.08430961656285163
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8479333333333333
+      },
+      {
+        "condition_label": "R8-3",
+        "round": 8,
+        "x": [
+          44.837877373211086,
+          1.1869356269016862,
+          13.938260103575885,
+          0.683235190808773
+        ],
+        "well": "C8",
+        "obj_measured": {
+          "yield_pct": 88.41755038010535,
+          "e_factor": 102.00030131826895,
+          "cost_usd_per_mol": 6.443620055787057,
+          "ee_pct": 77.6150996298024
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 88.41755038010535,
+          "ee_pct": 77.6150996298024,
+          "side_area_frac": 0.04961547349393499,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.3546228915224021,
+          "fits": [
+            [
+              [
+                145.26470118301575,
+                7.770385281080323,
+                0.05994675977422404,
+                0.1928536490915827
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                18.30776702017916,
+                8.402606717699683,
+                0.05999248623823631,
+                0.18042652413211166
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                6.083204526380601,
+                2.459610600781535,
+                0.07417859434489167,
+                0.17897394816055281
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                5.436641832634652,
+                3.783313921459784,
+                0.10057647212206564,
+                0.5832553007001072
+              ],
+              "Cat"
+            ],
+            [
+              [
+                9.140813902021822,
+                10.005329651322919,
+                0.13016669141796317,
+                1.0079960763062925
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            0.96,
+            2.54,
+            3.92,
+            5.85,
+            7.84,
+            8.46,
+            10.22
+          ]
+        },
+        "obs": {
+          "yield_pct": 89.8534049270846,
+          "ee_pct": 76.45856963293585,
+          "e_factor": 100.95094170944,
+          "cost_usd_per_mol": 6.316504387559272,
+          "dT_ad_K": 5.928953329243686,
+          "T_boil_c": 61.76823682750353,
+          "eta_mPas": 0.3475008015537836,
+          "dP_bar": 11.32676511655535,
+          "side_frac": 0.06338100832734656,
+          "x_cat": 0.9994560420702537,
+          "x_bg": 0.08818549587318758,
+          "v_mix_uL": 135.25225749239326,
+          "m_product_mg": 2.61931791309988
+        },
+        "guardrail": {
+          "g": [
+            -24.071046670756314,
+            -1.930359454292443,
+            -3.6732348834446498
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8479333333333333
+      },
+      {
+        "condition_label": "R8-4",
+        "round": 8,
+        "x": [
+          35.17061076592654,
+          9.774289119057357,
+          23.620834160596132,
+          0.4488639133051038
+        ],
+        "well": "D8",
+        "obj_measured": {
+          "yield_pct": 91.18343446647883,
+          "e_factor": 302.5748029789989,
+          "cost_usd_per_mol": 51.4529728409418,
+          "ee_pct": 83.31480735481674
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 91.18343446647883,
+          "ee_pct": 83.31480735481674,
+          "side_area_frac": 0.039676392921796234,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.200259096867902,
+          "fits": [
+            [
+              [
+                154.61628193935138,
+                7.770316735293564,
+                0.05996201814694097,
+                0.19316336321489172
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                14.073071823634454,
+                8.403541124216298,
+                0.06005542947526314,
+                0.1771697195960045
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                24.9732418081953,
+                3.8165272716422356,
+                0.08908438171814788,
+                0.34844038226187524
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.830740652362739,
+                2.4630939929392874,
+                0.07655779966220769,
+                0.16549404511532975
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                8.242196625122391,
+                10.002875863745263,
+                0.1280500620463203,
+                1.0554611862101753
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.54,
+            3.94,
+            7.84,
+            8.45,
+            10.16
+          ]
+        },
+        "obs": {
+          "yield_pct": 92.52647310680942,
+          "ee_pct": 82.18874776204035,
+          "e_factor": 299.96135848309115,
+          "cost_usd_per_mol": 51.52595672981572,
+          "dT_ad_K": 7.752890245931387,
+          "T_boil_c": 50.59448777365827,
+          "eta_mPas": 0.40129408437576514,
+          "dP_bar": 13.080153530765132,
+          "side_frac": 0.05305486522243856,
+          "x_cat": 0.9999999999999982,
+          "x_bg": 0.03895284944058941,
+          "v_mix_uL": 100.90284352377057,
+          "m_product_mg": 2.644216226838639
+        },
+        "guardrail": {
+          "g": [
+            -22.247109754068614,
+            -0.42387700773173265,
+            -1.9198464692348676
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8479333333333333
+      },
+      {
+        "condition_label": "R8-5",
+        "round": 8,
+        "x": [
+          60.024048490449786,
+          9.489491553977132,
+          1.8027114244177938,
+          0.9718816243112087
+        ],
+        "well": "E8",
+        "obj_measured": {
+          "yield_pct": 87.43652399204119,
+          "e_factor": 287.905093246134,
+          "cost_usd_per_mol": 52.0944307704139,
+          "ee_pct": 79.07132952264637
+        },
+        "meas": {
+          "conv_pct": 100.0,
+          "yield_pct": 87.43652399204119,
+          "ee_pct": 79.07132952264637,
+          "side_area_frac": 0.051896308455512435,
+          "n_peaks_fit": 5,
+          "resid_rms_mAU": 1.2701728545692024,
+          "fits": [
+            [
+              [
+                144.83071505086565,
+                7.770326042521163,
+                0.05998225922338848,
+                0.19288902100906602
+              ],
+              "Product_R"
+            ],
+            [
+              [
+                16.92685433441056,
+                8.403435877280579,
+                0.060289018090251736,
+                0.1783985254857636
+              ],
+              "Product_S"
+            ],
+            [
+              [
+                24.538692383324186,
+                3.8157304417419873,
+                0.08853143508371977,
+                0.35382723686041656
+              ],
+              "Cat"
+            ],
+            [
+              [
+                5.939190908584048,
+                2.463042292527319,
+                0.07529928624926262,
+                0.17102958839354457
+              ],
+              "IS_TMB"
+            ],
+            [
+              [
+                10.522383192041513,
+                10.009610648141685,
+                0.12182570692204045,
+                0.9016979183784547
+              ],
+              "Side_elim"
+            ]
+          ],
+          "detected_tR": [
+            2.53,
+            3.94,
+            5.98,
+            7.84,
+            8.46,
+            10.19
+          ]
+        },
+        "obs": {
+          "yield_pct": 88.82811876342097,
+          "ee_pct": 77.86638373396501,
+          "e_factor": 295.1682365022761,
+          "cost_usd_per_mol": 51.743863285072,
+          "dT_ad_K": 4.942511926686179,
+          "T_boil_c": 101.17413456519608,
+          "eta_mPas": 0.27079037733170586,
+          "dP_bar": 8.82639402886359,
+          "side_frac": 0.08527257847786608,
+          "x_cat": 0.998950149584552,
+          "x_bg": 0.08397860068277563,
+          "v_mix_uL": 102.04203378409147,
+          "m_product_mg": 2.5563595810473503
+        },
+        "guardrail": {
+          "g": [
+            -25.05748807331382,
+            -26.150086074746298,
+            -6.173605971136411
+          ],
+          "violations": {
+            "G1_exotherm": 0.0,
+            "G2_boiling": 0.0,
+            "G3_viscosity": 0.0
+          },
+          "feasible": true
+        },
+        "hv": 0.8479333333333333
+      }
+    ],
+    "round_logs": [
+      {
+        "round": 1,
+        "batch": [
+          "R1-1",
+          "R1-2",
+          "R1-3",
+          "R1-4",
+          "R1-5"
+        ],
+        "hypervolume": 0.8147333333333333,
+        "grid_rejections": {
+          "G1_exotherm": 659,
+          "G2_boiling": 11816,
+          "G3_viscosity": 1201
+        }
+      },
+      {
+        "round": 2,
+        "batch": [
+          "R2-1",
+          "R2-2",
+          "R2-3",
+          "R2-4",
+          "R2-5"
+        ],
+        "hypervolume": 0.82125,
+        "grid_rejections": {
+          "G1_exotherm": 659,
+          "G2_boiling": 11799,
+          "G3_viscosity": 1209
+        }
+      },
+      {
+        "round": 3,
+        "batch": [
+          "R3-1",
+          "R3-2",
+          "R3-3",
+          "R3-4",
+          "R3-5"
+        ],
+        "hypervolume": 0.8196,
+        "grid_rejections": {
+          "G1_exotherm": 659,
+          "G2_boiling": 11813,
+          "G3_viscosity": 1204
+        }
+      },
+      {
+        "round": 4,
+        "batch": [
+          "R4-1",
+          "R4-2",
+          "R4-3",
+          "R4-4",
+          "R4-5"
+        ],
+        "hypervolume": 0.8198,
+        "grid_rejections": {
+          "G1_exotherm": 659,
+          "G2_boiling": 11819,
+          "G3_viscosity": 1211
+        }
+      },
+      {
+        "round": 5,
+        "batch": [
+          "R5-1",
+          "R5-2",
+          "R5-3",
+          "R5-4",
+          "R5-5"
+        ],
+        "hypervolume": 0.8476916666666666,
+        "grid_rejections": {
+          "G1_exotherm": 659,
+          "G2_boiling": 11823,
+          "G3_viscosity": 1205
+        }
+      },
+      {
+        "round": 6,
+        "batch": [
+          "R6-1",
+          "R6-2",
+          "R6-3",
+          "R6-4",
+          "R6-5"
+        ],
+        "hypervolume": 0.8485083333333333,
+        "grid_rejections": {
+          "G1_exotherm": 659,
+          "G2_boiling": 11808,
+          "G3_viscosity": 1203
+        }
+      },
+      {
+        "round": 7,
+        "batch": [
+          "R7-1",
+          "R7-2",
+          "R7-3",
+          "R7-4",
+          "R7-5"
+        ],
+        "hypervolume": 0.8478583333333334,
+        "grid_rejections": {
+          "G1_exotherm": 659,
+          "G2_boiling": 11814,
+          "G3_viscosity": 1212
+        }
+      },
+      {
+        "round": 8,
+        "batch": [
+          "R8-1",
+          "R8-2",
+          "R8-3",
+          "R8-4",
+          "R8-5"
+        ],
+        "hypervolume": 0.8479333333333333,
+        "grid_rejections": {
+          "G1_exotherm": 659,
+          "G2_boiling": 11810,
+          "G3_viscosity": 1208
+        }
+      }
+    ],
+    "pareto_indices": [
+      1,
+      6,
+      23,
+      30,
+      44,
+      46,
+      47
+    ]
+  }
+}

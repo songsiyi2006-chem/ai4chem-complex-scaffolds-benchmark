@@ -1,0 +1,238 @@
+{
+  "@context": {
+    "@vocab": "http://autoprotocol.org/1.0/",
+    "ap": "http://autoprotocol.org/1.0/",
+    "unit": "http://qudt.org/vocab/unit/",
+    "sbs": "https://strateos.com/autoprotocol/"
+  },
+  "@type": "ap:Protocol",
+  "name": "phase9_self_driving_lab_campaign",
+  "compiled_by": "AI4Chem run_phase9_self_driving_lab_compiler.py (Module 9A)",
+  "reaction": "2-methyl-azirino[1,2-a]indole -> (R)-3-methyl-2,3-dihydroquinoline-imine + (S)-enantiomer (C10H11N asymmetric ring expansion)",
+  "refs": {
+    "reaction_plate": {
+      "@type": "ap:Ref",
+      "type": "96-well-pcr-200ul",
+      "store": "cold_4c"
+    },
+    "solvent_reservoir": {
+      "@type": "ap:Ref",
+      "type": "reservoir-12x22ml"
+    },
+    "reagent_reservoir": {
+      "@type": "ap:Ref",
+      "type": "reservoir-12x22ml"
+    },
+    "hplc_vials": {
+      "@type": "ap:Ref",
+      "type": "eppendorf-1.5ml-x24"
+    }
+  },
+  "steps": [
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_1_solvent_blend",
+      "into": "reaction_plate/A1",
+      "volume": "135.7:microliter",
+      "material": {
+        "toluene": "16.7:percent",
+        "dichloromethane": "83.3:percent"
+      },
+      "liquid_class": "organic_volatile Blend"
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_1_substrate",
+      "from": "reagent_reservoir/A1",
+      "into": "reaction_plate/A1",
+      "volume": "40:microliter",
+      "material": {
+        "substrate_0.5M_toluene": "40:microliter"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_1_catalyst",
+      "from": "reagent_reservoir/A2",
+      "into": "reaction_plate/A1",
+      "volume": "4.3:microliter",
+      "material": {
+        "CPA_catalyst_25mM": "1.06:mole_percent"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_2_solvent_blend",
+      "into": "reaction_plate/B1",
+      "volume": "135.7:microliter",
+      "material": {
+        "toluene": "89.6:percent",
+        "dichloromethane": "10.4:percent"
+      },
+      "liquid_class": "organic_volatile Blend"
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_2_substrate",
+      "from": "reagent_reservoir/A1",
+      "into": "reaction_plate/B1",
+      "volume": "40:microliter",
+      "material": {
+        "substrate_0.5M_toluene": "40:microliter"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_2_catalyst",
+      "from": "reagent_reservoir/A2",
+      "into": "reaction_plate/B1",
+      "volume": "4.3:microliter",
+      "material": {
+        "CPA_catalyst_25mM": "1.07:mole_percent"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_3_solvent_blend",
+      "into": "reaction_plate/C1",
+      "volume": "135.9:microliter",
+      "material": {
+        "toluene": "98.9:percent",
+        "dichloromethane": "1.1:percent"
+      },
+      "liquid_class": "organic_volatile Blend"
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_3_substrate",
+      "from": "reagent_reservoir/A1",
+      "into": "reaction_plate/C1",
+      "volume": "40:microliter",
+      "material": {
+        "substrate_0.5M_toluene": "40:microliter"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_3_catalyst",
+      "from": "reagent_reservoir/A2",
+      "into": "reaction_plate/C1",
+      "volume": "4.1:microliter",
+      "material": {
+        "CPA_catalyst_25mM": "1.04:mole_percent"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_4_solvent_blend",
+      "into": "reaction_plate/D1",
+      "volume": "135.9:microliter",
+      "material": {
+        "toluene": "99.4:percent",
+        "dichloromethane": "0.6:percent"
+      },
+      "liquid_class": "organic_volatile Blend"
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_4_substrate",
+      "from": "reagent_reservoir/A1",
+      "into": "reaction_plate/D1",
+      "volume": "40:microliter",
+      "material": {
+        "substrate_0.5M_toluene": "40:microliter"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_4_catalyst",
+      "from": "reagent_reservoir/A2",
+      "into": "reaction_plate/D1",
+      "volume": "4.1:microliter",
+      "material": {
+        "CPA_catalyst_25mM": "1.03:mole_percent"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_5_solvent_blend",
+      "into": "reaction_plate/E1",
+      "volume": "135.8:microliter",
+      "material": {
+        "toluene": "96.0:percent",
+        "dichloromethane": "4.0:percent"
+      },
+      "liquid_class": "organic_volatile Blend"
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_5_substrate",
+      "from": "reagent_reservoir/A1",
+      "into": "reaction_plate/E1",
+      "volume": "40:microliter",
+      "material": {
+        "substrate_0.5M_toluene": "40:microliter"
+      }
+    },
+    {
+      "@type": "ap:Dispense",
+      "step": "cond_5_catalyst",
+      "from": "reagent_reservoir/A2",
+      "into": "reaction_plate/E1",
+      "volume": "4.2:microliter",
+      "material": {
+        "CPA_catalyst_25mM": "1.06:mole_percent"
+      }
+    },
+    {
+      "@type": "ap:Incubate",
+      "step": "cond_1_reaction_hold",
+      "where": "reaction_plate",
+      "temperature": "25.8:celsius",
+      "duration": "293:minute"
+    },
+    {
+      "@type": "ap:Incubate",
+      "step": "cond_2_reaction_hold",
+      "where": "reaction_plate",
+      "temperature": "43.1:celsius",
+      "duration": "90:minute"
+    },
+    {
+      "@type": "ap:Incubate",
+      "step": "cond_3_reaction_hold",
+      "where": "reaction_plate",
+      "temperature": "61.3:celsius",
+      "duration": "214:minute"
+    },
+    {
+      "@type": "ap:Incubate",
+      "step": "cond_4_reaction_hold",
+      "where": "reaction_plate",
+      "temperature": "40.9:celsius",
+      "duration": "1291:minute"
+    },
+    {
+      "@type": "ap:Incubate",
+      "step": "cond_5_reaction_hold",
+      "where": "reaction_plate",
+      "temperature": "35.8:celsius",
+      "duration": "730:minute"
+    },
+    {
+      "@type": "ap:Pipette",
+      "step": "quench_and_serial_dilution",
+      "quench": "methanol 15:microliter + IS 5:microliter",
+      "serial_dilution": [
+        "1:40",
+        "1:20"
+      ],
+      "destination": "hplc_vials"
+    }
+  ],
+  "safety_guardrails": {
+    "G1_exotherm": "dT_ad = dH_eff * C / (rho\u00b7Cp) < 30 K",
+    "G2_boiling": "T_reaction < T_boil(DCM/toluene blend) - 15 degC",
+    "G3_viscosity": "microfluidic sampling dP < 15 bar (Hagen-Poiseuille)"
+  }
+}

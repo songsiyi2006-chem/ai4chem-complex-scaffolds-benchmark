@@ -10,8 +10,12 @@
 ![ML potentials](https://img.shields.io/badge/ML%20potential-ANI--2x%20(vs%20Sage%2FMMFF94)-E67E22)
 ![Multireference](https://img.shields.io/badge/Phase%207-CASSCF(2,2)%2Fdef2--SVP-8E44AD)
 ![Wall of Sighs](https://img.shields.io/badge/Quantum--AI-epistemic%20failure%20map-C0392B)
+![Self-Driving Lab](https://img.shields.io/badge/Phase%209-Opentrons%20OT--2%20%2B%20closed--loop%20twin-E74C3C)
+![SDL](https://img.shields.io/badge/Autonomy-50%20robot%20experiments%2C%200%20humans-27AE60)
 
 ## Mission
+
+**Nine-phase master architecture — from silicon prediction to embodied execution.**
 
 **Phase 1 — Conformer & descriptor suite.** Stress-test frontier, fully open-source 3D conformer pipelines (**RDKit ETKDGv3 + MMFF94/UFF**) against **10 structurally complex, synthetically plausible, unindexed molecular entities** — macrocycles, cubane-type strain cages, beyond-Ro5 PROTAC prototypes, atropisomeric biaryls, perfluorinated cages, zwitterionic B–N dative systems, covalent warheads, helicenes, and sterically jammed peptoids — and quantify their physicochemical profiles, conformational energy landscapes, intramolecular H-bond networks, and **GNN featurization readiness** (PyG-loadable atom/bond tensors).
 
@@ -30,6 +34,10 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 **Phase 4 — Transformation & transition-state theory.** Autonomous saddle hunting on a skeletal-editing reaction: the Ciamician–Dennstedt core step **cyclopropa[b]indole → 2,3-dihydroquinoline** (C₉H₉N isomers; 2 bonds break, 1 forms). Programmatic reactant construction, permutation-invariant Hungarian atom pairing, IDPP interpolation, **CI-NEB** (improved tangent, converged fmax = 0.047 eV/Å), analytic **GFN2-xTB Hessian verification: exactly one imaginary frequency (−152.8 cm⁻¹)** with the transition vector aligned to the concerted scission/insertion coordinate, and Eyring thermochemistry (**ΔE‡ 52.5 / ΔH‡ 46.4 / ΔG‡ 46.4 kcal/mol, k = 6×10⁻²² s⁻¹**). See [`SKELETAL_EDITING_REPORT_EN.md`](./SKELETAL_EDITING_REPORT_EN.md) / [`SKELETAL_EDITING_REPORT_ZH.md`](./SKELETAL_EDITING_REPORT_ZH.md).
 
 **Phase 7 — The Wall of Sighs: multi-reference benchmark & quantum-AI failure map.** The skeleton's scissile C6–C9 cyclopropane bond (the first bond-breaking event of the Phase-4/6 coordinate) is stretched homolytically **1.40 → 3.20 Å** (relaxed GFN2-xTB scan, 11 points) and the *identical trajectory* is evaluated by six theoretical lenses: **CASSCF(2,2)/def2-SVP** (multi-reference ground truth, Psi4 1.11 DETCI), RHF, BS-UB3LYP, GFN2-xTB, **MACE-OFF** and **ANI-2x**. Findings: (i) CASSCF natural-orbital occupations prove smooth fractional occupancy — diradical character **y: 0.014 → 0.694**, with the canonical **1.86/0.14** signature at R = 2.05 Å; (ii) the broken-symmetry singlet is **SCF-inaccessible** for this π-stabilized polar diradical — singlet ΔS² ≡ 0 along the whole coordinate (audited across SAD/SAP guesses, checkpoint-spliced triplet seeds, MOM pinning and SOSCF), so the symmetry-breaking point is pinned by the **singlet–triplet gap closure at R_crit = 2.13 Å (UHF) / 2.51 Å (UKS-DFT)**; (iii) the **epistemic error landscape**: |ΔE_error| vs CASSCF breaches the 15 kcal/mol gate at **1.90 Å for MACE-OFF** (earliest failure; +30.2 kcal/mol peak at 2.05 Å — an over-stiff breaking bond priced as intact), 2.20 Å for ANI-2x and UHF, 2.90 Å for GFN2-xTB (52 kcal/mol asymptotic undershoot), while **BS-UB3LYP never fails** (≤ 10.3 kcal/mol). Full treatise: [`FRONTIER_EPISTEMIC_REPORT_EN.md`](./FRONTIER_EPISTEMIC_REPORT_EN.md) / [`FRONTIER_EPISTEMIC_REPORT_ZH.md`](./FRONTIER_EPISTEMIC_REPORT_ZH.md).
+
+**Phase 8 (part of the Phase-5 world model) — TS-conditioned generative catalyst design**, renumbered here as the 8th pillar of the master architecture: the 3,3′-scaffold evolutionary assembler whose winner catalyst (3,3′-CF₃-Ph/iPr-Ph-BINOL phosphoric acid) is the physical target the Phase-9 robot actually runs.
+
+**Phase 9 — The Self-Driving Lab Compiler: robotic hardware execution & Bayesian closed-loop twin.** The pivot from prediction to embodiment: the Phase-4/5 synthesis world model is (9A) **compiled into Opentrons OT-2 robot code** — `output_ot2_protocol.py` in `opentrons.protocol_api` v2.15 syntax with calibrated liquid classes for volatile DCM / toluene / viscous DMSO / MeOH / EtOH (tuned flow rates, 10 µL air gaps, blow-out, touch-tip, volume-routed P300/P20 dosing), a Temperature-Module deck (4–95 °C), quench + two-stage serial dilution to 1:800 for HPLC, an AutoProtocol **JSON-LD** cloud-lab export, and **three-layer validation up to a real `opentrons_simulate` run (rc = 0)**; (9B) optimized by **safety-constrained multi-objective Bayesian active learning** (maximize yield / minimize E-factor / minimize catalyst cost; exact guardrails: adiabatic ΔT_ad < 30 K, T < T_boil − 15 °C via Antoine–Raoult, microfluidic ΔP < 15 bar — **83.5 % of naive design space is rejected as unsafe**) using Matérn-5/2 GPs + constrained minimax-Tchebycheff q-EI with local penalization: **50 robotic experiments over 8 rounds** converge to **91.9 % yield / 79.9–84.5 % ee** — inside the Phase-5 prediction envelope (89–97 % / 80–91 %); (9C) closed by an **in-line HPLC telemetry twin**: EMG chromatograms A(t, λ) at 210/254/280 nm with dead time, drift and noise, an automated ALS + multi-EMG deconvolution agent quantifying conversion/yield/ee, and a **hallucination audit** bounding measured-vs-truth error at |ΔY| ≤ 2.8 %, |Δee| ≤ 5.6 % across all 50 experiments. Full treatise: [`SELF_DRIVING_LAB_REPORT_EN.md`](./SELF_DRIVING_LAB_REPORT_EN.md) / [`SELF_DRIVING_LAB_REPORT_ZH.md`](./SELF_DRIVING_LAB_REPORT_ZH.md).
 
 ## Quick Navigation
 
@@ -70,6 +78,11 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 前沿认识论报告（第七阶段） | [`FRONTIER_EPISTEMIC_REPORT_ZH.md`](./FRONTIER_EPISTEMIC_REPORT_ZH.md) |
 | Strong-correlation wall pipeline (Phase 7) | [`run_phase7_strong_correlation_wall.py`](./run_phase7_strong_correlation_wall.py) |
 | Phase 7 wall-of-sighs record / table | `results_phase7/phase7_results.json`, `results_phase7/phase7_scan_summary.csv` |
+| 🇬🇧 Self-driving lab report (Phase 9) | [`SELF_DRIVING_LAB_REPORT_EN.md`](./SELF_DRIVING_LAB_REPORT_EN.md) |
+| 🇨🇳 自驱动实验室报告（第九阶段） | [`SELF_DRIVING_LAB_REPORT_ZH.md`](./SELF_DRIVING_LAB_REPORT_ZH.md) |
+| Self-driving lab compiler (Phase 9) | [`run_phase9_self_driving_lab_compiler.py`](./run_phase9_self_driving_lab_compiler.py) |
+| Compiled OT-2 protocol (root artifact) | [`output_ot2_protocol.py`](./output_ot2_protocol.py) |
+| Phase 9 protocol / JSON-LD / validation / master record | `results_phase9/output_ot2_protocol_champion.py`, `results_phase9/autoprotocol_workflow.jsonld`, `results_phase9/ot2_validation_report.json`, `results_phase9/phase9_results.json` |
 
 ## Figure Previews
 
@@ -226,6 +239,18 @@ Scissile C6–C9 bond of cyclopropa[b]indole stretched 1.40 → 3.20 Å (relaxed
 
 **Figures:** [spin contamination & ST-gap collapse](./figures_phase7/fig1_spin_contamination_profile.png) · [CASSCF natural orbitals + NOON evolution](./figures_phase7/fig2_casscf_frontier_orbitals.png) · [the Wall of Sighs discrepancy map](./figures_phase7/fig3_the_wall_of_sighs_discrepancy.png)
 
+## Phase 9 — Self-Driving Lab Compiler (OT-2 Execution & Closed-Loop Twin)
+
+`run_phase9_self_driving_lab_compiler.py` — three modules, one JSON contract:
+
+| Module | What it does | Headline result |
+|---|---|---|
+| **9A protocol compiler** | Phase-4/5 recipe → `output_ot2_protocol.py` (API v2.15): deck layout, 6 calibrated liquid classes (DCM/toluene/DMSO/MeOH/EtOH/diluent), volume-routed P300/P20 dosing, quench + 1:800 serial dilution, AutoProtocol JSON-LD export | **real `opentrons_simulate` rc = 0** (round-1 & champion batches); byte-compile + AST/tip-discipline audit PASS |
+| **9B safety-constrained BO** | 3 objectives (Y ↑ / E-factor ↓ / cost ↓) under exact guardrails (ΔT_ad < 30 K, T < T_boil − 15 °C, ΔP < 15 bar); Matérn-5/2 GP + constrained minimax-Tchebycheff q-EI, q = 5 × 8 rounds + 10 repaired Sobol inits | **50/50 executed experiments feasible**; 83.5 % of design space rejected unsafe; hypervolume 0.815 → 0.848; best **91.9 % Y / 84.5 % ee**, Pareto knee **$5.7/mol @ 87.9 % Y** |
+| **9C analytical twin** | EMG HPLC A(t, λ) forward model (210/254/280 nm, dead time, drift, noise) + automated ALS + multi-EMG deconvolution agent (conversion, yield, ee) feeding the loop | side-product area **6.8 → 4.3 %** across rounds; hallucination audit **\|ΔY\| ≤ 2.8 %, \|Δee\| ≤ 5.6 %** (n = 50) |
+
+**Figures:** [deck architecture](./figures_phase9/fig1_robotic_deck_architecture.png) · [Bayesian Pareto frontier](./figures_phase9/fig2_bayesian_pareto_frontier.png) · [in-line HPLC deconvolution](./figures_phase9/fig3_inline_hplc_deconvolution.png)
+
 ### Phase 7 Figure Previews
 
 **Fig. P7-1 — Symmetry breaking: spin contamination & singlet–triplet gap collapse**
@@ -239,6 +264,20 @@ Scissile C6–C9 bond of cyclopropa[b]indole stretched 1.40 → 3.20 Å (relaxed
 **Fig. P7-3 — The Wall of Sighs: six theoretical lenses on one homolysis trajectory**
 
 ![Wall of sighs](./figures_phase7/fig3_the_wall_of_sighs_discrepancy.png)
+
+### Phase 9 Figure Previews
+
+**Fig. P9-1 — Compiled OT-2 deck architecture: slot map, round-1 well assignments, pipetting trajectory & liquid-class table**
+
+![Deck architecture](./figures_phase9/fig1_robotic_deck_architecture.png)
+
+**Fig. P9-2 — 3D Bayesian Pareto frontier (Yield × E-factor × Cost) with q-EI convergence & per-round guardrail audit**
+
+![Pareto frontier](./figures_phase9/fig2_bayesian_pareto_frontier.png)
+
+**Fig. P9-3 — In-line HPLC telemetry across 5 rounds: raw vs EMG-deconvoluted traces, enantiomer resolution, side-product elimination**
+
+![HPLC deconvolution](./figures_phase9/fig3_inline_hplc_deconvolution.png)
 
 ## Reproduce
 
@@ -270,6 +309,16 @@ conda activate phase7
 python run_phase7_strong_correlation_wall.py               # -> results_phase7/ + figures_phase7/
 python run_phase7_strong_correlation_wall.py --smoke       # 3-point validation
 python run_phase7_strong_correlation_wall.py --fig_only    # regenerate figures from saved results
+
+# Phase 9 (pure numpy/scipy/sklearn/matplotlib; no RDKit/xtb needed)
+python run_phase9_self_driving_lab_compiler.py             # full 8-round campaign -> results_phase9/ + figures_phase9/
+python run_phase9_self_driving_lab_compiler.py --selftest  # 3-round smoke test
+python run_phase9_self_driving_lab_compiler.py --fig_only  # regenerate figures from saved results
+
+# Phase 9 real-hardware syntax gate (isolated venv; opentrons 9.x drops OT-2 — pin 8.3.0)
+C:/Users/HUIWEI/miniconda3/envs/phase2ff/python.exe -m venv .ot2env
+.ot2env/Scripts/python.exe -m pip install "opentrons==8.3.0"
+.ot2env/Scripts/opentrons_simulate.exe output_ot2_protocol.py   # -> rc 0
 ```
 
 ## Repository Structure
@@ -319,6 +368,12 @@ python run_phase7_strong_correlation_wall.py --fig_only    # regenerate figures 
 ├── FRONTIER_EPISTEMIC_REPORT_ZH.md # 第七阶段中文认识论报告
 ├── figures_phase7/                 # Phase 7 fig1-fig3 (300 DPI PNG)
 └── results_phase7/                 # Phase 7 outputs (master JSON, scan summary CSV, scan geometries)
+├── run_phase9_self_driving_lab_compiler.py # Phase 9: OT-2 protocol compiler + safety-constrained BO + HPLC twin
+├── output_ot2_protocol.py          # Phase 9 compiled robot protocol (round-1 batch, opentrons_simulate-verified)
+├── SELF_DRIVING_LAB_REPORT_EN.md   # Phase 9 English treatise
+├── SELF_DRIVING_LAB_REPORT_ZH.md   # 第九阶段中文报告
+├── figures_phase9/                 # Phase 9 fig1-fig3 (300 DPI PNG)
+└── results_phase9/                 # Phase 9 outputs (master JSON, champion protocol, JSON-LD, validation report)
 ```
 
 > This repository also preserves the earlier sibling project [`aqueous-solubility-ml-benchmark`](https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark) (ESOL/AqSolDB solubility modeling) in its history — see the initial commit.
