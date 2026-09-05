@@ -14,10 +14,12 @@
 ![Self-Driving Lab](https://img.shields.io/badge/Phase%209-Opentrons%20OT--2%20%2B%20closed--loop%20twin-E74C3C)
 ![SDL](https://img.shields.io/badge/Autonomy-50%20robot%20experiments%2C%200%20humans-27AE60)
 ![Phase 11](https://img.shields.io/badge/Phase%2011-neural%20wavefunction%20VMC%20%C2%B7%20chemical%20accuracy-9B59B6)
+![Phase 12](https://img.shields.io/badge/Phase%2012-autonomous%20Hamiltonian%20law%20discovery%20%C2%B7%20SINDy%20%2B%20Onsager-E74C3C)
+![Phase 15](https://img.shields.io/badge/Phase%2015-quantum%20biology%20%C2%B7%20radical--pair%20compass%20%C2%B7%20allostery-16A085)
 
 ## Mission
 
-**Twelve-phase master architecture (the Pantheon, complete) — from silicon prediction to embodied execution.**
+**Fifteen-phase master architecture (the Pantheon) — from silicon prediction through embodied execution to the quantum-biological frontier of living matter.**
 
 **Phase 1 — Conformer & descriptor suite.** Stress-test frontier, fully open-source 3D conformer pipelines (**RDKit ETKDGv3 + MMFF94/UFF**) against **10 structurally complex, synthetically plausible, unindexed molecular entities** — macrocycles, cubane-type strain cages, beyond-Ro5 PROTAC prototypes, atropisomeric biaryls, perfluorinated cages, zwitterionic B–N dative systems, covalent warheads, helicenes, and sterically jammed peptoids — and quantify their physicochemical profiles, conformational energy landscapes, intramolecular H-bond networks, and **GNN featurization readiness** (PyG-loadable atom/bond tensors).
 
@@ -46,6 +48,12 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 **Phase 8 — Beyond the Born–Oppenheimer sea: excited-state photodynamics.** The pipeline leaves the single-surface regime entirely: **TDA-B3LYP/def2-SVP** vertical excitations of *real trans-azobenzene* (10 singlets + triplets, NTO particle–hole pairs, σ = 0.2 eV UV-Vis; S₁ n→π\* 2.36 eV / 526 nm f = 0.044, S₂ π→π\* 4.06 eV / 306 nm f = 0.82) reveal the S₁ funnel collapsing to **0.17 eV at a 90° CNNC torsion**; **SA-CASSCF(4,4) on diazene** (the minimal N=N chromophore) plus a **Bearpark–Robb–Schlegel penalty optimization** converges the S₁/S₀ conical intersection to **ΔE₁₀ = 0.0227 eV in 16 steps** (|g| = 0.371 Eh/Å, h reconstructed by gap-lifting over 52 directions); and a **300-trajectory Tully-FSSH ensemble** (dt = 0.5 fs, 500 fs, exact 2×2 propagator, GP decoherence) on an all-ab-initio-parameterized 2-state/3-mode model yields **τ₁/₂ = 330 fs, Φ_Z = 0.27, Φ_E = 0.35** — inside the experimental azobenzene envelope. See [`PHOTOCHEMISTRY_REPORT_EN.md`](./PHOTOCHEMISTRY_REPORT_EN.md) / [`PHOTOCHEMISTRY_REPORT_ZH.md`](./PHOTOCHEMISTRY_REPORT_ZH.md).
 
 **Phase 11 — The Quantum Singularity: continuous neural wavefunctions & deep variational QMC.** Every prior phase discretized the electronic state in a precomputed function basis; Phase 11 removes the basis and solves the ab initio Schrödinger equation directly in continuous 3N space (`run_phase11_neural_wavefunction_vmc.py`, pure PyTorch float64, CUDA-auto): a **FermiNet/PauliNet-family ansatz** — Coulomb-law-only featurization, **3 permutation-equivariant interaction blocks**, **8 backflow determinants** with tanh-bounded contracted Gaussian envelopes, and an **exact-Kato-cusp isotropic Jastrow** — is optimized by **variational quantum Monte Carlo** (2,048 vectorized Metropolis walkers, acceptance locked 45–55 %; kinetic energy from the **exact reverse-mode-AD Laplacian**, FD-cross-validated to 2.4 × 10⁻⁷; the exact REINFORCE/Rayleigh gradient with 5σ clipping). Benchmarks vs **in-house Psi4 DETCI FCI/CBS + the Kolos-Wolniewicz & Pekeris exact limits**: **H₂ @ equilibrium solved to 0.389 mEₕ (4× inside chemical accuracy, 40.5 mEₕ below HF, ~97 % of correlation energy)**; **H₂ @ 2.5 a₀ also lands at 0.38 mEₕ, and H₂ @ 6 a₀ 1.55 mEₕ from FCI/CBS (0.81 mEₕ from the exact 2 × H dissociation limit)** — the static-correlation regime that broke six methods in Phase 7, here handled variationally with no symmetry breaking; **He reaches −2.90243 Eₕ (1.27 mEₕ from Pekeris, ~99 % of correlation) — four of the five benchmark systems inside chemical accuracy**. Local-energy variance collapses 1–2 orders of magnitude — the zero-variance-principle certificate of eigenstate convergence — and the engineering log documents three physics bugs the variational principle itself caught (a +0.5·Nₑ Hamiltonian shift, a non-decaying ansatz, cusp double-counting). Full treatise: [`NEURAL_WAVEFUNCTION_REPORT_EN.md`](./NEURAL_WAVEFUNCTION_REPORT_EN.md) / [`NEURAL_WAVEFUNCTION_REPORT_ZH.md`](./NEURAL_WAVEFUNCTION_REPORT_ZH.md).
+
+**Phase 12 — Autonomous Hamiltonian-law discovery.** The pipeline becomes a theorist: given only 5 %-noise telemetry of the Field–Noyes Oregonator (plus its reaction–diffusion extension), a weak-form split-sample estimator + STRidge path + factorial impulse interventions deduce the symbolic ODEs, the conserved first integral H(x) and the dissipative Lyapunov functional, and export them as LaTeX / SymPy / C++ kernels (`run_phase12_hamiltonian_law_discovery.py`; results staged locally).
+
+**Phase 15 — The Grand Convergence: quantum biology, radical-pair magnetoreception & spin-triggered allostery.** Every previous phase is pointed at one question: how does a 50 µT field — 5×10⁻⁹ eV per electron — steer a biochemical decision? (`run_phase15_quantum_biology_spin_allostery.py`) **15A** drives the FAD\* → Trp_A → Trp_B → Trp_C hopping chain with nonadiabatic Marcus kinetics (hop ladder 4.4 / 10.2 / 17.4 ps, charge separation in 52 ps), then builds the anisotropic ¹⁴N/¹H spin Hamiltonian of [FAD^•⁻ ⋯ Trp_C^•⁺] at r₁₂ = 1.9 nm (hyperfine tensors from a first-principles PySCF route with a hydrogen-1s metrology self-test, literature-anchored fallback documented for Windows hosts where PySCF ships no binaries). **15B** propagates the sparse-Kronecker stochastic Liouville–von Neumann equation — Haberkorn recombination + dephasing, two cross-validated propagators (exact non-Hermitian eigen solver with analytic yields vs matrix-free expm_multiply, agreement to 2×10⁻⁴; the {P_T,ρ} = 2ρ − {P_S,ρ} identity tames the d² Kronecker blow-up) — resolving quantum-beat S↔T dynamics, the 156-point compass map Φ_S(θ, φ) (anisotropy 0.25 %; full-space yields 0.8445 → 0.8310 from 0° to 90°) and the field-strength law. **15C** transduces the quantum signal with OpenMM (amber14SB + GBn2): one elementary charge at the flavin pocket shifts the CCT salt-bridge latch bound-register free energy by **−0.52 kcal/mol** (occupancy 0.68 → 0.94) — a **3.9×10⁶× Zeeman-to-ensemble amplification**, reported with the minimal model's honest caveats. **15D** closes with the instrumentation twin: MFE transient absorption ΔA(λ, t) (peak 20.6 % at 0.15 µs) and Larmor-locked ODMR (dips at 5.02 → 10.00 MHz, doubling with B₀). Full treatise: [`QUANTUM_BIOLOGY_REPORT_EN.md`](./QUANTUM_BIOLOGY_REPORT_EN.md) / [`QUANTUM_BIOLOGY_REPORT_ZH.md`](./QUANTUM_BIOLOGY_REPORT_ZH.md).
+
+**Phase 12 — The Autonomous Scientific Theorist: Hamiltonian law discovery, symbolic induction & non-equilibrium entropy laws.** Given *nothing but* 5 %-noise telemetry of the stiff, non-equilibrium Oregonator (BZ) oscillator and its 1-D reaction–diffusion extension, the machine writes down the governing equations itself: a weak-form (integration-by-parts) split-sample estimator with Simpson same-span two-grid quadrature and a Monte-Carlo noise-calibrated Gram removes errors-in-variables attenuation from ~16 % to **≤ 1.5 %**; factorial impulse interventions break the fast-nullcline gauge that makes passive data blind; and two independent 1 % replications arbitrate the rival laws with a de-attenuated transfer score. Recovered **support-exact**: u̇ {v, uv, u, u²} at **1.31 %**, v̇ {v, uv, w} at **1.48 %**, ẇ {u, w} at **0.04 %** coefficient error; limit-cycle period reproduced to **0.31 %**; Lyapunov spectrum to ~1 %. A continuous neural differential operator extracts the conserved Hamiltonian core (∇H·f ≈ 0 on the attractor, 1.3 % angular residual) and the Lyapunov functional V ≥ 0 (Ḋ ≤ 0 off-attractor, **84 %** certificate rate, NESS balance ⟨Ḋ⟩_cycle ≈ 0 with rms > 0); the Onsager gate shows reciprocity survives while detailed balance is broken in the driven regime. Laws ship as SymPy, LaTeX and C++17 kernels verified to machine precision (ODE diff 0.0). See [`SCIENTIFIC_AGI_MANIFESTO_EN.md`](./SCIENTIFIC_AGI_MANIFESTO_EN.md) / [`SCIENTIFIC_AGI_MANIFESTO_ZH.md`](./SCIENTIFIC_AGI_MANIFESTO_ZH.md).
 
 ## Quick Navigation
 
@@ -103,6 +111,14 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 神经波函数 VMC 报告（第十一阶段） | [`NEURAL_WAVEFUNCTION_REPORT_ZH.md`](./NEURAL_WAVEFUNCTION_REPORT_ZH.md) |
 | Neural-QMC pipeline (Phase 11) | [`run_phase11_neural_wavefunction_vmc.py`](./run_phase11_neural_wavefunction_vmc.py) |
 | Phase 11 record / references / convergence / density grid | `results_phase11/phase11_results.json`, `results_phase11/references.json`, `results_phase11/convergence_*.csv`, `results_phase11/density_slice_H2_eq.npz` |
+| 🇬🇧 Scientific-AGI manifesto (Phase 12) | [`SCIENTIFIC_AGI_MANIFESTO_EN.md`](./SCIENTIFIC_AGI_MANIFESTO_EN.md) |
+| 🇨🇳 科学 AGI 宣言（第十二阶段） | [`SCIENTIFIC_AGI_MANIFESTO_ZH.md`](./SCIENTIFIC_AGI_MANIFESTO_ZH.md) |
+| Hamiltonian law-discovery pipeline (Phase 12) | [`run_phase12_hamiltonian_law_discovery.py`](./run_phase12_hamiltonian_law_discovery.py) |
+| Phase 12 discovered laws / machine record | `results_phase12/phase12_results.json`, `results_phase12/discovered_laws.tex`, `results_phase12/discovered_laws_sympy.txt`, `results_phase12/phase12_kernels.hpp` |
+| 🇬🇧 Quantum-biology report (Phase 15) | [`QUANTUM_BIOLOGY_REPORT_EN.md`](./QUANTUM_BIOLOGY_REPORT_EN.md) |
+| 🇨🇳 量子生物报告（第十五阶段） | [`QUANTUM_BIOLOGY_REPORT_ZH.md`](./QUANTUM_BIOLOGY_REPORT_ZH.md) |
+| Quantum-biology spin–allostery pipeline (Phase 15) | [`run_phase15_quantum_biology_spin_allostery.py`](./run_phase15_quantum_biology_spin_allostery.py) |
+| Phase 15 record / allostery record / umbrella data | `results_phase15/phase15_results.json`, `results_phase15/allostery_results.json`, `results_phase15/md_*/umbrella.npz` |
 
 ## Figure Previews
 
@@ -312,6 +328,20 @@ The endgame of the ab initio ladder (`run_phase11_neural_wavefunction_vmc.py`; p
 
 **Figures:** [VMC convergence + dissociation curve](./figures_phase11/fig1_vmc_energy_convergence.png) · [density slice with exact Kato cusps](./figures_phase11/fig2_electron_density_slice.png) · [local-energy variance collapse](./figures_phase11/fig3_local_energy_variance.png)
 
+## Phase 12 — Autonomous Hamiltonian Law Discovery, Symbolic Symmetry Induction & Non-Equilibrium Entropy Laws
+
+The Pantheon's epistemic finale (`run_phase12_hamiltonian_law_discovery.py`; NumPy/SciPy + SymPy + CPU torch + g++): the system stops computing known equations and *induces* the governing laws of a stiff, non-equilibrium BZ-type oscillator from noisy telemetry alone.
+
+| Module | Method | Headline result |
+|---|---|---|
+| **12A dissipative simulation** | Field–Noyes Oregonator (mechanism-derived; ε₁ = 0.10, ε₂ = 10⁻², q = 2.5×10⁻³, f = 1.1) + 1-D reaction–diffusion extension (Strang: exact spectral diffusion + RK4 reaction) | limit cycle T = 10.12 τ; σ = 5 % telemetry injected; σ̂ estimated blindly from 3rd differences to **0.998× of truth** |
+| **12B symbolic induction** | weak-form (integration-by-parts) split-sample STRidge; Simpson same-span two-grid quadrature; Monte-Carlo noise-calibrated Gram (errors-in-variables de-attenuation ~16 % → < 1.5 %); factorial impulse interventions break the fast-nullcline gauge; two-replication 1 % arbitration with de-attenuated transfer score + Occam band | all three equations recovered **support-exact**: u̇ {v, uv, u, u²} @ **1.31 %**, v̇ {v, uv, w} @ **1.48 %**, ẇ {u, w} @ **0.04 %**; period 0.31 %; Lyapunov spectrum ~1 % |
+| **12C Hamiltonian & Lyapunov nets** | continuous neural differential operator trained on the *discovered* laws: ∇H·f → 0 with endpoint consistency; V = softplus ≥ 0, Ḋ ≤ 0 off-attractor, Ḋ → 0 on the cycle | H invariant to **1.3 %** angular residual; V ≥ 0 everywhere, **84 %** certificate rate, NESS balance ⟨Ḋ⟩_cycle = 1.1×10⁻⁴ ≈ 0 with rms 2.2×10⁻³ > 0 (circulating flux) |
+| **Onsager gate** | SPD metric completion L = −J G⁻¹ at the stable steady state (f = 2.8) vs the driven cycle (f = 1.1) | reciprocity achievable in both regimes; PSD consistency holds only near equilibrium — **detailed balance broken** in the driven regime (L_sym min-eig −61) |
+| **law export** | SymPy + LaTeX + C++17 header with the discovered RHS and both neural kernels | C++ vs Python: **max diff 0.0 (ODE), 5.6×10⁻¹⁶ (H), 7.4×10⁻¹⁸ (V)** |
+
+**Figures:** [attractor reconstruction + RD field](./figures_phase12/fig1_spatiotemporal_reconstruction.png) · [Occam Pareto + arbitration + coefficient recovery](./figures_phase12/fig2_symbolic_pareto_complexity.png) · [Lyapunov funnel & Hamiltonian core](./figures_phase12/fig3_lyapunov_entropy_descent.png)
+
 ### Phase 7 Figure Previews
 
 **Fig. P7-1 — Symmetry breaking: spin contamination & singlet–triplet gap collapse**
@@ -386,6 +416,38 @@ The endgame of the ab initio ladder (`run_phase11_neural_wavefunction_vmc.py`; p
 
 ![Local energy variance](./figures_phase11/fig3_local_energy_variance.png)
 
+### Phase 12 Figure Previews
+
+**Fig. P12-1 — True vs. symbolically discovered attractor (period error 0.31 %) and the 1-D reaction–diffusion telemetry field**
+
+![Attractor reconstruction](./figures_phase12/fig1_spatiotemporal_reconstruction.png)
+
+**Fig. P12-2 — Occam Pareto front, replicated-experiment arbitration and coefficient recovery in the ±10 % band**
+
+![Pareto arbitration](./figures_phase12/fig2_symbolic_pareto_complexity.png)
+
+**Fig. P12-3 — Discovered Lyapunov entropy-dissipation funnel V ≥ 0, Ḋ map, and the conserved Hamiltonian core**
+
+![Lyapunov funnel](./figures_phase12/fig3_lyapunov_entropy_descent.png)
+
+## Phase 15 — Quantum Biology Figure Previews
+
+**Fig. P15-1 — Cryptochrome radical-pair engine: FAD + Trp triad with anisotropic hyperfine ellipsoids, r₁₂ = 1.9 nm dipolar axis and the B₀ geomagnetic field**
+
+![Radical-pair engine](./figures_phase15/fig1_radical_pair_spin_hamiltonian.png)
+
+**Fig. P15-2 — Quantum compass: spin Hamiltonian & SLE engine, quantum-beat P_S(t) at four field inclinations, and the 156-point Φ_S(θ, φ) compass map**
+
+![Quantum compass dynamics](./figures_phase15/fig2_quantum_singlet_triplet_dynamics.png)
+
+**Fig. P15-3 — Allosteric amplification: energy ladder from 5.8 neV Zeeman to the OpenMM latch shift, WHAM landscapes in both charge states, latch salt-bridge traces**
+
+![Allosteric amplification](./figures_phase15/fig3_allosteric_amplification_cascade.png)
+
+**Fig. P15-4 — Instrumentation twin: MFE recombination kinetics, ΔA(λ, t) transient map, Larmor-locked ODMR at two fields**
+
+![MFE & ODMR instrumentation](./figures_phase15/fig4_mfe_odmr_instrumentation.png)
+
 ## Reproduce
 
 ```bash
@@ -417,6 +479,10 @@ python run_phase7_strong_correlation_wall.py               # -> results_phase7/ 
 python run_phase7_strong_correlation_wall.py --smoke       # 3-point validation
 python run_phase7_strong_correlation_wall.py --fig_only    # regenerate figures from saved results
 
+# Phase 15 (spin dynamics + OpenMM allostery; PySCF optional — hyperfine falls
+#          back to literature-anchored tensors when no PySCF interpreter exists)
+python run_phase15_quantum_biology_spin_allostery.py --stage all   # -> results_phase15/ + figures_phase15/
+
 # Phase 9 (pure numpy/scipy/sklearn/matplotlib; no RDKit/xtb needed)
 python run_phase9_self_driving_lab_compiler.py             # full 8-round campaign -> results_phase9/ + figures_phase9/
 python run_phase9_self_driving_lab_compiler.py --selftest  # 3-round smoke test
@@ -433,6 +499,11 @@ python run_phase11_neural_wavefunction_vmc.py                   # all systems ->
 python run_phase11_neural_wavefunction_vmc.py --smoke           # 40-epoch validation pass
 python run_phase11_neural_wavefunction_vmc.py --systems H2_eq_R1.4011,He --epochs 1500
 ```
+
+# Phase 12 (pure numpy/scipy/sympy/torch(CPU)/matplotlib; g++ optional for the kernel gate)
+python run_phase12_hamiltonian_law_discovery.py             # full loop -> results_phase12/ + figures_phase12/ (~23 min)
+python run_phase12_hamiltonian_law_discovery.py --quick     # reduced-data smoke run
+python run_phase12_hamiltonian_law_discovery.py --fig_only  # re-render figures from saved artefacts
 
 ## Repository Structure
 
@@ -504,6 +575,22 @@ python run_phase11_neural_wavefunction_vmc.py --systems H2_eq_R1.4011,He --epoch
 └── results_phase11/                        # Phase 11 outputs (master JSON, FCI/CBS references, per-epoch CSVs, density npz)
 ```
 
+### Phase 12–15 additions
+
+```text
+├── run_phase12_hamiltonian_law_discovery.py # Phase 12: autonomous Hamiltonian-law discovery (weak-form estimator + STRidge + intervention design) on the BZ Oregonator
+├── SCIENTIFIC_AGI_MANIFESTO_EN.md           # Phase 12 English manifesto
+├── SCIENTIFIC_AGI_MANIFESTO_ZH.md           # 第十二阶段中文宣言
+├── figures_phase12/                         # Phase 12 fig1-fig3 (300 DPI PNG)
+└── results_phase12/                         # Phase 12 outputs (master JSON, LaTeX/SymPy laws, C++17 kernels)
+├── run_phase15_quantum_biology_spin_allostery.py  # Phase 15: radical-pair spin engine + PySCF hyperfine + OpenMM allostery + MFE/ODMR instrumentation twin
+├── QUANTUM_BIOLOGY_REPORT_EN.md             # Phase 15 English treatise
+├── QUANTUM_BIOLOGY_REPORT_ZH.md             # 第十五阶段中文报告
+├── figures_phase15/                         # Phase 15 fig1-fig4 (300 DPI PNG)
+└── results_phase15/                         # Phase 15 outputs (master JSON, PySCF HFC tensors, umbrella sampling, stage logs)
+```
+
+> Phases 13–14 of the master architecture are reserved slots — queued for execution.
 > This repository also preserves the earlier sibling project [`aqueous-solubility-ml-benchmark`](https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark) (ESOL/AqSolDB solubility modeling) in its history — see the initial commit.
 
 ## License
