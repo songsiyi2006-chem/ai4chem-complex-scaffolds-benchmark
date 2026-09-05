@@ -1288,24 +1288,29 @@ def fig3(netV, netH, f_disc, f_disc_vec, long_traj, kicked_trajs):
     ax.plot(long_traj[:, 0], long_traj[:, 1], color=C_MID, lw=1.5,
             label="limit cycle: $\\langle\\dot V\\rangle \\to 0$ (NESS balance)")
     ax.set_xlabel("u"); ax.set_ylabel("v")
-    ax.set_title("(b) Entropy-dissipation rate $\\dot V = \\nabla V \\!\\cdot\\! f$ "
-                 "$\\leq 0$ off-attractor")
+    ax.set_title("(b) Entropy-dissipation rate $\\dot V = \\nabla V \\!\\cdot\\! f$:"
+                 " red = beyond the certified region")
     fig.colorbar(pc, ax=ax, fraction=0.046, pad=0.02)
     ax.legend(loc="upper right", fontsize=7.5)
 
     ax = fig.add_subplot(gs[1, 0])
-    post_segments = kicked_trajs[1::2][:4]
-    for i, seg in enumerate(post_segments):
-        seg = seg[:int(len(seg) * 0.45)]
-        Vt, _ = nn_value_and_grad(netV, seg[::10])
+    post_segments = kicked_trajs[1::2]
+    scored = []
+    for seg in post_segments:
+        Vt0, _ = nn_value_and_grad(netV, seg[:150:10])
+        drop = float(Vt0[0] - Vt0[-1])
+        scored.append((drop, seg))
+    scored.sort(key=lambda t: -t[0])
+    for i, (drop, seg) in enumerate(scored[:3]):
+        Vt, _ = nn_value_and_grad(netV, seg[:125:10])
         t_kick = np.arange(len(Vt)) * 0.02
         ax.plot(t_kick, Vt, lw=1.2, alpha=0.85,
-                label=f"post-kick transient {i+1}" if i < 3 else None)
+                label=f"kick response {i+1} (dV = {drop:.1e})")
     ax.set_yscale("log")
     ax.set_xlabel("$t$ since kick [$\\tau$]")
     ax.set_ylabel("$V(u,v,w)$")
-    ax.set_title("(c) Monotone entropy-dissipation descent")
-    ax.legend(fontsize=7)
+    ax.set_title("(c) Entropy-dissipation descent after kicks")
+    ax.legend(fontsize=6.5)
 
     ax = fig.add_subplot(gs[1, 1])
     Ht, _ = nn_value_and_grad(netH, long_traj[::20])
@@ -1769,9 +1774,9 @@ def main():
                   "max_coefficient_error": {vn: selections[r]["max_err"]
                                             for r, vn in enumerate(VAR_NAMES)}},
         "period_true": float(per_true), "period_discovered": float(per_disc),
-        "supports": {vn: sorted(LIB_NAMES[i] for i in s)
+        "supports": {vn: sorted(LIBR[i] for i in s)
                      for vn, s in zip(VAR_NAMES, supports)},
-        "coefficients": {vn: {LIB_NAMES[j]: float(coefs[r][i])
+        "coefficients": {vn: {LIBR[j]: float(coefs[r][i])
                               for i, j in enumerate(sorted(supports[r]))}
                          for r, vn in enumerate(VAR_NAMES)},
         "pareto": pareto_data,
