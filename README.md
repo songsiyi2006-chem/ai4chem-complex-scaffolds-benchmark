@@ -18,11 +18,12 @@
 ![Phase 14](https://img.shields.io/badge/Phase%2014-active%20matter%20LLPS%20%C2%B7%20Cahn%2DHilliard%20condensates-E67E22)
 ![Phase 12](https://img.shields.io/badge/Phase%2012-autonomous%20Hamiltonian%20law%20discovery%20%C2%B7%20SINDy%20%2B%20Onsager-E74C3C)
 ![Phase 15](https://img.shields.io/badge/Phase%2015-quantum%20biology%20%C2%B7%20radical--pair%20compass%20%C2%B7%20allostery-16A085)
+![Phase 17](https://img.shields.io/badge/Phase%2017-4c%20Dirac%20%C2%B7%20actinide%205f%20covalency%20%C2%B7%20Breit-C0392B)
 ![Phase 18](https://img.shields.io/badge/Phase%2018-whole--cell%20tFBA%20%C2%B7%20crowding%20%C2%B7%20cybernetic%20kinetics-E74C3C)
 
 ## Mission
 
-**Fifteen-phase master architecture (the Pantheon) — from silicon prediction through embodied execution to the quantum-biological frontier of living matter.**
+**Seventeen-phase master architecture (the Pantheon) — from silicon prediction through embodied execution, the quantum-biological frontier of living matter, and the relativistic frontier of heavy-element chemistry.**
 
 **Phase 1 — Conformer & descriptor suite.** Stress-test frontier, fully open-source 3D conformer pipelines (**RDKit ETKDGv3 + MMFF94/UFF**) against **10 structurally complex, synthetically plausible, unindexed molecular entities** — macrocycles, cubane-type strain cages, beyond-Ro5 PROTAC prototypes, atropisomeric biaryls, perfluorinated cages, zwitterionic B–N dative systems, covalent warheads, helicenes, and sterically jammed peptoids — and quantify their physicochemical profiles, conformational energy landscapes, intramolecular H-bond networks, and **GNN featurization readiness** (PyG-loadable atom/bond tensors).
 
@@ -59,6 +60,8 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 **Phase 12 — Autonomous Hamiltonian-law discovery.** The pipeline becomes a theorist: given only 5 %-noise telemetry of the Field–Noyes Oregonator (plus its reaction–diffusion extension), a weak-form split-sample estimator + STRidge path + factorial impulse interventions deduce the symbolic ODEs, the conserved first integral H(x) and the dissipative Lyapunov functional, and export them as LaTeX / SymPy / C++ kernels (`run_phase12_hamiltonian_law_discovery.py`; results staged locally).
 
 **Phase 15 — The Grand Convergence: quantum biology, radical-pair magnetoreception & spin-triggered allostery.** Every previous phase is pointed at one question: how does a 50 µT field — 5×10⁻⁹ eV per electron — steer a biochemical decision? (`run_phase15_quantum_biology_spin_allostery.py`) **15A** drives the FAD\* → Trp_A → Trp_B → Trp_C hopping chain with nonadiabatic Marcus kinetics (hop ladder 4.4 / 10.2 / 17.4 ps, charge separation in 52 ps), then builds the anisotropic ¹⁴N/¹H spin Hamiltonian of [FAD^•⁻ ⋯ Trp_C^•⁺] at r₁₂ = 1.9 nm (hyperfine tensors from a first-principles PySCF route with a hydrogen-1s metrology self-test, literature-anchored fallback documented for Windows hosts where PySCF ships no binaries). **15B** propagates the sparse-Kronecker stochastic Liouville–von Neumann equation — Haberkorn recombination + dephasing, two cross-validated propagators (exact non-Hermitian eigen solver with analytic yields vs matrix-free expm_multiply, agreement to 2×10⁻⁴; the {P_T,ρ} = 2ρ − {P_S,ρ} identity tames the d² Kronecker blow-up) — resolving quantum-beat S↔T dynamics, the 156-point compass map Φ_S(θ, φ) (anisotropy 0.25 %; full-space yields 0.8445 → 0.8310 from 0° to 90°) and the field-strength law. **15C** transduces the quantum signal with OpenMM (amber14SB + GBn2): one elementary charge at the flavin pocket shifts the CCT salt-bridge latch bound-register free energy by **−0.52 kcal/mol** (occupancy 0.68 → 0.94) — a **3.9×10⁶× Zeeman-to-ensemble amplification**, reported with the minimal model's honest caveats. **15D** closes with the instrumentation twin: MFE transient absorption ΔA(λ, t) (peak 20.6 % at 0.15 µs) and Larmor-locked ODMR (dips at 5.02 → 10.00 MHz, doubling with B₀). Full treatise: [`QUANTUM_BIOLOGY_REPORT_EN.md`](./QUANTUM_BIOLOGY_REPORT_EN.md) / [`QUANTUM_BIOLOGY_REPORT_ZH.md`](./QUANTUM_BIOLOGY_REPORT_ZH.md).
+
+**Phase 17 — The relativistic frontier: fully relativistic 4-component Dirac quantum chemistry & the first-principles origin of actinide 5f-covalency.** In Am³⁺ (Z = 95) the 1s electrons orbit at a computed 0.37 c: the direct relativistic effect contracts the core by **25 %** and stabilizes it by **677 Eh**, while the 5f shell — screened and weakly penetrating — settles at **⟨r⟩ = 1.13 a₀, 41 % more extended** than the isoelectronic Eu³⁺ 4f (0.80 a₀) and quasi-degenerate with 6d/7s (`run_phase17_relativistic_actinide_quantum.py`). **17A** builds a from-scratch 4-component Dirac-Fock-Slater engine: node-counted inward/outward matching integration on a log grid (Frobenius series start, Wronskian matching, Sturm node brackets — variational collapse impossible by construction; the staged finite-difference pencil that produced a spurious branch is documented as a negative result), finite-sphere nuclei, Xα exchange, average-of-configuration f⁶ occupations; certified against the Sommerfeld closed form (≤ 0.018 % for Z = 1–110) and the exact Dirac degeneracy E(2s₁/₂) = E(2p₁/₂) (deviation **5.4 × 10⁻¹¹**), with a non-relativistic twin on identical footing and a Breit module — magnetic (Gaunt) + retardation, first order — whose 6D angular-spinor quadrature reproduces the exact 5Z/8 Coulomb pair integral (0.85–2.3 %) before delivering Am/Eu Breit(1s²) = 1.82 × 10⁶ / 4.42 × 10⁵ cm⁻¹. **17B** builds the ⁷F_J multiplet ladder with ζ taken from the SCF j-splitting itself: **ζ(5f, Am) = 3459 cm⁻¹, ζ(4f, Eu) = 1803 cm⁻¹ (ratio 1.92)**, validated against the Eu³⁺ fluorescence ladder and a Slater-Condon Hund-ordering check. **17C** quantifies the separation mechanism: S(5f, N 2p) = 0.0191 vs S(4f, N 2p) = 0.0140 with the 4f acceptor level orphaned ~1 Eh below the nitrogen lone pair (5f quasi-resonant), Wolfsberg–Helmholtz ΔE_cov = −0.56 vs −0.33 kcal/mol (three donors), QTAIM closed-shell signatures at the (3, −1) bond critical points, and FFT electrostatics — the first-principles foundation of minor-actinide/lanthanide partitioning. Full treatise: [`RELATIVISTIC_QUANTUM_REPORT_EN.md`](./RELATIVISTIC_QUANTUM_REPORT_EN.md) / [`RELATIVISTIC_QUANTUM_REPORT_ZH.md`](./RELATIVISTIC_QUANTUM_REPORT_ZH.md).
 
 **Phase 18 — Whole-cell metabolic digital twin: thermodynamic flux (tFBA), macromolecular crowding & cybernetic kinetics.** The Pantheon leaves the single-molecule regime and models a complete minimal autonomous cell. (`run_phase18_wholecell_metabolic_thermodynamics.py`) **18A** reconstructs a genome-scale stoichiometric network — **817 internal metabolites, 1,201 enzymatic+transport reactions** across central carbon, amino-acid, nucleotide, fatty-acid/lipid, cell-envelope (murein/LTA/undecaprenyl), storage-polymer and stress metabolism — and closes it under the **FBAwMC macromolecular-crowding budget** of Beg et al. (Σ vⱼMwⱼ/kcatⱼ ≤ 0.451 g enzyme/gDW). **18B-0** curates Δ_f G′° for every metabolite by two-pass bounded weighted least squares against **79 literature-anchored reaction/redox benchmarks** (residual RMS 18.1 kJ/mol; combustion anchor −2870 kJ/mol; explicit-pmf respiratory units with h_c/h_e pseudo-species capping P/O at 2.42). **18B** formulates thermodynamic-constrained FBA as a mixed-integer program — **1,198 binary direction variables zⱼ, 864 chemical potentials ln cᵢ (1 µM–20 mM), per-metabolite δ-gauge variables (±2 MJ/mol on unbenchmarked species)** — solved by HiGHS: **μ_tFBA = 0.3234 h⁻¹ in 3–18 s** (relaxation bound 0.3247), crowding binding at exactly **100.0 % (0.4488 g/gDW)**, with an a-posteriori LP certificate proving **zero Type-III loop flux** over the 279-reaction active set (δ cancels identically around any closed cycle). The uptake sweep shows textbook **overflow metabolism**: the budget binds from u_glc ≈ 6 onward, growth plateaus at 0.325 h⁻¹ while oxidative ATP flux *declines* 21 → 17.5 and acetate overflow *rises* 5.7 → 7.0 — Warburg/Crabtree from physics, no regulator required. **18C** integrates a 37-pool cybernetic kinetic core (stiff BDF; adenylate/NAD/CoA/quinone moiety drift 3.6×10⁻³ / 3.6×10⁻¹⁵) seeded from the tFBA solution through batch **glucose exhaustion (t = 1931 s: ATP/ADP 5.0 → 0.018, ppGpp → 0.28 mM, cAMP → 1.9 mM, growth arrest)** and an **H₂O₂ pulse (t = 5400 s: 0.68 mM peak cleared by catalase/peroxiredoxin sets)** — growth → survival rewiring on a 2-hour clock. Full treatise: [`WHOLE_CELL_METABOLISM_REPORT_EN.md`](./WHOLE_CELL_METABOLISM_REPORT_EN.md) / [`WHOLE_CELL_METABOLISM_REPORT_ZH.md`](./WHOLE_CELL_METABOLISM_REPORT_ZH.md).
 
@@ -137,6 +140,10 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 量子生物报告（第十五阶段） | [`QUANTUM_BIOLOGY_REPORT_ZH.md`](./QUANTUM_BIOLOGY_REPORT_ZH.md) |
 | Quantum-biology spin–allostery pipeline (Phase 15) | [`run_phase15_quantum_biology_spin_allostery.py`](./run_phase15_quantum_biology_spin_allostery.py) |
 | Phase 15 record / allostery record / umbrella data | `results_phase15/phase15_results.json`, `results_phase15/allostery_results.json`, `results_phase15/md_*/umbrella.npz` |
+| 🇬🇧 Relativistic quantum report (Phase 17) | [`RELATIVISTIC_QUANTUM_REPORT_EN.md`](./RELATIVISTIC_QUANTUM_REPORT_EN.md) |
+| 🇨🇳 相对论量子报告（第十七阶段） | [`RELATIVISTIC_QUANTUM_REPORT_ZH.md`](./RELATIVISTIC_QUANTUM_REPORT_ZH.md) |
+| 4-component Dirac pipeline (Phase 17) | [`run_phase17_relativistic_actinide_quantum.py`](./run_phase17_relativistic_actinide_quantum.py) |
+| Phase 17 record / figures | `results_phase17/phase17_results.json`, `figures_phase17/fig1-fig4` (300 DPI) |
 | 🇬🇧 Whole-cell metabolism report (Phase 18) | [`WHOLE_CELL_METABOLISM_REPORT_EN.md`](./WHOLE_CELL_METABOLISM_REPORT_EN.md) |
 | 🇨🇳 全细胞代谢报告（第十八阶段） | [`WHOLE_CELL_METABOLISM_REPORT_ZH.md`](./WHOLE_CELL_METABOLISM_REPORT_ZH.md) |
 | Whole-cell tFBA pipeline (Phase 18) | [`run_phase18_wholecell_metabolic_thermodynamics.py`](./run_phase18_wholecell_metabolic_thermodynamics.py) |
@@ -471,6 +478,16 @@ The Pantheon's epistemic finale (`run_phase12_hamiltonian_law_discovery.py`; Num
 
 ![MFE & ODMR instrumentation](./figures_phase15/fig4_mfe_odmr_instrumentation.png)
 
+# Phase 17 — Relativistic Quantum Chemistry Figure Previews
+
+![4-component spinor orbitals](./figures_phase17/fig1_4component_spinor_orbitals.png)
+
+![Spin-orbit multiplet splitting](./figures_phase17/fig2_spin_orbit_multiplet_splitting.png)
+
+![QTAIM relativistic covalency map](./figures_phase17/fig3_qtaim_relativistic_covalency_map.png)
+
+![Relativistic foundation validation](./figures_phase17/fig4_relativistic_foundation_validation.png)
+
 ## Reproduce
 
 ```bash
@@ -527,6 +544,11 @@ python run_phase11_neural_wavefunction_vmc.py --systems H2_eq_R1.4011,He --epoch
 python run_phase12_hamiltonian_law_discovery.py             # full loop -> results_phase12/ + figures_phase12/ (~23 min)
 python run_phase12_hamiltonian_law_discovery.py --quick     # reduced-data smoke run
 python run_phase12_hamiltonian_law_discovery.py --fig_only  # re-render figures from saved artefacts
+
+# Phase 17 (pure numpy/scipy/matplotlib; from-scratch 4c-Dirac engine, no PySCF needed)
+python run_phase17_relativistic_actinide_quantum.py --stage all       # -> results_phase17/ + figures_phase17/ (~45 min)
+python run_phase17_relativistic_actinide_quantum.py --stage atomic    # DF/NR SCF atoms + validation (checkpointed)
+python run_phase17_relativistic_actinide_quantum.py --stage figures   # re-render figures from saved record
 
 ## Repository Structure
 
@@ -607,6 +629,7 @@ python run_phase12_hamiltonian_law_discovery.py --fig_only  # re-render figures 
 ├── figures_phase12/                         # Phase 12 fig1-fig3 (300 DPI PNG)
 └── results_phase12/                         # Phase 12 outputs (master JSON, LaTeX/SymPy laws, C++17 kernels)
 ├── run_phase15_quantum_biology_spin_allostery.py  # Phase 15: radical-pair spin engine + PySCF hyperfine + OpenMM allostery + MFE/ODMR instrumentation twin
+├── run_phase17_relativistic_actinide_quantum.py   # Phase 17: 4-component Dirac-Fock-Slater engine + Breit quadrature + Landé multiplets + QTAIM/EDA covalency
 ├── QUANTUM_BIOLOGY_REPORT_EN.md             # Phase 15 English treatise
 ├── QUANTUM_BIOLOGY_REPORT_ZH.md             # 第十五阶段中文报告
 ├── figures_phase15/                         # Phase 15 fig1-fig4 (300 DPI PNG)
