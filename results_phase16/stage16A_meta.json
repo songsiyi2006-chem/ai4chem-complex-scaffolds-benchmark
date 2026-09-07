@@ -1,0 +1,22 @@
+{
+ "fast_mode": false,
+ "n_total_beads": 644588,
+ "n_water": 616177,
+ "n_ions": 13627,
+ "n_scaffold": 4480,
+ "n_fg": 10304,
+ "n_allatom_equiv": 2740976,
+ "water_ms_per_step": 477.59,
+ "water_T_K": 310.6,
+ "water_density_mean": 8.114,
+ "water_density_dev_pct": 2.82,
+ "gate_16A_stability": true,
+ "gate_16A_beadcount": true,
+ "gate_16A_allatom": true,
+ "brush_TA_mean_coord": 0.078,
+ "brush_TA_coord_p90": 0.0,
+ "brush_inner_edge_nm": 11.73,
+ "brush_ms_per_step": 74.709,
+ "fg_n_chains": 112,
+ "fg_chain_len": 92
+}

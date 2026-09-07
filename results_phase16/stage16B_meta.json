@@ -1,0 +1,33 @@
+{
+ "mrc_roundtrip_maxdiff": 0.0,
+ "mrc_voxel_A": 3.5,
+ "mrc_master_bytes": 47410432,
+ "b_factor_A2": 202.1,
+ "ccc_init": 0.79183981640409,
+ "ccc_final": 0.813521164425739,
+ "ccc_ceiling": 0.968148275882195,
+ "rmsd_init": 2.719805132664107,
+ "rmsd_final": 0.4410527251775183,
+ "rmsd_final_kabsch": 0.29687368926535274,
+ "ms_per_step": 23.73,
+ "n_steps": 12000,
+ "xi_final": 600.0,
+ "F99_final": 567.3927031877769,
+ "xi_ramp": "100 -> 600 kJ/mol, per-bead EM clamp 400",
+ "rmsd_after_phaseA": 0.42335798426819754,
+ "rmsd_after_phaseB": 0.4328324170269204,
+ "force_grid_shape": [
+  114,
+  114,
+  114
+ ],
+ "gate_16B_mdff": false,
+ "gate_16B_mrc": true,
+ "openmm": {
+  "max_force_diff": 1.7053025658242404e-13,
+  "drift_rmsd": 0.26488135841996413,
+  "drift_steps": 3000,
+  "platform": "CPU"
+ },
+ "gate_16B_openmm": true
+}

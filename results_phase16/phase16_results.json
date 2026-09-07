@@ -1,0 +1,141 @@
+{
+ "phase": "16",
+ "engine": "numpy mesoscale CG (Martini-3-flavored) + OpenMM kernel cross-validation",
+ "stage16A": {
+  "fast_mode": false,
+  "n_total_beads": 644588,
+  "n_water": 616177,
+  "n_ions": 13627,
+  "n_scaffold": 4480,
+  "n_fg": 10304,
+  "n_allatom_equiv": 2740976,
+  "water_ms_per_step": 477.59,
+  "water_T_K": 310.6,
+  "water_density_mean": 8.114,
+  "water_density_dev_pct": 2.82,
+  "gate_16A_stability": true,
+  "gate_16A_beadcount": true,
+  "gate_16A_allatom": true,
+  "brush_TA_mean_coord": 0.078,
+  "brush_TA_coord_p90": 0.0,
+  "brush_inner_edge_nm": 11.73,
+  "brush_ms_per_step": 74.709,
+  "fg_n_chains": 112,
+  "fg_chain_len": 92
+ },
+ "stage16B": {
+  "mrc_roundtrip_maxdiff": 0.0,
+  "mrc_voxel_A": 3.5,
+  "mrc_master_bytes": 47410432,
+  "b_factor_A2": 202.1,
+  "ccc_init": 0.79183981640409,
+  "ccc_final": 0.813521164425739,
+  "ccc_ceiling": 0.968148275882195,
+  "rmsd_init": 2.719805132664107,
+  "rmsd_final": 0.4410527251775183,
+  "rmsd_final_kabsch": 0.29687368926535274,
+  "ms_per_step": 23.73,
+  "n_steps": 12000,
+  "xi_final": 600.0,
+  "F99_final": 567.3927031877769,
+  "xi_ramp": "100 -> 600 kJ/mol, per-bead EM clamp 400",
+  "rmsd_after_phaseA": 0.42335798426819754,
+  "rmsd_after_phaseB": 0.4328324170269204,
+  "force_grid_shape": [
+   114,
+   114,
+   114
+  ],
+  "gate_16B_mdff": false,
+  "gate_16B_mrc": true,
+  "openmm": {
+   "max_force_diff": 1.7053025658242404e-13,
+   "drift_rmsd": 0.26488135841996413,
+   "drift_steps": 3000,
+   "platform": "CPU"
+  },
+  "gate_16B_openmm": true
+ },
+ "stage16C": {
+  "receptor": {
+   "n_windows": 51,
+   "n_prod": 160,
+   "rh_nm": 3.746,
+   "wall_s": 2046.2,
+   "T_range_K": [
+    307.6,
+    318.0
+   ],
+   "nan_free": true,
+   "seed_steps_literal": 0
+  },
+  "inert": {
+   "n_windows": 51,
+   "n_prod": 118,
+   "rh_nm": 3.731,
+   "wall_s": 1813.4,
+   "T_range_K": [
+    308.4,
+    318.8
+   ],
+   "nan_free": true,
+   "seed_steps_literal": 0
+  }
+ },
+ "transport": {
+  "receptor": {
+   "Gbar_kT": 136.119,
+   "Gbar_kcal": 83.854,
+   "R_int": 1396806338480153.5,
+   "P_rel": 7.159188589365129e-16,
+   "D_cal_factor": 2.7669854465742537e-20,
+   "rh_nm": 3.7455185840447354,
+   "dwell_max": 0.4117647058823529,
+   "contacts_peak": 29.625,
+   "eq_contacts_peak": 34.0,
+   "Fbar_peak": 389.58032035827637
+  },
+  "inert": {
+   "Gbar_kT": 163.647,
+   "Gbar_kcal": 100.812,
+   "R_int": 1117451507019701.8,
+   "P_rel": 8.94893419283177e-16,
+   "D_cal_factor": 2.778009933208795e-20,
+   "rh_nm": 3.7306545552752155,
+   "dwell_max": 0.43137254901960786,
+   "contacts_peak": 50.63636363636363,
+   "eq_contacts_peak": 53.0,
+   "Fbar_peak": 451.89276071322166
+  },
+  "dGddagger_kcal": {
+   "receptor": 83.854,
+   "inert": 100.812,
+   "delta": 16.958
+  },
+  "P_ratio_receptor_over_inert": 0.8000046078224315
+ },
+ "selftest": {
+  "trilinear_linear_exact_maxerr": 5.684341886080802e-14,
+  "trilinear_grad_linear_maxerr": 7.105427357601002e-14,
+  "trilinear_grad_fd_maxerr": 1.7672682615210709,
+  "mrc_roundtrip": {
+   "maxdiff": 0.0,
+   "origin_ok": true,
+   "voxel_nm": 0.34444444444444444
+  },
+  "pairlist_vs_kdtree": {
+   "ref": 276,
+   "new": 276,
+   "mismatch": 0
+  },
+  "baoab_temperature_K": 313.88812743492383,
+  "wham_recovery_max_kT": 0.33248551360724854,
+  "openmm_available": true,
+  "bond_stretched_pulls_together": true,
+  "bond_compressed_pushes_apart": true
+ },
+ "budgets_spent_s": {
+  "16C": 3874.5
+ },
+ "wall_total_s": 3877.2
+}

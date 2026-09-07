@@ -1,0 +1,20 @@
+{
+ "trilinear_linear_exact_maxerr": 5.684341886080802e-14,
+ "trilinear_grad_linear_maxerr": 7.105427357601002e-14,
+ "trilinear_grad_fd_maxerr": 1.7672682615210709,
+ "mrc_roundtrip": {
+  "maxdiff": 0.0,
+  "origin_ok": true,
+  "voxel_nm": 0.34444444444444444
+ },
+ "pairlist_vs_kdtree": {
+  "ref": 276,
+  "new": 276,
+  "mismatch": 0
+ },
+ "baoab_temperature_K": 313.88812743492383,
+ "wham_recovery_max_kT": 0.33248551360724854,
+ "openmm_available": true,
+ "bond_stretched_pulls_together": true,
+ "bond_compressed_pushes_apart": true
+}

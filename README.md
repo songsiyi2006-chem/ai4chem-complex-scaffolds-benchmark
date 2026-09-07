@@ -18,6 +18,7 @@
 ![Phase 14](https://img.shields.io/badge/Phase%2014-active%20matter%20LLPS%20%C2%B7%20Cahn%2DHilliard%20condensates-E67E22)
 ![Phase 12](https://img.shields.io/badge/Phase%2012-autonomous%20Hamiltonian%20law%20discovery%20%C2%B7%20SINDy%20%2B%20Onsager-E74C3C)
 ![Phase 15](https://img.shields.io/badge/Phase%2015-quantum%20biology%20%C2%B7%20radical--pair%20compass%20%C2%B7%20allostery-16A085)
+![Phase 16](https://img.shields.io/badge/Phase%2016-NPC%20megamachine%20%C2%B7%20Cryo--EM%20MDFF%20%C2%B7%20FG%20transport-E67E22)
 ![Phase 17](https://img.shields.io/badge/Phase%2017-4c%20Dirac%20%C2%B7%20actinide%205f%20covalency%20%C2%B7%20Breit-C0392B)
 ![Phase 18](https://img.shields.io/badge/Phase%2018-whole--cell%20tFBA%20%C2%B7%20crowding%20%C2%B7%20cybernetic%20kinetics-E74C3C)
 
@@ -60,6 +61,8 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 **Phase 12 — Autonomous Hamiltonian-law discovery.** The pipeline becomes a theorist: given only 5 %-noise telemetry of the Field–Noyes Oregonator (plus its reaction–diffusion extension), a weak-form split-sample estimator + STRidge path + factorial impulse interventions deduce the symbolic ODEs, the conserved first integral H(x) and the dissipative Lyapunov functional, and export them as LaTeX / SymPy / C++ kernels (`run_phase12_hamiltonian_law_discovery.py`; results staged locally).
 
 **Phase 15 — The Grand Convergence: quantum biology, radical-pair magnetoreception & spin-triggered allostery.** Every previous phase is pointed at one question: how does a 50 µT field — 5×10⁻⁹ eV per electron — steer a biochemical decision? (`run_phase15_quantum_biology_spin_allostery.py`) **15A** drives the FAD\* → Trp_A → Trp_B → Trp_C hopping chain with nonadiabatic Marcus kinetics (hop ladder 4.4 / 10.2 / 17.4 ps, charge separation in 52 ps), then builds the anisotropic ¹⁴N/¹H spin Hamiltonian of [FAD^•⁻ ⋯ Trp_C^•⁺] at r₁₂ = 1.9 nm (hyperfine tensors from a first-principles PySCF route with a hydrogen-1s metrology self-test, literature-anchored fallback documented for Windows hosts where PySCF ships no binaries). **15B** propagates the sparse-Kronecker stochastic Liouville–von Neumann equation — Haberkorn recombination + dephasing, two cross-validated propagators (exact non-Hermitian eigen solver with analytic yields vs matrix-free expm_multiply, agreement to 2×10⁻⁴; the {P_T,ρ} = 2ρ − {P_S,ρ} identity tames the d² Kronecker blow-up) — resolving quantum-beat S↔T dynamics, the 156-point compass map Φ_S(θ, φ) (anisotropy 0.25 %; full-space yields 0.8445 → 0.8310 from 0° to 90°) and the field-strength law. **15C** transduces the quantum signal with OpenMM (amber14SB + GBn2): one elementary charge at the flavin pocket shifts the CCT salt-bridge latch bound-register free energy by **−0.52 kcal/mol** (occupancy 0.68 → 0.94) — a **3.9×10⁶× Zeeman-to-ensemble amplification**, reported with the minimal model's honest caveats. **15D** closes with the instrumentation twin: MFE transient absorption ΔA(λ, t) (peak 20.6 % at 0.15 µs) and Larmor-locked ODMR (dips at 5.02 → 10.00 MHz, doubling with B₀). Full treatise: [`QUANTUM_BIOLOGY_REPORT_EN.md`](./QUANTUM_BIOLOGY_REPORT_EN.md) / [`QUANTUM_BIOLOGY_REPORT_ZH.md`](./QUANTUM_BIOLOGY_REPORT_ZH.md).
+
+**Phase 16 - Mega-macromolecular dynamics: Cryo-EM density flexible fitting & mesoscale transport through the Nuclear Pore Complex.** The Pantheon scales from single molecules to a mega-Dalton machine: an eight-fold-symmetric CG NPC scaffold (56 cope domains, 4480 structured beads) + a **644,588-bead** Martini-3-flavored mega-system (**2.74 M all-atom equivalents**, explicit CG water-ion lattice at rho = 8.114 beads/nm3, 0.15 M NaCl; `run_phase16_megamachine_cryoem_transport.py`). **16A** assembles and stabilizes the pore-local hydration domain with an O(N) grid density functional (preallocated buffers, zero per-step allocation) behind a stability gate (rho deviation 2.82 %, T = 310.6 K), then relaxes a 112-chain x 92-bead FG-Nup brush (sticker-spacer grammar, eps_TA-TA = 3.0 kJ/mol) into the transport corridor. **16B** synthesizes a 3.5 A Cryo-EM map (228^3 MRC2014, bit-exact round trip) and fits a deliberately corrupted scaffold (dRMSD 2.72 nm) by the **hierarchical rigid-body -> adaptive-force flexible MDFF** pipeline with a vectorized analytic trilinear-gradient kernel: **CCC 0.792 -> 0.814** (ceiling 0.968), final RMSD **0.441 nm**; the elastic-network kernel is cross-validated force-by-force against compiled OpenMM (**max|dF| = 1.7e-13 kJ/mol/nm**) with an independent LangevinMiddle stability gate. **16C** measures the mesoscale translocation free energy of a rigid importin-beta-like receptor (R_h = 3.75 nm) vs a chemically inert R_h-matched twin by brush-equilibrated mean-force integration along z in [-25, +25] nm at the FG migration corridor: **dG‡ = 83.9 vs 100.8 kcal/mol (ddG‡ = 17.0 kcal/mol)**, peak brush contacts 30 vs 51, and fluctuation-dissipation D(z) calibrated to Stokes-Einstein; the receptor pays a lower barrier while its adhesion friction offsets part of the gain (P_rec/P_inert = 0.80) - thermodynamic selectivity with a mobility tax, reported with model-scale caveats. Full treatise: [`MEGAMACHINE_CRYOM_REPORT_EN.md`](./MEGAMACHINE_CRYOM_REPORT_EN.md) / [`MEGAMACHINE_CRYOM_REPORT_ZH.md`](./MEGAMACHINE_CRYOM_REPORT_ZH.md).
 
 **Phase 17 — The relativistic frontier: fully relativistic 4-component Dirac quantum chemistry & the first-principles origin of actinide 5f-covalency.** In Am³⁺ (Z = 95) the 1s electrons orbit at a computed 0.37 c: the direct relativistic effect contracts the core by **25 %** and stabilizes it by **677 Eh**, while the 5f shell — screened and weakly penetrating — settles at **⟨r⟩ = 1.13 a₀, 41 % more extended** than the isoelectronic Eu³⁺ 4f (0.80 a₀) and quasi-degenerate with 6d/7s (`run_phase17_relativistic_actinide_quantum.py`). **17A** builds a from-scratch 4-component Dirac-Fock-Slater engine: node-counted inward/outward matching integration on a log grid (Frobenius series start, Wronskian matching, Sturm node brackets — variational collapse impossible by construction; the staged finite-difference pencil that produced a spurious branch is documented as a negative result), finite-sphere nuclei, Xα exchange, average-of-configuration f⁶ occupations; certified against the Sommerfeld closed form (≤ 0.018 % for Z = 1–110) and the exact Dirac degeneracy E(2s₁/₂) = E(2p₁/₂) (deviation **5.4 × 10⁻¹¹**), with a non-relativistic twin on identical footing and a Breit module — magnetic (Gaunt) + retardation, first order — whose 6D angular-spinor quadrature reproduces the exact 5Z/8 Coulomb pair integral (0.85–2.3 %) before delivering Am/Eu Breit(1s²) = 1.82 × 10⁶ / 4.42 × 10⁵ cm⁻¹. **17B** builds the ⁷F_J multiplet ladder with ζ taken from the SCF j-splitting itself: **ζ(5f, Am) = 3459 cm⁻¹, ζ(4f, Eu) = 1803 cm⁻¹ (ratio 1.92)**, validated against the Eu³⁺ fluorescence ladder and a Slater-Condon Hund-ordering check. **17C** quantifies the separation mechanism: S(5f, N 2p) = 0.0191 vs S(4f, N 2p) = 0.0140 with the 4f acceptor level orphaned ~1 Eh below the nitrogen lone pair (5f quasi-resonant), Wolfsberg–Helmholtz ΔE_cov = −0.56 vs −0.33 kcal/mol (three donors), QTAIM closed-shell signatures at the (3, −1) bond critical points, and FFT electrostatics — the first-principles foundation of minor-actinide/lanthanide partitioning. Full treatise: [`RELATIVISTIC_QUANTUM_REPORT_EN.md`](./RELATIVISTIC_QUANTUM_REPORT_EN.md) / [`RELATIVISTIC_QUANTUM_REPORT_ZH.md`](./RELATIVISTIC_QUANTUM_REPORT_ZH.md).
 
@@ -140,6 +143,10 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 量子生物报告（第十五阶段） | [`QUANTUM_BIOLOGY_REPORT_ZH.md`](./QUANTUM_BIOLOGY_REPORT_ZH.md) |
 | Quantum-biology spin–allostery pipeline (Phase 15) | [`run_phase15_quantum_biology_spin_allostery.py`](./run_phase15_quantum_biology_spin_allostery.py) |
 | Phase 15 record / allostery record / umbrella data | `results_phase15/phase15_results.json`, `results_phase15/allostery_results.json`, `results_phase15/md_*/umbrella.npz` |
+| Mega-machine / Cryo-EM report EN (Phase 16) | [`MEGAMACHINE_CRYOM_REPORT_EN.md`](./MEGAMACHINE_CRYOM_REPORT_EN.md) |
+| Mega-machine / Cryo-EM report ZH (Phase 16) | [`MEGAMACHINE_CRYOM_REPORT_ZH.md`](./MEGAMACHINE_CRYOM_REPORT_ZH.md) |
+| NPC mega-machine pipeline (Phase 16) | [`run_phase16_megamachine_cryoem_transport.py`](./run_phase16_megamachine_cryoem_transport.py) |
+| Phase 16 record / map / umbrella data | `results_phase16/phase16_results.json`, `results_phase16/mdff/cryoem_forcemap_7A.mrc`, `results_phase16/umbrella/windows_*.npz` |
 | 🇬🇧 Relativistic quantum report (Phase 17) | [`RELATIVISTIC_QUANTUM_REPORT_EN.md`](./RELATIVISTIC_QUANTUM_REPORT_EN.md) |
 | 🇨🇳 相对论量子报告（第十七阶段） | [`RELATIVISTIC_QUANTUM_REPORT_ZH.md`](./RELATIVISTIC_QUANTUM_REPORT_ZH.md) |
 | 4-component Dirac pipeline (Phase 17) | [`run_phase17_relativistic_actinide_quantum.py`](./run_phase17_relativistic_actinide_quantum.py) |
@@ -478,6 +485,20 @@ The Pantheon's epistemic finale (`run_phase12_hamiltonian_law_discovery.py`; Num
 
 ![MFE & ODMR instrumentation](./figures_phase15/fig4_mfe_odmr_instrumentation.png)
 
+## Phase 16 - Mega-macromolecular Figure Previews
+
+**Fig. P16-1 - CG NPC megasystem docked into the 3.5 A Cryo-EM envelope: 8-fold scaffold, FG-Nup condensate, transport receptor; MDFF CCC rise and fit convergence**
+
+![Megasystem cryo-EM fit](./figures_phase16/fig1_megasystem_cryoem_fit.png)
+
+**Fig. P16-2 - FG-nucleoporin condensate inside the pore: rho(r,z) density architecture, radial profiles, hydrophobic sticker clustering, chain-size statistics**
+
+![FG condensate density slice](./figures_phase16/fig2_fg_condensate_density_slice.png)
+
+**Fig. P16-3 - Non-equilibrium translocation: mean-force PMF (receptor vs inert R_h-matched control), FDT mobility profile D(z), multivalent FG engagement, mesoscale permeability**
+
+![Translocation free energy PMF](./figures_phase16/fig3_translocation_free_energy_pmf.png)
+
 # Phase 17 — Relativistic Quantum Chemistry Figure Previews
 
 ![4-component spinor orbitals](./figures_phase17/fig1_4component_spinor_orbitals.png)
@@ -539,6 +560,11 @@ python run_phase11_neural_wavefunction_vmc.py                   # all systems ->
 python run_phase11_neural_wavefunction_vmc.py --smoke           # 40-epoch validation pass
 python run_phase11_neural_wavefunction_vmc.py --systems H2_eq_R1.4011,He --epochs 1500
 ```
+
+# Phase 16 (pure numpy/scipy/matplotlib + OpenMM kernel cross-validation;
+#          ~1.5-2 h wall clock; --fast for a smoke budget, --fig-only re-renders)
+python run_phase16_megamachine_cryoem_transport.py             # -> results_phase16/ + figures_phase16/
+python run_phase16_megamachine_cryoem_transport.py --selftest  # kernel validation gates
 
 # Phase 12 (pure numpy/scipy/sympy/torch(CPU)/matplotlib; g++ optional for the kernel gate)
 python run_phase12_hamiltonian_law_discovery.py             # full loop -> results_phase12/ + figures_phase12/ (~23 min)
@@ -633,6 +659,11 @@ python run_phase17_relativistic_actinide_quantum.py --stage figures   # re-rende
 ├── QUANTUM_BIOLOGY_REPORT_EN.md             # Phase 15 English treatise
 ├── QUANTUM_BIOLOGY_REPORT_ZH.md             # 第十五阶段中文报告
 ├── figures_phase15/                         # Phase 15 fig1-fig4 (300 DPI PNG)
+├── run_phase16_megamachine_cryoem_transport.py  # Phase 16: NPC megasystem + Cryo-EM MDFF + mesoscale transport
+├── MEGAMACHINE_CRYOM_REPORT_EN.md           # Phase 16 English treatise
+├── MEGAMACHINE_CRYOM_REPORT_ZH.md           # Phase 16 Chinese treatise
+├── figures_phase16/                         # Phase 16 fig1-fig3 (300 DPI PNG)
+└── results_phase16/                         # Phase 16 outputs (master JSON, MRC force map, MDFF trace, umbrella data)
 ├── results_phase15/                         # Phase 15 outputs (master JSON, PySCF HFC tensors, umbrella sampling, stage logs)
 ├── run_phase18_wholecell_metabolic_thermodynamics.py  # Phase 18: genome-scale reconstruction + delta-gauge tFBA MILP + FBAwMC crowding + cybernetic dynamics
 ├── WHOLE_CELL_METABOLISM_REPORT_EN.md       # Phase 18 English treatise

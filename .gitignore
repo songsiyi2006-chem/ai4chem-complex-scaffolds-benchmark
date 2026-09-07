@@ -59,3 +59,7 @@ results_phase8/nto_cubes/
 results_phase8/_probe/
 results_phase8/_xtb_*/
 results_phase13/_scratch_*/
+
+# Phase 16 heavy intermediates (science lands in JSON/npz/PNG; the 3.5 A master
+# map is 48 MB and re-creatable from the committed 7 A force map + seed)
+results_phase16/mdff/cryoem_map_3p5A.mrc

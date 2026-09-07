@@ -1,0 +1,32 @@
+{
+ "receptor": {
+  "Gbar_kT": 136.119,
+  "Gbar_kcal": 83.854,
+  "R_int": 1396806338480153.5,
+  "P_rel": 7.159188589365129e-16,
+  "D_cal_factor": 2.7669854465742537e-20,
+  "rh_nm": 3.7455185840447354,
+  "dwell_max": 0.4117647058823529,
+  "contacts_peak": 29.625,
+  "eq_contacts_peak": 34.0,
+  "Fbar_peak": 389.58032035827637
+ },
+ "inert": {
+  "Gbar_kT": 163.647,
+  "Gbar_kcal": 100.812,
+  "R_int": 1117451507019701.8,
+  "P_rel": 8.94893419283177e-16,
+  "D_cal_factor": 2.778009933208795e-20,
+  "rh_nm": 3.7306545552752155,
+  "dwell_max": 0.43137254901960786,
+  "contacts_peak": 50.63636363636363,
+  "eq_contacts_peak": 53.0,
+  "Fbar_peak": 451.89276071322166
+ },
+ "dGddagger_kcal": {
+  "receptor": 83.854,
+  "inert": 100.812,
+  "delta": 16.958
+ },
+ "P_ratio_receptor_over_inert": 0.8000046078224315
+}
