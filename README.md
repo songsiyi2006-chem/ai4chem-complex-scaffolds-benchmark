@@ -1,5 +1,38 @@
 # AI4Chem — Complex Scaffolds Benchmark
 
+## Phase 20 capstone: CISS transport and spintronic analytical twins
+
+Phase 20 adds a standalone, validated **effective-model** calculation of helical
+spin-orbit transport, with conditional OER kinetics and synthetic analytical signals.
+It is the capstone contribution to the 20-phase architecture, not a claim that every
+scientific application has been experimentally validated. Earlier phases are retained below.
+
+```bash
+python -m pip install -r requirements_phase20.txt
+python run_phase20_ciss_quantum_spintronics.py --self-test
+python run_phase20_ciss_quantum_spintronics.py
+```
+
+- **20A:** sparse block-tridiagonal helical Pauli/Rashba Hamiltonian, 10-50 meV SOC.
+- **20B:** exact semi-infinite lead self-energies, sparse NEGF solves, independently
+  calculated enantiomers, and single-orbital/no-SOC null controls. A second orbital
+  path is explicit; a coherent nonmagnetic single channel cannot be assumed to filter spin.
+- **20C:** transport-weighted polarization enters an explicitly assigned OER sensitivity
+  model. No 180 mV improvement or Tafel-slope reduction is imposed.
+- **20D:** finite-temperature weak-analyzer SP-STM and phenomenological MChD; these
+  are simulations, not experimental validation or biological evidence.
+- **Checks:** Hermiticity, time reversal, mirror covariance, probability conservation,
+  sparse/dense agreement, regulator sensitivity and energy-grid refinement.
+
+Results: [`results_phase20/summary.json`](results_phase20/summary.json), CSV data,
+SHA-256 manifest and four 300 DPI plots in [`figures_phase20/`](figures_phase20/).
+Reports: [English](CISS_QUANTUM_SPINTRONICS_REPORT_EN.md) /
+[中文](CISS_QUANTUM_SPINTRONICS_REPORT_ZH.md).
+
+For the chosen mirror, the longitudinal spin polarization changes sign while the
+full axial vector transforms as `(Px, Py, Pz) -> (-Px, Py, -Pz)`.
+The script does not force near-perfect spin filtering or claim ab initio OER energetics.
+
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
 ![RDKit](https://img.shields.io/badge/RDKit-2024.03%2B-38B2A3)
 ![License](https://img.shields.io/badge/License-MIT-yellow)

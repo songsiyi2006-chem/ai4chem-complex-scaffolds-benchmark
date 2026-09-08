@@ -1,0 +1,4 @@
+# Standalone Phase 20 only; independent of earlier RDKit/OpenMM/Psi4 environments.
+numpy>=1.23
+scipy>=1.9
+matplotlib>=3.6

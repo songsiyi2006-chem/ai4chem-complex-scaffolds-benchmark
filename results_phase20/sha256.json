@@ -1,0 +1,17 @@
+{
+  "CISS_QUANTUM_SPINTRONICS_REPORT_EN.md": "027154ad1dff340b6c41241fcd999c3143195657c34c548f32764469abf54cd5",
+  "CISS_QUANTUM_SPINTRONICS_REPORT_ZH.md": "8bad2f54c9b20d0bd253c4e28d79d26e016a04fe62699fb2d133f9731bf443ef",
+  "figures_phase20/fig1_helical_spin_orbit_vector.png": "efa29bf4a425661f87fb4118056f8dd22388e10d4f94589c0c9ea4c3db27d019",
+  "figures_phase20/fig2_spin_transmission_polarization.png": "887ae24f39d7ae05ea734b2f197cc13be8b071c8cb39a5e05bff60e00da96aca",
+  "figures_phase20/fig3_oer_overpotential_tafel.png": "220405f061d2654002d87fa87c755f0b78c9a4eae7ebfa9cd3e3dbbc94a242e7",
+  "figures_phase20/fig4_mchd_spstm_spectroscopic_twin.png": "b4b302c7336e1d8f45a0f0ddbcdec0b9b4539d65d5c7a721e8469285e52f50ab",
+  "results_phase20/helix.csv": "943065384922dd8811ddfc12b0c9187f59fa6972f66fd86918a74ac04c612b11",
+  "results_phase20/mchd.csv": "5d1dcd3688991f66af1ecb20457ff120f35a5b74fb1aa5edf038bbf09ee86115",
+  "results_phase20/oer.csv": "0b1f766b34b80fbdd36c4f5d6d947259050b8ff068809ce570e754360b37acc6",
+  "results_phase20/oer_sensitivity.csv": "e615a66eb3cb9b8550ad891d833ec7d25059e157bd8ab7903f72f620a4cd5e74",
+  "results_phase20/spin_resolved.csv": "94d114097ddb6c3c2cd956566274e25bf65ef05b19e4ac591b7942e3629c1b87",
+  "results_phase20/spstm.csv": "1db1f5d8e31c77e161272ebdeba0db09ba3f99fe7c7e6572d56d7ab8bc3b0f91",
+  "results_phase20/summary.json": "5100c04eb50b53dcaca14b36ef4713abcf939761f4408c956d58646d44752b74",
+  "results_phase20/transport.csv": "6fe3c7ae36fb83d8e57f0ebdb68908d46e749d95cbf9c6696967ded5c5a14faa",
+  "script_sha256": "27d09c37b30feea0bf863a81e4032937321c9b93674e9e4661d8489a61a8e82f"
+}

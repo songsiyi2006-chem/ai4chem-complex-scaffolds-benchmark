@@ -1,0 +1,92 @@
+{
+  "model": "effective two-path coherent Pauli/Rashba NEGF; assigned OER and optical sensitivities",
+  "parameters": {
+    "sites": 24,
+    "orbitals": 2,
+    "turns": 2.5,
+    "radius_angstrom": 4.0,
+    "pitch_per_turn_angstrom": 5.4,
+    "hopping_ev": 0.55,
+    "rung_ev": 0.28,
+    "orbital_offset_ev": 0.16,
+    "soc_ev": 0.03,
+    "lead_hopping_ev": 1.5,
+    "contact_ev": 0.65,
+    "lead_exchange_ev": 0.0,
+    "eta_ev": 1e-10,
+    "energy_points": 401,
+    "temperature_k": 300.0,
+    "tip_polarization": 0.4,
+    "oer_alpha": 0.5,
+    "oer_j0_ma_cm2": 0.001,
+    "oer_barrier_gain_ev": 0.1,
+    "mchd_coefficient_per_t": 0.002,
+    "seed": 2026
+  },
+  "validation": {
+    "status": "passed",
+    "errors": {
+      "hermiticity_max": 0.0,
+      "time_reversal_max": 0.0,
+      "mirror_hamiltonian_max": 0.0,
+      "mirror_total_max": 1.7763568394002505e-15,
+      "mirror_vector_max": 1.2882068814581505e-15,
+      "zero_soc_p_max": 0.0,
+      "single_channel_p_max": 1.0462386391575175e-15,
+      "sparse_dense_transmission_max": 0.0,
+      "linear_solve_residual_max": 5.468975410105057e-16,
+      "flux_deficit_max": 2.3205923183056143e-08,
+      "eta_transmission_change_max": 1.1821872147876888e-08,
+      "spin_sum_error_max": 0.0
+    },
+    "tolerances": {
+      "hermiticity_max": 1e-07,
+      "time_reversal_max": 1e-07,
+      "mirror_hamiltonian_max": 1e-07,
+      "mirror_total_max": 1e-07,
+      "mirror_vector_max": 1e-07,
+      "zero_soc_p_max": 1e-07,
+      "single_channel_p_max": 2e-06,
+      "sparse_dense_transmission_max": 1e-07,
+      "linear_solve_residual_max": 1e-07,
+      "flux_deficit_max": 2e-05,
+      "eta_transmission_change_max": 2e-05,
+      "spin_sum_error_max": 1e-07
+    },
+    "checks": "Hermiticity, TRS, mirror, SOC=0, single path, dense reference, flux, eta, positivity, channel and spin bounds",
+    "full_window_errors": {
+      "mirror_vector": 3.2578106878844437e-15,
+      "single_null": 4.622866332676731e-15,
+      "zero_soc_null": 0.0,
+      "flux": 1.6432925553644395e-07,
+      "residual": 1.6252620913624296e-15
+    }
+  },
+  "peak_abs_pz_percent": 2.932250489983564,
+  "thermal_pz": 4.001045056693254e-06,
+  "energy_grid_pz_difference": 2.9151274154467187e-15,
+  "single_channel_max_p_percent": 4.622866332676732e-13,
+  "oer_shift_mv": 3.2016723091379057e-09,
+  "tafel_mv_dec": 119.05285866466097,
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1"
+  },
+  "parameter_provenance": "All geometry, hopping, SOC, contact, OER and optical parameters are assigned; no fitted experimental dataset.",
+  "references": [
+    {
+      "title": "Varela et al., one-dimensional Rashba transport and the coherent null control",
+      "url": "https://arxiv.org/abs/2301.02156"
+    },
+    {
+      "title": "Evers et al., Theory of Chirality Induced Spin Selectivity: Progress and Challenges",
+      "url": "https://arxiv.org/abs/2108.09998"
+    },
+    {
+      "title": "Spin polarization and OER in a monolayer chiral COF model catalyst (2025)",
+      "url": "https://doi.org/10.1021/jacs.5c09729"
+    }
+  ]
+}
