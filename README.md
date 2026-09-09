@@ -1,5 +1,38 @@
 # AI4Chem — Complex Scaffolds Benchmark
 
+## Phase 23: molecular memristors and in-materio reservoir computing
+
+[![Phase 23 code](https://img.shields.io/badge/Phase_23-In_materio_computing-blue)](run_phase23_in_materio_neuromorphic_computing.py)
+[![Model scope](https://img.shields.io/badge/Evidence-Effective_model-grey)](IN_MATERIO_COMPUTING_REPORT_EN.md)
+
+A standalone classical effective-model benchmark: passive nonlinear redox junctions,
+periodic hysteresis, pulse-derived volatile STDP-like/PPF responses, a 25-node KCL mesh,
+readout-only Lorenz prediction, circuit energy accounting, and small-signal EIS.
+
+```bash
+python -m pip install -r requirements_phase23.txt
+python run_phase23_in_materio_neuromorphic_computing.py --self-test
+python run_phase23_in_materio_neuromorphic_computing.py
+```
+
+Training, validation and test intervals are chronological and separated by target
+gaps. All three Lorenz coordinates are predicted at +1 and +10 samples from scalar
+x input; persistence and input-only baselines are retained. This is input-driven
+prediction, not an autonomous chaotic rollout. The default one-step test mean NMSE
+is approximately **0.255**, and the device + wire + source-resistor dissipation is
+approximately **13.64 nJ per 25-node input sample**, excluding peripheral electronics.
+The requested NMSE < 0.01 and sub-fJ thresholds are **not met**.
+
+The original even-in-voltage current law is corrected to ensure passivity. The
+plasticity is volatile, not demonstrated long-term memory. Added diffusion/capacitance
+in EIS are explicit equivalent-circuit assumptions. No fabricated molecular hardware,
+experimental learning fidelity, total-system energy advantage or AGI is claimed.
+
+Reports: [English](IN_MATERIO_COMPUTING_REPORT_EN.md) / [中文](IN_MATERIO_COMPUTING_REPORT_ZH.md).
+Data and validation: [`results_phase23/summary.json`](results_phase23/summary.json).
+
+![Phase 23 reservoir preview](figures_phase23/fig3_in_materio_chaotic_reservoir_tracking.png)
+
 ## Phase 22: molecular spin qubits and clock-transition protection
 
 [![Phase 22 code](https://img.shields.io/badge/Phase_22-Spin_qubits-blue)](run_phase22_molecular_spin_qubits.py)
@@ -248,6 +281,9 @@ One target (M09) was caught by the pipeline with an **unkekulizable SMILES** —
 | 🇨🇳 主动推理从头酶报告（第十九阶段） | [`ACTIVE_INFERENCE_ENZYME_REPORT_ZH.md`](./ACTIVE_INFERENCE_ENZYME_REPORT_ZH.md) |
 | Active-inference enzyme pipeline (Phase 19) | [`run_phase19_active_inference_denovo_enzyme.py`](./run_phase19_active_inference_denovo_enzyme.py) |
 | Phase 19 record / champion enzyme / figures | `results_phase19/phase19_results.json`, `results_phase19/champion_enzyme_g*.pdb`, `figures_phase19/fig1-fig3` (300 DPI) |
+| Phase 23 in-materio computing pipeline | [`run_phase23_in_materio_neuromorphic_computing.py`](./run_phase23_in_materio_neuromorphic_computing.py) |
+| Phase 23 bilingual reports | [English](./IN_MATERIO_COMPUTING_REPORT_EN.md) / [中文](./IN_MATERIO_COMPUTING_REPORT_ZH.md) |
+| Phase 23 data, validation and 300 DPI figures | [`results_phase23/summary.json`](./results_phase23/summary.json) / [`figures_phase23/`](./figures_phase23/) |
 
 ## Figure Previews
 

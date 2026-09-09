@@ -1,0 +1,154 @@
+{
+  "parameters": {
+    "seed": 2026,
+    "glow_s": 1e-06,
+    "ghigh_s": 2e-05,
+    "alpha_per_v": 3.0,
+    "eta_per_s": 8.0,
+    "v0_v": 0.18,
+    "threshold_v": 0.03,
+    "tau_s": 0.01,
+    "equilibrium": 0.5,
+    "window_p": 1,
+    "nodes": 25,
+    "source_g_s": 0.0001,
+    "wire_g_s": 8e-06,
+    "node_c_f": 2e-12,
+    "sample_s": 0.0005,
+    "substeps": 4,
+    "lorenz_step": 0.02,
+    "samples": 3600,
+    "washout": 200,
+    "train_end": 2200,
+    "validation_end": 2800
+  },
+  "hysteresis": {
+    "high_frequency_log_slope": -0.9999971696202763,
+    "area_refinement_relative_error": 1.7115269336461938e-05,
+    "area_100khz_over_max": 0.000339976388397719
+  },
+  "plasticity": {
+    "fits": [
+      {
+        "sign": 1,
+        "amplitude": 0.0987013065158192,
+        "decay_s": 0.008477466650799702,
+        "log_space_r2": 0.994924853304203
+      },
+      {
+        "sign": -1,
+        "amplitude": 0.09870319498365338,
+        "decay_s": 0.008477365298086447,
+        "log_space_r2": 0.994924028354789
+      }
+    ],
+    "all_positive_delays_potentiate": true,
+    "all_negative_delays_depress": true,
+    "half_step_max_window_difference": 1.605833599496731e-07,
+    "half_step_max_ppf_difference": 0.00026348282119736943
+  },
+  "reservoir_scores": {
+    "1": {
+      "ridge_lambda": 1e-07,
+      "validation_nmse": 0.032020314630531434,
+      "test_nmse_xyz": [
+        0.10287173447306878,
+        0.26713650512751624,
+        0.39636777835630116
+      ],
+      "test_mean_nmse": 0.2554586726522954,
+      "input_only_nmse_xyz": [
+        0.01070474487552635,
+        0.30321655103687273,
+        1.0746249500263014
+      ],
+      "persistence_x_nmse": 0.010697334991823312,
+      "below_001": false
+    },
+    "10": {
+      "ridge_lambda": 1e-06,
+      "validation_nmse": 0.08853167908459732,
+      "test_nmse_xyz": [
+        0.5601991962094837,
+        1.1778195339921749,
+        1.2170356499120518
+      ],
+      "test_mean_nmse": 0.9850181267045701,
+      "input_only_nmse_xyz": [
+        0.6886478509504881,
+        1.0875547026016104,
+        1.048656111789126
+      ],
+      "persistence_x_nmse": 0.722018325240921,
+      "below_001": false
+    }
+  },
+  "energy": {
+    "operation": "one 25-node input sample, excluding readout and external electronics",
+    "test_device_j_per_sample": 2.984537787804837e-09,
+    "test_wire_j_per_sample": 6.873579137253845e-09,
+    "test_source_resistor_j_per_sample": 3.782022405402843e-09,
+    "test_circuit_dissipation_j_per_sample": 1.3640139330461528e-08,
+    "test_source_supplied_j_per_sample": 1.3640144745962195e-08,
+    "test_BE_artificial_loss_j_per_sample": 3.933904937091261e-15,
+    "circuit_sub_fj": false,
+    "system_total_j_per_operation": null
+  },
+  "diagnostics": {
+    "kcl_max_residual_a": 9.985746631706663e-14,
+    "energy_balance_max_error_j": 5.1573800494386894e-17,
+    "state_half_step_max_error": 0.0001290682089958306,
+    "fading_distance_final": 3.135810023835692e-05,
+    "state_min": 0.11008090457958035,
+    "state_max": 0.7691934119245321
+  },
+  "split": {
+    "washout": 200,
+    "train_first": 200,
+    "train_last": 2189,
+    "validation_first": 2200,
+    "validation_last": 2789,
+    "test_first": 2800,
+    "test_last": 3599,
+    "input_train_mean": 3.3230571080556315,
+    "input_train_std": 7.225201093600116
+  },
+  "eis": {
+    "series_r_ohm": 500.0,
+    "geometric_c_f": 2e-09,
+    "warburg_r_ohm": 30000.0,
+    "diffusion_time_s": 0.5,
+    "ac_amplitude_v": 0.01,
+    "bias_points": [
+      {
+        "bias_v": -0.25,
+        "state": 0.38280660089110474,
+        "Rct_frozen_ohm": 93359.03460011419,
+        "state_relaxation_s": 0.008958475012926117,
+        "static_10mv_secant_relative_error": 0.00031165356015756926
+      },
+      {
+        "bias_v": 0.0,
+        "state": 0.5,
+        "Rct_frozen_ohm": 95238.09523809522,
+        "state_relaxation_s": 0.01,
+        "static_10mv_secant_relative_error": 0.00015000675014463762
+      },
+      {
+        "bias_v": 0.25,
+        "state": 0.6171933991088951,
+        "Rct_frozen_ohm": 60690.61236819999,
+        "state_relaxation_s": 0.008958475012926119,
+        "static_10mv_secant_relative_error": 0.0003130642350075338
+      }
+    ],
+    "scope": "linearized molecular admittance plus assigned finite diffusion and capacitance; not fitted spectroscopy"
+  },
+  "provenance": "Assigned classical volatile junction model; synthetic Lorenz data; no experimental device or AGI claim",
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1"
+  }
+}
