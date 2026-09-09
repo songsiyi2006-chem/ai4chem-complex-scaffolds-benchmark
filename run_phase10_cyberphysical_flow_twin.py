@@ -870,8 +870,9 @@ class FlowEnv:
             * 0.05 * 640.0 / 1e3                     # kg/s (5 % loss, CPA)
         carbon = 0.0
         if kg_s > 1e-12:
-            carbon = (p_el * 0.5542 / 1e3 + e_chill * 0.5542 / 1e3
-                      + cat_makeup * 85.0) / kg_s * 3600.0
+            # W -> kWh/s; catalyst makeup is already kg/s.
+            carbon = ((p_el + e_chill) * 0.5542 / (1e3 * 3600.0)
+                      + cat_makeup * 85.0) / kg_s
         carbon_n = float(np.clip(carbon / 8.0, 0.0, 1.5))
         dT = obs["max_dT"]
         runaway = max(0.0, (dT - 40.0) / 20.0)
@@ -909,8 +910,9 @@ class FlowEnv:
             self.plant.record(self.plant.delta_p())
         return self._get_obs()
 
-    def _get_obs(self):
-        obs = self.plant.observe(with_pat_noise=True)
+    def _get_obs(self, obs=None):
+        if obs is None:
+            obs = self.plant.observe(with_pat_noise=True)
         est = obs["est"]
         o = np.array([
             np.clip(est["A"] / 1.0, 0, 2),
@@ -960,11 +962,8 @@ class FlowEnv:
         self.steps += 1
         if self.record:
             self.plant.record(obs_raw["dP"])
-        obs_vec = self._get_obs()
-        # expose the corrected observation (with the dT_rate computed above)
-        # to the controller layer — the re-observed dict inside _get_obs
-        # carries the stale default
-        self._last_obs_full = obs_raw
+        # Encode the same sensor sample used by reward and safety control.
+        obs_vec = self._get_obs(obs_raw)
         done = self.plant.t >= self.ep_length - 1e-6
         info.update({"cum_yield": self.cum_p_out / max(self.cum_a_in, 1e-12),
                      "cum_yield_onspec": self.cum_p_onspec

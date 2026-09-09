@@ -1154,7 +1154,7 @@ def run_metadynamics(sim, meta, state, leg, n_steps, deposit_every,
 # ------------------------------------------------------------------ #
 def analyze_fes(hills, leg, anchor_R, anchor_P,
                 slices=(0.15, 0.3, 0.5, 0.7, 0.85, 1.0)):
-    """FES = -(gamma-1)/gamma * V on the periodic CV grid, deposition
+    """FES = -gamma/(gamma-1) * V on the periodic CV grid, deposition
     density masking, Dijkstra MEP, saddle, basin and convergence data.
 
     anchor_R / anchor_P: (d_A, theta_deg) CV anchors of the reactant /
@@ -1163,7 +1163,9 @@ def analyze_fes(hills, leg, anchor_R, anchor_P,
     R, T = R_GRID_A, TH_GRID_DEG
     rG, tG = R / 10.0, np.radians(T)
     s1, s2 = sigma_constants()
-    scale = -(GAMMA - 1.0) / GAMMA            # F = scale * V, kJ/mol
+    if GAMMA <= 1.0:
+        raise ValueError("Well-tempered bias factor GAMMA must exceed 1")
+    scale = -GAMMA / (GAMMA - 1.0)            # deposited hills are bias, not FES
     dep_ps = (DEPOSIT_STEPS_EXPL if leg == "explicit"
               else DEPOSIT_STEPS_IMPL) * DT_FS / 1000.0
 

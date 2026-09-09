@@ -1,5 +1,7 @@
 > **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
 
+> **Phase 6–10 audit correction / 审计更正：** Six targeted code defects corrected; 7 new regression tests pass. Historical figures, cached results, robot protocols and trained policies have not been regenerated or revalidated. 六项代码问题已修复，历史结果尚未重算；真实设备使用前仍须验证。 See [fixes and validation scope](PHASE6_10_AUDIT_FIXES.md).
+
 # AI4Chem — Complex Scaffolds Benchmark
 
 ## Phase 23: molecular memristors and in-materio reservoir computing

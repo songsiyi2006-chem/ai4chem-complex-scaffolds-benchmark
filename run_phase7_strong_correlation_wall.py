@@ -963,7 +963,7 @@ def merge_and_analyze():
 
     rel = {
         "CASSCF": to_rel(e_cas),
-        "UHF": to_rel(e_rhf),           # restricted = mean-field closed shell
+        "UHF": to_rel(e_uhf),           # unrestricted mean-field reference
         "BS-UB3LYP": to_rel(e_uks),
     }
     # xTB relative curve in kcal/mol

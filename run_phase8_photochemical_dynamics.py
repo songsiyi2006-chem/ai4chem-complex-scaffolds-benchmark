@@ -1392,8 +1392,8 @@ class LVC2:
                        np.full_like(phi, self.lR),
                        np.full_like(phi, self.lB)], axis=1)
         dmid = 0.5 * (dw0 + dw1)
-        drad = ((0.5 * det[:, None] * (dw1 - dw0)
-                 + 2.0 * v12[:, None] * dv) / rad[:, None])
+        drad = ((0.25 * det[:, None] * (dw1 - dw0)
+                 + v12[:, None] * dv) / rad[:, None])
         grad_e0 = dmid - drad
         grad_e1 = dmid + drad
         F = np.where((active == 0)[:, None], -grad_e0, -grad_e1)
