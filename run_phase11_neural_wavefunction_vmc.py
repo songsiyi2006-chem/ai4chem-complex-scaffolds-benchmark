@@ -430,7 +430,9 @@ class FermiPauliNet(nn.Module):
 
     def logabs(self, r):
         log_mix, _, J = self._fermi_layer(r)
-        return (log_mix + J).clamp(min=-60.0)
+        # Keep sampling, kinetic derivatives and psi on the same wavefunction.
+        # A floor here creates a constant, non-normalizable tail.
+        return log_mix + J
 
     def psi(self, r):
         """Signed wavefunction value (used by the antisymmetry audit)."""

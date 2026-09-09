@@ -792,7 +792,7 @@ def proton_pes(r, R_oc=2.80, dG_eV=-0.12, barrier_eV=0.40, want_curv=False,
     c4 = barrier_eV / r0 ** 4                     # barrier = depth + barrier_eV
     q = r - r_c
     V = c4 * (q * q - r0 * r0) ** 2 - depth
-    V = V + (dG_eV / (r_D - r_A)) * q * 1.0       # reaction free-energy tilt
+    V = V - (dG_eV / (r_D - r_A)) * q             # V(acceptor)-V(donor) = dG
     if want_curv:
         d2 = c4 * (12.0 * q * q - 4.0 * r0 * r0)
         return V, d2
@@ -855,8 +855,9 @@ def vibronic_rate_hs(x, eps_D, vecD, eps_A, vecA, dG_eV, lam_eV, V_el_cm,
     V_el = V_el_cm / 8065.544                     # cm^-1 -> eV
     En_D = (eps_D[:nmax] - eps_D[0]) * HARTREE_EV
     En_A = (eps_A[:nmax] - eps_A[0]) * HARTREE_EV
-    dx = x[1] - x[0]
-    S = vecD[:, :nmax].T @ vecA[:, :nmax] * dx    # (mu, nu) overlaps
+    # eigh_tridiagonal returns Euclidean-normalized grid vectors. Their dot
+    # product already equals the quadrature of continuous-normalized states.
+    S = vecD[:, :nmax].T @ vecA[:, :nmax]         # dimensionless (mu, nu)
     P = np.exp(-En_D / kT)
     P /= P.sum()
     dG = dG_eV + np.outer(np.ones(nmax), En_A) - np.outer(En_D, np.ones(nmax))
@@ -943,7 +944,12 @@ def module_13b(cfg):
     for dx in (2.4e-3, 1.2e-3, 6e-4, 3e-4):
         xg = np.arange(-0.6, R_oc + 0.6, dx)
         eg, _ = fd_schrodinger(proton_pes(xg, R_oc, dG, cfg["barrier_eV"]), xg, 1.008)
+        kh_grid, kd_grid, *_ = pcet_rate_geometry(
+            0.70, cfg["barrier_eV"], dG, cfg["lam_total_eV"],
+            cfg["V_el_cm"], 300.0, R_oc=R_oc, grid=dx)
         conv_table.append({"dx_A": dx, "n": len(xg),
+                           "k_H_300_fixed_geometry": kh_grid,
+                           "k_D_300_fixed_geometry": kd_grid,
                            "E0_eV": float(eg[0] * HARTREE_EV),
                            "E1_eV": float(eg[1] * HARTREE_EV)})
     out["grid_convergence"] = conv_table

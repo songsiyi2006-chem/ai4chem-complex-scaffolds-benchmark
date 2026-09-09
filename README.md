@@ -2,6 +2,8 @@
 
 > **Phase 6–10 audit correction / 审计更正：** Six targeted code defects corrected; 7 new regression tests pass. Historical figures, cached results, robot protocols and trained policies have not been regenerated or revalidated. 六项代码问题已修复，历史结果尚未重算；真实设备使用前仍须验证。 See [fixes and validation scope](PHASE6_10_AUDIT_FIXES.md).
 
+> **Phase 11–13 audit correction / 审计更正：** Wavefunction consistency, scalar diagnostics and PCET normalization/sign corrected. Historical numerical results and neural checkpoints have not been regenerated. 六项问题已修复，历史结果与神经网络训练尚未重算。 See [fixes and test limitations](PHASE11_13_AUDIT_FIXES.md).
+
 # AI4Chem — Complex Scaffolds Benchmark
 
 ## Phase 23: molecular memristors and in-materio reservoir computing

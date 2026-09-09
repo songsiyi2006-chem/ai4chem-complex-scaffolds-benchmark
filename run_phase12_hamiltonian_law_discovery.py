@@ -822,7 +822,8 @@ def onsager_analysis(J):
 #  MODULE 12C — Hamiltonian core & Lyapunov functional (continuous NN)
 # --------------------------------------------------------------------------- #
 def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
-                            n_steps=2500, lr=2e-3, seed=0, pairs=None):
+                            n_steps=2500, lr=2e-3, seed=0, pairs=None,
+                            transverse_samples=None):
     """Learn a scalar functional on phase space with a continuous MLP.
 
     mode='hamiltonian': dH/dt = gradH . f ~ 0 on the attractor band
@@ -858,6 +859,8 @@ def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
     Xa = torch.tensor(attractor_samples, dtype=dt64)
     Xp = torch.tensor(pairs[0], dtype=dt64) if pairs is not None else None
     Xq = torch.tensor(pairs[1], dtype=dt64) if pairs is not None else None
+    Xr = (torch.tensor(transverse_samples, dtype=dt64)
+          if transverse_samples is not None else None)
     opt = torch.optim.Adam(net.parameters(), lr=lr)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, n_steps)
     bs = min(4096, len(Xm), len(Xa))
@@ -873,13 +876,18 @@ def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
         dH = (gH * Fb).sum(-1)
         if mode == "hamiltonian":
             scale_n = (gH.norm(dim=-1) * Fb.norm(dim=-1)).clamp_min(1e-6)
-            collapse = torch.relu(0.25 - Hb.std()) ** 2        # anti-collapse
+            # Variation is encouraged away from the training orbit, never
+            # along a single orbit where a conserved scalar must be constant.
+            collapse = 0.0
+            if Xr is not None:
+                Hr = net(Xr[torch.randint(0, len(Xr), (bs,))])
+                collapse = torch.relu(0.25 - Hr.std(unbiased=False)) ** 2
             loss = ((dH / scale_n) ** 2).mean() + collapse \
                 + 1e-4 * (gH.norm(dim=-1) ** 2).mean()
             if Xp is not None:                                  # endpoint consistency
                 pi = torch.randint(0, len(Xp), (bs,))
                 dH_pair = (net(Xp[pi]) - net(Xq[pi])).squeeze(-1)
-                h_rng = float(Hb.std() * 4.0 + 1e-6)
+                h_rng = 0.25  # fixed target scale, independent of orbit drift
                 loss = loss + 0.5 * ((dH_pair / h_rng) ** 2).mean()
         else:
             Xab = Xa[torch.randint(0, len(Xa), (bs,))].clone().requires_grad_(True)
@@ -907,6 +915,23 @@ def nn_value_and_grad(net, X):
     out = net(Xt).squeeze(-1)
     g = torch.autograd.grad(out.sum(), Xt)[0]
     return out.detach().numpy(), g.detach().numpy()
+
+
+def scalar_audit_metrics(H, dV, reference_scale=0.25):
+    """Finite-sample diagnostics, not a global Lyapunov/conservation proof."""
+    H, dV = np.asarray(H, float), np.asarray(dV, float)
+    if (not H.size or not dV.size or not np.all(np.isfinite(H))
+            or not np.all(np.isfinite(dV)) or not np.isfinite(reference_scale)
+            or reference_scale <= 0):
+        raise ValueError("Audit requires finite samples and a positive fixed scale")
+    absolute = float(np.max(np.abs(H - H.flat[0])))
+    return {"H_absolute_drift": absolute,
+            "H_drift_fixed_scale": absolute / reference_scale,
+            "H_reference_scale": float(reference_scale),
+            "V_nonincrease_fraction": float(np.mean(dV <= 0.0)),
+            "V_positive_derivative_fraction": float(np.mean(dV > 0.0)),
+            "V_max_positive_derivative": float(max(0.0, dV.max())),
+            "global_certificate": False}
 
 
 def lle_benettin(f, s0, T=600.0, dt=1e-3, renorm_every=0.1, seed=0):
@@ -1318,13 +1343,12 @@ def fig3(netV, netH, f_disc, f_disc_vec, long_traj, kicked_trajs):
     m = (tgrid >= 20.0) & (tgrid <= 41.0)
     Hbar = float(Ht.mean())
     ax.plot(tgrid[m], Ht[m] - Hbar, color=C_MAIN, lw=1.2)
-    per = 10.12
-    n_per = float(np.max(np.abs(Ht[m] - Ht[m][0])) / (Ht.max() - Ht.min() + 1e-12))
+    absolute_drift = float(np.max(np.abs(Ht[m] - Ht[m][0])))
     ax.set_xlabel("$t$ [$\\tau$]"); ax.set_ylabel("$H - \\bar H$")
     ax.set_title("(d) Hamiltonian core along the attractor: "
-                 f"drift = {n_per:.2f} range/period")
-    fig.suptitle("Phase 12 / Fig. 3 — Discovered Lyapunov entropy-dissipation "
-                 "surface & conserved Hamiltonian core", fontsize=12)
+                 f"absolute drift = {absolute_drift:.2e}")
+    fig.suptitle("Phase 12 / Fig. 3 — Learned scalar diagnostics "
+                 "(not a global conservation or Lyapunov certificate)", fontsize=12)
     fig.savefig(FIG / "fig3_lyapunov_entropy_descent.png", dpi=300,
                 bbox_inches="tight")
     plt.close(fig)
@@ -1799,33 +1823,38 @@ def main():
     pairs = (long_traj[:-gap:7], long_traj[gap::7])
     netH = train_scalar_functional(f_disc_vec, "hamiltonian", attr_samples,
                                    attr_samples, n_steps=net_steps, seed=1,
-                                   pairs=pairs)
+                                   pairs=pairs, transverse_samples=off_samples)
     print(f"   {elapsed()} training Lyapunov functional V(x): "
           f"V >= 0, dV/dt <= 0 off-attractor ...")
     netV = train_scalar_functional(f_disc_vec, "lyapunov", off_samples,
                                    attr_samples, n_steps=net_steps, seed=2)
 
-    # H conservation audit
-    H_at, gH_at = nn_value_and_grad(netH, attr_samples)
-    F_at = f_disc_vec(attr_samples)
+    # New initial conditions, never used in fitting or model selection.
+    audit_rng = np.random.default_rng(120023)
+    audit_trajs = [simulate_0d(audit_rng.uniform([0.05, 0.1, 0.05],
+                                                [1.1, 8.0, 1.2]), 80.0)
+                    for _ in range(4)]
+    audit_off = np.vstack([tr[:len(tr)//2:40] for tr in audit_trajs])
+    audit_cycle = audit_trajs[0][len(audit_trajs[0])//2::10]
+    # Empirical held-out H conservation audit.
+    H_at, gH_at = nn_value_and_grad(netH, audit_cycle)
+    F_at = f_disc_vec(audit_cycle)
     rel_res = float(np.mean(np.abs((gH_at * F_at).sum(-1)) /
                             (np.linalg.norm(gH_at, axis=1) *
                              np.linalg.norm(F_at, axis=1) + 1e-12)))
-    Ht, _ = nn_value_and_grad(netH, long_traj[::20])
-    h_range = float(Ht.max() - Ht.min() + 1e-12)
-    drift = float(np.max(np.abs(Ht - Ht[0])) / h_range)
-    print(f"      H audit: relative |dH/dt| residual on attractor = {rel_res:.2e} | "
-          f"max drift over 60 tau / range(H) = {drift:.2e}")
+    Ht = H_at
 
-    # V certificate audit
-    V_off, gV_off = nn_value_and_grad(netV, off_samples)
-    F_off = f_disc_vec(off_samples)
+    # Strict-sign held-out diagnostic, not a global certificate.
+    V_off, gV_off = nn_value_and_grad(netV, audit_off)
+    F_off = f_disc_vec(audit_off)
     dV_off = (gV_off * F_off).sum(-1)
-    cert = float(np.mean(dV_off <= 1e-3))
-    print(f"      V audit: certificate rate dV/dt <= 0 off-attractor = "
+    audit_metrics = scalar_audit_metrics(Ht, dV_off)
+    cert = audit_metrics['V_nonincrease_fraction']
+    print(f"      H held-out absolute drift = {audit_metrics['H_absolute_drift']:.3e}")
+    print(f"      V audit: held-out fraction dV/dt <= 0 = "
           f"{cert:.2%} | mean dV/dt = {dV_off.mean():.3e} | "
-          f"V >= 0 everywhere: {bool(V_off.min() >= 0)}")
-    V_cycle, gV_cycle = nn_value_and_grad(netV, attr_samples)
+          f"V >= 0 on evaluated samples: {bool(V_off.min() >= 0)}")
+    V_cycle, gV_cycle = nn_value_and_grad(netV, audit_cycle)
     dV_cycle = (gV_cycle * F_at).sum(-1)
     print(f"      NESS balance on attractor: <dV/dt> = {dV_cycle.mean():.3e} "
           f"(~0) | rms = {dV_cycle.std():.3e} (> 0: circulating flux)")
@@ -1837,8 +1866,9 @@ def main():
           f"discovered = {np.round(spec_disc, 4)}  (lambda_1 ~ 0: limit cycle; "
           f"sum < 0: dissipative contraction)")
     results["12C"] = {
-        "H_relative_residual": rel_res, "H_max_drift_60tau": drift,
-        "V_certificate_rate": cert, "V_min": float(V_off.min()),
+        **audit_metrics,
+        "audit_sampling": "held-out initial conditions; seed 120023",
+        "H_relative_residual": rel_res, "V_min": float(V_off.min()),
         "V_mean_off": float(dV_off.mean()),
         "NESS_mean_dV_on_cycle": float(dV_cycle.mean()),
         "NESS_rms_dV_on_cycle": float(dV_cycle.std()),
