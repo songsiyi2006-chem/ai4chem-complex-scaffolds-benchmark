@@ -687,7 +687,7 @@ class MegaEngine:
         sr6 = (sig / r) ** 6
         fsc = (24.0 * eps / r2s) * (2.0 * sr6 * sr6 - sr6)
         np.clip(fsc, -self.fcap, self.fcap, out=fsc)
-        fd = (fsc / r)[:, None] * d
+        fd = fsc[:, None] * d
         for arr, s, hit_in in ((I, +1.0, ci), (J, -1.0, cj)):
             if np.any(hit_in):
                 np.add.at(f_cx, remap[arr[hit_in]], s * fd[hit_in])
@@ -730,7 +730,7 @@ class MegaEngine:
         sr6 = (sig / r) ** 6
         fsc = (24.0 * eps / r2s) * (2.0 * sr6 * sr6 - sr6)
         np.clip(fsc, -self.fcap, self.fcap, out=fsc)
-        fd = (fsc / r)[:, None] * d
+        fd = fsc[:, None] * d
         f_cx = np.zeros((len(pos_sub), 3))
         for arr, s, hit_in in ((I, +1.0, ci), (J, -1.0, cj)):
             # outside endpoint -> normal scatter; inside endpoint -> rigid body
@@ -756,7 +756,7 @@ class MegaEngine:
                 sr6 = (self.p_sig[m] / r) ** 6
                 fsc = (24.0 * self.p_eps[m] / r2s) * (2.0 * sr6 * sr6 - sr6)
                 np.clip(fsc, -self.fcap, self.fcap, out=fsc)  # pair-force cap
-                fd = (fsc / r)[:, None] * d
+                fd = fsc[:, None] * d
                 self._scatter(frc_sub, self.pl_idx[I], fd)
                 self._scatter(frc_sub, self.pl_idx[J], -fd)
         I, J, qq = self.q_pairs
@@ -1883,23 +1883,29 @@ def analyze_transport(results, fast):
         F1 = force[:, :half].mean(axis=1)
         F2 = force[:, half:].mean(axis=1)
         dz = np.diff(z0s)
-        G = np.concatenate(([0.0], np.cumsum(0.5 * (Fbar[1:] + Fbar[:-1]) * dz)))
-        G1 = np.concatenate(([0.0], np.cumsum(0.5 * (F1[1:] + F1[:-1]) * dz)))
-        G2 = np.concatenate(([0.0], np.cumsum(0.5 * (F2[1:] + F2[:-1]) * dz)))
-        G -= G.min()
+        # Recorded force acts on the fixed solute: dG/dz = -<Fz>.
+        G = np.concatenate(([0.0], -np.cumsum(0.5 * (Fbar[1:] + Fbar[:-1]) * dz)))
+        G1 = np.concatenate(([0.0], -np.cumsum(0.5 * (F1[1:] + F1[:-1]) * dz)))
+        G2 = np.concatenate(([0.0], -np.cumsum(0.5 * (F2[1:] + F2[:-1]) * dz)))
         inter = (np.abs(z0s) < 12.0)
         bulk = (np.abs(z0s) > 22.0)
+        if not bulk.any():
+            raise ValueError("Transport PMF needs a sampled bulk reference")
+        for curve in (G, G1, G2):
+            curve -= curve[bulk].mean()
         Gbar = float(G[inter].max() - G[bulk].mean()) if inter.any() else float("nan")
         # D(z) = kT / zeta_eff  (fluctuation-dissipation friction)
         Dz = KT / np.maximum(gamma, 1e-6)
         contacts_m = contacts.mean(axis=1)
         # inhomogeneous solubility-diffusion resistance
         zz = z0s
-        gg = np.clip(G, 0.0, 25.0 * KT) / KT
+        gg = G / KT  # retain attractive wells relative to bulk
+        if not np.isfinite(gg).all() or np.max(gg) > 700:
+            raise ValueError("Invalid or overflowing PMF resistance")
         Dsel = np.maximum(Dz, 1e-8)
         Rint = float(TRAPZ(np.exp(gg) / Dsel, zz))
         rh = float(d["rh"])
-        D_SE_um2 = (KT * 1.6605e-21 / (6 * math.pi * ETA_WATER * rh)) * 1e12
+        D_SE_um2 = (KT * 1.6605e-21 / (6 * math.pi * ETA_WATER * rh * 1e-9)) * 1e12
         zbulk = np.abs(z0s) > 22.0
         bulk_D = float(np.mean(Dz[zbulk])) if zbulk.any() else float(np.mean(Dz))
         cal = D_SE_um2 / (bulk_D * NM2PS_TO_UM2S)

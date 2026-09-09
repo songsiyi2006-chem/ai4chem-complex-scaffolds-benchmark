@@ -593,7 +593,7 @@ class RadicalPairSpinSystem:
         PS_t = np.empty(len(t))
         surv = np.empty(len(t))
         PS_t[0] = float(np.dot(vPS, v).real)
-        surv[0] = float(v.sum().real)
+        surv[0] = float(np.trace(v.reshape(self.d, self.d, order="F")).real)
         k = 1
         while k < len(t):
             t_start = t[k - 1]
@@ -603,7 +603,8 @@ class RadicalPairSpinSystem:
                                   num=n_pts + 1, endpoint=True)
             for j in range(1, n_pts + 1):
                 PS_t[k + j - 1] = float(np.dot(vPS, block[j]).real)
-                surv[k + j - 1] = float(block[j].sum().real)
+                surv[k + j - 1] = float(np.trace(
+                    block[j].reshape(self.d, self.d, order="F")).real)
             v = block[-1]
             k += n_pts
         PT_t = surv - PS_t                       # Tr[(I-PS) rho] = Tr rho - PS
@@ -1334,22 +1335,30 @@ def wham_pmfs(state_results):
         H = np.array([np.histogram(w["samples_nm"], bins=edges)[0]
                       for w in windows], dtype=float)
         N = H.sum(1)
-        Wb = np.array([-beta * 0.5 * w["k"] * (centers - w["r0_nm"]) ** 2
+        Wb = np.array([-beta * 0.5 * (w["k"] / 4.184) * (centers - w["r0_nm"]) ** 2
                        for w in windows])
         F = np.zeros(nw)
         p = np.ones(nbins) / nbins
+        if np.any(N == 0):
+            raise ValueError("WHAM requires samples in every window")
+        from scipy.special import logsumexp
+        logH = np.full(nbins, -np.inf)
+        covered = H.sum(0) > 0
+        logH[covered] = np.log(H.sum(0)[covered])
         for _ in range(20000):
-            denom = np.exp(np.log(np.maximum(N, 1))[:, None] + Wb
-                           - F[:, None]).sum(0)
-            p_new = H.sum(0) / np.maximum(denom, 1e-300)
-            f_new = -np.log(np.maximum(
-                (np.exp(Wb) * p_new[None, :]).sum(1), 1e-300))
+            logdenom = logsumexp(np.log(N)[:, None] + Wb + F[:, None], axis=0)
+            logp = logH - logdenom
+            logp -= logsumexp(logp)
+            f_new = -logsumexp(Wb + logp[None, :], axis=1)
+            f_new -= f_new[0]  # fix the arbitrary free-energy gauge
             if np.max(np.abs(f_new - F)) < 1e-10:
                 F = f_new
                 break
             F = 0.5 * (F + f_new)
-        denom = np.exp(np.log(np.maximum(N, 1))[:, None] + Wb - F[:, None]).sum(0)
-        p = H.sum(0) / np.maximum(denom, 1e-300)
+        else:
+            raise RuntimeError("WHAM did not converge")
+        logp = logH - logsumexp(np.log(N)[:, None] + Wb + F[:, None], axis=0)
+        p = np.exp(logp - logsumexp(logp))
         pmf = -np.log(np.maximum(p, 1e-300)) / beta
         pmf -= pmf.min()
         # mask sparse bins (interpolated across for the plotted curve)
@@ -1370,7 +1379,7 @@ def wham_pmfs(state_results):
     # robust differential metric: latch bound-register population shift
     occ_ox = state_results["FAD_oxid"]["latch_occupied_frac"]
     occ_ra = state_results["FAD_radan"]["latch_occupied_frac"]
-    dG_latch = -math.log(max(occ_ra, 1e-3) / max(occ_ox, 1e-3))         * KCAL_MOL_J / (KB * CONFIG["MD_TEMP_K"] * N_AVOGADRO)
+    dG_latch = -math.log(max(occ_ra, 1e-3) / max(occ_ox, 1e-3)) / beta
     pmfs["allostery"] = dict(
         dG_latch_shift_kcal=float(dG_latch),
         latch_occupancy_FAD_oxid=float(occ_ox),

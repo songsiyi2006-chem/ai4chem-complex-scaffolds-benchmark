@@ -620,8 +620,17 @@ def xalpha_vx(rho_nodes):
 
 def slater_x_energy(rho_nodes, x, w):
     rho = np.maximum(rho_nodes, 1e-30)
-    return float(-1.5 * XALPHA * np.sum(
+    return float(-2.25 * XALPHA * np.sum(
         rho * (3.0 * rho / (8.0 * np.pi)) ** (1.0 / 3.0) * 4 * np.pi * x ** 2 * w))
+
+
+def total_energy_from_eigenvalues(e_sum, rho, u_input, vx_input, x, w):
+    """Remove input mean-field potentials; add output-density Hartree/Ex."""
+    dv = 4.0 * np.pi * x**2 * w
+    u_output = hartree_potential(rho, x, w)
+    return float(e_sum - np.sum(rho * (u_input + vx_input) * dv)
+                 + 0.5 * np.sum(rho * u_output * dv)
+                 + slater_x_energy(rho, x, w))
 
 
 # ----------------------------------------------------------------------------
@@ -786,9 +795,7 @@ def atomic_scf(z_nuc, config, relativistic=True, n_pts=640, a_mass=None,
                                f"have {sorted(orbs)}")
         nrm = float(np.sum(rho_new * 4 * np.pi * x ** 2 * w))
         rho_new *= nelec / nrm
-        e_tot = (e_sum
-                 - 0.5 * float(np.sum(rho_new * u_e * 4 * np.pi * x ** 2 * w))
-                 - slater_x_energy(rho_new, x, w))
+        e_tot = total_energy_from_eigenvalues(e_sum, rho_new, u_e, v_x, x, w)
         de = 0.0 if e_old is None else abs(e_tot - e_old)
         frac = 0.5 if it < 10 else 0.25
         rho = (1 - frac) * rho + frac * rho_new
@@ -804,12 +811,23 @@ def atomic_scf(z_nuc, config, relativistic=True, n_pts=640, a_mass=None,
     v_x = xalpha_vx(rho)
     v_pot = v_nuc + u_e + v_x
     orbs = solve_once(v_pot, 99)
+    rho_final = np.zeros_like(x)
+    e_sum_final = 0.0
+    for key, occ in occ_map.items():
+        if occ <= 0:
+            continue
+        if key not in orbs:
+            raise RuntimeError(f"{label}: final orbital missing {key}")
+        e, P, Q = orbs[key]
+        rho_final += occ * orbital_density(P, Q, x, w)
+        e_sum_final += occ * e
+    e_final = total_energy_from_eigenvalues(e_sum_final, rho_final, u_e, v_x, x, w)
 
     atom = {"z": z_nuc, "nelec": int(nelec), "relativistic": relativistic,
-            "e_tot": float(e_old), "iterations": it + 1,
+            "e_tot": e_final, "iterations": it + 1,
             "r_nuc_sphere_a0": float(r_sph),
             "grid": {"x": x, "y": y, "h": h, "w": w},
-            "rho": rho, "v_pot": v_pot, "orbitals": {}}
+            "rho": rho_final, "v_pot": v_pot, "orbitals": {}}
     for (n, kap), occ in occ_map.items():
         if (n, kap) not in orbs:
             continue

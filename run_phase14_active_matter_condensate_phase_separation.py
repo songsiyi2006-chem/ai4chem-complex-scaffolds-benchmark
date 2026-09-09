@@ -51,11 +51,11 @@ MODULE 14B — Active Cahn-Hilliard phase-field engine (Physical Chemistry)
     global protein mass is conserved to machine precision outside the active
     reaction bookkeeping (which itself cancels between the two fields).
 
-    Non-equilibrium thermodynamics: the continuous entropy production rate
-        S_dot = (1/T) * [ int M |grad mu|^2 d r  +  J_cycle * dG_ATP ]
+    Non-equilibrium thermodynamics: a reduced dissipation diagnostic
+        S_proxy = mean(M |grad mu_reduced|^2) + J_cycle * dG_ATP_kBT
     with J_cycle = <k_ATP phi> (= <k_deph psi h(phi)> at steady state) and
-    dG_ATP ~ 19.4 kBT is integrated every frame, proving that the non-equilibrium
-    steady-state droplet size is bought with continuous dissipation.
+    dG_ATP ~ 19.4 kBT is evaluated every frame. Without a molecular area-density
+    calibration this is not an absolute entropy production per unit area.
 
 MODULE 14C — Analytical physical fingerprint simulation (Analytical Chemistry)
     1. FRAP: a Gaussian beam bleaches a circular core region of the largest
@@ -462,8 +462,9 @@ class ActiveCondensateSim:
         self.phi, self.psi = phi_new, psi_new
         self.t += dt
 
-        # entropy production (this frame, mean density per um^2)
-        m_loc = self.m0 * (1.0 + 0.5 * phi)     # mobility used for |grad mu|^2
+        # Reduced dissipation proxy: energies are already expressed in kBT.
+        # Absolute entropy/area needs a molecular surface-density calibration.
+        m_loc = self.m0 + self.m1 * phi
         grad_mu_sq = mux * mux + muy * muy
         s_diff = float(np.mean(m_loc * grad_mu_sq))
         j_cyc = self.cycle_flux()
@@ -471,7 +472,8 @@ class ActiveCondensateSim:
         self.frames.append({
             "t": self.t, "phi_mean": float(phi.mean()), "psi_mean": float(psi.mean()),
             "S_diff": s_diff, "S_chem": s_chem,
-            "S_total": (s_diff + s_chem) / T_K,          # kB / um^2 / s
+            "S_total": s_diff + s_chem,  # reduced proxy, not absolute entropy/area
+            "entropy_units": "reduced model proxy per second; area calibration absent",
             "cycle_flux": j_cyc, "F_density": self.free_energy_density(),
             **self.droplet_metrics(),
         })
@@ -514,16 +516,16 @@ class ActiveCondensateSim:
                 fr = self.frames[-1]
                 log(f"  t={fr['t']:7.1f}s  <phi>={fr['phi_mean']:.3f} "
                     f"<psi>={fr['psi_mean']:.3f}  R={fr['R_mean_um']:.2f}um "
-                    f"N={fr['n_droplets']:3d}  S_dot={fr['S_total']:.3e} kB/um2/s")
+                    f"N={fr['n_droplets']:3d}  dissipation_proxy={fr['S_total']:.3e}")
         if len(self.snapshots) < len(pending):
             self.snapshots[float(pending[-1])] = self.phi.copy()
 
     def ness_stats(self, last_frac: float = 0.2) -> dict:
         tail = self.frames[int(len(self.frames) * (1.0 - last_frac)):]
         return {
-            "S_diff_kB_um2_s": float(np.mean([f["S_diff"] for f in tail]) / T_K),
-            "S_chem_kB_um2_s": float(np.mean([f["S_chem"] for f in tail]) / T_K),
-            "S_total_kB_um2_s": float(np.mean([f["S_total"] for f in tail])),
+            "S_diff_reduced": float(np.mean([f["S_diff"] for f in tail])),
+            "S_chem_reduced": float(np.mean([f["S_chem"] for f in tail])),
+            "S_total_reduced": float(np.mean([f["S_total"] for f in tail])),
             "cycle_flux_M_s": float(np.mean([f["cycle_flux"] for f in tail])),
             "R_mean_um": float(np.mean([f["R_mean_um"] for f in tail])),
             "n_droplets": float(np.mean([f["n_droplets"] for f in tail])),
@@ -822,7 +824,7 @@ def experiment_phase_diagram(s_quick: float) -> dict:
                 "runtime_s": time.perf_counter() - t0}
             log(f"  chi-scale {s_chi:.2f} (chi0={sim.chi0:.3f}), "
                 f"k_ATP={k_atp:.3f}: R={st['R_mean_um']:.2f}um, "
-                f"A={st['area_fraction']:.3f}, S_dot={st['S_total_kB_um2_s']:.3e}, "
+                f"A={st['area_fraction']:.3f}, S_proxy={st['S_total_reduced']:.3e}, "
                 f"({time.perf_counter()-t0:.1f}s)")
     return grid
 
@@ -924,7 +926,7 @@ def make_fig2(scan: dict, out: Path) -> None:
         for j, k in enumerate(ks):
             v = scan[f"s{s_chi:.2f}_k{k:.3f}"]
             R[i, j], A[i, j], S[i, j] = (v["R_mean_um"], v["area_fraction"],
-                                         max(v["S_total_kB_um2_s"], 1e-12))
+                                         max(v["S_total_reduced"], 1e-12))
     fig, axes = plt.subplots(1, 3, figsize=(14.5, 4.9), constrained_layout=True)
     ax = axes[0]
     for i, s_chi in enumerate(ss):
@@ -955,9 +957,9 @@ def make_fig2(scan: dict, out: Path) -> None:
         ax.loglog(np.array(ks)[1:] + 1e-4, S[i, 1:], "s-", lw=2, ms=5,
                   label=fr"$\chi_0$ = {scan[f's{s_chi:.2f}_k{ks[0]:.3f}']['chi0']:.2f}")
     ax.set_xlabel(r"$k_{ATP}$ [s$^{-1}$]", fontsize=11)
-    ax.set_ylabel(r"$\dot S_{prod}$ [k$_B\,\mu$m$^{-2}$ s$^{-1}$]", fontsize=11)
-    ax.set_title("(c) continuous entropy generation\n"
-                 r"$\dot S_{chem}\approx\langle k_{ATP}\phi\rangle\,\Delta G_{ATP}/T$",
+    ax.set_ylabel("reduced dissipation proxy", fontsize=11)
+    ax.set_title("(c) reduced chemical dissipation\n"
+                 r"$S_{chem}^{red}=\langle k_{ATP}\phi\rangle\,\Delta G_{ATP}/(k_BT)$",
                  fontsize=12)
     ax.legend(fontsize=9); _stylize(ax)
     fig.suptitle("Fig. 2 — Condensate stability vs ATP hydrolysis: dissipation buys "

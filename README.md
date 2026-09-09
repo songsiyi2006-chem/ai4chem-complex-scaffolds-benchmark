@@ -4,6 +4,8 @@
 
 > **Phase 11–13 audit correction / 审计更正：** Wavefunction consistency, scalar diagnostics and PCET normalization/sign corrected. Historical numerical results and neural checkpoints have not been regenerated. 六项问题已修复，历史结果与神经网络训练尚未重算。 See [fixes and test limitations](PHASE11_13_AUDIT_FIXES.md).
 
+> **Phase 14–17 audit correction / 审计更正：** Reduced dissipation units, spin survival, WHAM/latch energies, LJ forces, transport references/SI conversion and exchange-energy consistency corrected. Historical production results have not been regenerated. 历史图表及数值尚未重算，不能视为修复后验证结果。 See [fixes and validation limits](PHASE14_17_AUDIT_FIXES.md).
+
 # AI4Chem — Complex Scaffolds Benchmark
 
 ## Phase 23: molecular memristors and in-materio reservoir computing
