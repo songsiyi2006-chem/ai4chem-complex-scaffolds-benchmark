@@ -1,0 +1,239 @@
+{
+  "parameters": {
+    "S": 0.5,
+    "I": 3.5,
+    "g": [
+      1.98,
+      1.99,
+      2.0
+    ],
+    "A_hz": [
+      280000000.0,
+      300000000.0,
+      320000000.0
+    ],
+    "D_hz": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "P_hz": [
+      -100000.0,
+      -100000.0,
+      200000.0
+    ],
+    "nuclear_g": 1.471,
+    "bath_spins": 30,
+    "rmin_angstrom": 3.5,
+    "rmax_angstrom": 12.0,
+    "min_pair_angstrom": 2.0,
+    "static_sigma_t": 2e-05,
+    "T1_s": 0.01,
+    "drive_hz": 100000.0,
+    "amplitude_sigma": 0.005,
+    "seed": 2026,
+    "time_points": 121,
+    "max_time_s": 0.04
+  },
+  "clock_transition": {
+    "field_t": 0.0027208157358661897,
+    "lo": 3,
+    "hi": 11,
+    "frequency_hz": 1186493916.6530952,
+    "slope_hz_t": 0.0,
+    "curvature_hz_t2": 6781777408525.584,
+    "drive_element": 0.416477151960711,
+    "readout_element": 0.07579447408371295
+  },
+  "gate": {
+    "rabi_hz": 83295.4303921422,
+    "pi_pulse_s": 6.002730253581453e-06,
+    "projected_average_gate_fidelity": 0.9994304649307763,
+    "scope": "Two-level rotating-wave gate with assigned static detuning/amplitude noise; no leakage or full pulse/bath dynamics"
+  },
+  "validation": {
+    "status": "passed",
+    "errors": {
+      "hermiticity_hz": 0.0,
+      "clock_gradient_hz_t": 0.0,
+      "gradient_FD_error_hz_t": 1489.877700805664,
+      "curvature_relative_error": 6.638503746714264e-08
+    },
+    "tolerances": {
+      "hermiticity_hz": 1e-06,
+      "clock_gradient_hz_t": 1.0,
+      "gradient_FD_error_hz_t": 20000.0,
+      "curvature_relative_error": 0.001
+    },
+    "three_spin_CCE2_exact_difference": 3.441831974512858e-15,
+    "three_spin_comparison_times_s": [
+      0.0,
+      1e-07,
+      1e-06
+    ],
+    "CCE_scope": "Order 2 only; 30-spin convergence not established"
+  },
+  "lifetimes": {
+    "FID": {
+      "seconds": 7.822288533831443e-05,
+      "status": "crossing"
+    },
+    "Hahn": {
+      "seconds": 0.00373053789404695,
+      "status": "crossing"
+    },
+    "CPMG1": {
+      "seconds": 0.00373053789404695,
+      "status": "crossing"
+    },
+    "CPMG4": {
+      "seconds": 0.004996799101433063,
+      "status": "crossing"
+    },
+    "CPMG16": {
+      "seconds": 0.00011541593097462193,
+      "status": "crossing"
+    },
+    "CPMG64": {
+      "seconds": 0.0006929230913393051,
+      "status": "crossing"
+    },
+    "UDD1": {
+      "seconds": 0.003730537894047006,
+      "status": "crossing"
+    },
+    "UDD4": {
+      "seconds": 0.004882192833990317,
+      "status": "crossing"
+    },
+    "UDD16": {
+      "seconds": 0.0034304853590400933,
+      "status": "crossing"
+    },
+    "UDD64": {
+      "seconds": 0.000365455700450016,
+      "status": "crossing"
+    }
+  },
+  "cpmg64_gain": 8.85831669775934,
+  "valid_time_points": {
+    "FID": 122,
+    "Hahn": 122,
+    "CPMG1": 122,
+    "CPMG4": 122,
+    "CPMG16": 122,
+    "CPMG64": 122,
+    "UDD1": 122,
+    "UDD4": 122,
+    "UDD16": 122,
+    "UDD64": 122
+  },
+  "field_lifetimes": [
+    {
+      "field_t": 0.0001,
+      "FID": {
+        "seconds": 5.206370465534046e-06,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 6.60764824090893e-05,
+        "status": "crossing"
+      }
+    },
+    {
+      "field_t": 0.0013315451051237417,
+      "FID": {
+        "seconds": 7.45550895898298e-07,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 5.984083898708233e-06,
+        "status": "crossing"
+      }
+    },
+    {
+      "field_t": 0.002563090210247483,
+      "FID": {
+        "seconds": 5.504335695775413e-07,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 3.6443250289092193e-06,
+        "status": "crossing"
+      }
+    },
+    {
+      "field_t": 0.0027208157358661897,
+      "FID": {
+        "seconds": 7.822288533831443e-05,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 0.00373053789404695,
+        "status": "crossing"
+      }
+    },
+    {
+      "field_t": 0.0037946353153712246,
+      "FID": {
+        "seconds": 4.7001012835156404e-07,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 2.2723355122534262e-06,
+        "status": "crossing"
+      }
+    },
+    {
+      "field_t": 0.005026180420494967,
+      "FID": {
+        "seconds": 5.756884621352642e-06,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 0.00030299626655543347,
+        "status": "crossing"
+      }
+    },
+    {
+      "field_t": 0.006257725525618709,
+      "FID": {
+        "seconds": 1.6717353131240206e-06,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 8.708617396488807e-05,
+        "status": "crossing"
+      }
+    },
+    {
+      "field_t": 0.00748927063074245,
+      "FID": {
+        "seconds": 1.1874790516064345e-06,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 0.00010016100013023646,
+        "status": "crossing"
+      }
+    },
+    {
+      "field_t": 0.00872081573586619,
+      "FID": {
+        "seconds": 9.653270378971337e-07,
+        "status": "crossing"
+      },
+      "Hahn": {
+        "seconds": 2.437747729214019e-06,
+        "status": "crossing"
+      }
+    }
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1"
+  },
+  "provenance": "Assigned effective spin model and synthetic 30-proton geometry; CCE-2 truncated bath, ideal DD, CCE-1 spectroscopy; not experimental data"
+}

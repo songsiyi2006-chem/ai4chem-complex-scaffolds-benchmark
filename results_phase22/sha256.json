@@ -1,0 +1,21 @@
+{
+  "figures_phase22/fig1_breit_rabi_clock_transitions.png": "6b92e56e537ea85979d1701904e99e71e2ab3b2b78fddb9d77dee3263a5f9aa3",
+  "figures_phase22/fig2_rabi_nutation_and_bloch_sphere.png": "0d74c6a80827199c616efc50bb35a5a8ab84a863f0877129edeba50c903334b5",
+  "figures_phase22/fig3_dynamical_decoupling_coherence_gain.png": "3f0ff6dbcbdcf5886a70be868fc1d2b604c5aec19947cb2f3716b2f849ddbb20",
+  "figures_phase22/fig4_pulsed_epr_eseem_twin.png": "16cc74933048668044f927a5a1381f92c4bce9afcceda2e43ad91ab34af83407",
+  "MOLECULAR_SPIN_QUBIT_REPORT_EN.md": "8dc913254c1e50316e213abd855aa796cead665bff84d9d245baf237a44f174e",
+  "MOLECULAR_SPIN_QUBIT_REPORT_ZH.md": "9585d4465b82e77b16f28e01c792bbe131b90da2b2036d701a09571764ae53c7",
+  "results_phase22/bath_geometry.csv": "61c3deee9513ff23cfdec4d80e36ed1616e741b6a475e15fca5d08c23359e215",
+  "results_phase22/breit_rabi.csv": "546ad11d458058a7cc5c0e25a784417c5cb7734303b58ce01998a315f1f87cb9",
+  "results_phase22/cce1_comparison.csv": "1e683e7de307e64204c42c8df72db39af16c1f0cf30ec83caa705d79d0f92a13",
+  "results_phase22/clock_candidates.csv": "ba3a4fc64c1b2f6ca6ebe6950d445bca1eca75814e7b8e4e0600a53eee70160a",
+  "results_phase22/clock_gradient.csv": "db0f94ba4bc2ffcda08bdf410f01736e8b19a1a4da896aaa8dce204ec82c2d7e",
+  "results_phase22/coherence.csv": "a394bde5e6821000ae6fa65fa2a9da8b231a56b05c548a919a00d343674e6da8",
+  "results_phase22/eseem_fft.csv": "6e48c27488d501923320a65e34a364aca8bd38d374d92baa806aa4e69848d1c2",
+  "results_phase22/filter_functions.csv": "404c2213279af9b0dc857c3090c26dfdceed0f3be590c90634d6bc18618981b8",
+  "results_phase22/hahn_eseem.csv": "470977cba94fa20ea785be6490f3266bb42eba7c9a3a6d81427c8d8175cb5b3c",
+  "results_phase22/rabi.csv": "f2806e73c7e54fbde5eaa2cd7df68226a3ef8db08b05ce0fdee6f5a73812eea2",
+  "results_phase22/ramsey.csv": "74aa8a30ca226591636d6a99307a408fbe7657bc723818965846368bb9c840e5",
+  "results_phase22/summary.json": "13be52c931e7f0b2cfc4df350fa4b0193483d38b381c4c5f6e682d5670d8a437",
+  "script_sha256": "a02ad15a91367a75e0396779085ce3fdc892139c750402a2fd155a9f6ffe01c3"
+}

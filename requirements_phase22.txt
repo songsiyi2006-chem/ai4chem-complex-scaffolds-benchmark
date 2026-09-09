@@ -1,0 +1,4 @@
+# Standalone Phase 22: no external quantum-spin package required.
+numpy>=1.23
+scipy>=1.9
+matplotlib>=3.6

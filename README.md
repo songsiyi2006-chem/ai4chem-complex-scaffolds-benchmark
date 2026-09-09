@@ -1,5 +1,32 @@
 # AI4Chem — Complex Scaffolds Benchmark
 
+## Phase 22: molecular spin qubits and clock-transition protection
+
+[![Phase 22 code](https://img.shields.io/badge/Phase_22-Spin_qubits-blue)](run_phase22_molecular_spin_qubits.py)
+[![Phase 22 reports](https://img.shields.io/badge/Reports-EN_%7C_ZH-grey)](MOLECULAR_SPIN_QUBIT_REPORT_EN.md)
+
+An assigned S=1/2, I=7/2 molecular-spin model connects automatic clock-transition
+search to a synthetic 30-proton bath, ensemble CCE-2 coherence, projected Rabi gates,
+CPMG/UDD-1/4/16/64 and pulsed-EPR signal simulations.
+
+```bash
+python -m pip install -r requirements_phase22.txt
+python run_phase22_molecular_spin_qubits.py --self-test
+python run_phase22_molecular_spin_qubits.py
+```
+
+The script retains quadratic magnetic sensitivity at clock transitions, validates
+cluster propagators, records lifetime censoring and flags nonphysical CCE truncation.
+It does not simulate a full 30-spin density matrix, impose >100x coherence gain,
+or claim an experimentally validated decoherence-free subspace. Gate fidelity is a
+two-level noise average; DD uses ideal instantaneous pulses. The spectral map is
+explicitly CCE-1, while lifetime curves/maps use CCE-2.
+
+Reports: [English](MOLECULAR_SPIN_QUBIT_REPORT_EN.md) / [中文](MOLECULAR_SPIN_QUBIT_REPORT_ZH.md).
+Data/checks: [`results_phase22/summary.json`](results_phase22/summary.json).
+
+![Phase 22 coherence preview](figures_phase22/fig3_dynamical_decoupling_coherence_gain.png)
+
 ## Phase 21: cavity QED and polaritonic chemistry
 
 The quantum-electrodynamic chemistry extension implements a **dipole-self-energy-complete
