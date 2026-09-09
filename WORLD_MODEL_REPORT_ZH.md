@@ -1,3 +1,5 @@
+> **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
+
 # 世界模型报告 — 第五阶段：自主化学世界模型
 **反应网络自主发现 · 刚性微动力学 · 过渡态条件化的生成式催化剂设计**
 

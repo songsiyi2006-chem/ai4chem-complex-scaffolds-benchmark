@@ -1649,11 +1649,14 @@ def _still_pair(r2, qi, qj, ri, rj, tau=1.0 - 1.0 / 78.5):
 
 
 def stage5_mmgbsa(out: Path, args, force: bool = False) -> bool:
+    from phase_audit import AUDIT_VERSION, cross_nonbonded_system
     ckpt = out / "stage5.json"
     if ckpt.exists() and not force:
-        RESULTS["stage5_mmgbsa"] = json.loads(ckpt.read_text(encoding="utf-8"))
-        _log("5", "checkpoint found, skipping")
-        return True
+        cached = json.loads(ckpt.read_text(encoding="utf-8"))
+        if cached.get('audit_version') == AUDIT_VERSION:
+            RESULTS["stage5_mmgbsa"] = cached
+            return bool(cached.get('decomposition_validation', {}).get('nb_exact'))
+        _log('5', 'Pre-audit MM-GBSA cache invalidated; recomputing')
 
     import mdtraj as md
     from openmm import (Context, LangevinMiddleIntegrator, Platform, unit,
@@ -1793,9 +1796,8 @@ def stage5_mmgbsa(out: Path, args, force: bool = False) -> bool:
             gb_s[i] = pr[2]
 
     # ---- validation of my pair-sum NB vs OpenMM ---------------------------- #
-    # reference: complex system with ligand charges zeroed in NonbondedForce
-    # (GB removed, salt screening disabled) -> its NB energy is exactly the
-    # ligand-protein cross interaction my numpy pair-sum computes.
+    # Reference: a cross-interaction-only OpenMM kernel, with neither
+    # intrafragment terms nor GB/cutoff screening in either side of this check.
     f0 = xyz[sel[0]]
     la = np.array(lig_res_atoms)
     my_nb = 0.0
@@ -1804,26 +1806,17 @@ def stage5_mmgbsa(out: Path, args, force: bool = False) -> bool:
             r2 = ((f0[i] - f0[j]) ** 2).sum()
             my_nb += _pair_vdw(r2, sig[i], eps[i], sig[j], eps[j]) + \
                 KC * q[i] * q[j] / math.sqrt(r2)
-    sys2, _ = _build_complex_system(top_pdb0.topology, top_pdb0.positions)
-    nb2 = next(f for f in sys2.getForces() if isinstance(f, NonbondedForce))
-    lig_set = set(int(x) for x in la)
-    for i in range(nb2.getNumParticles()):
-        qi, si, ei = nb2.getParticleParameters(i)
-        if i in lig_set:
-            nb2.setParticleParameters(i, 0.0 * unit.elementary_charge, si, ei)
-    nb2.setForceGroup(5)
-    for fi in range(sys2.getNumForces() - 1, -1, -1):
-        if _is_gbforce(sys2.getForce(fi)):
-            sys2.removeForce(fi)
+    # Independent, cross-only unscreened LJ+Coulomb kernel. No intraligand
+    # terms and no charge-zeroing subtraction that cancels the LJ contribution.
+    sys2 = cross_nonbonded_system(nb, la)
     ctx2 = Context(sys2, LangevinMiddleIntegrator(
         310 * unit.kelvin, 1 / unit.picosecond, 2 * unit.femtosecond), plat)
     ctx2.setPositions(f0 / 10.0)
-    e_ligzero = ctx2.getState(getEnergy=True, groups={5})         .getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole) / 4.184
-    ctx_c.setPositions(f0 / 10.0)
-    e_full = ctx_c.getState(getEnergy=True, groups={0})         .getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole) / 4.184
-    ref_e = e_full - e_ligzero
+    ref_e = ctx2.getState(getEnergy=True).getPotentialEnergy().value_in_unit(unit.kilojoule_per_mole) / 4.184
     nb_rel_err = abs(my_nb - ref_e) / max(abs(ref_e), 1e-9)
-    nb_exact = bool(nb_rel_err < 0.05)
+    nb_exact = bool(math.isfinite(nb_rel_err) and abs(my_nb-ref_e) <= 1e-4+1e-5*abs(ref_e))
+    if not nb_exact:
+        raise RuntimeError(f'Cross-only nonbonded validation failed: relative error {nb_rel_err:g}')
     _log("5", f"pair-sum NB validation: mine {my_nb:.2f} vs OpenMM "
               f"{ref_e:.2f} kcal/mol (rel err {nb_rel_err:.3%})")
 
@@ -1859,6 +1852,8 @@ def stage5_mmgbsa(out: Path, args, force: bool = False) -> bool:
 
     rec = {
         "frames": int(len(sel)),
+        "audit_version": AUDIT_VERSION,
+        "energy_scope": "MM-GBSA screening estimate without configurational entropy",
         "dg_bind_kcal_mol": float(dG_tot.mean()),
         "dg_bind_std": float(dG_tot.std(ddof=1)),
         "components": {
@@ -1870,6 +1865,7 @@ def stage5_mmgbsa(out: Path, args, force: bool = False) -> bool:
         "per_frame": {"dg": dG_tot.tolist()},
         "per_residue_top10": top10,
         "decomposition_validation": {
+            "scope": "Unscreened cross-only LJ+Coulomb pair sum; not GB/PME or binding-free-energy validation",
             "my_cross_nb_kcal": float(my_nb),
             "openmm_cross_nb_kcal": float(ref_e),
             "rel_err": float(nb_rel_err),
@@ -2204,4 +2200,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

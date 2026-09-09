@@ -1,3 +1,5 @@
+> **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
+
 # WORLD MODEL REPORT — Phase 5: The Autonomous Chemical World Model
 **Reaction-network autonomy · stiff microkinetics · TS-conditioned generative catalyst design**
 

@@ -1,0 +1,24 @@
+{
+  "audit_version": "phase1-5-validation-v1",
+  "audited_base_commit": "059bf1a5fc0b9f71128e77610e0326b328bda993",
+  "regression_tests": {
+    "command": "python -W error -m unittest -v test_phase1_5_audit",
+    "passed": 14,
+    "failed": 0,
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "rdkit": "2026.03.6",
+    "openmm": "8.6",
+    "scope": "Targeted regressions including actual RDKit and OpenMM; xTB/ASE engine calls are mocked in the TS failure-path test"
+  },
+  "full_scientific_rerun": false,
+  "historical_results": {
+    "phase1": "Recompute affected conformer selections and ensemble statistics; 2D descriptors were not invalidated by this audit",
+    "phase2": "Recompute torsion energies and minimum SDFs; production MD was not rerun",
+    "phase3": "Recompute nonbonded decomposition validation; no validated binding free-energy claim",
+    "phase4": "Recompute NEB and saddle screening; require reaction-connectivity verification for mechanistic claims",
+    "phase5": "Recompute corrected thermochemistry and conditional kinetics; constrained energy proxies are not proven barrier reductions"
+  },
+  "historical_raw_files_preserved": true,
+  "notice": "PHASE1_5_AUDIT_FIXES.md supersedes stronger historical claims; regression success does not validate historical scientific outputs"
+}

@@ -289,13 +289,18 @@ def embed_and_optimize(mol: Any, num_confs: int) -> Dict[str, Any]:
         ff = "UFF"
         res = AllChem.UFFOptimizeMoleculeConfs(mol_h, numThreads=1, maxIters=2000)
 
-    energies = [float(e) for _, e in res]
+    from phase_audit import converged_ensemble
     not_converged = sum(1 for flag, _ in res if flag != 0)
     ids = [conf.GetId() for conf in mol_h.GetConformers()]
+    try:
+        ids, energies = converged_ensemble(ids, res)
+    except ValueError as exc:
+        return {"ok": False, "reason": str(exc), "not_converged": not_converged}
     best_i = min(range(len(energies)), key=lambda k: energies[k])
     return {
         "ok": True, "mol_h": mol_h, "ff": ff, "n_embedded": len(cids),
         "conf_ids": ids, "energies": energies, "not_converged": not_converged,
+        "n_accepted": len(ids), "selection": "finite_converged_only",
         "e_min": energies[best_i], "e_min_conf_id": ids[best_i],
         "e_max": max(energies), "delta_e": max(energies) - energies[best_i],
         "used_random_coords": used_random_coords,
@@ -513,6 +518,8 @@ def process_molecule(entry: Dict[str, str], num_confs: int, out_dir: str) -> Dic
                 "status": "ok", "ff": ens["ff"],
                 "n_requested": num_confs, "n_embedded": ens["n_embedded"],
                 "not_converged": ens["not_converged"],
+                "n_accepted": ens["n_accepted"],
+                "selection": ens["selection"],
                 "e_min": round(ens["e_min"], 2),
                 "e_min_conf_id": ens["e_min_conf_id"],
                 "e_max": round(ens["e_max"], 2),

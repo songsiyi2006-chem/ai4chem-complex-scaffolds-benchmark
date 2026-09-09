@@ -1,3 +1,5 @@
+> **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
+
 # SKELETAL EDITING REPORT — Phase 4: Autonomous Transition-State Hunting & CI-NEB Reaction Pathway Profiling
 
 *Data: `results_phase4/phase4_results.json` | ASE 3.29 CI-NEB (improved tangent) · ANI-2x reactive PES (torchani) + GFN2-xTB analytic Hessian verification (xtb 7.x CLI) · RDKit 2026.03*

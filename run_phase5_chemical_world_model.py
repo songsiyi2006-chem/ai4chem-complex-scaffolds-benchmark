@@ -70,6 +70,9 @@ import time
 from pathlib import Path
 
 import numpy as np
+from phase_audit import AUDIT_VERSION, exploratory_corrections
+
+EXPLORATORY_KINETICS = False
 
 # --------------------------------------------------------------------------- #
 # 0.  CONFIG, LOGGING, RESULTS
@@ -77,12 +80,14 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent
 RES = ROOT / "results_phase5"
 FIG = ROOT / "figures_phase5"
-CACHE = RES / "cache"
+CACHE = RES / ("cache_" + AUDIT_VERSION)
 for d in (RES, FIG, CACHE):
     d.mkdir(parents=True, exist_ok=True)
 
 RESULTS_PATH = RES / "phase5_results.json"
 RESULTS: dict = {
+    "audit_version": AUDIT_VERSION,
+    "evidence_status": "exploratory_effective_model_not_validated_prediction",
     "phase": 5,
     "title": "Autonomous Chemical World Model: ARN + stiff microkinetics + "
              "TS-conditioned generative catalyst design",
@@ -265,7 +270,7 @@ def xtb_sp_charges(numbers, positions, chrg=0):
 
 
 def xtb_hess(numbers, positions, chrg=0, timeout=1800):
-    """Analytic GFN2-xTB Hessian. Returns dict with frequencies, n_imag,
+    """Numerical GFN2-xTB Hessian. Returns dict with frequencies, n_imag,
     total free energy G (Eh), electronic E (Eh), charges."""
     out, files = run_xtb(numbers, positions, ["--hess"], chrg=chrg,
                          timeout=timeout,
@@ -323,7 +328,7 @@ def _rrho_gibbs_fallback(e_eh, freqs_cm, n_atoms, temperature=T_REF):
         hvib += x / math.expm1(x)
     S_tot = S_trans + S_rot + svib * 1.9872041
     H_eh = e_eh + (zvib + hvib) * 1.9872041e-3 * temperature / 627.5095
-    G = H_eh - temperature * S_tot * 1.9872041e-3 / 627.5095
+    G = H_eh - temperature * S_tot * 1e-3 / 627.5095
     return G
 
 
@@ -1247,13 +1252,13 @@ def build_rate_system(G, dg, T, corr=None):
     rxns.append(({("R", -1), ("Cat", -1), ("RC", +1)}, K_ON, "assigned"))
     # 2  RC -> R + Cat
     kd = K_ON * math.exp(max(dg["dG_bind_RC"], -20.0) / (R_GAS * T))
-    rxns.append(({("R", +1), ("Cat", +1), ("RC", -1)}, kd, "computed"))
+    rxns.append(({("R", +1), ("Cat", +1), ("RC", -1)}, kd, "derived_with_assigned_floors"))
     # 3  RC -> I1Cat  (folded proton transfer + cleavage)
     k3 = eyring(max(dg["dG_TS1_vs_RC"] - d1, 2.0), T)
-    rxns.append(({("RC", -1), ("I1Cat", +1)}, k3, "computed"))
+    rxns.append(({("RC", -1), ("I1Cat", +1)}, k3, "derived_with_assigned_floors"))
     # 4  I1Cat -> RC
     rev1 = max(dg["dG_TS1_vs_RC"] - d1 - dg["dG_I1_vs_RC"], 3.0)
-    rxns.append(({("I1Cat", -1), ("RC", +1)}, eyring(rev1, T), "computed"))
+    rxns.append(({("I1Cat", -1), ("RC", +1)}, eyring(rev1, T), "derived_with_assigned_floors"))
     # 5/6  I1Cat -> P_R / P_S + Cat   (enantiodifferentiating)
     # kinetic floor 5.0 kcal on post-correction trap barriers: designed
     # systems would otherwise run at >1e12 s^-1 and stall the integrator.
@@ -1264,12 +1269,12 @@ def build_rate_system(G, dg, T, corr=None):
     b2aM = b_floor - 0.5 * ddS
     b2am = b_floor + 0.5 * ddS
     rxns.append(({("I1Cat", -1), ("P_R", +1), ("Cat", +1)},
-                 eyring(b2aM, T), "computed"))
+                 eyring(b2aM, T), "derived_with_assigned_floors"))
     rxns.append(({("I1Cat", -1), ("P_S", +1), ("Cat", +1)},
-                 eyring(b2am, T), "computed"))
+                 eyring(b2am, T), "derived_with_assigned_floors"))
     # 7  I1Cat -> P_elim + Cat  (side branch)
     rxns.append(({("I1Cat", -1), ("P_elim", +1), ("Cat", +1)},
-                 eyring(max(dg["dG_TS2b_vs_I1"], 2.0), T), "computed"))
+                 eyring(max(dg["dG_TS2b_vs_I1"], 2.0), T), "derived_with_assigned_floors"))
     # 8/9  I1Cat <-> I1 + Cat (resting-state dissociation preeq)
     dg_diss = 12.0
     rxns.append(({("I1Cat", -1), ("I1", +1), ("Cat", +1)},
@@ -1283,7 +1288,7 @@ def build_rate_system(G, dg, T, corr=None):
                  eyring(BARRIER_AROM_SINK, T), "assigned"))
     # 12  background thermal R -> I1 (uncatalyzed Tier-1)
     rxns.append(({("R", -1), ("I1", +1)},
-                 eyring(max(dg["dG_TS1_thermal"], 2.0), T), "computed"))
+                 eyring(max(dg["dG_TS1_thermal"], 2.0), T), "derived_with_assigned_floors"))
     nu = np.zeros((len(rxns), len(SPECIES)))
     ks, kinds = [], []
     for r, (sto, k, kind) in enumerate(rxns):
@@ -1456,6 +1461,8 @@ def module_D():
     stereo-differentiation (locked diastereomeric resting ion pairs) with a
     baseline control, then re-integrate the stiff ODE with the designed
     barrier corrections."""
+    if not EXPLORATORY_KINETICS:
+        raise RuntimeError('Module D requires explicit exploratory-kinetics opt-in')
     _log("=" * 70)
     _log("MODULE D — designed-catalyst world model (winner parameters)")
     _log("=" * 70)
@@ -1566,7 +1573,7 @@ def module_D():
     _log(f"  face split: winner {dd_win:+.2f} kcal, baseline control "
          f"{dd_base:+.2f} kcal -> designed ddG_stereo = {dd_stereo:+.2f}")
 
-    drop_raw = max(MC["proof"]["barrier_drop_vs_baseline_kcal"], 0.0)
+    drop_raw = MC["proof"]["barrier_drop_vs_baseline_kcal"]
     # transparent kinetic caps over the computed raw values: gas-phase
     # ion-pair differentials (~65 kcal raw) are strongly attenuated in
     # polar solution (cap 8.0); the facial-split probe is pose-unstable at
@@ -1574,16 +1581,17 @@ def module_D():
     # good-CPA-typical 1.5 kcal/mol. Raw values remain in the JSON.
     KINETIC_CAP = 8.0
     STEREO_CAP = 1.5
-    drop = min(drop_raw, KINETIC_CAP)
-    dd_stereo_used = min(abs(dd_stereo), STEREO_CAP)
+    scenario = exploratory_corrections(drop_raw, dd_stereo)
+    drop = scenario['d1_drop']
+    dd_stereo_used = scenario['ddG_stereo']
     _assigned("d1_drop(designed, used)", drop,
               "cap %.1f over raw Pauling differential %.2f kcal"
               % (KINETIC_CAP, drop_raw))
     _assigned("ddG_stereo(designed, used)", dd_stereo_used,
               "cap %.1f over raw facial split %.2f kcal"
               % (STEREO_CAP, abs(dd_stereo)))
-    corr = {"d1_drop": drop, "d2a_drop": drop,
-            "ddG_stereo": dd_stereo_used}
+    corr = scenario
+    RESULTS['evidence_status'] = 'assigned_sensitivity_scenario_not_prediction'
 
     sol, _, _, _ = integrate(T_REF, G, dg, corr=corr)
     prof_w = {s: sol.y[SI[s]] for s in SPECIES}
@@ -1846,7 +1854,7 @@ def module_C():
          f"@{winner['face']:+.0f}°")
 
     # ---- C.3 proof: >= 4.0 kcal/mol barrier drop ---------------------------
-    _log("C.3 proof of >=4.0 kcal/mol effective-barrier reduction")
+    _log("C.3 exploratory constrained complex-energy comparison; not barrier proof")
     base_smiles = CAT_SMILES
     win_smiles = CAT_TEMPLATE.format(X=MOTIFS[winner["X"]],
                                      Y=MOTIFS[winner["Y"]])
@@ -1923,14 +1931,13 @@ def module_C():
         "baseline": {"smiles": base_smiles,
                      "ddG_bind_kcal": float(-drop_base)},
         "target_kcal": 4.0,
-        "claim_proven": bool(drop_rel >= 4.0),
+        "claim_proven": False,
+        "threshold_exceeded": bool(drop_rel >= 4.0),
+        "evidence_status": "unvalidated_constrained_complex_energy_proxy",
+        "reason": "No unconstrained saddle/gradient/IRC verification for both catalysts",
     }
     if not XC["proof"]["claim_proven"]:
-        _warn(f"winner barrier drop {drop_rel:.2f} < 4.0 — logging honest "
-              "negative result; see report discussion")
-    else:
-        _log(f"  PROVEN: winner drops effective dG‡ by "
-             f"{drop_rel:.2f} kcal/mol (>= 4.0 target)")
+        _warn(f"complex-energy proxy {drop_rel:.2f} kcal/mol is NOT a verified barrier reduction")
     RESULTS["module_C"] = {k: v for k, v in XC.items()
                            if k != "proof_complex"}
     RESULTS["module_C"]["_pos"] = {
@@ -2069,6 +2076,7 @@ def figure_1():
     style_axes(ax)
     fig.tight_layout()
     p = FIG / "fig1_reaction_network_topology.png"
+    fig.text(.5, .005, 'EXPLORATORY MODEL: not a verified barrier prediction', ha='center', fontsize=8)
     fig.savefig(p, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close(fig)
     _log(f"figure 1 -> {p.name}")
@@ -2144,7 +2152,7 @@ def figure_2():
              f"({ee_c:.1f}% @298 K)", fontsize=8.8, color="#8e44ad",
              rotation=90, va="bottom")
     ax2.set_xlabel("enantioselectivity  ee (%)", fontsize=12)
-    ax2.set_ylabel("isolated yield of P_target (%)", fontsize=12)
+    ax2.set_ylabel("conditional model yield of P_target (%)", fontsize=12)
     ax2.set_title("Panel B — yield–ee Pareto frontier vs temperature "
                   "(250–350 K)", fontsize=12.5, fontweight="bold")
     style_axes(ax2)
@@ -2152,6 +2160,7 @@ def figure_2():
                  "network", fontsize=13.5, fontweight="bold", y=1.02)
     fig.tight_layout()
     p = FIG / "fig2_stiff_microkinetics_profile.png"
+    fig.text(.5, .005, 'EXPLORATORY MODEL: conditional kinetics, not measured yield', ha='center', fontsize=8)
     fig.savefig(p, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close(fig)
     _log(f"figure 2 -> {p.name}")
@@ -2249,6 +2258,7 @@ def figure_3():
         fontsize=12.5, fontweight="bold")
     ax.view_init(elev=18, azim=38)
     p = FIG / "fig3_ts_stabilization_dock.png"
+    fig.text(.5, .005, 'EXPLORATORY MODEL: constrained energy proxy, not TS proof', ha='center', fontsize=8)
     fig.savefig(p, dpi=300, bbox_inches="tight", facecolor="white")
     plt.close(fig)
     _log(f"figure 3 -> {p.name}")
@@ -2264,124 +2274,33 @@ def _fmt(x, nd=2):
         return str(x)
 
 
+def _write_audited_report(language):
+    """Report conditional outputs without upgrading energy proxies to proof."""
+    lead = ("# Phase 5 — audited exploratory chemical model\n\n"
+            "These are model outputs, not validated barrier reductions, isolated yields or experimental ee."
+            if language == "EN" else
+            "# 第五阶段：审计后的探索性化学模型\n\n"
+            "以下是条件模型输出，不是已验证势垒降低、分离收率或实验 ee。")
+    evidence = {
+        "audit_version": AUDIT_VERSION,
+        "scope": "assigned reaction network and approximate constrained-energy proxies",
+        "barrier_reduction_proven": False,
+        "reason": "Unconstrained saddle stationarity and IRC connectivity not established",
+        "baseline_conditional_kinetics": RESULTS.get("module_B", {}).get("reference_298K"),
+        "exploratory_scenario": RESULTS.get("module_D", {}),
+        "constrained_energy_proxy": RESULTS.get("module_C", {}).get("proof"),
+        "assigned_parameters": RESULTS.get("assigned_parameters", []),
+    }
+    text = lead + "\n\nThe RRHO fallback units are corrected but its translation/rotation estimates remain approximate. " \
+        "Designed kinetic caps require --exploratory-kinetics and retain the sign of the stereo difference. " \
+        "The reaction graph and several rates/floors are assigned, not autonomously discovered. " \
+        "Electronic calculations and full dynamics must be rerun before comparing with historical outputs.\n\n" \
+        + "```json\n" + json.dumps(evidence, indent=2, ensure_ascii=False) + "\n```\n"
+    (ROOT / f"WORLD_MODEL_REPORT_{language}.md").write_text(text, encoding="utf-8")
+
+
 def report_EN():
-    A = RESULTS["module_A"]; B = RESULTS["module_B"]; C = RESULTS["module_C"]
-    G = A["G_kcal"]; dg = A["dG_kcal"]; S = B["reference_298K"]
-    st = B["stiffness"]; proof = C["proof"]
-    dd = dg["ddG_ts2a_stereo"]
-    D = RESULTS.get("module_D") or {}
-    if D:
-        Sw = D["reference_298K_winner"]
-        w_en = f"""
-
-### 4.5 Designed-catalyst closed loop (Module D)
-
-The baseline world model returns a *diagnosis*: with the unpadded BINOL-PA the facial split of the locked diastereomeric resting pairs is {D['baseline_face_split_kcal']:+.2f} kcal/mol — **ee ≈ 0, the pocket is too shallow**. The generative loop repairs it. Docking the GA winner on both enantiotopic faces gives a facial split of {D['winner_face_split_kcal']:+.2f} kcal/mol (baseline control removed: raw ΔΔG‡_designed = {D['ddG_stereo_designed_kcal']:.2f} kcal/mol — a pose-unstable probe whose **kinetic input is transparently capped at 1.5 kcal/mol**), and the Pauling differential drops the RDS barrier by {D['corr']['d1_drop']:.2f} kcal/mol (raw 65.7 gas-phase, solution-attenuated cap 8.0). Re-integrating the stiff ODE with the designed parameters:
-
-**298.15 K designed system:** yield = **{_fmt(100 * Sw['yield_target'], 1)} %**, ee = **{_fmt(Sw['ee_pct'], 1)} %** (Curtin–Hammett limit {_fmt(D['ee_curtin_winner_298K'], 1)} %), selectivity {_fmt(Sw['selectivity_Pt_Pside'], 1)}. Across 250–350 K the designed system traces the Pareto frontier of Fig. 2B against the flat baseline diagonal.
-
-"""
-    else:
-        w_en = ""
-
-    txt = f"""# WORLD MODEL REPORT — Phase 5: The Autonomous Chemical World Model
-**Reaction-network autonomy · stiff microkinetics · TS-conditioned generative catalyst design**
-
-*Engine:* {ENGINE_NAME} (multi-fidelity: Tier-1 substrate-only GFN2-xTB, Tier-2 explicit ion-pair complexes, Tier-3 MMFF prescreen). All energies GFN2-xTB//GFN2-xTB, thermochemistry from analytic Hessians at {T_REF} K, 1 atm → 1 M standard-state-corrected (+{STD_CORR} kcal/mol where specified).
-
----
-
-## 1. The philosophy: chemistry as a continuous non-equilibrium dynamical system
-
-A "chemical world model" is not a database of structures; it is a *generator* of trajectories. Phase 4 treated a reaction as a static object (one reactant, one TS, one product). Phase 5 treats the entire catalytic phase space as a **directed, weighted, conservative-flow dynamical system**: every node is a Gibbs energy, every edge is an activation barrier, and the macroscopic observables (yield, ee, selectivity) are *emergent* properties of integrating the system's equations of motion. Three epistemic commitments follow:
-
-1. **Autonomy of the network** — the reaction graph is generated by the pipeline (constrained relaxed scans → saddle points → Hessians), not hand-inserted. Node energies, barrier heights, and stereo-differentials are all *measured* on the machine PES.
-2. **Bridging laws, not vibes** — the quantum→macroscopic bridge is explicit: Eyring–Polanyi rate theory converts ΔG‡ into rate constants; mass-action kinetics converts rate constants into stiff ODEs; the solver's stability theory converts ODEs into trustworthy predictions.
-3. **Design closes the loop** — inverse design (Module C) treats the TS not as an endpoint but as a *conditioning signal*: the electrostatic potential of the charge-redistribution center defines the loss landscape on which the catalyst generator descends.
-
-## 2. Model system
-
-Asymmetric catalytic skeletal reorganization of a strained N-bridged azirino-fused indole (racemic C10H11N) to an enantioenriched ring-expanded dihydroquinoline, catalyzed by a chiral BINOL-derived phosphoric acid (CPA):
-
-| species | formula | role |
-|---|---|---|
-| R = 2-methyl-azirino[1,2-a]indole | C10H11N | strained polycyclic aziridine |
-| P_target = ring-expanded dihydroquinoline | C10H11N | enantiopure product (1 programmatic stereocenter) |
-| P_elim = achiral conjugated enamine | C10H11N | elimination/isomerization side channel |
-| Q = aromatized quinoline + H2 | C10H9N + H2 | thermodynamic sink (assigned 52 kcal/mol barrier) |
-| P_poly = C2n–C2n' coupled dimer | C20H22N2 | off-cycle cationic oligomerization |
-| Cat = BINOL cyclic phosphoric acid | C20H13O4P | chiral Brønsted acid / H-bond organizer |
-
-SMILES (RDKit-validated): R `{A['species_smiles']['R']}` · P `{A['species_smiles']['P_target']}` · P_elim `{A['species_smiles']['P_elim']}` · Cat `{A['species_smiles']['Cat']}`.
-
-## 3. Module A — Automated Reaction Network (GFN2-xTB energy topology)
-
-Elementary mechanism (both tiers computed on the machine PES):
-
-1. **R + Cat → RC**: diffusion-limited association, H-bond O_pho–H···N1 (ΔG_bind = {_fmt(dg['dG_bind_RC'])} kcal/mol, standard-state corrected).
-2. **RC → I_RC**: proton transfer to the aziridine N (ΔG = {_fmt(dg['dG_proton_transfer'])} kcal/mol) — aziridinium·chiral-phosphate ion pair.
-3. **I_RC → TS1‡ → I1Cat**: rate-determining benzylic C2–N1 cleavage. Located by relaxed constrained scan d(N1–C2) = 1.60→2.50 Å; **ΔG‡₁ = {_fmt(dg['dG_TS1_vs_RC'])} kcal/mol** (TS quality: n_imag = {A['ts_quality']['TS1_n_imag']}). Intrinsic (uncatalyzed) Tier-1 reference: ΔG‡_thermal = {_fmt(dg['dG_TS1_thermal'])} kcal/mol — the catalyst lowers the effective barrier by the differential stabilization.
-4. **I1Cat → TS2aM‡/TS2am‡ → P_R/P_S + Cat**: enantiodetermining 1,2-proton relay — the aziridinium N1–H migrates to the benzylic C2⁺ while the N1=C2n imine forms; the chiral phosphate O⁻ organizes the in-transit proton through a facially selective H-bond. Diastereomeric ion-pair TSs at ±35° facial placement: **ΔΔG‡_stereo = {dd:+.2f} kcal/mol** (major–minor), the physical origin of enantioinduction.
-5. **I1Cat → TS2b‡ → P_elim + Cat**: competing C3 deprotonation → achiral conjugated enamine (ΔG‡₂ᵇ = {_fmt(dg['dG_TS2b_vs_I1'])} kcal/mol).
-6. **P_elim → Q + H2**: dehydrogenative aromatization sink (assigned ΔG‡ = {BARRIER_AROM_SINK} kcal/mol — flagged `assigned`).
-7. **2 I1 → P_poly**: off-cycle cationic oligomerization, k = {K_DIMER:.0e} M⁻¹s⁻¹ (assigned surrogate).
-
-Key node energies relative to R+Cat (kcal/mol, TS nodes at effective barriers): RC {G['RC'] - G['sep_R+Cat']:+.1f}, I_RC {G['I_RC'] - G['sep_R+Cat']:+.1f}, TS1 {G['TS1'] - G['sep_R+Cat']:+.1f}, I1Cat {G['I1Cat'] - G['sep_R+Cat']:+.1f}, TS2aM (eff) {dg['dG_TS2aM_vs_I1'] + G['I1Cat'] - G['sep_R+Cat']:+.1f}, TS2am (eff) {dg['dG_TS2am_vs_I1'] + G['I1Cat'] - G['sep_R+Cat']:+.1f}, TS2b (eff) {dg['dG_TS2b_vs_I1'] + G['I1Cat'] - G['sep_R+Cat']:+.1f}, P_target+Cat {G['sep_P+Cat'] - G['sep_R+Cat']:+.1f}.
-
-## 4. Module B — stiff microkinetics: quantum barriers → macroscopic yields
-
-Every edge is converted at temperature T by Eyring–Polanyi theory, k = (k_B T/h)·exp(−ΔG‡/RT), into a 12-reaction mass-action system over 11 species, integrated t ∈ [10⁻⁹, 10⁵] s with **BDF** (implicit multistep, stiffly stable, analytic Jacobian, rtol 1e−6, atol 1e−14; Radau/LSODA fallbacks armed but {('not needed' if st['njev'] > 0 else 'engaged')}).
-
-**298.15 K reference state:** isolated yield of P_target = **{_fmt(100 * S['yield_target'], 1)} %**, ee = **{_fmt(S['ee_pct'], 1)} %** (Curtin–Hammett limit from ΔΔG‡: {_fmt(B['ee_curtin_298K'], 1)} %), selectivity P_target/P_side = **{_fmt(S['selectivity_Pt_Pside'], 1)}**, conversion {_fmt(100 * S['conversion_R'], 1)} %, oligomer loss {_fmt(100 * S['poly_decomp'], 2)} %. Solver effort: {S['nfev']} f-evals, {S['njev']} Jacobian evals, {S['nlu']} LU decompositions.
-
-**Stability criteria for stiff reactive networks.** Numerical stability of an implicit solver on a reaction network requires (i) *A-stability* — the stability function must contain the entire left half-plane, since chemical eigenvalues are real negative (decay) plus possibly near-zero conservation modes; (ii) *L-stability* — |R(∞)| → 0 so that infinitely fast pre-equilibria (here the RC ⇌ I_RC proton shuttle, λ_max ≈ {_fmt(st['lambda_max_t0'], 2)} s⁻¹) are damped, not oscillated into; (iii) *non-negative invariance* — the linear part of a mass-action system is a Metzler matrix (off-diagonal ≥ 0) and a diagonally-negatively-dominant Jacobian preserves the positive orthant, so the ODE cannot manufacture negative concentrations; (iv) *conservation* — the stoichiometric vector νᵀ must annihilate the conserved mass functional; the end-state Jacobian eigenvalues satisfy Re(λ) < 0 (asymptotically stable equilibrium). The measured stiffness ratio |λ_max|/|λ_min| at t→0 is ≈ {st['stiffness_ratio_t0']:.2e}, i.e. the explicit-Euler step would need Δt < {st['stiffness_ratio_t0'] ** -1 * 1e-3:.1e} s while the experimental window spans 10⁵ s — 10⁷× separation. This is why explicit integrators are epistemically inadequate for chemical world models: they do not fail loudly, they fail *slowly and confidently*.
-
-**Temperature sweep (250–350 K):** yield rises from {_fmt(100 * B['T_sweep'][0]['yield'], 1)} % (250 K) to {_fmt(100 * B['T_sweep'][-1]['yield'], 1)} % (350 K) while ee falls from {_fmt(B['T_sweep'][0]['ee'], 1)} % to {_fmt(B['T_sweep'][-1]['ee'], 1)} % — the classic ΔΔG‡ vs ΔG‡ trade-off (stereodifferentiation decays as T·ΔS‡ grows, conversion accelerates). The Pareto frontier (Fig. 2B) is the operational design space of the catalyst: the knee sits near 300 K.{w_en}
-
-## 5. Module C — Pauling's principle as the fundamental loss function
-
-Linus Pauling's 1946 dictum — *catalysts work by stabilizing transition states more than ground states* — is here formalized as the training objective for inverse design:
-
-  minimize over catalyst C:  ΔΔG_bind(C) = [G(TS‡·C) − G(TS‡) − G(C)] − [G(R·C) − G(R) − G(C)]
-
-**3D conditioning signal.** GFN2 partial charges of TS1 are propagated onto a 26³ grid (±6 Å) around the redistribution center (C2/N1/C2n/C3 centroid): φ(r) = Σ q_i/|r−r_i| spans {_fmt(C['esp']['phi_min'], 2)} … {_fmt(C['esp']['phi_max'], 2)} e/Å. The min/max ESP lobes define the H-bond donor and acceptor docking vectors; the axis between them is the polarization vector drawn in Fig. 3.
-
-**Evolutionary scaffold assembler.** A 9-motif library (H, tBu, Me, Ph, pOH-Ph, oOH-Ph, iPr-Ph, CF3-Ph, OMe-Ph) is assembled onto the BINOL 3,3′-positions of the CPA template by RDKit-checked valency-valid SMILES composition ({C['ga']['candidates_scored']} candidates scored; hard gates: sanitize pass, vdW non-clashing complex, GFN2-xTB SP fitness E(TS·C)). Elite refinement mutates the facial docking angle. Winner: **3,3′-{proof['winner_motifs'][0]}/{proof['winner_motifs'][1]}**.
-
-**Proof of ≥ 4.0 kcal/mol barrier reduction.** Fully optimized ion-pair complexes + Hessians give the *comparative* complexation differential — (TS-substrate·Cat complex stabilization vs RC·Cat complex stabilization), winner minus baseline catalyst (the per-catalyst absolute ddG_bind values carry a catalyst-size offset and live only in the JSON audit trail): **effective ΔG‡ drop = {_fmt(proof['barrier_drop_vs_baseline_kcal'])} kcal/mol** {('— CLAIM PROVEN (≥ 4.0).' if proof['claim_proven'] else '— honest negative result below the 4.0 target; discussed in §7.')}
-By the thermodynamic cycle ΔG‡_cat = ΔG‡_intrinsic + ΔG_bind(TS‡) − ΔG_bind(RC), this is exactly a barrier lowering — Pauling's principle operationalized as a differentiable loss.
-
-## 6. Why next-token LLMs are not world models
-
-A language model computes argmax P(token | prefix). Nothing in that functional form enforces *conservation of mass*, *detailed balance*, or *positive-orthant invariance*. Concretely, the Phase-5 dynamics above exhibit three properties that autoregressive discrete prediction cannot represent in principle:
-
-- **Hard conservation laws.** νᵀ·r flows live on a stoichiometric simplex; LLMs drift off-manifold because their loss is cross-entropy on tokens, not residual norm on a constraint manifold.
-- **Stiff multi-scale time.** 14 decades of timescale (10⁻⁹–10⁵ s) integrated with L-stable implicit steps. A token-by-token rollout has no operator whose fixed points are the slow manifold; it hallucinates intermediates at the rate of the prior, not the rate of the Jacobian.
-- **Reversibility and detailed balance.** Microscopic reversibility (k_f/k_r = exp(−ΔG_rxn/RT)) is a constraint on the *ratio* of generated quantities. Next-token prediction has no mechanism binding two generated scalars by a thermodynamic identity.
-
-**Hamiltonian-constrained equivariant models are prerequisites, not upgrades.** A world model of chemistry must (i) be equivariant under E(3) (energies are rotation/translation invariant; forces are equivariant vectors — E(3)-equivariant message passing, as in MACE/NequIP-class architectures), (ii) conserve energy by construction (Hamiltonian/Symplectic integration or energy-conserving learning), and (iii) respect stoichiometric invariants. Without these, "AGI for chemistry" is a fluent paraphraser of textbooks. Phase 5's pipeline — geometry from physics, rates from theory, yields from stable integration, design from a physical loss — is the minimal honest architecture.
-
-## 7. Honest limitations
-
-- The stereo-differential ΔΔG‡ comes from ±35° facial pose families of a simplified BINOL-PA (no 3,3′-aryl conformer ensemble); real ee–selectivity maps need full conformer-MD ensembles.
-- {('The barrier-drop claim is proven at the GFN2-xTB level of theory; DFT (≈1–2 kcal/mol error bars) or ab-initio validation is the next fidelity rung.' if proof['claim_proven'] else f'The ≥ 4.0 kcal/mol target was NOT met by the motif library at this fidelity (best {_fmt(proof["barrier_drop_vs_baseline_kcal"])} kcal/mol); enlarging the fragment library and running the GA at Tier-3 xtb-minimized complexes is the prescribed escalation.')}
-- The P_poly dimer and the 52 kcal/mol aromatization sink are flagged `assigned` surrogates, not computed saddle points.
-- Microkinetics assumes 1 M ideal solution, no ion pairing beyond the explicit complex, and mean-field concentrations.
-
-## 8. Artifacts
-
-| artifact | path |
-|---|---|
-| Network topology | `figures_phase5/fig1_reaction_network_topology.png` |
-| Stiff microkinetics | `figures_phase5/fig2_stiff_microkinetics_profile.png` |
-| TS-stabilization dock | `figures_phase5/fig3_ts_stabilization_dock.png` |
-| Machine results | `results_phase5/phase5_results.json` |
-| Pipeline | `run_phase5_chemical_world_model.py` |
-
-*Fallbacks logged:* {len(RESULTS['fallbacks'])} · *warnings:* {len(RESULTS['warnings'])} · *assigned parameters:* {len(RESULTS['assigned_parameters'])} — see JSON for the transparent audit trail.
-"""
-    (ROOT / "WORLD_MODEL_REPORT_EN.md").write_text(txt, encoding="utf-8")
-    _log("report EN written")
+    _write_audited_report("EN")
 
 
 def fmt_dd(x):
@@ -2389,126 +2308,8 @@ def fmt_dd(x):
 
 
 def report_ZH():
-    A = RESULTS["module_A"]; B = RESULTS["module_B"]; C = RESULTS["module_C"]
-    G = A["G_kcal"]; dg = A["dG_kcal"]; S = B["reference_298K"]
-    st = B["stiffness"]; proof = C["proof"]
-    dd = dg["ddG_ts2a_stereo"]
-    D = RESULTS.get("module_D") or {}
-    if D:
-        Sw = D["reference_298K_winner"]
-        w_zh = f"""
+    _write_audited_report("ZH")
 
-### 4.5 设计催化剂闭环（模块 D）
-
-基线世界模型给出*诊断*：无修饰 BINOL-PA 的锁定非对映静息离子对面劈裂仅 {D['baseline_face_split_kcal']:+.2f} kcal/mol——**ee ≈ 0，手性空腔过浅**。生成回路修复了它：GA 胜者对接两个对映面得面劈裂 {D['winner_face_split_kcal']:+.2f} kcal/mol（扣除基线对照后原始 ΔΔG‡_designed = {D['ddG_stereo_designed_kcal']:.2f} kcal/mol——该探针存在位姿不稳定性，**动力学输入透明封顶于 1.5 kcal/mol**），Pauling 差分使决速势垒降低 {D['corr']['d1_drop']:.2f} kcal/mol（原始气相 65.7，溶液衰减后上限 8.0）。以设计参数重新积分刚性 ODE：
-
-**298.15 K 设计体系：**收率 = **{_fmt(100 * Sw['yield_target'], 1)} %**，ee = **{_fmt(Sw['ee_pct'], 1)} %**（Curtin–Hammett 极限 {_fmt(D['ee_curtin_winner_298K'], 1)} %），选择性 {_fmt(Sw['selectivity_Pt_Pside'], 1)}。250–350 K 范围内设计体系在图 2B 中描绘出相对基线平坦对角线的 Pareto 前沿。
-
-"""
-    else:
-        w_zh = ""
-
-    txt = f"""# 世界模型报告 — 第五阶段：自主化学世界模型
-**反应网络自主发现 · 刚性微动力学 · 过渡态条件化的生成式催化剂设计**
-
-*计算引擎：*{ENGINE_NAME}（多保真阶梯：Tier-1 仅底物 GFN2-xTB、Tier-2 显式离子对复合物、Tier-3 MMFF 预筛）。全部能量为 GFN2-xTB//GFN2-xTB，热化学来自解析 Hessian（{T_REF} K），并做 1 atm → 1 mol/L 标准态校正（指定处 +{STD_CORR} kcal/mol）。
-
----
-
-## 1. 理念：化学是连续的非平衡动力系统
-
-"化学世界模型"不是结构数据库，而是**轨迹生成器**。第四阶段把反应当作静态对象（一个反应物、一个过渡态、一个产物）；第五阶段把整个催化相空间视为**有向、加权、守恒流动力系统**：每个节点是一个吉布斯能，每条边是一个活化势垒，而宏观可观测量（收率、ee 值、选择性）是对系统运动方程积分后的**涌现**性质。三个认识论承诺：
-
-1. **网络的自主性** — 反应图由管线生成（约束松弛扫描 → 鞍点 → Hessian），而非人工插入。节点能量、势垒高度、立体差分全部在机器势能面上*测得*。
-2. **桥接定律而非直觉** — 量子→宏观的桥接是显式的：Eyring–Polanyi 速率理论把 ΔG‡ 变成速率常数；质量作用动力学把速率常数变成刚性 ODE；求解器稳定性理论把 ODE 变成可信的预测。
-3. **设计闭合回路** — 逆向设计（模块 C）把过渡态视为*条件化信号*而非终点：电荷重分布中心的静电势定义了催化剂生成器下降的损失地形。
-
-## 2. 模型体系
-
-手性 BINOL 磷酸催化的应变 N-桥连氮丙啶稠合吲哚（外消旋 C10H11N）向对映体富集的扩环二氢喹啉的不对称骨架重组：
-
-| 物种 | 分子式 | 角色 |
-|---|---|---|
-| R = 2-甲基-azirino[1,2-a]吲哚 | C10H11N | 应变多环氮丙啶 |
-| P_target = 扩环二氢喹啉 | C10H11N | 目标对映纯产物（1 个程序性立体中心） |
-| P_elim = 非手性共轭烯胺 | C10H11N | 消除/异构化副通道 |
-| Q = 芳构化喹啉 + H2 | C10H9N + H2 | 热力学汇（指认 52 kcal/mol 势垒） |
-| P_poly = C2–C2 偶联二聚体 | C20H24N2（替代模型） | 循环外阳离子低聚 |
-| Cat = BINOL 环状磷酸 | C20H13O4P | 手性布朗斯特酸 / 氢键组织者 |
-
-SMILES（RDKit 校验）：R `{A['species_smiles']['R']}` · P `{A['species_smiles']['P_target']}` · P_elim `{A['species_smiles']['P_elim']}` · Cat `{A['species_smiles']['Cat']}`。
-
-## 3. 模块 A — 自动化反应网络（GFN2-xTB 能量拓扑）
-
-1. **R + Cat → RC**：扩散极限缔合，氢键 O_pho–H···N1（ΔG_bind = {_fmt(dg['dG_bind_RC'])} kcal/mol，已作标准态校正）。
-2. **RC → I_RC**：质子转移到氮丙啶 N（ΔG = {_fmt(dg['dG_proton_transfer'])} kcal/mol）——氮丙啶鎓·手性磷酸离子对。
-3. **I_RC → TS1‡ → I1Cat**：决速的苄位 C2–N1 断裂，由 d(N1–C2) = 1.60→2.50 Å 约束松弛扫描定位，**ΔG‡₁ = {_fmt(dg['dG_TS1_vs_RC'])} kcal/mol**。未催化的 Tier-1 参照势垒 ΔG‡_thermal = {_fmt(dg['dG_TS1_thermal'])} kcal/mol。
-4. **I1Cat → TS2aM‡/TS2am‡ → P_R/P_S + Cat**：对映决定性的 1,2-质子接力——氮丙啶鎓 N1–H 迁移至苄位 C2⁺ 同时形成 N1=C2n 亚胺；手性磷酸 O⁻ 通过面向选择性的氢键组织迁移中的质子。±35° 面向放置的非对映离子对 TS：**ΔΔG‡_stereo = {dd:+.2f} kcal/mol**——对映诱导的物理起源。
-5. **I1Cat → TS2b‡ → P_elim + Cat**：竞争性 C3 去质子化 → 非手性共轭烯胺（ΔG‡₂ᵇ = {_fmt(dg['dG_TS2b_vs_I1'])} kcal/mol）。
-6. **P_elim → Q + H2**：脱氢芳构化汇（指认 ΔG‡ = {BARRIER_AROM_SINK} kcal/mol，标记 `assigned`）。
-7. **2 I1 → P_poly**：循环外阳离子低聚，k = {K_DIMER:.0e} M⁻¹s⁻¹（替代指认）。
-
-相对 R+Cat 的节点能量（kcal/mol，TS 节点取有效势垒）：RC {G['RC'] - G['sep_R+Cat']:+.1f}，I_RC {G['I_RC'] - G['sep_R+Cat']:+.1f}，TS1 {G['TS1'] - G['sep_R+Cat']:+.1f}，I1Cat {G['I1Cat'] - G['sep_R+Cat']:+.1f}，TS2aM（有效）{dg['dG_TS2aM_vs_I1'] + G['I1Cat'] - G['sep_R+Cat']:+.1f}，TS2am（有效）{dg['dG_TS2am_vs_I1'] + G['I1Cat'] - G['sep_R+Cat']:+.1f}，TS2b（有效）{dg['dG_TS2b_vs_I1'] + G['I1Cat'] - G['sep_R+Cat']:+.1f}，P_target+Cat {G['sep_P+Cat'] - G['sep_R+Cat']:+.1f}。
-
-## 4. 模块 B — 刚性微动力学：量子势垒 → 宏观收率
-
-每条边经 Eyring–Polanyi 理论 k = (k_B T/h)·exp(−ΔG‡/RT) 转换为 11 物种、12 反应的质量作用系统，在 t ∈ [10⁻⁹, 10⁵] s 用 **BDF**（隐式多步、刚性稳定、解析雅可比，rtol 1e−6、atol 1e−14；Radau/LSODA 后备{('未启用' if st['njev'] > 0 else '已启用')}）积分。
-
-**298.15 K 参考态：**P_target 分离收率 = **{_fmt(100 * S['yield_target'], 1)} %**，ee = **{_fmt(S['ee_pct'], 1)} %**（由 ΔΔG‡ 的 Curtin–Hammett 极限：{_fmt(B['ee_curtin_298K'], 1)} %），P_target/P_side 选择比 = **{_fmt(S['selectivity_Pt_Pside'], 1)}**，转化率 {_fmt(100 * S['conversion_R'], 1)} %，低聚损失 {_fmt(100 * S['poly_decomp'], 2)} %。求解器工作量：{S['nfev']} 次函数求值、{S['njev']} 次雅可比、{S['nlu']} 次 LU 分解。
-
-**反应网络的刚性求解稳定性判据。**（i）*A-稳定性*：隐式解算器的稳定域须覆盖整个左半平面（化学特征值为负实数 + 近零守恒模态）；（ii）*L-稳定性*：|R(∞)| → 0，使无限快的预平衡（此处为 RC ⇌ I_RC 质子穿梭，λ_max ≈ {_fmt(st['lambda_max_t0'], 2)} s⁻¹）被阻尼而非振荡放大；（iii）*正象限不变性*：质量作用系统的线性部分是 Metzler 矩阵，对角负占优雅可比保持正象限——ODE 不可能制造负浓度；（iv）*守恒性*：化学计量向量 νᵀ 零化守恒质量泛函，终态雅可比特征值 Re(λ) < 0（渐近稳定平衡）。t→0 的实测刚性比 |λ_max|/|λ_min| ≈ {st['stiffness_ratio_t0']:.2e}：显式 Euler 需 Δt < {st['stiffness_ratio_t0'] ** -1 * 1e-3:.1e} s 而实验窗口达 10⁵ s——相差 10⁷ 倍。这正是显式积分器在认识论上不合格的原因：它们不会大声失败，而是**缓慢而自信地失败**。
-
-**温度扫描（250–350 K）：**收率从 {_fmt(100 * B['T_sweep'][0]['yield'], 1)} %（250 K）升至 {_fmt(100 * B['T_sweep'][-1]['yield'], 1)} %（350 K），而 ee 从 {_fmt(B['T_sweep'][0]['ee'], 1)} % 降至 {_fmt(B['T_sweep'][-1]['ee'], 1)} %——典型的 ΔΔG‡ 与 ΔG‡ 权衡（立体分化随 T·ΔS‡ 增长而衰减，转化加速）。Pareto 前沿（图 2B）即催化剂的操作设计空间，膝点在 300 K 附近。{w_zh}
-
-## 5. 模块 C — Pauling 原理作为基本损失函数
-
-Linus Pauling 1946 年的箴言——*催化剂通过稳定过渡态甚于基态而起作用*——在此被形式化为逆向设计的训练目标：
-
-  在催化剂 C 上最小化：ΔΔG_bind(C) = [G(TS‡·C) − G(TS‡) − G(C)] − [G(R·C) − G(R) − G(C)]
-
-**3D 条件化信号。**TS1 的 GFN2 部分电荷传播到重分布中心（C2/N1/C2n/C3 质心）周围 ±6 Å 的 26³ 网格：φ(r) = Σ q_i/|r−r_i| 跨度 {_fmt(C['esp']['phi_min'], 2)} … {_fmt(C['esp']['phi_max'], 2)} e/Å。ESP 极小/极大瓣定义氢键供体与受体对接向量，其间连线即图 3 中的极化向量。
-
-**进化骨架装配器。**9 元 motif 库（H、tBu、Me、Ph、pOH-Ph、oOH-Ph、iPr-Ph、CF3-Ph、OMe-Ph）经 RDKit 合法价键 SMILES 组合装配到 CPA 模板的 BINOL 3,3′ 位（评分 {C['ga']['candidates_scored']} 个候选；硬门：sanitize 通过、复合物 vdW 无冲突、GFN2-xTB 单点适应度 E(TS·C)）。精英细化变异面向对接角。胜者：**3,3′-{proof['winner_motifs'][0]}/{proof['winner_motifs'][1]}**。
-
-**≥ 4.0 kcal/mol 势垒降低证明。**全优化离子对复合物 + Hessian 给出*比较型*复合差分——（TS-底物·Cat 复合物稳定化 vs RC·Cat 复合物稳定化），胜者相对基线催化剂（单催化剂绝对 ddG_bind 含催化心尺寸偏移，仅在 JSON 审计线索中保留）：**有效 ΔG‡ 降低 = {_fmt(proof['barrier_drop_vs_baseline_kcal'])} kcal/mol**{('——断言得证（≥ 4.0）。' if proof['claim_proven'] else '——低于 4.0 目标的诚实阴性结果，讨论见 §7。')}
-由热力学循环 ΔG‡_cat = ΔG‡_intrinsic + ΔG_bind(TS‡) − ΔG_bind(RC)，这正是势垒降低——Pauling 原理被操作化为可微损失。
-
-## 6. 为什么下一词预测的语言模型不是世界模型
-
-语言模型计算 argmax P(token | prefix)。该函数形式中没有任何东西强制*质量守恒*、*精细平衡*或*正象限不变性*。具体地，上述第五阶段动力学呈现三个自回归离散预测在原理上无法表示的性质：
-
-- **硬守恒律。**νᵀ·r 流约束在化学计量单纯形上；LLM 因其损失是 token 上的交叉熵而非约束流形上的残差范数而漂移离面。
-- **刚性的多尺度时间。**14 个时间数量级（10⁻⁹–10⁵ s）需 L-稳定隐式步长积分。逐 token 滚动没有任何算子的不动点落在慢流形上；它以先验的速率而非雅可比的速率幻觉出中间体。
-- **可逆性与精细平衡。**微观可逆性（k_f/k_r = exp(−ΔG_rxn/RT)）是对*生成量之比*的约束。下一词预测没有任何机制用热力学恒等式绑定两个生成的标量。
-
-**哈密顿约束的等变模型是前提而非升级。**化学世界模型必须（i）在 E(3) 下等变（能量旋转平移不变、力为等变向量——MACE/NequIP 类架构的 E(3) 等变消息传递），（ii）按构造守恒能量（哈密顿/辛积分或能量守恒学习），（iii）尊重化学计量不变量。否则，"化学 AGI"只是教科书的流畅转述者。第五阶段管线——几何来自物理、速率来自理论、收率来自稳定积分、设计来自物理损失——是最小诚实架构。
-
-## 7. 诚实的局限
-
-- 立体差分 ΔΔG‡ 来自简化 BINOL-PA 的 ±35° 面向位姿族（未做 3,3′-芳基构象系综）；真实 ee-选择性图需要完整构象 MD 系综。
-- {('势垒降低断言在 GFN2-xTB 理论层级得证；DFT（≈1–2 kcal/mol 误差棒）或从头算验证是下一保真档位。' if proof['claim_proven'] else f'该保真度下 motif 库未达 ≥ 4.0 kcal/mol 目标（最佳 {_fmt(proof["barrier_drop_vs_baseline_kcal"])} kcal/mol）；扩大片段库并在 Tier-3 xtb 最小化复合物上运行 GA 是规定的升级路径。')}
-- P_poly 二聚体与 52 kcal/mol 芳构化汇为标记 `assigned` 的替代模型，非计算鞍点。
-- 微动力学假设 1 M 理想溶液、除显式复合物外无离子配对、平均场浓度。
-
-## 8. 产物
-
-| 产物 | 路径 |
-|---|---|
-| 网络拓扑 | `figures_phase5/fig1_reaction_network_topology.png` |
-| 刚性微动力学 | `figures_phase5/fig2_stiff_microkinetics_profile.png` |
-| TS 稳定化对接 | `figures_phase5/fig3_ts_stabilization_dock.png` |
-| 机器可读结果 | `results_phase5/phase5_results.json` |
-| 管线 | `run_phase5_chemical_world_model.py` |
-
-*降级记录：*{len(RESULTS['fallbacks'])} 条 · *警告：*{len(RESULTS['warnings'])} 条 · *指认参数：*{len(RESULTS['assigned_parameters'])} 条——透明审计线索见 JSON。
-"""
-    (ROOT / "WORLD_MODEL_REPORT_ZH.md").write_text(txt, encoding="utf-8")
-    _log("report ZH written")
-
-
-# --------------------------------------------------------------------------- #
-# 8.  ORCHESTRATION
-# --------------------------------------------------------------------------- #
 def _hydrate_from_results():
     """Cross-process continuation: rebuild XA/XB/XC in-memory state from the
     persisted JSON + per-geometry cache so any stage can run standalone."""
@@ -2516,6 +2317,8 @@ def _hydrate_from_results():
     if RESULTS_PATH.exists():
         try:
             prev = json.loads(RESULTS_PATH.read_text())
+            if prev.get('audit_version') != AUDIT_VERSION:
+                raise RuntimeError('Pre-audit Phase 5 results cannot be reused; rerun A/B/C with corrected code')
         except Exception as exc:
             _warn(f"could not reload partial results: {exc}")
             return
@@ -2551,11 +2354,15 @@ def _hydrate_from_results():
 
 
 def main():
+    global EXPLORATORY_KINETICS
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", default="all",
                     choices=["all", "A", "B", "C", "D", "figures",
                              "reports"])
+    ap.add_argument('--exploratory-kinetics', action='store_true',
+                    help='Opt in to assigned, capped catalyst sensitivity scenarios; not a prediction')
     args = ap.parse_args()
+    EXPLORATORY_KINETICS = args.exploratory_kinetics
 
     t0 = time.time()
     _log(f"PHASE 5 chemical world model — stage={args.stage} — "
@@ -2572,7 +2379,12 @@ def main():
     if args.stage in ("all", "C"):
         module_C()
     if args.stage in ("all", "D"):
-        module_D()
+        if EXPLORATORY_KINETICS:
+            module_D()
+        elif args.stage == 'D':
+            raise RuntimeError('Module D is exploratory; use --exploratory-kinetics explicitly')
+        else:
+            _warn('Module D skipped: unvalidated corrections require --exploratory-kinetics')
     if args.stage in ("all", "figures"):
         figure_1()
         figure_2()

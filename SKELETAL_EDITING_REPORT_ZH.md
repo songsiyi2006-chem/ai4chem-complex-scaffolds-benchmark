@@ -1,3 +1,5 @@
+> **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
+
 # 骨架编辑报告 — 第四阶段：自主过渡态搜寻与 CI-NEB 反应路径剖析
 
 *数据：`results_phase4/phase4_results.json` | ASE 3.29 CI-NEB（improved tangent）· ANI-2x 反应性 PES（torchani）+ GFN2-xTB 解析 Hessian 验证（xtb 7.x CLI）· RDKit 2026.03*

@@ -19,7 +19,7 @@ Stages
 2  CI-NEB: climbing-image nudged elastic band, fmax < 0.05 eV/A, GFN2-xTB
    engine (xtb.exe subprocess wrapped as an ASE calculator); graceful ANI-2x
    fallback; convergence logged every step.
-3  TS verification: analytic GFN2-xTB Hessian (xtb --hess): EXACTLY-ONE
+3  TS screening: numerical GFN2-xTB Hessian (xtb --hess): EXACTLY-ONE
    imaginary frequency test, transition-vector sanity check vs the
    breaking/forming bond axes, thermochemistry at 298.15 K
    (dE‡, dH‡, dG‡, Eyring rate).
@@ -672,7 +672,7 @@ def stage2_neb(out: Path, args, force=False) -> bool:
     if ckpt.exists() and (out / "neb_final_path.xyz").exists() and not force:
         RESULTS["stage2_neb"] = json.loads(ckpt.read_text())
         _log("2", "checkpoint found, skipping")
-        return True
+        return bool(RESULTS['stage2_neb'].get('converged'))
 
     from ase import Atoms
     from ase.mep.neb import NEB
@@ -758,7 +758,7 @@ def stage2_neb(out: Path, args, force=False) -> bool:
             opt2.run(fmax=max(args.fmax * 3, 0.15), steps=120)
             _log("2", f"band fmax after climb: {neb_fmax(neb):.4f} eV/A "
                       f"(spec target {args.fmax}; deviation documented, "
-                      f"saddle refined in stage 3 via xtb --opt ts)")
+                      f"candidate screened in stage 3 without TS refinement)")
     except Exception as exc:
         converged = False
         _warn(f"NEB optimizer raised {exc.__class__.__name__}: "
@@ -775,12 +775,11 @@ def stage2_neb(out: Path, args, force=False) -> bool:
 
     f = neb.get_forces()
     fmax = float(np.sqrt((f ** 2).sum(axis=1).max()))
-    if fmax > args.fmax * 2:
+    if fmax > args.fmax:
         converged = False
     RESULTS["stage2_neb_note"] = (
-        f"NEB band fmax {fmax:.4f} eV/A vs spec {args.fmax}; the climbing "
-        f"image is subsequently refined to a true saddle by xtb "
-        f"eigenvector-following (--opt ts) in stage 3")
+        f"NEB band fmax {fmax:.4f} eV/A vs spec {args.fmax}; stage 3 screens "
+        "the candidate by numerical Hessian and gradients, without TS refinement or IRC")
 
     energies = []
     for im in images:
@@ -802,7 +801,7 @@ def stage2_neb(out: Path, args, force=False) -> bool:
         "steps_taken": step["n"],
         "fmax_final_ev_A": fmax,
         "fmax_target": args.fmax,
-        "converged": bool(converged and fmax < args.fmax * 2),
+        "converged": bool(converged and math.isfinite(fmax) and fmax <= args.fmax),
         "energies_ev": energies,
         "ts_image_index": i_ts,
         "e_r_ev": float(energies[0]),
@@ -822,7 +821,7 @@ def stage2_neb(out: Path, args, force=False) -> bool:
     _log("2", f"CI-NEB done: TS@image {i_ts}, "
               f"ΔE‡fwd {rec['barrier_fwd_ev'] * EV_TO_KCAL:.1f} kcal/mol, "
               f"fmax {fmax:.4f} eV/A, converged={rec['converged']}")
-    return True
+    return rec['converged']
 
 
 def neb_fmax(neb):
@@ -872,11 +871,14 @@ def _zpe_h_s_from_freqs(freqs_cm, temperature=298.15):
 
 
 def stage3_ts_verify(out: Path, args, force=False) -> bool:
+    from phase_audit import AUDIT_VERSION, ts_validation
     ckpt = out / "stage3.json"
     if ckpt.exists() and (out / "ts_hessian_freqs.json").exists() and not force:
-        RESULTS["stage3_ts"] = json.loads(ckpt.read_text())
-        _log("3", "checkpoint found, skipping")
-        return True
+        cached = json.loads(ckpt.read_text())
+        if cached.get('validation', {}).get('version') == AUDIT_VERSION:
+            RESULTS['stage3_ts'] = cached
+            return bool(cached['validation']['passed'])
+        _log('3', 'Pre-audit TS checkpoint invalidated; recomputing')
 
     from ase.io import read as ase_read
     ts = ase_read(str(out / "ts_candidate.xyz"))
@@ -888,14 +890,12 @@ def stage3_ts_verify(out: Path, args, force=False) -> bool:
         # NOTE: xtb's --opt ts in this build degrades to a plain minimization
         # (the separate --ts flag is rejected), destroying the saddle; the
         # converged CI image (fmax < 0.05 eV/A) is verified directly instead.
-        _log("3", "analytic GFN2-xTB Hessian on the converged CI image "
+        _log("3", "numerical GFN2-xTB Hessian on the CI candidate "
                   "(xtb --hess) ...")
         h_ts = xtb_hessian(nums, pos)
-        _log("3", "analytic GFN2-xTB Hessian on R ...")
+        _log("3", "numerical GFN2-xTB Hessian on R ...")
         h_r = xtb_hessian(nums, R_at.get_positions())
-        engine = ("GFN2-xTB saddle refinement (--opt ts) + analytic Hessian "
-                  "(multi-fidelity: MEP seed from "
-                  f"{RESULTS['stage2_neb'].get('engine', 'NEB')})")
+        engine = "GFN2-xTB numerical Hessian and gradient screening; no TS refinement or IRC"
     else:
         _fallback("xtb unavailable — numerical ANI-2x Hessian (ASE "
                   "Vibrations, central differences)")
@@ -927,47 +927,67 @@ def stage3_ts_verify(out: Path, args, force=False) -> bool:
 
     tv = None
     mode_correlation = None
-    for m in h_ts.get("modes", []):
-        if m["freq"] < 0:
-            tv = m["disp"]
-            break
+    reactive_modes = [m for m in h_ts.get('modes', []) if m['freq'] < -20.]
+    if len(reactive_modes) == 1:
+        tv = np.asarray(reactive_modes[0]['disp'], dtype=float)
     if tv is not None and (broken or formed):
         tvn = np.linalg.norm(tv, axis=1, keepdims=True)
         tvu = tv / (tvn + 1e-12)
         cors = []
         for (i, j) in broken + formed:
             axis = unit(i, j, pos)
-            proj = float(np.abs(np.dot(tvu[i], axis)) +
-                         np.abs(np.dot(tvu[j], axis))) / 2
+            relative = tv[j] - tv[i]
+            proj = float(abs(np.dot(relative, axis)) / (np.linalg.norm(relative)+1e-12))
             cors.append({"bond": [int(i), int(j)], "|proj|": proj})
         mode_correlation = cors
+
+    validator = XTBWrap() if XTB_EXE else ANIWrap()
+    f_ts_max = float(np.linalg.norm(validator.get_forces(ts), axis=1).max())
+    f_r_max = float(np.linalg.norm(validator.get_forces(R_at), axis=1).max())
+    validation = ts_validation(f_ts, f_r, f_ts_max, f_r_max,
+        RESULTS['stage2_neb'].get('converged', False),
+        max((c['|proj|'] for c in (mode_correlation or [])), default=None),
+        force_tolerance=args.fmax)
+    if not validation['passed']:
+        rec = dict(engine=engine, validation=validation, n_imaginary_ts=n_imag_ts,
+                   frequencies_ts_cm=f_ts, frequencies_r_cm=f_r,
+                   force_ts_ev_a=f_ts_max, force_r_ev_a=f_r_max,
+                   thermochemistry_298K=None, status='invalid_ts_no_kinetic_result')
+        RESULTS['stage3_ts'] = rec
+        ckpt.write_text(json.dumps(rec, indent=2), encoding='utf-8')
+        _warn(f'TS screening failed: {validation["checks"]}; thermochemistry/rate withheld')
+        return False
 
     # thermochemistry (298.15 K): electronic + ZPE + H/S corrections
     T = 298.15
     zpe_ts, Uv_ts, Sv_ts, _ = _zpe_h_s_from_freqs(f_ts)
     zpe_r, Uv_r, Sv_r, _ = _zpe_h_s_from_freqs(f_r)
     s2 = RESULTS["stage2_neb"]
-    dE = (s2["e_ts_ev"] - s2["e_r_ev"]) * EV_TO_KCAL
+    dE = (validator.get_potential_energy(ts) - validator.get_potential_energy(R_at)) * EV_TO_KCAL
     dZPE = zpe_ts - zpe_r
     dH = dE + (Uv_ts - Uv_r)      # U_vib already contains ZPE
     dS_vib = (Sv_ts - Sv_r)  # cal/mol/K (vibrational only; translation and
-    # rotation cancel between R and TS of the same molecule)
+    # rotation are omitted, not guaranteed to cancel: this is a vibrational-only estimate)
     dG = dH - T * dS_vib / 1000.0
     k_e = 2.083661912e10 * T  # k_B*T/h in s^-1
-    k_rate = k_e * math.exp(-dG / (R_KCAL * T)) if dG > 0 else float("inf")
+    k_rate = k_e * math.exp(-dG / (R_KCAL * T)) if math.isfinite(dG) and dG > 0 else None
 
     rec = {
         "engine": engine,
+        "validation": validation,
+        "status": "screened_candidate_not_IRC_verified",
+        "force_ts_ev_a": f_ts_max, "force_r_ev_a": f_r_max,
         "n_imaginary_ts": n_imag_ts,
         "imaginary_freqs_cm": imag,
-        "one_imag_criterion": bool(n_imag_ts == 1),
+        "one_imag_criterion": validation['checks']['one_significant_imaginary'],
         "lowest_real_freq_cm": f_ts[1] if len(f_ts) > 1 else None,
         "transition_vector_check": mode_correlation,
         "thermochemistry_298K": {
             "dE_kcal": dE, "dZPE_kcal": dZPE, "dUvib_kcal": Uv_ts - Uv_r,
             "dH_kcal": dH, "TdS_kcal": T * dS_vib / 1000.0,
             "dG_kcal": dG,
-            "eyring_rate_s": k_rate if math.isfinite(k_rate) else 1e12,
+            "eyring_rate_s": k_rate,
+            "scope": "conditional vibrational-only estimate; not an IRC-verified reaction rate",
         },
         "frequencies_ts_cm": f_ts,
         "frequencies_r_cm": f_r,
@@ -977,7 +997,7 @@ def stage3_ts_verify(out: Path, args, force=False) -> bool:
     ckpt.write_text(json.dumps(rec, indent=2), encoding="utf-8")
     _log("3", f"imaginary modes: {n_imag_ts} {imag[:3]} | "
               f"ΔE‡ {dE:.1f} | ΔH‡ {dH:.1f} | ΔG‡ {dG:.1f} kcal/mol | "
-              f"k(298K) {k_rate:.2e} s^-1")
+              f"conditional k(298K) {k_rate} s^-1")
     return True
 
 
@@ -1008,6 +1028,10 @@ def _ani_hessian(nums, pos):
 # --------------------------------------------------------------------------- #
 
 def stage4_figures(fig_dir: Path) -> bool:
+    from phase_audit import AUDIT_VERSION
+    validation = RESULTS.get('stage3_ts', {}).get('validation', {})
+    if validation.get('version') != AUDIT_VERSION or not validation.get('passed'):
+        raise RuntimeError('Validated current-version TS record required; refusing misleading figures')
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -1225,6 +1249,10 @@ def main() -> int:
             print("=" * 72, flush=True)
             try:
                 ok = fn()
+                if not ok:
+                    code = 1
+                    _warn(f'{name}: validation failed; downstream stages stopped')
+                    break
                 _log("stage", f"{name}: {'OK' if ok else 'SKIPPED'}")
             except Exception as exc:
                 code = 1

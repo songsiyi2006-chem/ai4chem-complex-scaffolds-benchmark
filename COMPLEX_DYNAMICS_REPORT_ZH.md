@@ -1,3 +1,5 @@
+> **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
+
 # 复合物动力学报告 — 第三阶段：靶标-配体复合物、逐残基 MM-GBSA 分解与 ML 势基准
 
 *数据：`results_phase3/phase3_results.json` | OpenMM 8.6（CPU）· pdbfixer 1.12 · AutoDock Vina 1.2.5 CLI + meeko 0.8 · OpenFF Sage 2.1 + AM1-BCC（NAGL 1.0.0，离线）· torchani ANI-2x · mdtraj 1.11*

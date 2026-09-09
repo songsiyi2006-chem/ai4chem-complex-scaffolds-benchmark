@@ -1,3 +1,5 @@
+> **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
+
 # COMPLEX DYNAMICS REPORT — Phase 3: Target-Ligand Complex, Residue-Decomposed MM-GBSA & ML-Potential Benchmarking
 
 *Data: `results_phase3/phase3_results.json` | OpenMM 8.6 (CPU) · pdbfixer 1.12 · AutoDock Vina 1.2.5 CLI + meeko 0.8 · OpenFF Sage 2.1 + AM1-BCC (NAGL 1.0.0, offline) · torchani ANI-2x · mdtraj 1.11*

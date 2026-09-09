@@ -1,3 +1,5 @@
+> **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
+
 # 面向未收录复杂分子实体的前沿 3D 构象管线压力测试
 
 **——基于 RDKit ETKDGv3 + MMFF94/UFF 的十分子硬核基准：构象搜寻、物理化学剖析与图神经网络特征就绪性评估**

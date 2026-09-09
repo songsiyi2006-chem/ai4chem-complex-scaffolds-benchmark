@@ -271,6 +271,8 @@ def stage2_torsion_scans(out_dir: Path, num_points: int) -> None:
             angles: List[float] = []
             energies: List[float] = []
             achieved: List[float] = []
+            snapshots = []
+            from phase_audit import periodic_angle_error
             for n in range(num_points):
                 theta = 360.0 * n / num_points
                 try:
@@ -278,11 +280,21 @@ def stage2_torsion_scans(out_dir: Path, num_points: int) -> None:
                 except ValueError:
                     pass  # in-ring torsion: flat-bottom constraint alone drives it
                 ff = make_ff(mh)
-                add_torsion_constraint(ff, i, j, k, l, theta - 5.0, theta + 5.0)
-                ff.Minimize(800)
-                energies.append(float(ff.CalcEnergy()))
+                target = (theta + 180.) % 360. - 180.
+                add_torsion_constraint(ff, i, j, k, l, target - 5.0, target + 5.0)
+                if ff.Minimize(800) != 0:
+                    raise RuntimeError(f'Torsion {theta:g}: minimization did not converge')
+                angle = AllChem.GetDihedralDeg(conf, i, j, k, l)
+                if periodic_angle_error(angle, theta) > 5.1:
+                    raise RuntimeError(f'Torsion {theta:g}: target not achieved ({angle:g})')
+                # Rebuild without constraints: exclude restraint penalty energy.
+                energy = float(make_ff(mh).CalcEnergy())
+                if not math.isfinite(energy):
+                    raise RuntimeError('Non-finite unrestrained torsion energy')
+                energies.append(energy)
                 angles.append(theta)
-                achieved.append(AllChem.GetDihedralDeg(conf, i, j, k, l))
+                achieved.append(angle)
+                snapshots.append(Chem.Conformer(conf))
 
             e_min = min(energies)
             rel = [e - e_min for e in energies]
@@ -299,9 +311,13 @@ def stage2_torsion_scans(out_dir: Path, num_points: int) -> None:
 
             writer = Chem.SDWriter(str(out_dir / f"{tid}_scan_min.sdf"))
             try:
-                mh.SetProp("_Name", f"{tid} scan-minimum")
-                mh.SetProp("dihedral_deg_min", f"{angles[i_min]:.1f}")
-                writer.write(mh, confId=conf.GetId())
+                minimum = Chem.Mol(mh)
+                minimum.RemoveAllConformers()
+                minimum.AddConformer(snapshots[i_min], assignId=True)
+                minimum.SetProp("_Name", f"{tid} scan-minimum")
+                minimum.SetProp("dihedral_deg_min", f"{achieved[i_min]:.6f}")
+                minimum.SetProp("energy_kcal_mol", f"{energies[i_min]:.10f}")
+                writer.write(minimum)
             finally:
                 writer.close()
 
@@ -315,7 +331,8 @@ def stage2_torsion_scans(out_dir: Path, num_points: int) -> None:
                 "angle_of_barrier_deg": angles[i_max],
                 "e_min_kcal_mol": round(e_min, 2),
                 "delta_e_barrier_kcal_mol": round(barrier, 2),
-                "achieved_max_dev_deg": round(max(abs(a - g) for a, g in zip(angles, achieved)), 2),
+                "energy_includes_restraint": False,
+                "achieved_max_dev_deg": round(max(periodic_angle_error(g, a) for a, g in zip(angles, achieved)), 2),
                 "angles": angles,
                 "rel_energies": [round(r, 3) for r in rel],
                 "csv": str(csv_path),
