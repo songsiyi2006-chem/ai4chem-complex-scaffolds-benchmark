@@ -1,0 +1,57 @@
+{
+  "parameters": {
+    "vibration_ev": 0.18,
+    "collective_g_ev": 0.018,
+    "quality_factor": 200.0,
+    "gamma_ev": 0.003,
+    "temperature_k": 300.0,
+    "barrier_ev": 2.012,
+    "minimum_q": 1.0,
+    "photon_states": 4,
+    "vibration_states": 5,
+    "energy_points": 601,
+    "angle_points": 141,
+    "cavity_normal_ev": 0.16,
+    "effective_index": 1.3
+  },
+  "validation": {
+    "status": "passed",
+    "errors": {
+      "fock_low_mode_error_ev": 1.9676976886762176e-07,
+      "fock_high_mode_error_ev": 9.159339953157541e-16,
+      "fock_ground_convergence_ev": 6.958470188944688e-10,
+      "N2_product_basis_mode_error_ev": 1.9542603801880887e-07,
+      "rabi_sqrtN_error_ev": 3.0357660829594124e-17,
+      "DSE_relaxed_PES_error_ev": 6.162975822039155e-33,
+      "uncoupled_quantum_rate_error": 4.440892098500626e-16,
+      "uncoupled_classical_rate_error": 0.0
+    },
+    "tolerances": {
+      "fock_low_mode_error_ev": 0.0005,
+      "fock_high_mode_error_ev": 1e-08,
+      "fock_ground_convergence_ev": 5e-05,
+      "N2_product_basis_mode_error_ev": 0.0005,
+      "rabi_sqrtN_error_ev": 1e-09,
+      "DSE_relaxed_PES_error_ev": 1e-09,
+      "uncoupled_quantum_rate_error": 1e-09,
+      "uncoupled_classical_rate_error": 1e-09
+    }
+  },
+  "LP_ev": 0.16289776118017602,
+  "UP_ev": 0.19889776118017602,
+  "rabi_mev": 36.00000000000001,
+  "linewidth_sum_mev": 3.9,
+  "resolved_strong_coupling": true,
+  "rate_ratio_N1": 0.9878038734524357,
+  "rate_ratio_N64": 0.999813247899768,
+  "rate_min": 0.9837576966356848,
+  "rate_max": 0.9943972263784334,
+  "rate_min_cavity_ev": 0.105,
+  "provenance": "Assigned harmonic PF model, schematic quartic PES, weak-probe optical proxy; no experimental data or ab initio PES.",
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1"
+  }
+}

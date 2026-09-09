@@ -1,0 +1,18 @@
+{
+  "figures_phase21/fig1_polaritonic_pauli_fierz_energy_levels.png": "e92fcc8f93e991b62bed6fcc4d224a8725864ddd65714dc91c6b72f3c1402d45",
+  "figures_phase21/fig2_vacuum_rabi_dispersion_anticrossing.png": "cdca36a4d753467f9659f31585f062bdb1e27f85a2a3e5419c9f5cc6e95cbc8f",
+  "figures_phase21/fig3_cavity_reaction_rate_resonance_profile.png": "812d07477b5254007c984f7e22e01991514de669aa9b68e45b122e1e3b8749e4",
+  "figures_phase21/fig4_simulated_ftir_polariton_spectra.png": "21c516ae5415c1aedd8ea35ac99a8d21a912de052109de2e40df64e767365063",
+  "POLARITON_CHEMISTRY_REPORT_EN.md": "f28d7426c775b5403389f7778e39ce262e6ec3437b0a94f2e222a7a2df31cee0",
+  "POLARITON_CHEMISTRY_REPORT_ZH.md": "9cb37a3b0fd2aacf1f2e73e3f0482a1090333410b6c365e0549414bb51cbcb71",
+  "results_phase21/angular_modes.csv": "a5559ed82f38b92aab8c7ca494ce62123b2ab9d869d491fac16531b812c03b9f",
+  "results_phase21/angular_transmission.csv": "dd38f3351b03272082e1f2776a0a7bfe0579ec06437520a85e4385daa38fd902",
+  "results_phase21/collective_scaling.csv": "50e06910a4ba975c4f3499eca34a313c4af50bb924ca307e17ef014a2bd4ed9c",
+  "results_phase21/fock_convergence.csv": "dc28e4cfb752dad875d0548222fc1b64950ba4ed128ad2ce34f00fb242667452",
+  "results_phase21/ftir.csv": "d4e92467f536373fc3d78a037a96fd234c1d26f31e2c4a7b635f217d49265947",
+  "results_phase21/local_dilution.csv": "9026afc1189f757674a189335365b12c3eedb95a329d05c045aaf575714672f8",
+  "results_phase21/reaction_rates.csv": "4c4f9f3f004c7ed7992fa9dc1fdd93aff09bf9766bfcc11c5714f7109e267b32",
+  "results_phase21/reactive_pes_2d.csv": "df28b63a8b49dfc783d767a11d1afa33f0a2c0b033019c6d364aa28b6f32bd9d",
+  "results_phase21/summary.json": "5a6382541c33727beea78b8d33cb3b33b1e2c2ae6eca6445b2b863743c0beaa7",
+  "script_sha256": "47a4f18a1c60f510ec6e85b0cd2fb841d851ac7dc47dea2e94b2debfb0d9503a"
+}

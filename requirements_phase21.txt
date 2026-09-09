@@ -1,0 +1,4 @@
+# Standalone Phase 21; independent of earlier chemistry-software installations.
+numpy>=1.23
+scipy>=1.9
+matplotlib>=3.6

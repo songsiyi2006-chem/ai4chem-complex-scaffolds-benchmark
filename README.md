@@ -1,5 +1,30 @@
 # AI4Chem — Complex Scaffolds Benchmark
 
+## Phase 21: cavity QED and polaritonic chemistry
+
+The quantum-electrodynamic chemistry extension implements a **dipole-self-energy-complete
+harmonic Pauli-Fierz benchmark**, full small-ensemble Fock diagonalization and exact
+bright/dark normal modes. It checks collective Rabi scaling, local harmonic-TST rate
+changes and passive weak-probe spectra without imposing a sharp chemical resonance.
+
+```bash
+python -m pip install -r requirements_phase21.txt
+python run_phase21_cavity_qed_polaritonic_chemistry.py --self-test
+python run_phase21_cavity_qed_polaritonic_chemistry.py
+```
+
+- Photon occupations 0-3, vibrational occupations 0-4; enlarged-basis convergence check.
+- Counterrotating terms and DSE cross terms; explicit single-reacting-molecule bottleneck.
+- Fixed-g0 collective splitting vs fixed-collective-g local dilution are distinguished.
+- Four 300 DPI figures: levels, angular anticrossing, computed rate profiles and FTIR.
+- The schematic PES is not a reconstructed Phase 4/5 molecular PES; angular response is
+  a Fabry-Perot proxy, not a calibrated ATR stack. Dark modes have no direct optical
+  weight in the ideal model. Optical splitting alone is not evidence of catalysis.
+
+Reports: [English](POLARITON_CHEMISTRY_REPORT_EN.md) / [中文](POLARITON_CHEMISTRY_REPORT_ZH.md).
+Data and validation: [`results_phase21/summary.json`](results_phase21/summary.json).
+Figures: [`figures_phase21/`](figures_phase21/).
+
 ## Phase 20 capstone: CISS transport and spintronic analytical twins
 
 Phase 20 adds a standalone, validated **effective-model** calculation of helical
