@@ -107,8 +107,16 @@ def main():
                 candidates.update((recovery/'figures_phase5').glob('*.png'))
         for audit in folder.glob('*_postaudit_*'):
             if audit.is_dir():
+                status_file = audit/'audit.json'
+                if status_file.exists() and json.loads(status_file.read_text(encoding='utf-8')).get('status') == 'running':
+                    continue
                 candidates.update(audit.glob('*.json'))
                 candidates.update(audit.glob('verified_source.py'))
+                # Explicit TS provenance, never arbitrary workstation files.
+                for name in ('initial.xyz', 'refined_candidate.xyz', 'ts.log',
+                             'refine_phase4_geometric.py'):
+                    if (audit/name).is_file():
+                        candidates.add(audit/name)
         for src in sorted(candidates):
             if not src.is_file():
                 continue

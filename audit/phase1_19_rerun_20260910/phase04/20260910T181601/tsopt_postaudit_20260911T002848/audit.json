@@ -1,0 +1,33 @@
+{
+  "status": "completed",
+  "method": "geomeTRIC Cartesian TS / GFN2-xTB",
+  "geometric_version": "1.1.1",
+  "charge": 0,
+  "multiplicity": 1,
+  "input_band_sha256": "17530240607656bf62c8be2d1c6e04a5e50b4491c2912d75fd9d4382cd9134df",
+  "initial_image": 4,
+  "source_sha256": "75aba58ac68f178e6945757c3c53c4fb978e8a620373394293f370ba660624f2",
+  "scope": "saved_converged_geometry_gradient_and_hessian_reverification",
+  "max_iterations": 200,
+  "gradient_force_target_eV_A": 0.05,
+  "acceptance": "stationary_saddle_only_reaction_connection_unverified",
+  "irc_performed": false,
+  "optimizer_repeated": false,
+  "recovery_directory": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059",
+  "recovery_sha256": {
+    "audit.json": "ba0ed21ae2a050fa00861c7a0b18ea08f3c3bbc6bb884d3070c44290e0ddb506",
+    "ts.log": "27ac20af784d68dd337781f1e4a0a3db08c581541f63c2c3f20387875ce8a158",
+    "refined_candidate.xyz": "c47fa96a504a81f18a6037a0a6a9fb950a0bb4cae9199aad419a667e3958fb82"
+  },
+  "optimizer_convergence_recorded": true,
+  "final_energy_eV": -725.381086252236,
+  "final_force_eV_A": 0.002931768614561602,
+  "significant_imaginary_cm": [
+    -147.28
+  ],
+  "stationary_saddle_checks_passed": true,
+  "enzyme_or_rate_claims": false,
+  "input_hash_rechecked": true,
+  "elapsed_s": 1.8280000000013388,
+  "energy_gradient_calls": 1
+}

@@ -18,7 +18,8 @@ GROUPS={
                   'test_phase15_16_19_rerun.RerunTests.test_real_torch_training_checkpoint_roundtrip_and_no_overwrite',
                   'test_phase3_checkpoint', 'test_phase4_neb_diagnostic',
                   'test_phase8_preflight', 'test_phase19_clashes', 'test_phase3_delivery',
-                  'test_prepared_phase3'],
+                  'test_prepared_phase3', 'test_phase19_loop_closure',
+                  'test_phase4_geometric_adapter'],
 }
 
 def main():

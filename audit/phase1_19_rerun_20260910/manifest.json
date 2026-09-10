@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-11 00:03:23",
+  "generated": "2026-09-11 00:36:12",
   "campaign": "$CAMPAIGN",
   "phases": [
     {
@@ -940,6 +940,87 @@
                 "elapsed_s": 0.75
               },
               "sha256": "2870eb8e824d4e2ea9130953cff30d88add429a51ce9420c82c49f58a9895fb4"
+            },
+            {
+              "path": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T001953\\audit.json",
+              "record": {
+                "status": "failed",
+                "method": "geomeTRIC Cartesian TS / GFN2-xTB",
+                "geometric_version": "1.1.1",
+                "charge": 0,
+                "multiplicity": 1,
+                "input_band_sha256": "17530240607656bf62c8be2d1c6e04a5e50b4491c2912d75fd9d4382cd9134df",
+                "initial_image": 4,
+                "source_sha256": "86432438666ef18e8c0e43fd18299575dd72f4b6de02b9e5b12ebb8720cfa24f",
+                "scope": "bounded_alternative_TS_refinement_not_default_NEB_rerun",
+                "max_iterations": 50,
+                "gradient_force_target_eV_A": 0.05,
+                "acceptance": "not_established",
+                "irc_performed": false,
+                "error": "GeomOptNotConvergedError('Optimizer.optimizeGeometry() failed to converge.')",
+                "elapsed_s": 13.17200000000048,
+                "energy_gradient_calls": 165
+              },
+              "sha256": "986adc40d3c682aa7662a29294b8a35f7bcc68350865acd763571668256ea003"
+            },
+            {
+              "path": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059\\audit.json",
+              "record": {
+                "status": "failed",
+                "method": "geomeTRIC Cartesian TS / GFN2-xTB",
+                "geometric_version": "1.1.1",
+                "charge": 0,
+                "multiplicity": 1,
+                "input_band_sha256": "17530240607656bf62c8be2d1c6e04a5e50b4491c2912d75fd9d4382cd9134df",
+                "initial_image": 4,
+                "source_sha256": "996c412bfb16dbbb8d456a5fe6baac7b59635dd67af469c32a34416629e1ba11",
+                "scope": "bounded_alternative_TS_refinement_not_default_NEB_rerun",
+                "max_iterations": 200,
+                "gradient_force_target_eV_A": 0.05,
+                "acceptance": "not_established",
+                "irc_performed": false,
+                "error": "UnicodeDecodeError('gbk', b'$vibrational spectrum\\r\\n#  mode     symmetry     wave number   IR intensity    selection rules\\r\\n#                         cm**(-1)      (km*mol\\xe2\\x81\\xbb\\xc2\\xb9)        IR     \\r\\n     1                      -0.00         0.00000          - \\r\\n     2                      -0.00         0.00000          - \\r\\n     3                       0.00         0.00000          - \\r\\n     4                       0.00         0.00000          - \\r\\n     5                       0.00         0.00000          - \\r\\n     6                       0.00         0.00000          - \\r\\n     7        a           -147.28        22.50398         YES\\r\\n     8        a            143.26         5.05279         YES\\r\\n     9        a            178.16         5.38253         YES\\r\\n    10        a            265.69         0.17277         YES\\r\\n    11        a            318.33        11.82422         YES\\r\\n    12        a            384.15         0.82103         YES\\r\\n    13        a            439.34         2.52976         YES\\r\\n    14        a            451.37        37.39911         YES\\r\\n    15        a            502.23        76.06508         YES\\r\\n    16        a            517.87         6.72538         YES\\r\\n    17        a            522.56        29.52910         YES\\r\\n    18        a            528.49         6.58641         YES\\r\\n    19        a            595.40        11.17328         YES\\r\\n    20        a            655.96         3.06130         YES\\r\\n    21        a            713.68        26.65860         YES\\r\\n    22        a            733.10       103.15514         YES\\r\\n    23        a            760.47        33.16584         YES\\r\\n    24        a            768.75       101.02987         YES\\r\\n    25        a            830.59       114.01898         YES\\r\\n    26        a            851.59         3.39249         YES\\r\\n    27        a            860.17         1.30407         YES\\r\\n    28        a            904.12         1.06895         YES\\r\\n    29        a            917.07         0.15060         YES\\r\\n    30        a            952.10        21.56114         YES\\r\\n    31        a            990.70         9.07221         YES\\r\\n    32        a           1062.00        13.42885         YES\\r\\n    33        a           1070.12         3.30038         YES\\r\\n    34        a           1078.66        10.50846         YES\\r\\n    35        a           1145.91         4.47511         YES\\r\\n    36        a           1169.97         7.99665         YES\\r\\n    37        a           1180.21        16.02595         YES\\r\\n    38        a           1213.39        16.18119         YES\\r\\n    39        a           1256.84        31.79596         YES\\r\\n    40        a           1268.89        16.51951         YES\\r\\n    41        a           1330.79        69.44716         YES\\r\\n    42        a           1367.34        36.72076         YES\\r\\n    43        a           1393.58        35.68761         YES\\r\\n    44        a           1438.44        16.19084         YES\\r\\n    45        a           1450.06        21.89930         YES\\r\\n    46        a           1478.74        30.18259         YES\\r\\n    47        a           1584.66         1.88448         YES\\r\\n    48        a           1602.89        68.22197         YES\\r\\n    49        a           2822.00         2.50850         YES\\r\\n    50        a           3036.71        80.18293         YES\\r\\n    51        a           3069.25        73.21815         YES\\r\\n    52        a           3074.13        11.92310         YES\\r\\n    53        a           3082.45        26.61433         YES\\r\\n    54        a           3090.12        52.48514         YES\\r\\n    55        a           3099.38        47.77149         YES\\r\\n    56        a           3160.89        28.90336         YES\\r\\n    57        a           3476.41        24.73011         YES\\r\\n$end\\r\\n', 146, 147, 'illegal multibyte sequence')",
+                "elapsed_s": 23.54699999999866,
+                "energy_gradient_calls": 292
+              },
+              "sha256": "ba0ed21ae2a050fa00861c7a0b18ea08f3c3bbc6bb884d3070c44290e0ddb506"
+            },
+            {
+              "path": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002848\\audit.json",
+              "record": {
+                "status": "completed",
+                "method": "geomeTRIC Cartesian TS / GFN2-xTB",
+                "geometric_version": "1.1.1",
+                "charge": 0,
+                "multiplicity": 1,
+                "input_band_sha256": "17530240607656bf62c8be2d1c6e04a5e50b4491c2912d75fd9d4382cd9134df",
+                "initial_image": 4,
+                "source_sha256": "75aba58ac68f178e6945757c3c53c4fb978e8a620373394293f370ba660624f2",
+                "scope": "saved_converged_geometry_gradient_and_hessian_reverification",
+                "max_iterations": 200,
+                "gradient_force_target_eV_A": 0.05,
+                "acceptance": "stationary_saddle_only_reaction_connection_unverified",
+                "irc_performed": false,
+                "optimizer_repeated": false,
+                "recovery_directory": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059",
+                "recovery_sha256": {
+                  "audit.json": "ba0ed21ae2a050fa00861c7a0b18ea08f3c3bbc6bb884d3070c44290e0ddb506",
+                  "ts.log": "27ac20af784d68dd337781f1e4a0a3db08c581541f63c2c3f20387875ce8a158",
+                  "refined_candidate.xyz": "c47fa96a504a81f18a6037a0a6a9fb950a0bb4cae9199aad419a667e3958fb82"
+                },
+                "optimizer_convergence_recorded": true,
+                "final_energy_eV": -725.381086252236,
+                "final_force_eV_A": 0.002931768614561602,
+                "significant_imaginary_cm": [
+                  -147.28
+                ],
+                "stationary_saddle_checks_passed": true,
+                "enzyme_or_rate_claims": false,
+                "input_hash_rechecked": true,
+                "elapsed_s": 1.8280000000013388,
+                "energy_gradient_calls": 1
+              },
+              "sha256": "29162391df2b2644c6177d59320b33c053c40820531e8a47b3da456c96e6f5d0"
             }
           ]
         }
@@ -2052,6 +2133,26 @@
                 "files": {
                   "results_phase7/checkpoints/7B/R2.05.json": "74d22feab58335e637476d1eec31010010b8671511e7f39a25f9d23a873c5bd3"
                 }
+              },
+              "results_phase7/checkpoints/7B/R2.20.json": {
+                "basis": "def2-svp",
+                "files": {
+                  "results_phase7/checkpoints/7B/R2.20.json": "d15a48b4a9951ae881c17893b464091aa8081e85172fe90eacb0e735f538f79f",
+                  "results_phase7/cubes/R2.20/Psi_a_35_35-A.cube": "9acf312951d8c3f2ecdd505d33a928af8af9d6238c89f07e465ffeb087b192df",
+                  "results_phase7/cubes/R2.20/Psi_a_36_36-A.cube": "7b6c6b2e3b3f4d633b36163c337f5123629c816a1f1d8240ccd7539ba4e3f875"
+                }
+              },
+              "results_phase7/checkpoints/7B/R2.40.json": {
+                "basis": "def2-svp",
+                "files": {
+                  "results_phase7/checkpoints/7B/R2.40.json": "e4e3d2238f0ab0a0c32fcae424197275aeee9cb344c2be8707bb4493725a6e28"
+                }
+              },
+              "results_phase7/checkpoints/7B/R2.60.json": {
+                "basis": "def2-svp",
+                "files": {
+                  "results_phase7/checkpoints/7B/R2.60.json": "7d58eb7292050373f6d9d1bee80c3930badbc87239efc9632189e103406668c6"
+                }
               }
             },
             "commands": [
@@ -2462,8 +2563,66 @@
                   "2.2"
                 ],
                 "started": 1789056137.840193,
-                "status": "running",
-                "pid": 22284
+                "status": "exited",
+                "pid": 22284,
+                "exit_code": 0,
+                "finished": 1789056564.0763094
+              },
+              {
+                "command": [
+                  "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+                  "-X",
+                  "faulthandler",
+                  "-u",
+                  "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+                  "--worker",
+                  "7B",
+                  "--point",
+                  "7",
+                  "--basis",
+                  "def2-svp",
+                  "--mem",
+                  "2 GB",
+                  "--threads",
+                  "2",
+                  "--skip-tiers",
+                  "0",
+                  "--cube-r",
+                  "-1.0"
+                ],
+                "started": 1789056564.3894954,
+                "status": "exited",
+                "pid": 32752,
+                "exit_code": 0,
+                "finished": 1789056989.4637735
+              },
+              {
+                "command": [
+                  "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+                  "-X",
+                  "faulthandler",
+                  "-u",
+                  "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+                  "--worker",
+                  "7B",
+                  "--point",
+                  "8",
+                  "--basis",
+                  "def2-svp",
+                  "--mem",
+                  "2 GB",
+                  "--threads",
+                  "2",
+                  "--skip-tiers",
+                  "0",
+                  "--cube-r",
+                  "-1.0"
+                ],
+                "started": 1789057019.8405998,
+                "status": "exited",
+                "pid": 28372,
+                "exit_code": 0,
+                "finished": 1789057452.668086
               }
             ],
             "pending": [
@@ -3491,11 +3650,11 @@
             "OPENMM_CPU_THREADS": "2"
           },
           "pid": 23956,
-          "elapsed_s": 7698.516280412674,
+          "elapsed_s": 9666.751085042953,
           "attempt_path": "$CAMPAIGN\\phase14\\20260910T215505",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
-          "log_sha256": "5f5a3618f6d417457bc6c65ce07353019fa29faf2382a7ae3705d9b434cfe3c1",
+          "log_sha256": "c2ab5e632a987a2d87d89258f9d1e6625e0963d3388027f3cc37a3a539f87e17",
           "memory_hold_reported": false,
           "result_files": []
         }
@@ -3965,11 +4124,11 @@
             "OPENMM_CPU_THREADS": "2"
           },
           "pid": 30040,
-          "elapsed_s": 3209.6075711250305,
+          "elapsed_s": 5177.828428506851,
           "attempt_path": "$CAMPAIGN\\phase16\\20260910T230954",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
-          "log_sha256": "f786b23a065d9ab9596a7e4042dc0821a54aa86945d9e4b981757dc82d0b60a8",
+          "log_sha256": "0fce4fe26f22ed44c2da6baacfd485569dc14592bdeecfa3cf3cb100fe8f8dc3",
           "memory_hold_reported": false,
           "result_files": []
         }
@@ -6611,6 +6770,159 @@
       "text_normalized_or_redacted": false
     },
     {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T001953/audit.json",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T001953\\audit.json",
+      "source_sha256": "986adc40d3c682aa7662a29294b8a35f7bcc68350865acd763571668256ea003",
+      "published_sha256": "d05adc32d8ff8d30c39ce1c86bc780b8574ee83a260623b20bfc9f9135aefcdd",
+      "bytes": 692,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T001953/initial.xyz",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T001953\\initial.xyz",
+      "source_sha256": "bba9240ecb74a44c1949b8ea94d76dc188f7f6b75b14cd85b651632742817455",
+      "published_sha256": "bba9240ecb74a44c1949b8ea94d76dc188f7f6b75b14cd85b651632742817455",
+      "bytes": 1105,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T001953/refine_phase4_geometric.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T001953\\refine_phase4_geometric.py",
+      "source_sha256": "86432438666ef18e8c0e43fd18299575dd72f4b6de02b9e5b12ebb8720cfa24f",
+      "published_sha256": "86432438666ef18e8c0e43fd18299575dd72f4b6de02b9e5b12ebb8720cfa24f",
+      "bytes": 5439,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T001953/ts.log",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T001953\\ts.log",
+      "source_sha256": "88a10adfffaf7a9a8a215976b0749836d283b3e0dd42d3fdae28f56f5b779a75",
+      "published_sha256": "fdb8e96128572666b67fdb710a5ad567ec14d69c6f53aea3c429ba070fbda5fc",
+      "bytes": 37045,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T001953/verified_source.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T001953\\verified_source.py",
+      "source_sha256": "c29d8c194c3a75bf7380d5fffed6b86d753dedbd21b7530eceb1bf219fe73581",
+      "published_sha256": "c29d8c194c3a75bf7380d5fffed6b86d753dedbd21b7530eceb1bf219fe73581",
+      "bytes": 62818,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002059/audit.json",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059\\audit.json",
+      "source_sha256": "ba0ed21ae2a050fa00861c7a0b18ea08f3c3bbc6bb884d3070c44290e0ddb506",
+      "published_sha256": "18816258348d2003e5e5fd9b2345e221938f8941d6c58fbf1501b5b5d01d35c5",
+      "bytes": 4713,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002059/initial.xyz",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059\\initial.xyz",
+      "source_sha256": "bba9240ecb74a44c1949b8ea94d76dc188f7f6b75b14cd85b651632742817455",
+      "published_sha256": "bba9240ecb74a44c1949b8ea94d76dc188f7f6b75b14cd85b651632742817455",
+      "bytes": 1105,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002059/refine_phase4_geometric.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059\\refine_phase4_geometric.py",
+      "source_sha256": "996c412bfb16dbbb8d456a5fe6baac7b59635dd67af469c32a34416629e1ba11",
+      "published_sha256": "996c412bfb16dbbb8d456a5fe6baac7b59635dd67af469c32a34416629e1ba11",
+      "bytes": 5643,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002059/refined_candidate.xyz",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059\\refined_candidate.xyz",
+      "source_sha256": "c47fa96a504a81f18a6037a0a6a9fb950a0bb4cae9199aad419a667e3958fb82",
+      "published_sha256": "c47fa96a504a81f18a6037a0a6a9fb950a0bb4cae9199aad419a667e3958fb82",
+      "bytes": 1105,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002059/ts.log",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059\\ts.log",
+      "source_sha256": "27ac20af784d68dd337781f1e4a0a3db08c581541f63c2c3f20387875ce8a158",
+      "published_sha256": "4498130a597a64f70878b3de89fc5aa3f6d3ca58577bdb74240171b72468087e",
+      "bytes": 50643,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002059/verified_source.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002059\\verified_source.py",
+      "source_sha256": "c29d8c194c3a75bf7380d5fffed6b86d753dedbd21b7530eceb1bf219fe73581",
+      "published_sha256": "c29d8c194c3a75bf7380d5fffed6b86d753dedbd21b7530eceb1bf219fe73581",
+      "bytes": 62818,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002848/audit.json",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002848\\audit.json",
+      "source_sha256": "29162391df2b2644c6177d59320b33c053c40820531e8a47b3da456c96e6f5d0",
+      "published_sha256": "cda97c071afe607b3cbf70e9416ad18dd3453c7e712f33e81da63c747d6d2419",
+      "bytes": 1350,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002848/final_hessian.json",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002848\\final_hessian.json",
+      "source_sha256": "0993a2553b41016b26edcd61ae2c300cb32d977aeaec665a55789c74d071f8fa",
+      "published_sha256": "78bfa20b82d5b55476b680caa8f29b83044d437322e51aa2ddd6871bae88b834",
+      "bytes": 72045,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002848/initial.xyz",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002848\\initial.xyz",
+      "source_sha256": "bba9240ecb74a44c1949b8ea94d76dc188f7f6b75b14cd85b651632742817455",
+      "published_sha256": "bba9240ecb74a44c1949b8ea94d76dc188f7f6b75b14cd85b651632742817455",
+      "bytes": 1105,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002848/refine_phase4_geometric.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002848\\refine_phase4_geometric.py",
+      "source_sha256": "75aba58ac68f178e6945757c3c53c4fb978e8a620373394293f370ba660624f2",
+      "published_sha256": "75aba58ac68f178e6945757c3c53c4fb978e8a620373394293f370ba660624f2",
+      "bytes": 7192,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002848/refined_candidate.xyz",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002848\\refined_candidate.xyz",
+      "source_sha256": "c47fa96a504a81f18a6037a0a6a9fb950a0bb4cae9199aad419a667e3958fb82",
+      "published_sha256": "c47fa96a504a81f18a6037a0a6a9fb950a0bb4cae9199aad419a667e3958fb82",
+      "bytes": 1105,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase04/20260910T181601/tsopt_postaudit_20260911T002848/verified_source.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase04\\20260910T181601\\tsopt_postaudit_20260911T002848\\verified_source.py",
+      "source_sha256": "bd270b71d7c5e8828f0b4d90f3778ace688ed469707bfd58693e6652181598d1",
+      "published_sha256": "bd270b71d7c5e8828f0b4d90f3778ace688ed469707bfd58693e6652181598d1",
+      "bytes": 62938,
+      "text_normalized_or_redacted": false
+    },
+    {
       "path": "phase05/20260910T215504/run_status.json",
       "role": "process snapshot",
       "source": "$CAMPAIGN\\phase05\\20260910T215504\\rerun_status.json",
@@ -6893,9 +7205,9 @@
       "path": "phase07/20260910T181009/continuation_status.json",
       "role": "continuation provenance",
       "source": "$CAMPAIGN\\phase07\\20260910T181009\\continuation_status.json",
-      "source_sha256": "a4fd30a1d0dc607e0e2f4411e2f44dd10d91b71b8dc1c32ebafb089bb8e7805e",
-      "published_sha256": "7ebc28b7df4e904974bcbfe47f4a3c6a2475695e427ec79b3fa038305614567c",
-      "bytes": 19381,
+      "source_sha256": "01197141bf7826971864b88f00db002d465380511cb354e92dbff9d6ec7c4820",
+      "published_sha256": "0a604275106d034fe32174836ed1add10439a8503ddf0126fa95a34f4752a22f",
+      "bytes": 21629,
       "text_normalized_or_redacted": true
     },
     {
@@ -7583,13 +7895,41 @@
       "text_normalized_or_redacted": false
     },
     {
+      "path": "regressions/20260911T003519/molecular.log",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260911T003519\\molecular.log",
+      "source_sha256": "c07a61ba4856b60d619b637835ad95e02e9c254b337927bf593bb5ae8d64be8a",
+      "published_sha256": "c07a61ba4856b60d619b637835ad95e02e9c254b337927bf593bb5ae8d64be8a",
+      "bytes": 19529,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "regressions/20260911T003519/primary.log",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260911T003519\\primary.log",
+      "source_sha256": "59318748f3c5f37716f9eda20c629b90aacd4497304826d70123976a9918a7b3",
+      "published_sha256": "2d3ec028c938d252b32f0917924582648edc5ee4a57da8531afd9f4679686dc6",
+      "bytes": 20077,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "regressions/20260911T003519/regression_status.json",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260911T003519\\regression_status.json",
+      "source_sha256": "2a24ebe3c8f95ab18191a550cd891546a4d1a5614c2d075b80f2ecde767a3e4a",
+      "published_sha256": "1b6f49920ca3d970ce32c4041fa76344f90b2c8a1584b02a604c57e094f1630c",
+      "bytes": 20983,
+      "text_normalized_or_redacted": true
+    },
+    {
       "path": "regressions/20260911T000225/molecular.log",
       "role": "regression evidence",
       "source": "$SOURCE_ROOT\\results_rerun_audit\\20260911T000225\\molecular.log",
       "source_sha256": "d46cb737483cfadc029d764ea7daca2187c0303eaf568e348090f166569c7c4d",
       "published_sha256": "d46cb737483cfadc029d764ea7daca2187c0303eaf568e348090f166569c7c4d",
       "bytes": 18281,
-      "text_normalized_or_redacted": false
+      "text_normalized_or_redacted": false,
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260911T000225/primary.log",
@@ -7598,7 +7938,8 @@
       "source_sha256": "ab193a73af41a25a6430276091b7d807ac0372853734bb772de1b5d15a2f1b7f",
       "published_sha256": "a94fc42055b557c7a25baaf18d296b38f56dbc3b41d6852ce0965d0093252fe8",
       "bytes": 20077,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260911T000225/regression_status.json",
@@ -7607,7 +7948,8 @@
       "source_sha256": "f589f38300b920b96d6cef8ef9914d885691bfeb8ba02d12ed39b05a93c6e68f",
       "published_sha256": "eb6728c062b9776169d5e44e02ddc1b7d51c56080cce52a3f6eafd68ae7ae877",
       "bytes": 20288,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T233507/molecular.log",
@@ -7617,7 +7959,7 @@
       "published_sha256": "83ef457488e55cbe06d343d62d21ff81c4c6511bb0e8e6f76354f00677047a3f",
       "bytes": 8537,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T233507/primary.log",
@@ -7627,7 +7969,7 @@
       "published_sha256": "7248749d4b6dd2c024e8bd782b4c2b14a1918b41d04bebf4610958a50ef7a3c7",
       "bytes": 20077,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T233507/regression_status.json",
@@ -7637,7 +7979,7 @@
       "published_sha256": "0e6696ada226628d5183a0085260d5fc553f1e8497695b50606b5e183bfe4b19",
       "bytes": 18292,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "phase19/20260910T192525/run_status.json",
@@ -7647,7 +7989,7 @@
       "published_sha256": "35d7ee2f5ae83a2809e0e99662b108730f3d151dd5cc78da8ab043f85dc9c994",
       "bytes": 7862,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "phase19/20260910T192525/results_phase19/geometry_probe.json",
@@ -7657,7 +7999,7 @@
       "published_sha256": "ce772d252e94948ee2ac4931235e97e5b6abe7520568cfe4a1f4f13547777fe7",
       "bytes": 1005,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "phase19/20260910T192525/run.log",
@@ -7667,7 +8009,7 @@
       "published_sha256": "6c4ab94399652fbedcbb2bf1b5ed670cd6bb6d28537676a3e620dc9812fabe3b",
       "bytes": 947,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "phase19/20260910T192525/run_phase19_active_inference_denovo_enzyme.py",
@@ -7677,7 +8019,7 @@
       "published_sha256": "7ca9987f8f2085582d47b3535bbd1a096998176b8c6e55a3e2bb4b0b0e73286d",
       "bytes": 189047,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T232530/molecular.log",
@@ -7687,7 +8029,7 @@
       "published_sha256": "31f06d32061fe440b054c87344b9d002a27a569200f01b78dfe1256b499a4d34",
       "bytes": 5976,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T232530/primary.log",
@@ -7697,7 +8039,7 @@
       "published_sha256": "ea910bbe4b16d9d4a5c4afff309803168517acba0df772dc453c9c83c19c2cdf",
       "bytes": 20077,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T232530/regression_status.json",
@@ -7707,7 +8049,7 @@
       "published_sha256": "9cd49bf762a607e14681e36df2c3bf875348a27b60c8a7749ea45d2cc02aaf48",
       "bytes": 17388,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T231307/molecular.log",
@@ -7717,7 +8059,7 @@
       "published_sha256": "33b4933b26147a787f927db4881ab32235dbb93176a4d89545165fb369f9957e",
       "bytes": 5728,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T231307/primary.log",
@@ -7727,7 +8069,7 @@
       "published_sha256": "8424d83073212a4b73b109de36266ad3e1f94680ffa81f4ad34f78bd14b71093",
       "bytes": 20077,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T231307/regression_status.json",
@@ -7737,7 +8079,7 @@
       "published_sha256": "f36ce4a17dc942c68108a24d3282c2433bb006f339c327e520ccbcf45ff31c75",
       "bytes": 17164,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T225819/molecular.log",
@@ -7747,7 +8089,7 @@
       "published_sha256": "ef021d542514531583fd00ce13c5406ed417868530d7188cf124fcf852f41531",
       "bytes": 3617,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T225819/primary.log",
@@ -7757,7 +8099,7 @@
       "published_sha256": "526c3fb1e80ec982bab9e6a193494119ee50296f297989d5dd3095955c4a6eaf",
       "bytes": 20077,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     },
     {
       "path": "regressions/20260910T225819/regression_status.json",
@@ -7767,7 +8109,7 @@
       "published_sha256": "fbe8652dbe019b76d0890231daa1f02536d8bf19128cb18e929639b398943b6b",
       "bytes": 16473,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:36:16"
+      "retained_from_publication": "2026-09-11 00:03:23"
     }
   ],
   "omitted_large_files": [

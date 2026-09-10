@@ -151,6 +151,26 @@
       "files": {
         "results_phase7/checkpoints/7B/R2.05.json": "74d22feab58335e637476d1eec31010010b8671511e7f39a25f9d23a873c5bd3"
       }
+    },
+    "results_phase7/checkpoints/7B/R2.20.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7B/R2.20.json": "d15a48b4a9951ae881c17893b464091aa8081e85172fe90eacb0e735f538f79f",
+        "results_phase7/cubes/R2.20/Psi_a_35_35-A.cube": "9acf312951d8c3f2ecdd505d33a928af8af9d6238c89f07e465ffeb087b192df",
+        "results_phase7/cubes/R2.20/Psi_a_36_36-A.cube": "7b6c6b2e3b3f4d633b36163c337f5123629c816a1f1d8240ccd7539ba4e3f875"
+      }
+    },
+    "results_phase7/checkpoints/7B/R2.40.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7B/R2.40.json": "e4e3d2238f0ab0a0c32fcae424197275aeee9cb344c2be8707bb4493725a6e28"
+      }
+    },
+    "results_phase7/checkpoints/7B/R2.60.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7B/R2.60.json": "7d58eb7292050373f6d9d1bee80c3930badbc87239efc9632189e103406668c6"
+      }
     }
   },
   "commands": [
@@ -561,8 +581,66 @@
         "2.2"
       ],
       "started": 1789056137.840193,
-      "status": "running",
-      "pid": 22284
+      "status": "exited",
+      "pid": 22284,
+      "exit_code": 0,
+      "finished": 1789056564.0763094
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7B",
+        "--point",
+        "7",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2",
+        "--skip-tiers",
+        "0",
+        "--cube-r",
+        "-1.0"
+      ],
+      "started": 1789056564.3894954,
+      "status": "exited",
+      "pid": 32752,
+      "exit_code": 0,
+      "finished": 1789056989.4637735
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7B",
+        "--point",
+        "8",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2",
+        "--skip-tiers",
+        "0",
+        "--cube-r",
+        "-1.0"
+      ],
+      "started": 1789057019.8405998,
+      "status": "exited",
+      "pid": 28372,
+      "exit_code": 0,
+      "finished": 1789057452.668086
     }
   ],
   "pending": [

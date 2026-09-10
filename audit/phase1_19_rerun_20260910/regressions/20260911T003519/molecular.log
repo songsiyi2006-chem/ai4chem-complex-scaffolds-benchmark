@@ -1,0 +1,154 @@
+test_angular_cusp_removes_smooth_directional_background (test_phase10_13_rerun.RerunTests.test_angular_cusp_removes_smooth_directional_background) ... ok
+test_backend_path (test_phase10_13_rerun.RerunTests.test_backend_path) ... ok
+test_bath_charge_order_and_translation (test_phase10_13_rerun.RerunTests.test_bath_charge_order_and_translation) ... ok
+test_partial_reference_failure_is_explicit (test_phase10_13_rerun.RerunTests.test_partial_reference_failure_is_explicit) ... [refs] running Psi4 1.11 DETCI per-energy subprocesses (HF & FCI in aug-cc-pV{T,Q}Z, CCSD(T) in QZ -> CBS) ...
+[refs] good: HF=-1.100000 CCSD(T)=-1.100000 FCI/CBS=-1.100000
+ok
+test_phase12_selected_rows_own_storage (test_phase10_13_rerun.RerunTests.test_phase12_selected_rows_own_storage) ... ok
+test_plant_timestep_respects_short_remaining_interval (test_phase10_13_rerun.RerunTests.test_plant_timestep_respects_short_remaining_interval) ... ok
+test_sac_update (test_phase10_13_rerun.RerunTests.test_sac_update) ... ok
+test_scalar_training_both_modes (test_phase10_13_rerun.RerunTests.test_scalar_training_both_modes) ... [refs] bad hf/aug-cc-pVTZ: synthetic reference failure
+[refs] bad fci/aug-cc-pVTZ: synthetic reference failure
+[refs] bad hf/aug-cc-pVQZ: synthetic reference failure
+[refs] bad fci/aug-cc-pVQZ: synthetic reference failure
+[refs] bad ccsd(t)/aug-cc-pVQZ: synthetic reference failure
+[refs] bad: incomplete -> literature fallback
+[refs] Psi4 done in 0s (1/2 systems)
+      test step     0  loss = 2.689e-01
+      test step     1  loss = 3.910e-01
+      test step     0  loss = 1.006e+00
+      test step     1  loss = 7.165e-01
+ok
+test_vmc_ad_and_parameter_gradient (test_phase10_13_rerun.RerunTests.test_vmc_ad_and_parameter_gradient) ... ok
+test_all_wrong_hashes_and_state_rejected_without_mutation (test_phase15_checkpoint.CheckpointTests.test_all_wrong_hashes_and_state_rejected_without_mutation) ... ok
+test_atomic_replace_failure_keeps_prior_generation (test_phase15_checkpoint.CheckpointTests.test_atomic_replace_failure_keeps_prior_generation) ... ok
+test_corrupt_samples_rejected (test_phase15_checkpoint.CheckpointTests.test_corrupt_samples_rejected) ... ok
+test_cpu_real_checkpoint (test_phase15_checkpoint.CheckpointTests.test_cpu_real_checkpoint) ... ok
+test_explicit_flag_required (test_phase15_checkpoint.CheckpointTests.test_explicit_flag_required) ... ok
+test_full_sampling_defaults_unchanged (test_phase15_checkpoint.CheckpointTests.test_full_sampling_defaults_unchanged) ... ok
+test_incomplete_cannot_be_marked_complete (test_phase15_checkpoint.CheckpointTests.test_incomplete_cannot_be_marked_complete) ... ok
+test_real_roundtrip_continues_random_stream_and_samples (test_phase15_checkpoint.CheckpointTests.test_real_roundtrip_continues_random_stream_and_samples) ... ok
+test_all_six_converged_methods (test_phase7_resume.ResumeTests.test_all_six_converged_methods) ... ok
+test_changed_cache_rejected (test_phase7_resume.ResumeTests.test_changed_cache_rejected) ... ok
+test_nonfinite_and_unconverged_rejected (test_phase7_resume.ResumeTests.test_nonfinite_and_unconverged_rejected) ... ok
+test_path_escape_rejected (test_phase7_resume.ResumeTests.test_path_escape_rejected) ... ok
+test_near_zero_yield_bounded_canvas (test_phase5_plot.PlotTests.test_near_zero_yield_bounded_canvas) ... ok
+test_complete_dcd_recovery_writes_matching_metadata (test_phase3_completion.Stage4CompletionTests.test_complete_dcd_recovery_writes_matching_metadata) ... ok
+test_custom_steps_and_absolute_report_alignment (test_phase3_completion.Stage4CompletionTests.test_custom_steps_and_absolute_report_alignment) ... ok
+test_default_requires_200_frames (test_phase3_completion.Stage4CompletionTests.test_default_requires_200_frames) ... ok
+test_force_does_not_overwrite_existing_trajectory (test_phase3_completion.Stage4CompletionTests.test_force_does_not_overwrite_existing_trajectory) ... ok
+test_incomplete_or_excess_dcd_is_preserved (test_phase3_completion.Stage4CompletionTests.test_incomplete_or_excess_dcd_is_preserved) ... ok
+test_inconsistent_cache_is_preserved (test_phase3_completion.Stage4CompletionTests.test_inconsistent_cache_is_preserved) ... ok
+test_invalid_configuration_is_rejected_without_writes (test_phase3_completion.Stage4CompletionTests.test_invalid_configuration_is_rejected_without_writes) ... ok
+test_legacy_cache_missing_interval_is_not_trusted (test_phase3_completion.Stage4CompletionTests.test_legacy_cache_missing_interval_is_not_trusted) ... ok
+test_malformed_cache_is_preserved (test_phase3_completion.Stage4CompletionTests.test_malformed_cache_is_preserved) ... ok
+test_orphan_checkpoint_is_preserved (test_phase3_completion.Stage4CompletionTests.test_orphan_checkpoint_is_preserved) ... ok
+test_short_dcd_cannot_be_hidden_by_complete_cache (test_phase3_completion.Stage4CompletionTests.test_short_dcd_cannot_be_hidden_by_complete_cache) ... ok
+test_unreadable_trajectory_is_preserved (test_phase3_completion.Stage4CompletionTests.test_unreadable_trajectory_is_preserved) ... ok
+test_valid_cache_skips_replay (test_phase3_completion.Stage4CompletionTests.test_valid_cache_skips_replay) ... ok
+test_finite_queue_preserves_failures_and_continues (test_continuous_pending.QueueTests.test_finite_queue_preserves_failures_and_continues) ... ok
+test_unresolved_attempt_blocks_duplicate_run (test_continuous_pending.QueueTests.test_unresolved_attempt_blocks_duplicate_run) ... ok
+test_interior_gradient_matches_finite_difference (test_phase16_field.FieldTests.test_interior_gradient_matches_finite_difference) ... ok
+test_outside_support_force_is_zero (test_phase16_field.FieldTests.test_outside_support_force_is_zero) ... ok
+test_mixed_basis_is_not_a_curve (test_phase7_basis.BasisTests.test_mixed_basis_is_not_a_curve) ... ok
+test_unknown_basis_not_assumed (test_phase7_basis.BasisTests.test_unknown_basis_not_assumed) ... ok
+test_atomic_failure_preserves_old_checkpoint (test_phase12_checkpoint.CheckpointTests.test_atomic_failure_preserves_old_checkpoint) ... ok
+test_explicit_resume_and_old_attempt_preservation (test_phase12_checkpoint.CheckpointTests.test_explicit_resume_and_old_attempt_preservation) ...       [    5.9 s] step     0  loss = 5.056e-01
+      [    5.9 s] step     4  loss = 2.179e-01
+ok
+test_interrupted_resume_equals_continuous_both_modes (test_phase12_checkpoint.CheckpointTests.test_interrupted_resume_equals_continuous_both_modes) ...       [    5.9 s] step     0  loss = 5.055e-01
+      [    6.0 s] step     4  loss = 2.181e-01
+      [    6.0 s] step     0  loss = 5.055e-01
+   Resuming hamiltonian: 2/5 completed steps
+      [    6.0 s] step     4  loss = 2.181e-01
+   Resuming hamiltonian: 5/5 completed steps
+      [    6.1 s] step     0  loss = 5.055e-01
+      [    6.1 s] step     4  loss = 2.181e-01
+      [    6.1 s] step     0  loss = 2.719e-01
+      [    6.1 s] step     4  loss = 7.974e-02
+      [    6.2 s] step     0  loss = 2.719e-01
+   Resuming lyapunov: 2/5 completed steps
+      [    6.2 s] step     4  loss = 7.974e-02
+   Resuming lyapunov: 5/5 completed steps
+      [    6.3 s] step     0  loss = 2.719e-01
+      [    6.3 s] step     4  loss = 7.974e-02
+ok
+test_mismatches_and_missing_states_rejected_without_overwrite (test_phase12_checkpoint.CheckpointTests.test_mismatches_and_missing_states_rejected_without_overwrite) ...       [    6.3 s] step     0  loss = 5.056e-01
+      [    6.4 s] step     4  loss = 2.179e-01
+ok
+test_actual_aimed_rod_reaches_bound_without_moving_target_or_geometry (test_phase19_orientation.OrientationTests.test_actual_aimed_rod_reaches_bound_without_moving_target_or_geometry) ... fixture old_band_min=2.464216272 optimized_band_min=0.467965684 chi_fit=0.467965684 conditional_six_anchor_RMSD=0.191046191
+ok
+test_interior_and_unattainable_roll_keep_original (test_phase19_orientation.OrientationTests.test_interior_and_unattainable_roll_keep_original) ... ok
+test_production_wiring_and_collision_filter_retained (test_phase19_orientation.OrientationTests.test_production_wiring_and_collision_filter_retained) ... ok
+test_twelve_perpendicular_axes_attain_same_radial_bound (test_phase19_orientation.OrientationTests.test_twelve_perpendicular_axes_attain_same_radial_bound) ... ok
+test_real_torch_training_checkpoint_roundtrip_and_no_overwrite (test_phase15_16_19_rerun.RerunTests.test_real_torch_training_checkpoint_roundtrip_and_no_overwrite) ... ok
+test_binary_restores_exact_reference_rng_and_step (test_phase3_checkpoint.CheckpointTests.test_binary_restores_exact_reference_rng_and_step) ... ok
+test_corrupt_binary_and_alignment_fail_closed (test_phase3_checkpoint.CheckpointTests.test_corrupt_binary_and_alignment_fail_closed) ... ok
+test_data_write_failure_cannot_publish_manifest (test_phase3_checkpoint.CheckpointTests.test_data_write_failure_cannot_publish_manifest) ... ok
+test_flush_failure_and_nonfinite_metrics_never_publish (test_phase3_checkpoint.CheckpointTests.test_flush_failure_and_nonfinite_metrics_never_publish) ... ok
+test_identity_mismatches_rejected_without_mutation (test_phase3_checkpoint.CheckpointTests.test_identity_mismatches_rejected_without_mutation) ... ok
+test_manifest_replace_failure_preserves_prior_commit (test_phase3_checkpoint.CheckpointTests.test_manifest_replace_failure_preserves_prior_commit) ... ok
+test_report_boundaries_and_final_nonreport_chunk (test_phase3_checkpoint.CheckpointTests.test_report_boundaries_and_final_nonreport_chunk) ... ok
+test_resume_and_force_preserve_partial_without_engine_work (test_phase3_checkpoint.CheckpointTests.test_resume_and_force_preserve_partial_without_engine_work) ... ok
+test_uncommitted_dcd_advance_is_rejected (test_phase3_checkpoint.CheckpointTests.test_uncommitted_dcd_advance_is_rejected) ... ok
+test_climbing_reflects_and_ignores_spring (test_phase4_neb_diagnostic.DiagnosticMathTests.test_climbing_reflects_and_ignores_spring) ... ok
+test_extremum_weights (test_phase4_neb_diagnostic.DiagnosticMathTests.test_extremum_weights) ... ok
+test_flat_tangent_rejected (test_phase4_neb_diagnostic.DiagnosticMathTests.test_flat_tangent_rejected) ... ok
+test_fmax_is_max_atom_norm_not_component_or_band_norm (test_phase4_neb_diagnostic.DiagnosticMathTests.test_fmax_is_max_atom_norm_not_component_or_band_norm) ... ok
+test_global_tangent_not_per_atom_normalized (test_phase4_neb_diagnostic.DiagnosticMathTests.test_global_tangent_not_per_atom_normalized) ... ok
+test_monotonic_tangents (test_phase4_neb_diagnostic.DiagnosticMathTests.test_monotonic_tangents) ... ok
+test_nonfinite_and_shapes_rejected (test_phase4_neb_diagnostic.DiagnosticMathTests.test_nonfinite_and_shapes_rejected) ... ok
+test_path_and_spring_bound (test_phase4_neb_diagnostic.DiagnosticMathTests.test_path_and_spring_bound) ... ok
+test_projection_and_spring (test_phase4_neb_diagnostic.DiagnosticMathTests.test_projection_and_spring) ... ok
+test_tied_climber_not_silently_selected (test_phase4_neb_diagnostic.DiagnosticMathTests.test_tied_climber_not_silently_selected) ... ok
+test_both_production_paths_save_final_force_and_safe_export (test_phase4_neb_diagnostic.ProductionEvidenceTests.test_both_production_paths_save_final_force_and_safe_export) ... ok
+test_export_without_calculator_results (test_phase4_neb_diagnostic.ProductionEvidenceTests.test_export_without_calculator_results) ... ok
+test_same_state_force_snapshot_and_replay_no_evaluations (test_phase4_neb_diagnostic.ProductionEvidenceTests.test_same_state_force_snapshot_and_replay_no_evaluations) ... ok
+test_8a_full_grid_and_states_required (test_phase8_preflight.PreflightTests.test_8a_full_grid_and_states_required) ... ok
+test_cli_thread_default_and_required_worker_options (test_phase8_preflight.PreflightTests.test_cli_thread_default_and_required_worker_options) ... ok
+test_compiles_without_importing_engines (test_phase8_preflight.PreflightTests.test_compiles_without_importing_engines) ... ok
+test_failed_cached_qc_blocks_dynamics (test_phase8_preflight.PreflightTests.test_failed_cached_qc_blocks_dynamics) ... ok
+test_failed_rerun_removes_stale_module_and_success (test_phase8_preflight.PreflightTests.test_failed_rerun_removes_stale_module_and_success) ... ok
+test_fig_only_failure_is_persisted_and_retry_clears_error (test_phase8_preflight.PreflightTests.test_fig_only_failure_is_persisted_and_retry_clears_error) ... ok
+test_identity_changes_with_geometry_basis_and_smoke (test_phase8_preflight.PreflightTests.test_identity_changes_with_geometry_basis_and_smoke) ... ok
+test_incomplete_scan_cannot_advance_checkpoint (test_phase8_preflight.PreflightTests.test_incomplete_scan_cannot_advance_checkpoint) ... ok
+test_memory_hold_prevents_spawn (test_phase8_preflight.PreflightTests.test_memory_hold_prevents_spawn) ... ok
+test_qc_validation_rejects_missing_nonfinite_and_false_convergence (test_phase8_preflight.PreflightTests.test_qc_validation_rejects_missing_nonfinite_and_false_convergence) ... ok
+test_renderer_silent_skip_is_failure (test_phase8_preflight.PreflightTests.test_renderer_silent_skip_is_failure) ... ok
+test_td_spin_and_cube_indices_match_installed_api (test_phase8_preflight.PreflightTests.test_td_spin_and_cube_indices_match_installed_api) ... ok
+test_timeout_retains_both_streams_and_thread_dll_budget (test_phase8_preflight.PreflightTests.test_timeout_retains_both_streams_and_thread_dll_budget) ... ok
+test_xtb_uses_unpaired_electrons_and_rejects_nonzero_exit (test_phase8_preflight.PreflightTests.test_xtb_uses_unpaired_electrons_and_rejects_nonzero_exit) ... ok
+test_actual_loop_closure_depends_on_next_n_and_is_noncollinear (test_phase19_clashes.ClashTests.test_actual_loop_closure_depends_on_next_n_and_is_noncollinear) ... ok
+test_actual_scaffold_packing_registers_sidechains_and_penalizes_coincidence (test_phase19_clashes.ClashTests.test_actual_scaffold_packing_registers_sidechains_and_penalizes_coincidence) ... ok
+test_actual_source_helices_keep_real_backbone_collisions (test_phase19_clashes.ClashTests.test_actual_source_helices_keep_real_backbone_collisions) ... actual_source_overlapping_6_residue_rods: {'cutoff_A': 2.65, 'n_nonbonded_clashes': 124, 'n_legacy_nonlocal_clashes': 124, 'n_previously_hidden_local_clashes': 0, 'n_close_bonded_or_1_3_pairs_excluded': 100, 'pair_classes': {'backbone_backbone': 124, 'backbone_sidechain': 0, 'sidechain_sidechain': 0}, 'worst_pairs': [{'distance_A': 0.17320508075688712, 'atom1': [5, 'C'], 'atom2': [11, 'C'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688712, 'atom1': [5, 'O'], 'atom2': [11, 'O'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688737, 'atom1': [2, 'O'], 'atom2': [8, 'O'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688737, 'atom1': [3, 'C'], 'atom2': [9, 'C'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688737, 'atom1': [3, 'O'], 'atom2': [9, 'O'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688737, 'atom1': [4, 'CA'], 'atom2': [10, 'CA'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688737, 'atom1': [4, 'C'], 'atom2': [10, 'C'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688737, 'atom1': [4, 'O'], 'atom2': [10, 'O'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688737, 'atom1': [5, 'N'], 'atom2': [11, 'N'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688737, 'atom1': [5, 'CA'], 'atom2': [11, 'CA'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688756, 'atom1': [1, 'C'], 'atom2': [7, 'C'], 'category': 'backbone_backbone'}, {'distance_A': 0.17320508075688756, 'atom1': [1, 'O'], 'atom2': [7, 'O'], 'category': 'backbone_backbone'}], 'residue_index_base': 0, 'topology': 'standard_single_peptide_chain_no_crosslinks'}
+ok
+test_constructor_accepts_canonical_geometry_without_movement (test_phase19_clashes.ClashTests.test_constructor_accepts_canonical_geometry_without_movement) ... ok
+test_constructor_rejects_open_junctions_and_backbone_intersections (test_phase19_clashes.ClashTests.test_constructor_rejects_open_junctions_and_backbone_intersections) ... ok
+test_hydrogens_invalid_input_and_bounded_examples (test_phase19_clashes.ClashTests.test_hydrogens_invalid_input_and_bounded_examples) ... ok
+test_peptide_topology_matches_independent_shortest_path_oracle (test_phase19_clashes.ClashTests.test_peptide_topology_matches_independent_shortest_path_oracle) ... ok
+test_realization_and_probe_propagate_closure_failure_before_downstream (test_phase19_clashes.ClashTests.test_realization_and_probe_propagate_closure_failure_before_downstream) ... ok
+test_ring_closure_missing_intermediates_and_one_four_retained (test_phase19_clashes.ClashTests.test_ring_closure_missing_intermediates_and_one_four_retained) ... ok
+test_static_audit_preserves_historical_count_and_adds_diagnostic (test_phase19_clashes.ClashTests.test_static_audit_preserves_historical_count_and_adds_diagnostic) ... ok
+test_plot_failure_is_not_success (test_phase3_delivery.DeliveryTests.test_plot_failure_is_not_success) ... ok
+test_serialization_failure_is_not_success (test_phase3_delivery.DeliveryTests.test_serialization_failure_is_not_success) ... ok
+test_success (test_phase3_delivery.DeliveryTests.test_success) ... ok
+test_default_full_command_and_completion (test_prepared_phase3.PreparedTests.test_default_full_command_and_completion) ... ok
+test_failed_child_stays_failed (test_prepared_phase3.PreparedTests.test_failed_child_stays_failed) ... ok
+test_failed_queue_does_not_launch (test_prepared_phase3.PreparedTests.test_failed_queue_does_not_launch) ... ok
+test_mutated_source_or_input_refused (test_prepared_phase3.PreparedTests.test_mutated_source_or_input_refused) ... ok
+test_actual_assembly_reserves_remaining_loops_at_200_boundary (test_phase19_loop_closure.LoopClosureTests.test_actual_assembly_reserves_remaining_loops_at_200_boundary) ... ok
+test_both_right_endpoint_atoms_are_constraints (test_phase19_loop_closure.LoopClosureTests.test_both_right_endpoint_atoms_are_constraints) ... ok
+test_budget_unreachable_invalid_and_length_reject (test_phase19_loop_closure.LoopClosureTests.test_budget_unreachable_invalid_and_length_reject) ... ok
+test_exact_solution_and_determinism_leave_fixed_atoms_exact (test_phase19_loop_closure.LoopClosureTests.test_exact_solution_and_determinism_leave_fixed_atoms_exact) ... ok
+test_future_obstacle_and_exact_overlap_cannot_be_ignored (test_phase19_loop_closure.LoopClosureTests.test_future_obstacle_and_exact_overlap_cannot_be_ignored) ... ok
+test_no_torch_import_or_spline_fallback (test_phase19_loop_closure.LoopClosureTests.test_no_torch_import_or_spline_fallback) ... ok
+test_noncanonical_endpoint_requires_torsion_optimization (test_phase19_loop_closure.LoopClosureTests.test_noncanonical_endpoint_requires_torsion_optimization) ... ok
+test_realization_integrates_all_fixed_rods_and_keeps_pins (test_phase19_loop_closure.LoopClosureTests.test_realization_integrates_all_fixed_rods_and_keeps_pins) ... ok
+test_actual_hessian_parser_handles_utf8_headers (test_phase4_geometric_adapter.AdapterTests.test_actual_hessian_parser_handles_utf8_headers) ... ok
+test_energy_and_negative_force_units (test_phase4_geometric_adapter.AdapterTests.test_energy_and_negative_force_units) ... ok
+test_gradient_matches_analytic_energy_in_bohr (test_phase4_geometric_adapter.AdapterTests.test_gradient_matches_analytic_energy_in_bohr) ... ok
+
+----------------------------------------------------------------------
+Ran 114 tests in 10.541s
+
+OK

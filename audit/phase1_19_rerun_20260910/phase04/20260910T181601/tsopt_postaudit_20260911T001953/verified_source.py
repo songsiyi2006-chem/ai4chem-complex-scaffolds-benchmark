@@ -276,7 +276,7 @@ def xtb_optimize(numbers, positions, charge=0):
 
 
 def xtb_hessian(numbers, positions, charge=0):
-    """Numerical GFN2-xTB Hessian via `xtb --hess`. Returns dict with
+    """Analytic GFN2-xTB Hessian via `xtb --hess`. Returns dict with
     frequencies (cm^-1, negative = imaginary), normal-mode displacements
     (A, per mode, mass-weighted unweighted cartesian), thermo block text."""
     with tempfile.TemporaryDirectory() as td:
@@ -286,9 +286,9 @@ def xtb_hessian(numbers, positions, charge=0):
             lines.append(f"{z} {p[0]:.10f} {p[1]:.10f} {p[2]:.10f}")
         xyz.write_text("\n".join(lines) + "\n")
         cmd = [XTB_EXE, "m.xyz", "--hess", "--chrg", str(charge),
-               "--uhf", "0"]
+               "--mult", "1"]
         proc = subprocess.run(cmd, cwd=td, capture_output=True, text=True,
-                              encoding="utf-8", errors="replace", timeout=900)
+                              errors="replace", timeout=900)
         if proc.returncode != 0:
             raise RuntimeError(f"xtb Hessian failed rc={proc.returncode}: {proc.stderr[-300:]}")
         vib = Path(td) / "vibspectrum"
@@ -297,7 +297,7 @@ def xtb_hessian(numbers, positions, charge=0):
         if not vib.exists():
             raise RuntimeError(f"xtb --hess failed; tail: {out[-300:]}")
         freqs = []
-        for line in vib.read_text(encoding="utf-8", errors="replace").splitlines():
+        for line in vib.read_text().splitlines():
             if line.startswith("#") or line.startswith("$"):
                 continue
             parts = line.split()
@@ -309,7 +309,7 @@ def xtb_hessian(numbers, positions, charge=0):
         freqs = [f for f in freqs if abs(f) > 1e-6]
         modes = []
         if g98.exists():
-            txt = g98.read_text(encoding="utf-8", errors="replace")
+            txt = g98.read_text()
             blocks = re.findall(
                 r"\d+\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)\s+(-?[\d.]+)?",
                 txt.split("Atom AN")[-1]) if "Atom AN" in txt else []
@@ -356,7 +356,7 @@ def xtb_ts_refine(numbers, positions, charge=0):
 def _parse_g98_modes(g98_path):
     """g98.out blocks: 'Frequencies --  f1 f2 f3' then an 'Atom AN' table
     where each atom line carries 3 modes x (dx,dy,dz)."""
-    lines = Path(g98_path).read_text(encoding="utf-8", errors="replace").splitlines()
+    lines = Path(g98_path).read_text().splitlines()
     modes = []
     i = 0
     while i < len(lines):

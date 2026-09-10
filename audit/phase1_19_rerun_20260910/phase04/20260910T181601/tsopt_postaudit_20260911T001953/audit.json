@@ -1,0 +1,18 @@
+{
+  "status": "failed",
+  "method": "geomeTRIC Cartesian TS / GFN2-xTB",
+  "geometric_version": "1.1.1",
+  "charge": 0,
+  "multiplicity": 1,
+  "input_band_sha256": "17530240607656bf62c8be2d1c6e04a5e50b4491c2912d75fd9d4382cd9134df",
+  "initial_image": 4,
+  "source_sha256": "86432438666ef18e8c0e43fd18299575dd72f4b6de02b9e5b12ebb8720cfa24f",
+  "scope": "bounded_alternative_TS_refinement_not_default_NEB_rerun",
+  "max_iterations": 50,
+  "gradient_force_target_eV_A": 0.05,
+  "acceptance": "not_established",
+  "irc_performed": false,
+  "error": "GeomOptNotConvergedError('Optimizer.optimizeGeometry() failed to converge.')",
+  "elapsed_s": 13.17200000000048,
+  "energy_gradient_calls": 165
+}

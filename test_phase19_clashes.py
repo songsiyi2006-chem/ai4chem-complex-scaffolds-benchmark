@@ -102,26 +102,53 @@ class ClashTests(unittest.TestCase):
         self.assertEqual(result["clash_diagnostic"]["n_nonbonded_clashes"], 0)
         self.assertEqual(result["n_heavy"], 24)
 
-    def test_actual_loop_spline_ignores_next_n_and_can_be_collinear(self):
-        # Diagnose without changing closure, targets, sampling or running realization.
-        node = next(n for n in ast.walk(TREE) if isinstance(n, ast.FunctionDef)
-                    and n.name == "build_loop_spline")
-        ns = dict(np=np, math=math, cen=np.zeros(3))
-        exec(compile(ast.Module(body=[node], type_ignores=[]), str(SOURCE), "exec"), ns)
-        a, b = np.array([10., 0., 0.]), np.array([27.2, 0., 0.])
-        loop = ns["build_loop_spline"](a, b - 1., b)
-        changed_n = ns["build_loop_spline"](a, b + 20., b)
+    def test_actual_loop_closure_depends_on_next_n_and_is_noncollinear(self):
+        from scipy.optimize import least_squares
+        from unittest.mock import patch
+        ns = production_functions({"close_peptide_loop", "step_forward", "place_atom",
+                                   "require_constructed_backbone", "heavy_clash_diagnostic"})
+        chain = self.ns["build_canonical_helix"](5)
+        before = copy.deepcopy(chain)
+        initial_errors = []
+        def observed_solver(fun, initial, **kwargs):
+            # Observe an actual optimizer evaluation without an extra budget call.
+            first = True
+            def observed_residual(x):
+                nonlocal first
+                residual = fun(x)
+                if first:
+                    initial_errors.append(residual[:6].copy())
+                    first = False
+                return residual
+            return least_squares(observed_residual, initial, **kwargs)
+        with patch("scipy.optimize.least_squares", side_effect=observed_solver):
+            loop = ns["close_peptide_loop"](chain[0], chain[4], min_res=3, max_res=3)
+        self.assertEqual(len(loop), 3)
+        self.ns["require_constructed_backbone"]([chain[0]] + loop + [chain[4]])
+        projected = ns["step_forward"](loop, -57., -47.)
+        for name in ("N", "CA"):
+            np.testing.assert_allclose(projected[name], chain[4][name], atol=1e-6, rtol=0)
         angles = []
-        for r, other in zip(loop, changed_n):
-            for name in r:
-                np.testing.assert_array_equal(r[name], other[name])
+        for r in loop:
             n, c = r["N"] - r["CA"], r["C"] - r["CA"]
             angles.append(math.degrees(math.acos(np.clip(n @ c /
                           (np.linalg.norm(n) * np.linalg.norm(c)), -1., 1.))))
-        np.testing.assert_allclose(angles, 180.)
-        print("actual_source_collinear_spline_N_CA_C_angles_deg:", angles, flush=True)
-        with self.assertRaisesRegex(AssertionError, r"BACKBONE_REJECT.*N-CA-C=180"):
-            self.ns["require_constructed_backbone"](loop)
+        np.testing.assert_allclose(angles, 111.2, atol=1e-4, rtol=0)
+        original_error = initial_errors[0]
+        initial_errors.clear()
+        changed = copy.deepcopy(chain[4])
+        delta = np.array([2., 0., 0.])
+        changed["N"] += delta  # next CA and the left frame stay exactly fixed
+        with patch("scipy.optimize.least_squares", side_effect=observed_solver):
+            with self.assertRaisesRegex(AssertionError, "BACKBONE_REJECT: bounded peptide closure failed"):
+                ns["close_peptide_loop"](chain[0], changed, min_res=3, max_res=3,
+                                         max_evaluations=100)
+        # Prove N participates in the solver itself, not only the final guard.
+        np.testing.assert_allclose(initial_errors[0][:3] - original_error[:3], -10. * delta)
+        np.testing.assert_array_equal(initial_errors[0][3:], original_error[3:])
+        for old, new in zip(before, chain):
+            for name in old:
+                np.testing.assert_array_equal(old[name], new[name])
 
     def test_constructor_accepts_canonical_geometry_without_movement(self):
         atoms = self.ns["build_canonical_helix"](12)
@@ -148,9 +175,9 @@ class ClashTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, "invalid coordinates"):
             self.ns["require_constructed_backbone"](malformed)
 
-    def test_realization_rejects_actual_spline_before_downstream_gates(self):
+    def test_realization_and_probe_propagate_closure_failure_before_downstream(self):
         # Supply small deterministic rods at the assembly boundary, then execute
-        # the actual realization body and its spline; no flow, search or packing.
+        # actual realization/probe control flow with an explicit closure failure.
         from types import SimpleNamespace
         ns = production_functions({"realize_backbone", "require_constructed_backbone",
                                    "heavy_clash_diagnostic", "geometry_probe",
@@ -164,30 +191,43 @@ class ClashTests(unittest.TestCase):
         def check(condition, message):
             if not condition:
                 raise AssertionError(message)
-        def forbidden(*args):
-            raise RuntimeError("downstream torsion gate must not receive malformed backbone")
+        downstream_calls = []
+        closure_calls = []
+        failure = AssertionError("BACKBONE_REJECT: bounded peptide closure failed; injected fixture")
+        def failed_closure(*args, **kwargs):
+            closure_calls.append((args, kwargs))
+            raise failure
+        def forbidden(*args, **kwargs):
+            downstream_calls.append((args, kwargs))
+            raise RuntimeError("downstream must not receive a failed closure")
         ns.update(N_HELIX=8, N_HELIX_RES=48, HELIX_STARTS=list(range(0, 48, 6)),
                   HELIX_LENS=[6] * 8, MOTIF_POS=dict(GLU=7, TRP=25, ASN=36, SER=42),
                   tassert=check, place_free_bundle=lambda *a, **k: (rods, 0.),
                   _best_chain_order=lambda r: (list(range(8)), 1.335),
-                  kabsch=lambda p, x: (np.eye(3), np.zeros(3)), backbone_torsions=forbidden)
+                  kabsch=lambda p, x: (np.eye(3), np.zeros(3)), backbone_torsions=forbidden,
+                  close_peptide_loop=failed_closure)
         sample = dict(x=np.array([r["CA"] for r in chain]),
                       R=np.tile(np.eye(3), (48, 1, 1)), mask=np.zeros(48))
-        with self.assertRaisesRegex(AssertionError, "BACKBONE_REJECT: implement peptide closure") as caught:
+        with self.assertRaisesRegex(AssertionError, "BACKBONE_REJECT: bounded peptide closure failed") as caught:
             ns["realize_backbone"](sample, tz, np.random.default_rng(7))
-        print("actual_realization_fixture_rejection:", caught.exception, flush=True)
+        self.assertIs(caught.exception, failure)
+        self.assertEqual(len(closure_calls), 1)
         # The actual probe caller also stops, without producing a success JSON.
         # All expensive upstream generation remains replaced by the tiny fixture.
         ns.update(CONFIG=dict(SEED=7), S_PRIOR_MEAN=np.zeros(6), Theozyme=lambda s: tz,
                   design_sequence=forbidden, pack_sidechains=forbidden, static_fold_audit=forbidden)
-        with self.assertRaisesRegex(AssertionError, "BACKBONE_REJECT"):
+        with self.assertRaisesRegex(AssertionError, "BACKBONE_REJECT") as caught:
             ns["geometry_probe"]()
+        self.assertIs(caught.exception, failure)
+        self.assertEqual(len(closure_calls), 2)
+        self.assertEqual(downstream_calls, [])
         for old_rod, new_rod in zip(saved, rods):
             for old, new in zip(old_rod, new_rod):
                 for name in old:
                     np.testing.assert_array_equal(old[name], new[name])
         np.testing.assert_array_equal(tz.ca_glu, rods[1][1]["CA"])
         np.testing.assert_array_equal(tz.ca_trp, rods[4][1]["CA"])
+        np.testing.assert_array_equal(tz.n_don1, rods[6][0]["N"])
 
     def test_actual_scaffold_packing_registers_sidechains_and_penalizes_coincidence(self):
         # Compile the unchanged production scaffold block inside a small wrapper.

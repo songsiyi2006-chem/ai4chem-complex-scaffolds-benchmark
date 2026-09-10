@@ -2181,6 +2181,119 @@ def require_constructed_backbone(atoms):
     return dict(constructor_geometry_valid=True, backbone_clashes=0)
 
 
+def close_peptide_loop(previous, following, obstacles=(), min_res=2, max_res=8,
+                       max_evaluations=2400):
+    """Bounded deterministic internal-coordinate closure; never move endpoints.
+
+    Coordinates are angstroms, torsions degrees. The left carbonyl fixes the
+    first peptide frame; both right N and CA fix the final peptide frame.
+    Obstacles contain every other fixed/accepted backbone residue (excluding
+    the two endpoint residues). Return only newly built residues or reject.
+    The evaluation cap includes finite-difference calls, across all lengths
+    and starts, not just scipy's reported nfev. No feasibility guarantee.
+    """
+    from scipy.optimize import least_squares
+
+    if not (2 <= min_res <= max_res <= 8) or not (1 <= max_evaluations <= 10000):
+        raise ValueError("loop bounds require 2..8 residues and 1..10000 evaluations")
+    names = ("N", "CA", "C", "O")
+    fixed = [previous, following] + list(obstacles)
+    if len(fixed) + min_res > 200:
+        raise AssertionError("BACKBONE_REJECT: peptide closure exceeds 200 residues")
+    for r in fixed:
+        if any(n not in r or np.asarray(r[n]).shape != (3,) or
+               not np.isfinite(r[n]).all() for n in names):
+            raise AssertionError("BACKBONE_REJECT: invalid loop endpoint/obstacle")
+    obstacle_points = np.asarray([r[n] for r in fixed[2:] for n in names],
+                                 dtype=float).reshape(-1, 3)
+    target = np.array([following["N"], following["CA"]])
+    evaluations = 0
+    best_error = float("inf")
+
+    class EvaluationLimit(Exception):
+        pass
+
+    for size in range(min_res, min(max_res, 200 - len(fixed)) + 1):
+        # Rigorous contour upper bound; orientation may make it much shorter.
+        if np.linalg.norm(previous["C"] - following["N"]) > size * 4.318 + 1.335:
+            continue
+        # Independent graph-distance mask: N-CA-C-O, C-N(next); omit 1/2 bonds.
+        count = 4 * (size + 2)
+        graph = np.eye(count, dtype=int)
+        for i in range(size + 2):
+            for a, b in ((4*i, 4*i+1), (4*i+1, 4*i+2), (4*i+2, 4*i+3)):
+                graph[a, b] = graph[b, a] = 1
+            if i:
+                graph[4*i-2, 4*i] = graph[4*i, 4*i-2] = 1
+        moving = np.zeros(count, dtype=bool)
+        moving[4:-4] = True
+        pair_a, pair_b = np.where(np.triu((graph @ graph == 0) &
+                                         (moving[:, None] | moving[None, :]), 1))
+
+        def build(torsions):
+            loop = []
+            last = previous
+            for phi, psi in torsions.reshape(-1, 2):
+                last = step_forward([last], phi, psi)
+                loop.append(last)
+            next_n = place_atom(last["CA"], last["O"], last["C"],
+                                1.335, 122.6, 180.)
+            next_ca = place_atom(last["O"], last["C"], next_n, 1.458, 121.7, 0.)
+            return loop, np.array([next_n, next_ca])
+
+        def distances(loop):
+            points = np.array([r[n] for r in [previous] + loop + [following]
+                               for n in names])
+            local = np.linalg.norm(points[pair_a] - points[pair_b], axis=1)
+            external = np.linalg.norm(points[4:-4, None] - obstacle_points[None],
+                                       axis=-1).ravel()
+            return np.concatenate((local, external))
+
+        # Fixed seeds: canonical helix, then a beta/turn mixture. Each start
+        # has its own finite-difference-inclusive share of the total budget.
+        starts = [np.tile([-57., -47.], size),
+                  np.array([(-120., 130.) if i % 2 == 0 else (-65., -30.)
+                            for i in range(size)]).ravel()]
+        for initial in starts:
+            remaining_starts = 2 * (max_res - size + 1)
+            stop_at = evaluations + max(1, (max_evaluations - evaluations) // remaining_starts)
+
+            def residual(torsions):
+                nonlocal evaluations, best_error
+                if evaluations >= min(stop_at, max_evaluations):
+                    raise EvaluationLimit()
+                evaluations += 1
+                loop, end = build(torsions)
+                error = end - target
+                best_error = min(best_error, float(np.max(np.linalg.norm(error, axis=1))))
+                # Slight clearance buffer for numerical stability; acceptance
+                # still uses the unchanged strict 2.65 A constructor cutoff.
+                return np.concatenate((10. * error.ravel(),
+                                       np.maximum(2.67 - distances(loop), 0.)))
+
+            try:
+                result = least_squares(residual, initial, bounds=(-180., 180.),
+                                       max_nfev=80, ftol=1e-10, xtol=1e-10,
+                                       gtol=1e-10)
+            except EvaluationLimit:
+                continue
+            loop, end = build(result.x)
+            if np.max(np.linalg.norm(end - target, axis=1)) > 1e-6:
+                continue
+            if np.any(distances(loop) < 2.65):
+                continue
+            # Audit the real fixed endpoint coordinates, never substitute the
+            # predicted endpoint or Cartesian-snap a near solution into place.
+            try:
+                require_constructed_backbone([previous] + loop + [following])
+            except AssertionError:
+                continue
+            return loop
+    raise AssertionError("BACKBONE_REJECT: bounded peptide closure failed; "
+                         f"evaluations={evaluations}/{max_evaluations}, "
+                         f"best_endpoint_error_A={best_error:.6g}")
+
+
 def realize_backbone(flow_sample, tz, rng, _depth=0):
     """Stereochemical projection of one flow sample:
     (1) per-rod directions extracted from the generated Calpha trace (the
@@ -2189,7 +2302,7 @@ def realize_backbone(flow_sample, tz, rng, _depth=0):
         constellation; shell rods tangent to the active-site cage);
     (2) the chain ORDER solved by bitmask DP over the rods (minimize the
         worst junction gap);
-    (3) randomized-allowed-region loop closure (2-8 residues) at every
+    (3) bounded deterministic torsion loop closure (2-8 residues) at every
         junction;
     Asserts Ramachandran, omega, clash and chirality gates."""
     x, R, mask = flow_sample["x"], flow_sample["R"], flow_sample["mask"]
@@ -2264,67 +2377,20 @@ def realize_backbone(flow_sample, tz, rng, _depth=0):
         Rk, t = kabsch(P, x[lo:hi])
         fit_rmsds.append(float(np.sqrt(((P @ Rk.T + t - x[lo:hi]) ** 2)
                                        .sum(1).mean())))
-    # ---- loop closure by spline construction --------------------------------
-    # Loop Calpha positions are interpolated on a smooth path between the
-    # rod ends (~4.3 A spacing). Tangent-based N/C/O do NOT guarantee peptide
-    # closure or ideal internal geometry. Keep the candidate generator for
-    # diagnosis, but reject invalid output below; minimization is not a repair
-    # guarantee for broken covalent geometry or intersecting backbones.
-    def build_loop_spline(ca_prev, n_next, ca_next, placed_ca=None):
-        A = np.asarray(ca_prev, float)
-        B = np.asarray(ca_next, float)
-        d_AB = float(np.linalg.norm(B - A))
-        n_seg = max(2, int(round(d_AB / 4.3)))
-        mid = 0.5 * (A + B)
-        out = mid - cen
-        nrm = np.linalg.norm(out)
-        bow_dir = (out / nrm) if nrm > 1e-6 else np.array([0.0, 0.0, 1.0])
-        bow_mag = min(3.0, 0.18 * d_AB)
-        # choose the bow (direction sign + magnitude) that avoids clashes
-        # with the already-placed rod Calpha cloud
-        best_res, best_gap = None, -1.0
-        for bow in (bow_dir * bow_mag, -bow_dir * bow_mag,
-                    bow_dir * bow_mag * 0.4, -bow_dir * bow_mag * 0.4,
-                    np.zeros(3)):
-            res = []
-            cas = [A + (B - A) * (k / n_seg)
-                   + bow * math.sin(math.pi * k / n_seg)
-                   for k in range(1, n_seg)]
-            pts = [A] + cas + [B]
-            for j, sx in enumerate(cas):
-                prv = pts[j]
-                nxt = pts[j + 2]
-                d_in = prv - sx
-                d_in /= max(np.linalg.norm(d_in), 1e-9)
-                d_out = nxt - sx
-                d_out /= max(np.linalg.norm(d_out), 1e-9)
-                N = sx + 1.458 * d_in
-                C = sx + 1.525 * d_out
-                side = np.cross(d_out, d_in)
-                O = C + 1.231 * (0.6 * d_in - 0.4 * d_out
-                                 + 0.5 * side / max(np.linalg.norm(side),
-                                                    1e-9))
-                res.append(dict(N=N, CA=sx, C=C, O=O))
-            if placed_ca is not None and len(placed_ca):
-                Xl = np.array([q["CA"] for q in res])
-                dmin = float(np.linalg.norm(Xl[:, None, :]
-                                            - placed_ca[None, :, :],
-                                            axis=-1).min())
-                if dmin > best_gap:
-                    best_res, best_gap = res, dmin
-                if dmin >= 4.0:
-                    return res
-            else:
-                return res
-        return best_res if best_res is not None else res
-
+    # Close in internal coordinates; reserve two residues for each later gap.
+    # Every future rod is already fixed and must participate in collision checks.
     atoms = list(rods[order[0]])
     loop_sizes = []
     for k in range(1, N_HELIX):
-        placed = np.array([q["CA"] for q in atoms])
-        loop = build_loop_spline(atoms[-1]["CA"], rods[order[k]][0]["N"],
-                                 rods[order[k]][0]["CA"],
-                                 placed_ca=placed)
+        next_rod = rods[order[k]]
+        future = [r for h in order[k + 1:] for r in rods[h]]
+        max_loop = min(8, 200 - len(atoms) - len(next_rod) - len(future)
+                       - 2 * (N_HELIX - k - 1))
+        if max_loop < 2:
+            raise AssertionError("BACKBONE_REJECT: peptide closure exceeds 200 residues")
+        loop = close_peptide_loop(atoms[-1], next_rod[0],
+                                  atoms[:-1] + list(next_rod[1:]) + future,
+                                  max_res=max_loop)
         loop_sizes.append(len(loop))
         atoms += loop + list(rods[order[k]])
     # slot indices: walk the ordered CHAIN accumulating rod + loop lengths
