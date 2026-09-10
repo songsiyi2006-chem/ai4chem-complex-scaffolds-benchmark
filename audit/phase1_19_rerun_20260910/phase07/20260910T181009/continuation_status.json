@@ -365,6 +365,32 @@
       "pid": 7120,
       "exit_code": 0,
       "finished": 1789052532.860118
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7B",
+        "--point",
+        "1",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2",
+        "--skip-tiers",
+        "0",
+        "--cube-r",
+        "1.5"
+      ],
+      "started": 1789053823.0975192,
+      "status": "running",
+      "pid": 13744
     }
   ],
   "pending": [

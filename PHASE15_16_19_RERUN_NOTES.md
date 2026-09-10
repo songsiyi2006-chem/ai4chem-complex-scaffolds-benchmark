@@ -1,5 +1,20 @@
 # Phase 15 / 16 / 19 preparation and fresh-rerun status
 
+## Phase16 selftest domain correction (latest)
+
+The full 230954 attempt reported trilinear_grad_fd_maxerr=1.7673. Its random
+points used the same upper bound 2.8 nm on all axes although the test grid
+supports only 2.9/2.3/1.9 nm. Outside support, the implemented force is zero,
+while the clamped scalar can vary along other axes. Comparing them as if they
+were the same differentiable interior field is invalid. The selftest now
+samples strictly within the separate axis bounds. Two actual-source tests
+verify interior derivatives against finite differences and the separately
+specified zero-force boundary policy. The numerical kernel is unchanged.
+This does not prove a globally conservative boundary extension or full MDFF
+validity. Existing long-run source/output is preserved; its old selftest number
+must not be silently replaced. This diagnostic-only change needs no restart of
+ongoing trajectories. The tests pass in the molecular environment.
+
 2026-09-10. Coordinator initially allocated sequential **15 -> 19 -> 16**,
 then explicitly allocated a second slot for concurrent Phase19.
 Phase15 started at 13:54:07 in `../phase1-19-rerun-20260910/phase15/20260910T135407`.

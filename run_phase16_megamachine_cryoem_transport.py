@@ -1966,7 +1966,10 @@ def run_selftests():
           * np.cos(np.linspace(0, 2, 24))[None, :, None]
           * np.linspace(1, 2, 20)[None, None, :])
     tf2 = TrilinearField(g2, np.zeros(3), np.ones(3) * 0.1)
-    p2 = rng.uniform(0.12, 2.8, size=(40, 3))
+    # Compare derivatives strictly inside ALL three axes. Outside support the
+    # force is deliberately zero, whereas the clamped value can still vary
+    # tangentially; those are different boundary conventions, not an FD test.
+    p2 = rng.uniform(0.12, (tf2.n - 1) * tf2.voxel - 0.12, size=(40, 3))
     g_an, _ = tf2.gradients(p2)
     eps = 1e-5
     fd = np.array([(tf2.values(p2 + np.eye(3)[a] * eps)[0]

@@ -14,7 +14,7 @@ GROUPS={
     'primary': ['test_phase1_19_campaign','test_phase1_5_audit','test_phase6_10_audit',
                 'test_phase11_13_audit','test_phase14_17_audit','test_phase18_19_audit',
                 'test_phase3_5_rerun','test_phase6_8_rerun','test_phase15_16_19_rerun','test_phase17_rerun','test_phase14_rerun'],
-    'molecular': ['test_phase10_13_rerun', 'test_phase15_checkpoint', 'test_phase7_resume', 'test_phase5_plot', 'test_phase3_completion', 'test_continuous_pending',
+    'molecular': ['test_phase10_13_rerun', 'test_phase15_checkpoint', 'test_phase7_resume', 'test_phase5_plot', 'test_phase3_completion', 'test_continuous_pending', 'test_phase16_field',
                   'test_phase15_16_19_rerun.RerunTests.test_real_torch_training_checkpoint_roundtrip_and_no_overwrite'],
 }
 

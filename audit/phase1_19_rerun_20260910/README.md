@@ -1,6 +1,6 @@
 # Phase 1–19 fresh rerun evidence
 
-Snapshot: 2026-09-10 23:14:44
+Snapshot: 2026-09-10 23:26:39
 
 This is an ongoing computational audit, not an all-phases-pass or experimental-validation claim.
 本目录是持续重算的阶段性证据，不能解读为 19 个阶段全部通过。历史根目录结果没有被自动覆盖。
