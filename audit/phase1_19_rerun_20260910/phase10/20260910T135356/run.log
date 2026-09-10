@@ -1,0 +1,132 @@
+[13:54:02] ==============================================================================
+[13:54:02] PHASE 10 — MULTI-SCALE CONTINUOUS-FLOW CYBER-PHYSICAL DIGITAL TWIN
+[13:54:02]   mode=FULL  numpy 2.4.6 · torch 2.10.0
+[13:54:02] ==============================================================================
+[13:54:02] [0] Steady-state probe of the continuum plant (Module 10A/10D)...
+[13:54:02]     nominal SS: X=0.982 S=0.959 T_out=298.2 K ee=85.3% STY=6751 kg/m3/h dT_channel=5.08 K
+[13:54:02] [1] Training SAC agent (Module 10C) on domain-randomized fault episodes...
+$CAMPAIGN\phase10\20260910T135356\run_phase10_cyberphysical_flow_twin.py:1249: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\bld\libtorch_1780285602878\work\torch\csrc\autograd\generated\python_variable_methods.cpp:837.)
+  f"| α {float(agent.alpha):.3f} | {time.time()-t0:6.1f}s")
+[13:55:29]   SAC ep   10/110 | R̄   442.49 | Ȳ 0.876 | peak dT̄  27.6 K | α 0.900 |   84.0s
+[13:56:40]   SAC ep   20/110 | R̄   447.06 | Ȳ 0.918 | peak dT̄  14.0 K | α 0.767 |  154.9s
+[13:58:04]   SAC ep   30/110 | R̄   442.31 | Ȳ 0.906 | peak dT̄  18.1 K | α 0.654 |  238.8s
+[13:59:44]   SAC ep   40/110 | R̄   447.77 | Ȳ 0.912 | peak dT̄  13.8 K | α 0.559 |  339.3s
+[14:01:56]   SAC ep   50/110 | R̄   441.57 | Ȳ 0.917 | peak dT̄  18.7 K | α 0.477 |  471.4s
+[14:03:31]   SAC ep   60/110 | R̄   441.52 | Ȳ 0.912 | peak dT̄  19.5 K | α 0.408 |  566.1s
+[14:04:47]   SAC ep   70/110 | R̄   450.00 | Ȳ 0.917 | peak dT̄  14.9 K | α 0.348 |  642.7s
+[14:06:03]   SAC ep   80/110 | R̄   449.12 | Ȳ 0.910 | peak dT̄  19.0 K | α 0.298 |  718.6s
+[14:07:50]   SAC ep   90/110 | R̄   430.16 | Ȳ 0.912 | peak dT̄  26.6 K | α 0.255 |  825.3s
+[14:09:09]   SAC ep  100/110 | R̄   453.54 | Ȳ 0.905 | peak dT̄  19.1 K | α 0.219 |  904.3s
+[14:10:18]   SAC ep  110/110 | R̄   451.71 | Ȳ 0.898 | peak dT̄  15.3 K | α 0.188 |  972.9s
+[14:10:18]     training done in 973s (110 episodes)
+[14:10:18] [2] Validation suite on held-out high-fidelity episodes...
+[14:10:26]     [episode] finished: cum yield 0.912, peak dT 21.5 K, final dP 0.27 bar
+[14:10:34]     [episode] finished: cum yield 0.889, peak dT 16.8 K, final dP 0.27 bar
+[14:10:42]     [episode] finished: cum yield 0.913, peak dT 13.3 K, final dP 0.50 bar
+[14:11:18]     [episode] finished: cum yield 0.913, peak dT 60.5 K, final dP 0.27 bar
+[14:11:25]     [episode] finished: cum yield 0.913, peak dT 13.3 K, final dP 0.27 bar
+[14:11:33]     [episode] finished: cum yield 0.890, peak dT 17.5 K, final dP 0.27 bar
+[14:11:41]     [episode] finished: cum yield 0.888, peak dT 23.0 K, final dP 0.57 bar
+[14:11:49]     [episode] finished: cum yield 0.913, peak dT 13.3 K, final dP 0.27 bar
+[14:11:49]     open_loop  : peak dT  22.4±14.8 K | Y  90.4% | S  96.4% | dT>40K in 1/8 eps
+[14:11:57]     [episode] finished: cum yield 0.928, peak dT 8.0 K, final dP 0.32 bar
+[14:12:06]     [episode] finished: cum yield 0.909, peak dT 8.5 K, final dP 0.33 bar
+[14:12:14]     [episode] finished: cum yield 0.931, peak dT 8.2 K, final dP 0.71 bar
+[14:12:23]     [episode] finished: cum yield 0.929, peak dT 23.0 K, final dP 0.36 bar
+[14:12:31]     [episode] finished: cum yield 0.930, peak dT 8.2 K, final dP 0.34 bar
+[14:12:40]     [episode] finished: cum yield 0.914, peak dT 8.4 K, final dP 0.33 bar
+[14:12:49]     [episode] finished: cum yield 0.913, peak dT 8.7 K, final dP 0.75 bar
+[14:12:58]     [episode] finished: cum yield 0.929, peak dT 8.5 K, final dP 0.36 bar
+[14:12:58]     sac_only   : peak dT  10.2± 4.9 K | Y  92.3% | S  97.2% | dT>40K in 0/8 eps
+[14:13:08]     [episode] finished: cum yield 0.928, peak dT 8.0 K, final dP 0.32 bar
+[14:13:19]     [episode] finished: cum yield 0.909, peak dT 8.5 K, final dP 0.33 bar
+[14:13:28]     [episode] finished: cum yield 0.931, peak dT 8.2 K, final dP 0.71 bar
+[14:13:31]     [episode] t=  765.0s  THERMAL_ALARM -> dilute-quench flush
+[14:13:31]     [episode] t=  770.0s  excursion arrested -> guided recovery ramp
+[14:13:33]     [episode] t= 1275.0s  THERMAL_ALARM -> dilute-quench flush
+[14:13:33]     [episode] t= 1280.0s  excursion peak passed - temperature falling
+[14:13:33]     [episode] t= 1355.0s  excursion arrested -> guided recovery ramp
+[14:13:37]     [episode] finished: cum yield 0.917, peak dT 14.0 K, final dP 0.32 bar
+[14:13:47]     [episode] finished: cum yield 0.930, peak dT 8.2 K, final dP 0.34 bar
+[14:13:57]     [episode] finished: cum yield 0.914, peak dT 8.4 K, final dP 0.33 bar
+[14:14:08]     [episode] finished: cum yield 0.913, peak dT 8.7 K, final dP 0.75 bar
+[14:14:18]     [episode] finished: cum yield 0.929, peak dT 8.5 K, final dP 0.36 bar
+[14:14:18]     sac_shield : peak dT   9.1± 1.9 K | Y  92.1% | S  97.3% | dT>40K in 0/8 eps
+[14:14:18] [3] Acceptance demo on the 3600 s disturbance timeline (hi-fi grid)...
+[14:14:20]     [open-loop] t=  180.0s dT= 13.0K dP= 0.27bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.585 S=0.999 mode=open-loop
+[14:14:21]     [open-loop] t=  360.0s dT= 12.9K dP= 0.27bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.762 S=0.999 mode=open-loop
+[14:14:22]     [open-loop] t=  540.0s dT= 13.0K dP= 0.27bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.821 S=0.999 mode=open-loop
+[14:14:23]     [open-loop] t=  720.0s dT= 14.8K dP= 0.24bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.833 S=0.999 mode=open-loop
+[14:14:24]     [open-loop] t=  900.0s dT= 12.8K dP= 0.27bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.867 S=0.999 mode=open-loop
+[14:14:25]     [open-loop] t= 1080.0s dT= 13.0K dP= 0.27bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.879 S=0.999 mode=open-loop
+[14:14:26]     [open-loop] t= 1260.0s dT=  6.8K dP= 0.27bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.887 S=0.999 mode=open-loop
+[14:14:28]     [open-loop] t= 1440.0s dT=  8.5K dP= 0.26bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.870 S=0.997 mode=open-loop
+[14:14:29]     [open-loop] t= 1620.0s dT= 15.1K dP= 0.27bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.863 S=0.999 mode=open-loop
+[14:14:30]     [open-loop] t= 1800.0s dT= 12.7K dP= 0.27bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.871 S=0.999 mode=open-loop
+[14:14:31]     [open-loop] t= 1980.0s dT= 13.0K dP= 0.28bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.877 S=0.999 mode=open-loop
+[14:14:32]     [open-loop] t= 2160.0s dT= 12.9K dP= 0.32bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.882 S=0.999 mode=open-loop
+[14:14:34]     [open-loop] t= 2340.0s dT= 12.9K dP= 0.42bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.886 S=0.999 mode=open-loop
+[14:14:35]     [open-loop] t= 2520.0s dT= 21.9K dP= 0.50bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.890 S=0.999 mode=open-loop
+[14:14:43]     [open-loop] t= 2700.0s dT= 57.0K dP= 0.49bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.894 S=1.000 mode=open-loop
+[14:15:11]     [open-loop] t= 2880.0s dT= 68.7K dP= 0.47bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.897 S=0.077 mode=open-loop
+[14:16:00]     [open-loop] t= 3060.0s dT= 71.3K dP= 0.46bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.899 S=0.000 mode=open-loop
+[14:16:56]     [open-loop] t= 3240.0s dT= 71.5K dP= 0.43bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.901 S=0.000 mode=open-loop
+[14:17:53]     [open-loop] t= 3420.0s dT= 71.0K dP= 0.40bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.904 S=0.000 mode=open-loop
+[14:18:49]     [open-loop] t= 3600.0s dT= 70.5K dP= 0.36bar QA=3.60 QB=2.40 Qcat=1.20 jf=1.00 P=  6.0bar Y=0.905 S=0.000 mode=open-loop
+[14:18:49]     [open-loop] finished: cum yield 0.905, peak dT 71.6 K, final dP 0.36 bar
+[14:18:51]     [controlled] t=  180.0s dT=  4.8K dP= 0.37bar QA=3.42 QB=2.99 Qcat=3.55 jf=2.65 P= 20.5bar Y=0.714 S=0.999 mode=ARMED
+[14:18:53]     [controlled] t=  360.0s dT=  5.3K dP= 0.40bar QA=2.71 QB=4.24 Qcat=3.77 jf=2.13 P= 18.0bar Y=0.818 S=0.999 mode=ARMED
+[14:18:55]     [controlled] t=  540.0s dT=  7.2K dP= 0.35bar QA=2.87 QB=2.95 Qcat=3.46 jf=2.20 P= 17.0bar Y=0.858 S=0.999 mode=ARMED
+[14:18:57]     [controlled] t=  720.0s dT=  5.1K dP= 0.31bar QA=3.55 QB=2.98 Qcat=1.73 jf=2.14 P= 16.3bar Y=0.885 S=0.999 mode=ARMED
+[14:18:58]     [controlled] t=  900.0s dT=  6.2K dP= 0.37bar QA=3.24 QB=4.09 Qcat=2.61 jf=2.49 P= 19.7bar Y=0.899 S=0.999 mode=ARMED
+[14:19:00]     [controlled] t= 1080.0s dT=  6.8K dP= 0.29bar QA=3.72 QB=2.05 Qcat=1.93 jf=1.52 P= 18.7bar Y=0.903 S=0.999 mode=ARMED
+[14:19:01]     [controlled] t= 1260.0s dT=  4.3K dP= 0.40bar QA=3.06 QB=4.35 Qcat=3.30 jf=2.15 P= 16.3bar Y=0.911 S=0.998 mode=ARMED
+[14:19:03]     [controlled] t= 1440.0s dT=  4.0K dP= 0.34bar QA=3.55 QB=2.96 Qcat=2.59 jf=2.12 P= 16.2bar Y=0.899 S=0.998 mode=ARMED
+[14:19:05]     [controlled] t= 1620.0s dT=  6.9K dP= 0.39bar QA=3.98 QB=2.91 Qcat=3.56 jf=2.70 P= 20.0bar Y=0.888 S=0.999 mode=ARMED
+[14:19:07]     [controlled] t= 1800.0s dT=  6.3K dP= 0.38bar QA=3.30 QB=4.32 Qcat=2.55 jf=2.07 P= 16.6bar Y=0.896 S=0.998 mode=ARMED
+[14:19:09]     [controlled] t= 1980.0s dT=  4.9K dP= 0.29bar QA=3.50 QB=2.40 Qcat=1.45 jf=2.32 P= 16.9bar Y=0.901 S=0.999 mode=ARMED
+[14:19:10]     [controlled] t= 2160.0s dT=  5.4K dP= 0.45bar QA=2.60 QB=4.52 Qcat=2.81 jf=2.85 P= 17.2bar Y=0.907 S=0.999 mode=ARMED
+[14:19:12]     [controlled] t= 2340.0s dT=  5.6K dP= 0.50bar QA=2.40 QB=2.35 Qcat=3.60 jf=2.15 P= 18.2bar Y=0.909 S=0.999 mode=ARMED
+[14:19:14]     [controlled] t= 2520.0s dT=  6.7K dP= 0.61bar QA=3.38 QB=2.93 Qcat=2.37 jf=1.83 P= 16.2bar Y=0.913 S=0.999 mode=ARMED
+[14:19:15]     [controlled] t= 2615.0s  THERMAL_ALARM -> dilute-quench flush
+[14:19:15]     [controlled] t= 2625.0s  excursion peak passed - temperature falling
+[14:19:15]     [controlled] t= 2655.0s  excursion arrested -> guided recovery ramp
+[14:19:15]     [controlled] t= 2700.0s dT= 10.7K dP= 0.46bar QA=0.72 QB=4.48 Qcat=1.41 jf=2.72 P= 23.9bar Y=0.923 S=0.999 mode=RAMP
+[14:19:16]     [controlled] t= 2855.0s  re-ignition detected -> re-quench
+[14:19:16]     [controlled] t= 2880.0s dT= 16.1K dP= 0.40bar QA=1.20 QB=4.50 Qcat=0.05 jf=3.00 P= 17.9bar Y=0.921 S=1.000 mode=QUENCH
+[14:19:16]     [controlled] t= 2900.0s  excursion arrested -> guided recovery ramp
+[14:19:16]     [controlled] t= 2915.0s  re-ignition detected -> re-quench
+[14:19:17]     [controlled] t= 2955.0s  excursion arrested -> guided recovery ramp
+[14:19:17]     [controlled] t= 2970.0s  re-ignition detected -> re-quench
+[14:19:17]     [controlled] t= 2975.0s  excursion arrested -> guided recovery ramp
+[14:19:17]     [controlled] t= 2980.0s  re-ignition detected -> re-quench
+[14:19:17]     [controlled] t= 3025.0s  excursion arrested -> guided recovery ramp
+[14:19:17]     [controlled] t= 3040.0s  re-ignition detected -> re-quench
+[14:19:18]     [controlled] t= 3060.0s dT= 19.8K dP= 0.39bar QA=1.20 QB=4.50 Qcat=0.05 jf=3.00 P= 22.4bar Y=0.920 S=1.000 mode=QUENCH
+[14:19:18]     [controlled] t= 3085.0s  excursion arrested -> guided recovery ramp
+[14:19:18]     [controlled] t= 3100.0s  re-ignition detected -> re-quench
+[14:19:19]     [controlled] t= 3195.0s  excursion arrested -> guided recovery ramp
+[14:19:19]     [controlled] t= 3210.0s  re-ignition detected -> re-quench
+[14:19:19]     [controlled] t= 3240.0s dT= 20.2K dP= 0.39bar QA=1.20 QB=4.50 Qcat=0.05 jf=3.00 P= 18.6bar Y=0.917 S=1.000 mode=QUENCH
+[14:19:20]     [controlled] t= 3330.0s  excursion arrested -> guided recovery ramp
+[14:19:20]     [controlled] t= 3345.0s  re-ignition detected -> re-quench
+[14:19:21]     [controlled] t= 3420.0s dT= 18.8K dP= 0.39bar QA=1.20 QB=4.50 Qcat=0.05 jf=3.00 P= 17.5bar Y=0.910 S=1.000 mode=QUENCH
+[14:19:21]     [controlled] t= 3480.0s  excursion arrested -> guided recovery ramp
+[14:19:21]     [controlled] t= 3495.0s  re-ignition detected -> re-quench
+[14:19:22]     [controlled] t= 3600.0s dT= 18.6K dP= 0.39bar QA=1.20 QB=4.50 Qcat=0.05 jf=3.00 P= 17.6bar Y=0.904 S=0.999 mode=QUENCH
+[14:19:22]     [controlled] finished: cum yield 0.904, peak dT 21.3 K, final dP 0.39 bar
+[14:19:22]     open-loop : peak dT 71.6 K (>40 K: True), tail S 94.0%
+[14:19:22]     controlled: peak dT 21.3 K (>40 K: False), tail S 99.3%, alarm 2615.002085290606 s -> arrested 2625.002085290606 s (arrest dt = 10.0 s)
+[14:19:22] [4] Generating operando PAT telemetry (Raman / UV-Vis / dP)...
+[14:19:22]     PAT deconvolution audit: mean |rel err| 0.5%, max 4.7%
+[14:19:22] [5] Techno-economic / LCA steady-state grid (Module 10D)...
+[14:19:57]     252 design points, Pareto front size 5; cheapest $273/kg @ STY 2767 kg/m3/h, CI 44.5 kgCO2e/kg, E 0.85
+[14:19:57] [6] Rendering 300-DPI figures...
+$CAMPAIGN\phase10\20260910T135356\run_phase10_cyberphysical_flow_twin.py:1777: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  fig.tight_layout(rect=(0, 0, 1, 0.965))
+$CAMPAIGN\phase10\20260910T135356\run_phase10_cyberphysical_flow_twin.py:1871: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  fig.tight_layout(rect=(0, 0, 1, 0.975))
+$CAMPAIGN\phase10\20260910T135356\run_phase10_cyberphysical_flow_twin.py:1976: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  fig.tight_layout(rect=(0, 0, 1, 0.97))
+[14:20:07] [✓] Phase 10 complete — results in results_phase10/, figures in figures_phase10/

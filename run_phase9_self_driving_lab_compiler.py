@@ -6,11 +6,10 @@ run_phase9_self_driving_lab_compiler.py
 PHASE 9 — THE SELF-DRIVING LAB COMPILER
 ROBOTIC HARDWARE EXECUTION & BAYESIAN CLOSED-LOOP DIGITAL TWIN
 
-The pipeline pivots the project from silicon prediction to embodied execution:
-the Phase-4/5 synthesis world model is compiled into physically validated
-robotic control code, optimized inside a safety-constrained Bayesian
-active-learning campaign, and closed through an automated in-line analytical
-telemetry loop.  No human touches a pipette anywhere in the cycle.
+This is a software-only reactor/HPLC simulation and protocol compiler.
+No robot or analytical instrument is operated. Assigned legacy Phase-5-like
+parameters are illustrative, not loaded or validated by this run. Analytic
+guardrails are model screens, not wet-lab safety certification.
 
 Module 9A — Hardware-Executable Robotic Protocol Compiler
 ---------------------------------------------------------
@@ -142,7 +141,8 @@ VAR_LABELS = {
 # --------------------------------------------------------------------------- #
 
 PHASE5_ANCHOR = {
-    "source_results": "results_phase5/phase5_results.json",
+    "source_results": None,
+    "parameter_provenance": "Assigned legacy surrogate parameters; no Phase5 results ingested or experimentally validated",
     "reaction": "2-methyl-azirino[1,2-a]indole -> (R)-3-methyl-2,3-dihydroquinoline-imine "
                 "+ (S)-enantiomer (C10H11N asymmetric ring expansion)",
     "catalyst": "3,3'-bis(4-CF3-phenyl)/3-[(iPr)phenyl]-BINOL phosphoric acid (Phase-5C designed winner)",
@@ -153,7 +153,7 @@ PHASE5_ANCHOR = {
     "reference_298K_yield_pct": 95.39,         # module D reference_298K_winner
     "reference_298K_ee_pct": 85.27,            # module D reference_298K_winner
     "dG_rxn_kcal_mol": -2.9412558148324024,
-    "substrate_MW": 171.2,                     # 2-methyl-azirino[1,2-a]indole (C11H9N)
+    "substrate_MW": 145.20,                    # C10H11N, atom-conserving ring-expansion model
     "product_MW": 145.20,                      # C10H11N
     "catalyst_MW": 634.62,
     "solvent_system": "DCM / toluene blend, 200 uL micro-scale wells",
@@ -178,7 +178,9 @@ SURROGATE = {
     "quench_volume_uL": 20.0,       # 15 uL MeOH + 5 uL IS stock
     "is_stock_mM": 200.0,           # 1,3,5-trimethoxybenzene in DMSO
     "rho_dcm": 1.326, "rho_tol": 0.867, "rho_meoh": 0.792,
-    "cp_dcm": 0.120, "cp_tol": 1.70,             # J/(g·K)
+    # NIST SRD69 CH2Cl2: Cp(liquid,298.15K)=102.3 J/mol/K; MW=84.93 g/mol.
+    # https://webbook.nist.gov/cgi/cbook.cgi?ID=C75092&Mask=2&Units=SI
+    "cp_dcm": 102.3 / 84.93, "cp_tol": 1.70,   # J/(g·K), constant-T approximation
     "catalyst_price_usd_mmol": 480.0,            # research-scale custom CPA (assigned)
     "yield_noise_pct": 1.2,
     "ee_noise_pct": 1.5,
@@ -251,18 +253,22 @@ def true_objectives(x: np.ndarray, rng: np.random.Generator, noisy: bool = True)
     agg = max(0.0, (cat - SURROGATE["cat_aggregation_molpct"])
               / (10.0 - SURROGATE["cat_aggregation_molpct"])) ** 2
     f_cat = (cat / 100.0) * (1.0 - SURROGATE["cat_aggregation_depth"] * agg)
-    x_cat = 1.0 - math.exp(-k_cat * f_cat * t_h * 3600.0)
 
     # racemic uncatalyzed background
     k_bg = eyring_rate(SURROGATE["dG_bg_kcal"], T_c)
-    x_bg = 1.0 - math.exp(-k_bg * t_h * 3600.0)
+    # Competing first-order pathways consume the SAME substrate pool.
+    k_eff = k_cat * f_cat
+    k_sum = k_eff + k_bg
+    conversion = -math.expm1(-k_sum * t_h * 3600.0)
+    x_cat = conversion * k_eff / k_sum if k_sum > 0 else 0.0
+    x_bg = conversion * k_bg / k_sum if k_sum > 0 else 0.0
 
     # side network (elimination / polymerization, hot & DCM-rich accelerated)
     side = SURROGATE["side_pre"] * math.exp((T_c - 25.0) / SURROGATE["side_T_scale_K"]) \
         * (1.35 - SURROGATE["side_phi_gain"] * phi_tol)
     side = float(np.clip(side, 0.0, 0.45))
 
-    x_total = x_cat * 0.96 + x_bg * 0.04
+    x_total = x_cat + x_bg
     yield_pct = 100.0 * x_total * (1.0 - side)
 
     # -- enantioselectivity: 1.5 kcal/mol face split, diluted by background --
@@ -274,11 +280,11 @@ def true_objectives(x: np.ndarray, rng: np.random.Generator, noisy: bool = True)
     # -- E-factor: well-scale mass balance (200 uL basis) --------------------
     mix = solvent_mixture_properties(phi_tol)
     v_mix = (SURROGATE["well_volume_uL"] - SURROGATE["substrate_volume_uL"]
-             - 4.0 * cat - SURROGATE["quench_volume_uL"])
+             - 8.0 * cat - SURROGATE["quench_volume_uL"])
     m_solvent = v_mix * (phi_tol * SURROGATE["rho_tol"] + (1 - phi_tol) * SURROGATE["rho_dcm"]) \
-        + SURROGATE["substrate_volume_uL"] * SURROGATE["rho_tol"] \
+        + (SURROGATE["substrate_volume_uL"] + 8.0 * cat) * SURROGATE["rho_tol"] \
         + SURROGATE["quench_volume_uL"] * SURROGATE["rho_meoh"]           # mg
-    m_cat = 4.0 * cat * SURROGATE["catalyst_stock_mM"] * 1e-3 * PHASE5_ANCHOR["catalyst_MW"]
+    m_cat = 8.0 * cat * SURROGATE["catalyst_stock_mM"] * 1e-6 * PHASE5_ANCHOR["catalyst_MW"]  # uL*mM*g/mol -> mg
     m_unreacted_side = 40.0 * SURROGATE["substrate_stock_M"] * PHASE5_ANCHOR["substrate_MW"] \
         * (1.0 - yield_pct / 100.0)                                        # ug -> ~mg scale /1000
     m_unreacted_side *= 1e-3
@@ -287,7 +293,7 @@ def true_objectives(x: np.ndarray, rng: np.random.Generator, noisy: bool = True)
     e_factor = (m_solvent + m_cat + m_unreacted_side) / max(m_product, 1e-6)
 
     # -- catalyst cost --------------------------------------------------------
-    cost = (cat / 100.0) * SURROGATE["catalyst_price_usd_mmol"] / max(yield_pct / 100.0, 1e-3)
+    cost = (cat / 100.0) * SURROGATE["catalyst_price_usd_mmol"] * 1000.0 / max(yield_pct / 100.0, 1e-3)
 
     # -- guardrail observables ------------------------------------------------
     dT_ad = SURROGATE["dH_eff_kJ_mol"] * 0.1 / mix["rho_cp_J_per_LK"] * 1000.0  # K @0.1M
@@ -313,7 +319,7 @@ def true_objectives(x: np.ndarray, rng: np.random.Generator, noisy: bool = True)
 
 
 EFACTOR_NORM = (30.0, 600.0)   # microscale well chemistry: E spans ~65 (perfect) - 500+
-COST_NORM = (2.0, 80.0)        # $/mol product span
+COST_NORM = (2000.0, 80000.0)  # $/mol product; stock price is $/mmol
 
 GUARDRAILS = {
     "G1_exotherm": {"limit": 30.0, "unit": "K",
@@ -587,7 +593,7 @@ def compile_ot2_protocol(conditions: list[dict], protocol_name: str,
         em.l(f"assert 4.0 <= T_SET <= 95.0, 'temperature outside Temperature Module range'")
         em.l("temp_mod.set_temperature(T_SET)")
         em.l("temp_mod.await_temperature(T_SET)")
-        em.l(f"v_cat_ul = {4.0 * c['cat_molpct']:.2f}  # catalyst dose at 25 mM")
+        em.l(f"v_cat_ul = {8.0 * c['cat_molpct']:.2f}  # 25 mM catalyst / 20 umol substrate")
         em.l(f"v_mix_ul = {c['v_mix_uL']:.2f}          # blend makeup volume")
         em.l(f"phi_tol  = {c['phi_tol']:.4f}           # toluene volume fraction")
         em.l("v_tol = v_mix_ul * phi_tol")
@@ -926,6 +932,10 @@ def validate_ot2_protocol(path: Path) -> dict:
 
     sim_bin = ROOT / ".ot2env" / ("Scripts/opentrons_simulate.exe" if os.name == "nt"
                                   else "bin/opentrons_simulate")
+    if os.environ.get("OPENTRONS_SIMULATE_EXE"):
+        sim_bin = Path(os.environ["OPENTRONS_SIMULATE_EXE"])
+        if not sim_bin.is_file():
+            raise FileNotFoundError(f"Configured Opentrons simulator not found: {sim_bin}")
     report["opentrons_simulate_binary"] = str(sim_bin) if sim_bin.exists() else None
     def _is_native_crash(rc: int) -> bool:
         return rc in (3221225477, 139, 134)   # 0xC0000005 access violation / SIGSEGV / SIGABRT
@@ -955,7 +965,7 @@ def validate_ot2_protocol(path: Path) -> dict:
         report["opentrons_simulate_attempts"] = attempts
         if verdict:
             report["opentrons_simulate"] = verdict
-            sim_done = verdict.startswith("PASS")
+            sim_done = True  # Preserve real FAIL; a mock must never erase it.
         else:
             report["opentrons_simulate"] = ("inconclusive: repeated native simulator crashes; "
                                             "mock harness used")
@@ -973,7 +983,7 @@ def validate_ot2_protocol(path: Path) -> dict:
                 report["opentrons_simulate"] = (
                     f"FAIL rc={proc.returncode}: {_clean(proc.stderr) or _clean(proc.stdout)}")
             sim_done = True
-    if not sim_done:
+    if "opentrons_simulate" not in report:
         report["opentrons_simulate"] = "unavailable in this environment; mock harness used"
     if not report["opentrons_simulate"].startswith("PASS"):
         _OPENTRONS_MOCK_STATS = {}
@@ -993,6 +1003,9 @@ def validate_ot2_protocol(path: Path) -> dict:
             report["mock_trace"].pop(k, None)
         sys.modules.pop("opentrons", None)
         sys.modules.pop("opentrons.protocol_api", None)
+    report["hardware_validation_passed"] = (
+        report["py_compile"] == "PASS" and report["ast_audit"] == "PASS"
+        and report["opentrons_simulate"].startswith("PASS"))
     return report
 
 
@@ -1024,7 +1037,7 @@ def export_autoprotocol_jsonld(conditions: list[dict], path: Path) -> Path:
         transfers.append({
             "@type": "ap:Dispense", "step": f"cond_{i + 1}_catalyst",
             "from": "reagent_reservoir/A2", "into": f"reaction_plate/{c['well']}",
-            "volume": f"{4.0 * c['cat_molpct']:.1f}:microliter",
+            "volume": f"{8.0 * c['cat_molpct']:.1f}:microliter",
             "material": {"CPA_catalyst_25mM": f"{c['cat_molpct']:.2f}:mole_percent"},
         })
     doc = {
@@ -1223,16 +1236,20 @@ class SafetyConstrainedBO:
             sd.append(np.maximum(s, 1e-6))
         mu = np.stack(mu, axis=1)
         sd = np.stack(sd, axis=1)
-        s_best = S.min(axis=0)
 
         chosen_U: list[np.ndarray] = []
         chosen_x: list[np.ndarray] = []
         for _ in range(q):
             w = self.rng.dirichlet(np.ones(3))
+            observed_scalar = (S * w[None, :]).max(axis=1) + 0.05 * (S * w[None, :]).sum(axis=1)
+            feasible_observed = np.asarray(self.feasible, dtype=bool)
+            if not np.any(feasible_observed):
+                raise RuntimeError('EI requires at least one feasible observed condition')
+            incumbent = float(observed_scalar[feasible_observed].min())
             mu_s = (mu * w[None, :]).max(axis=1) + 0.05 * (mu * w[None, :]).sum(axis=1)
             sd_s = np.sqrt(((sd * w[None, :]) ** 2).sum(axis=1))
-            z = (s_best.mean() - mu_s) / sd_s
-            ei = (s_best.mean() - mu_s) * _phi(z) + sd_s * _pdf(z)
+            z = (incumbent - mu_s) / sd_s
+            ei = (incumbent - mu_s) * _phi(z) + sd_s * _pdf(z)
             ei = np.maximum(ei, 0.0)
             # local penalization around already-chosen batch members
             for ux in chosen_U:
@@ -1537,7 +1554,7 @@ def protocol_conditions_from_records(records: list[dict]) -> list[dict]:
             "T_c": float(x[0]), "cat_molpct": float(x[1]), "t_h": float(x[2]),
             "phi_tol": float(x[3]),
             "v_mix_uL": SURROGATE["well_volume_uL"] - SURROGATE["substrate_volume_uL"]
-                        - 4.0 * float(x[1]) - SURROGATE["quench_volume_uL"],
+                        - 8.0 * float(x[1]) - SURROGATE["quench_volume_uL"],
             "vials": vial_pair(i),
         })
     return conds
@@ -2006,7 +2023,7 @@ def main() -> int:
             "T_c": float(x[0]), "cat_molpct": float(x[1]), "t_h": float(x[2]),
             "phi_tol": float(x[3]),
             "v_mix_uL": SURROGATE["well_volume_uL"] - SURROGATE["substrate_volume_uL"]
-                        - 4.0 * float(x[1]) - SURROGATE["quench_volume_uL"],
+                        - 8.0 * float(x[1]) - SURROGATE["quench_volume_uL"],
             "vials": vial_pair(i),
         })
     p_ch = compile_ot2_protocol(champ_conds,
@@ -2023,7 +2040,8 @@ def main() -> int:
     (RESULTS / "ot2_validation_report.json").write_text(
         json.dumps(validation, indent=2, default=str), encoding="utf-8")
     log(f"[9A] round-1 validation: compile={val_r1['py_compile']} "
-        f"AST={val_r1['ast_audit']} sim={val_r1.get('mock_simulation', val_r1.get('opentrons_simulate'))}")
+        f"AST={val_r1['ast_audit']} official_sim={val_r1.get('opentrons_simulate')} "
+        f"mock={val_r1.get('mock_simulation', 'not used')}")
     trace = val_r1.get("mock_trace", {})
     if trace:
         log(f"[9A] simulation trace: {trace.get('aspirate', 0)} aspirates / "
@@ -2045,6 +2063,9 @@ def main() -> int:
     # ---- master record -------------------------------------------------------
     results = {
         "phase": 9,
+        "data_origin": "synthetic reactor and HPLC; no physical experiments",
+        "hardware_executed": False,
+        "wetlab_safety_certified": False,
         "title": "Self-driving lab compiler: Opentrons OT-2 hardware execution & "
                  "Bayesian closed-loop analytical twin",
         "timestamp": _dt.datetime.now().isoformat(timespec="seconds"),
@@ -2116,7 +2137,7 @@ def main() -> int:
     best = max((h for h in history if h["guardrail"]["feasible"]),
                key=lambda h: h["obj_measured"]["yield_pct"])
     print("-" * 78)
-    print(f"campaign complete in {dt:.0f} s — {len(history)} robotic experiments, "
+    print(f"campaign complete in {dt:.0f} s — {len(history)} simulated experiments, "
           f"{len(bo.pareto)} Pareto-optimal")
     print(f"best feasible: {best['condition_label']}  T={best['x'][0]:.1f}°C "
           f"cat={best['x'][1]:.1f}% t={best['x'][2]:.1f}h φ={best['x'][3]:.2f} -> "
@@ -2137,7 +2158,7 @@ def conditions_from_saved(saved: dict) -> list[dict]:
                     "T_c": float(x[0]), "cat_molpct": float(x[1]), "t_h": float(x[2]),
                     "phi_tol": float(x[3]),
                     "v_mix_uL": SURROGATE["well_volume_uL"] - SURROGATE["substrate_volume_uL"]
-                                - 4.0 * float(x[1]) - SURROGATE["quench_volume_uL"],
+                                - 8.0 * float(x[1]) - SURROGATE["quench_volume_uL"],
                     "vials": vial_pair(i)})
     return out
 

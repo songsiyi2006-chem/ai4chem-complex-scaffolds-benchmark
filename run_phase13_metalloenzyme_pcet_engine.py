@@ -156,11 +156,21 @@ def log(msg: str) -> None:
 # PSI4 subprocess backend (env `phase7`, psi4 1.11 win-64)
 # ==========================================================================
 
+def backend_environment(py):
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    root = Path(py).parent
+    env["PATH"] = os.pathsep.join([str(root / "Library" / "bin"), str(root),
+                                   env.get("PATH", "")])
+    return env
+
+
 def discover_psi4_python() -> Path:
     for py in [Path("C:/Users/HUIWEI/miniconda3/envs/phase7/python.exe"), Path(sys.executable)]:
         try:
             out = subprocess.run([str(py), "-c", "import psi4; print(psi4.__version__)"],
-                                 capture_output=True, text=True, timeout=180)
+                                 capture_output=True, text=True, timeout=180,
+                                 env=backend_environment(py))
             if out.returncode == 0 and out.stdout.strip():
                 log(f"psi4 backend: {py} (psi4 {out.stdout.strip()})")
                 return py
@@ -363,7 +373,7 @@ def run_psi4_job(name, geometry, charge, mult, tiers, timeout,
     spec = {
         "geometry": "\n".join(geometry.strip().splitlines()),
         "charge": charge, "multiplicity": mult, "tiers": [list(t) for t in tiers],
-        "memory": "2 GB", "threads": min(8, os.cpu_count() or 4),
+        "memory": "2 GB", "threads": max(1, int(os.environ.get("OMP_NUM_THREADS", "2"))),
         "maxiter": maxiter or (120 if TIER == "smoke" else 300),
         "npz": str(RESULTS / f"{name}.npz"),
         "json": str(RESULTS / f"{name}.json"),
@@ -396,10 +406,12 @@ def run_psi4_job(name, geometry, charge, mult, tiers, timeout,
     log(f"  QC {name}: chg {charge} mult {mult} tiers {' -> '.join('/'.join(t) for t in tiers)}")
     scratch = RESULTS / f"_scratch_{name}"
     scratch.mkdir(exist_ok=True)
-    env = {**os.environ, "PSI_SCRATCH": str(scratch)}
+    env = {**backend_environment(PSI4_PY), "PSI_SCRATCH": str(scratch)}
     try:
-        subprocess.run([str(PSI4_PY), str(WORKER_PATH), str(RESULTS / f"{name}_spec.json")],
+        proc = subprocess.run([str(PSI4_PY), str(WORKER_PATH), str(RESULTS / f"{name}_spec.json")],
                        capture_output=True, text=True, timeout=timeout, env=env)
+        if proc.returncode:
+            raise RuntimeError(f"Psi4 exited {proc.returncode}: {proc.stderr[-400:]}")
         res = json.load(open(RESULTS / f"{name}.json"))
     except subprocess.TimeoutExpired:
         res = {"converged": False, "tier": None, "error": f"timeout {timeout}s"}
@@ -629,6 +641,22 @@ def load_spin_grid(job: str):
 # MODULE 13C - protein dielectric & water-wire channel (OpenMM)
 # ==========================================================================
 
+def bath_observables(positions, probe, site_a, site_d):
+    """TIP3P O,H,H bath potential gap and axial field, in e/nm and e/nm^2."""
+    positions = np.asarray(positions, dtype=float)
+    if positions.ndim != 2 or positions.shape[1] != 3 or len(positions) % 3:
+        raise ValueError("Bath must contain complete O,H,H waters")
+    chg = np.tile([-0.834, 0.417, 0.417], len(positions) // 3)
+    db = positions - np.asarray(probe)
+    dist = np.linalg.norm(db, axis=1)
+    keep = dist > 0.5
+    # Sites and bath positions share the same absolute coordinate frame.
+    phi_a = np.sum(chg[keep] / np.linalg.norm(positions[keep] - site_a, axis=1))
+    phi_d = np.sum(chg[keep] / np.linalg.norm(positions[keep] - site_d, axis=1))
+    field = np.sum(chg[keep] * db[keep, 2] / dist[keep] ** 3)
+    return float(phi_a - phi_d), float(field)
+
+
 def module_13c(cfg):
     import openmm as mm
     import openmm.app as app
@@ -672,7 +700,7 @@ def module_13c(cfg):
 
     # enzyme channel field: uniform external field along the reaction axis
     # (the time-averaged protein + conserved-residue electrostatic field),
-    # E0 = 10.36 kJ/(mol nm e) = 1 GV/m, applied on every TIP3P site.
+    # E0 = 10.36 kJ/(mol nm e) = 0.1074 GV/m, applied on every TIP3P site.
     field = mm.CustomExternalForce("-q*E0*z")
     field.addGlobalParameter("E0", 10.36)
     field.addPerParticleParameter("q")
@@ -683,7 +711,9 @@ def module_13c(cfg):
 
     integ = mm.LangevinMiddleIntegrator(300 * u.kelvin, 1.0 / u.picosecond,
                                         0.002 * u.picoseconds)
-    sim = app.Simulation(mod.topology, system, integ, mm.Platform.getPlatformByName("CPU"))
+    integ.setRandomNumberSeed(7)
+    sim = app.Simulation(mod.topology, system, integ, mm.Platform.getPlatformByName("CPU"),
+                         {"Threads": os.environ.get("OMP_NUM_THREADS", "2")})
     sim.context.setPositions(mod.positions)
     sim.minimizeEnergy(maxIterations=800)
     sim.context.setVelocitiesToTemperature(300 * u.kelvin, 7)
@@ -694,7 +724,6 @@ def module_13c(cfg):
     log(f"13C-2 Langevin 300 K ({solvent_model}): {n_eq} eq + {n_prod} prod steps")
     sim.step(n_eq)
 
-    qO, qH = -0.834, +0.417
     probe = np.array([0.0, 0.0, 0.40])            # active-oxo pole (wire end O)
     # proton-well sites along the transfer axis: reactant (C-H) vs product
     # (O-H) positions separated by the 13B double-well span, projected at the
@@ -714,28 +743,17 @@ def module_13c(cfg):
             pos = sim.context.getState(getPositions=True).getPositions(
                 asNumpy=True).value_in_unit(u.nanometer)
             R = pos[:n_solvent_atoms]
-            db_all = (R - probe)[bath]
-            nbath = len(db_all) // 3
-            chg = np.repeat([qO, qH, qH], nbath)[: len(db_all)]
-            dist = np.linalg.norm(db_all, axis=1)
-            keep = dist > 0.5                     # first shell -> lambda_inner
-            db = db_all[keep]
-            chk = chg[keep]
-            phiA = float(np.sum(chk / np.linalg.norm(db - r_A_site, axis=1)))
-            phiD = float(np.sum(chk / np.linalg.norm(db - r_D_site, axis=1)))
-            gaps.append(phiA - phiD)              # e/nm differential potential
-            r3 = dist ** 3
-            r3[~keep] = np.inf
-            fields.append(float(np.sum(chg * db_all[:, 2] / r3)))
+            gap, axial_field = bath_observables(R[bath], probe, r_A_site, r_D_site)
+            gaps.append(gap)
+            fields.append(axial_field)
             frames.append(R[: n_wire * 3].copy())
 
     fields = np.array(fields)
-    KJMOL_NM_E_TO_GV = 10.36427                   # kJ/(mol nm e) -> GV/m
-    E_GV = fields * KJMOL_NM_E_TO_GV
+    # Coulomb field e/(4*pi*eps0*nm^2) = 1.43996 GV/m.
+    E_GV = fields * 1.43996455
     E_mean, E_std = float(E_GV.mean()), float(E_GV.std())
-    # gap in kJ/mol (phi in e/nm, Coulomb in kJ nm /(mol e^2): 1.38935e5)
-    # e/nm * e -> kJ/mol via e^2/(4 pi eps0) = 1.38935e5 kJ nm /(mol e^2)
-    gap_kJ = np.array(gaps) * q_eff_e * 1.38935e5 / 1000.0
+    # e^2/(4*pi*eps0) = 138.935 kJ nm/(mol e^2).
+    gap_kJ = np.array(gaps) * q_eff_e * 138.935
     gap_J = gap_kJ * 1e3 / 6.02214076e23          # J per particle
     kT = 1.380649e-23 * 300.0
     lam_fast = float(gap_J.var() / (2 * kT) / E_CHARGE)   # J^2/(J) -> eV
@@ -1415,8 +1433,6 @@ def main():
     TIER = args.tier
 
     global PSI4_PY
-    PSI4_PY = discover_psi4_python()
-    WORKER_PATH.write_text(PSI4_WORKER_SRC)
 
     t0 = time.time()
     log(f"PHASE 13 engine start (tier={TIER}, stage={args.stage})")
@@ -1435,6 +1451,9 @@ def main():
         a13, b13, c13, d13 = _render_stage(cfg)
         log(f"figures re-rendered from artifacts ({(time.time()-t0)/60:.1f} min)")
         return
+
+    PSI4_PY = discover_psi4_python()
+    WORKER_PATH.write_text(PSI4_WORKER_SRC)
 
     # ---- 13C first: lambda_protein feeds the 13B rate matrix ---------------
     c13 = module_13c(cfg)

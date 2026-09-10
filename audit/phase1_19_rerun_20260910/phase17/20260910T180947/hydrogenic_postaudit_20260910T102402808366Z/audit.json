@@ -1,0 +1,115 @@
+{
+  "status": "completed",
+  "source_sha256": "4092d03e56f4302d5adc8745920ec5c09833a317369ab361854f3049a61a6324",
+  "helper_sha256": "51ea7cb3bce3356a13080a4c876d765ea87203f720a2aec4cd44b405af39d537",
+  "original_json_sha256": "d0f731c64f66ca4f9d6858453a0ef5e97e4069b29f6845fb2ec375895f53f963",
+  "original_source_sha256": "a3d75b96f5be3ee3de93d5525d570610621c4bcaf750244ef22146bb4058ea58",
+  "main_status_sha256": "61dc5ce4e6ea86e22cdefea8b055ad7c05456da13599ccf79d23c99607ab4546",
+  "attempt": "$CAMPAIGN\\phase17\\20260910T180947",
+  "prerequisite_artifacts": [
+    {
+      "source": "$CAMPAIGN\\phase17\\20260910T141424\\results_phase17\\phase17_results.json",
+      "destination": "results_phase17\\phase17_results.json",
+      "sha256": "a53f7070ef78fca85436622e3e807a7f5f2155e703932f3a43e7a96f5cef2c31"
+    },
+    {
+      "source": "$CAMPAIGN\\phase17\\20260910T141424\\results_phase17\\phase17_radial_data.npz",
+      "destination": "results_phase17\\phase17_radial_data.npz",
+      "sha256": "aa5cf8b90a61eea27ee8e168355be930998de9b32ce3dd82ed42d700926a312a"
+    }
+  ],
+  "recomputed": [
+    "full-default Breit angular table",
+    "scaled hydrogenic Breit"
+  ],
+  "not_recomputed": [
+    "atomic",
+    "Gaunt",
+    "Coulomb angular",
+    "multiplet",
+    "bonding"
+  ],
+  "radial_rtol": 0.001,
+  "angular_convergence": "not established by this radial-only audit",
+  "angular_grid": {
+    "theta": 30,
+    "phi": 36,
+    "radius_ratios": 40
+  },
+  "cache_sha256": {
+    "angular_breit_k-1.npz": "f927f2be7df6228c697a2b2ec094ae3a2c956beda89d334cfb590f388ffc1aa1"
+  },
+  "coulomb_linearity": "r_Z=r_1/Z, w_Z=w_1/Z, normalized P_Z=sqrt(Z)*P_1; r</r> and angular table unchanged, 1/r> scales by Z. Therefore the identical discrete quadrature gives J_Z=Z*J_1. Uses 4000 nodes with Z*r in [1e-5,40]. Inherits measured Z=1 angular error; not an independent high-Z certification.",
+  "coulomb_rows": [
+    {
+      "Z": 1,
+      "J_quadrature": 0.6278079251225043,
+      "J_exact": 0.625,
+      "rel_err": 0.004492680196006837,
+      "grid": "uniform Z*r",
+      "n_radial": 4000,
+      "provenance": "derived from this attempt Z=1, not recomputed"
+    },
+    {
+      "Z": 20,
+      "J_quadrature": 12.556158502450085,
+      "J_exact": 12.5,
+      "rel_err": 0.004492680196006802,
+      "grid": "uniform Z*r",
+      "n_radial": 4000,
+      "provenance": "derived from this attempt Z=1, not recomputed"
+    },
+    {
+      "Z": 50,
+      "J_quadrature": 31.390396256125214,
+      "J_exact": 31.25,
+      "rel_err": 0.004492680196006859,
+      "grid": "uniform Z*r",
+      "n_radial": 4000,
+      "provenance": "derived from this attempt Z=1, not recomputed"
+    },
+    {
+      "Z": 80,
+      "J_quadrature": 50.22463400980034,
+      "J_exact": 50.0,
+      "rel_err": 0.004492680196006802,
+      "grid": "uniform Z*r",
+      "n_radial": 4000,
+      "provenance": "derived from this attempt Z=1, not recomputed"
+    }
+  ],
+  "hydrogenic_rows": [
+    {
+      "Z": 20,
+      "signed_energy_eh_3000": 0.048383331980887595,
+      "signed_energy_eh_6000": 0.04838266565391516,
+      "radial_relative_change": 1.3772018623320942e-05,
+      "radial_gate_pass": true
+    },
+    {
+      "Z": 50,
+      "signed_energy_eh_3000": 0.7832862018130096,
+      "signed_energy_eh_6000": 0.7832741990257054,
+      "radial_relative_change": 1.5323864004594065e-05,
+      "radial_gate_pass": true
+    },
+    {
+      "Z": 80,
+      "signed_energy_eh_3000": 3.4689899584390593,
+      "signed_energy_eh_6000": 3.468917041261573,
+      "radial_relative_change": 2.1020156036863635e-05,
+      "radial_gate_pass": true
+    },
+    {
+      "Z": 92,
+      "signed_energy_eh_3000": 5.549098857588883,
+      "signed_energy_eh_6000": 5.548940551667175,
+      "radial_relative_change": 2.8529035449970285e-05,
+      "radial_gate_pass": true
+    }
+  ],
+  "corrected_json_sha256": "7a0f7a938c3bdb3d1b9de08225e1b16445802405fa0245aee92d520cf231c26c",
+  "prior_fig4_sha256": "ca2201af518f5b67fac23a3c25d31ea09c2fabd1ed2172d5db70e97dcdad5c76",
+  "fig4_sha256": "a1818c74716b7a2ec705374bb1a3e9f4adabd0df1a4b758f13476d556c8b7b71",
+  "acceptance": "radial refinement gate passed; overall scientific acceptance remains pending"
+}

@@ -1,0 +1,118 @@
+[p5 18:21:05] PHASE 5 chemical world model — stage=all — engine=GFN2-xTB
+[p5 18:21:05] ======================================================================
+[p5 18:21:05] MODULE A — automated reaction network (GFN2-xTB topology)
+[p5 18:21:05] ======================================================================
+[p5 18:21:05] A.1 building species through RDKit programmatic gates ...
+[p5 18:21:05]   R        = CC12Cc3ccccc3N1C2
+[p5 18:21:05]   P_target = CC1C=Nc2ccccc2C1 (chiral centers: 1)
+[p5 18:21:05]   P_elim   = CC1=Cc2ccccc2NC1
+[p5 18:21:05]   Cat      = O=P1(O)Oc2ccc3ccccc3c2-c2ccc3ccccc3c2O1
+[p5 18:21:05] A.2 GFN2-xTB opt+hess of closed-shell species ...
+[p5 18:21:07]   species R: G=-18688.00 kcal/mol, n_imag=0 (2 s)
+[p5 18:21:09]   species P_target: G=-18690.94 kcal/mol, n_imag=0 (2 s)
+[p5 18:21:12]   species P_elim: G=-18691.19 kcal/mol, n_imag=0 (2 s)
+[p5 18:21:25]   species Cat: G=-42787.23 kcal/mol, n_imag=0 (13 s)
+[p5 18:21:25]   species H2: G=-618.54 kcal/mol, n_imag=0 (0 s)
+[p5 18:21:43]   species P_poly: G=-36218.87 kcal/mol, n_imag=0 (17 s)
+[p5 18:21:43] A.3 ionic partners: aziridinium R-H+ and chiral phosphate anion ...
+[p5 18:21:45]   species Rprot: G=-18745.39 kcal/mol, n_imag=0 (2 s)
+[p5 18:21:57]   species CPAneg: G=-42638.38 kcal/mol, n_imag=0 (12 s)
+[p5 18:21:57] A.4 Tier-2: assembling H-bonded complex RC and aziridinium ion pair I_RC ...
+[p5 18:23:58] A.5 Tier-2 relaxed scan: TS1 = aziridinium C2-N1 cleavage ...
+[p5 18:24:15]     TS1-scan(dN1-C2) frame 1/6 s=1.600 E=-61722.168 Eh-kcal
+[p5 18:24:34]     TS1-scan(dN1-C2) frame 2/6 s=1.800 E=-61711.133 Eh-kcal
+[p5 18:25:04]     TS1-scan(dN1-C2) frame 3/6 s=2.000 E=-61700.925 Eh-kcal
+[p5 18:25:36]     TS1-scan(dN1-C2) frame 4/6 s=2.200 E=-61714.984 Eh-kcal
+[p5 18:26:13] !! WARNING: TS1-scan(dN1-C2) frame s=2.350 failed (xtb geometry optimization did not converge: 27 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.172 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.016 sec
+ * ratio c/w:     0.091 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 36.443 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  4.656 sec
+ * ratio c/w:     0.128 speedup
+
+); skipped
+[p5 18:26:50] !! WARNING: TS1-scan(dN1-C2) frame s=2.500 failed (xtb geometry optimization did not converge: 47 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.170 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.031 sec
+ * ratio c/w:     0.183 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 37.406 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  5.500 sec
+ * ratio c/w:     0.147 speedup
+
+); skipped
+[p5 18:27:28]   TS1: d(N1-C2)*=2.00 A, G=-61452.68, n_imag=1
+[p5 18:28:36] A.6 Tier-2: diastereomeric TS2a proton-relay pair (Re/Si faces) ...
+[p5 18:29:46]   I1CatM: G=-61413.42, n_imag=1
+[p5 18:29:46] cache hit: cx_I1Cat_m
+[p5 18:30:16]     TS2a-scan(dC2-H) frame 1/5 s=2.200 E=-61696.695 Eh-kcal
+[p5 18:30:53] !! WARNING: TS2a-scan(dC2-H) frame s=1.900 failed (xtb geometry optimization did not converge: 35 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.162 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.031 sec
+ * ratio c/w:     0.193 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 36.208 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  4.875 sec
+ * ratio c/w:     0.135 speedup
+
+); skipped
+[p5 18:31:18]     TS2a-scan(dC2-H) frame 3/5 s=1.600 E=-61647.580 Eh-kcal
+[p5 18:31:53] !! WARNING: TS2a-scan(dC2-H) frame s=1.350 failed (xtb geometry optimization did not converge: 22 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.152 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.016 sec
+ * ratio c/w:     0.102 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 34.625 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  4.234 sec
+ * ratio c/w:     0.122 speedup
+
+); skipped
+[p5 18:32:25]     TS2a-scan(dC2-H) frame 5/5 s=1.150 E=-61722.797 Eh-kcal
+[p5 18:33:03]   TS2a: d(C2-H)*=1.60 A, G=-61398.48, n_imag=3
+[p5 18:33:40] !! WARNING: TS2b-scan(dC3-H) frame s=1.600 failed (xtb geometry optimization did not converge: 28 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.165 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.062 sec
+ * ratio c/w:     0.378 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 36.900 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  4.703 sec
+ * ratio c/w:     0.127 speedup
+
+); skipped
+[p5 18:34:16] !! WARNING: TS2b-scan(dC3-H) frame s=1.400 failed (xtb geometry optimization did not converge: 28 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.174 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.062 sec
+ * ratio c/w:     0.359 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 35.828 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  4.531 sec
+ * ratio c/w:     0.126 speedup
+
+); skipped
+[p5 18:34:43]     TS2b-scan(dC3-H) frame 3/4 s=1.250 E=-61712.384 Eh-kcal
+[p5 18:35:10]     TS2b-scan(dC3-H) frame 4/4 s=1.100 E=-61716.547 Eh-kcal
+Traceback (most recent call last):
+  File "$CAMPAIGN\phase05\20260910T182103\run_phase5_chemical_world_model.py", line 2422, in <module>
+    main()
+  File "$CAMPAIGN\phase05\20260910T182103\run_phase5_chemical_world_model.py", line 2393, in main
+    module_A()
+  File "$CAMPAIGN\phase05\20260910T182103\run_phase5_chemical_world_model.py", line 1083, in module_A
+    TS2b = cached_or_compute("cx_TS2b", comp_TS2b)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "$CAMPAIGN\phase05\20260910T182103\run_phase5_chemical_world_model.py", line 665, in cached_or_compute
+    d = fn()
+        ^^^^
+  File "$CAMPAIGN\phase05\20260910T182103\run_phase5_chemical_world_model.py", line 1063, in comp_TS2b
+    scan = scan_1d(nums, pos,
+           ^^^^^^^^^^^^^^^^^^
+  File "$CAMPAIGN\phase05\20260910T182103\run_phase5_chemical_world_model.py", line 369, in scan_1d
+    raise RuntimeError(f"{label}: too few converged frames ({len(out)})")
+RuntimeError: TS2b-scan(dC3-H): too few converged frames (2)

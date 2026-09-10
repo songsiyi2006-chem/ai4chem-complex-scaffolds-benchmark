@@ -1,0 +1,491 @@
+{
+  "rms_kJ_mol": 18.091690303009514,
+  "max_abs_kJ_mol": 86.86419184592114,
+  "n_benchmarks": 79,
+  "residuals": {
+    "ATPS_HYDRO": 5.837197804883292,
+    "GLC_OX": -18.731189051100472,
+    "ADK": 0.33052574844932686,
+    "HEX1": 4.356313481586039,
+    "PGI": 4.483232671749692,
+    "PFK": 4.905205965089589,
+    "FBA": 7.880132423571475,
+    "TPI": 3.015538347803272,
+    "GAPD": 10.841084319140872,
+    "PGK": 11.085065297319169,
+    "PGM": 6.373754176585612,
+    "ENO": 6.513683218320788,
+    "PYK": 6.510518382114377,
+    "LDH_D": 1.6110216266562034,
+    "CS": 3.747213059630738,
+    "ACONT": 8.013718819457655,
+    "ICDH_NADP": 29.699448511417415,
+    "AKGDH": -2.1958301653942858,
+    "SUCOAS": -2.3553501113758335,
+    "SUCD": -5.951447648436896,
+    "FUM": -0.6837984017498231,
+    "MDH": -2.068039508069872,
+    "NADPAIR": -0.6898252272105765,
+    "NADPPAIR": -0.32452596257803634,
+    "QPAIR": 0.5199486634325687,
+    "FADPAIR": -0.04547004424443912,
+    "NDH_UNIT": -1.6637316866368579,
+    "CYTBO3_UNIT": 8.21479163403076,
+    "CYDBD_UNIT": 11.13829721131043,
+    "ATPS_OP": -3.445305703627242,
+    "PNT_UNIT": 1.8270520532724248,
+    "OXP_UNIT": 3.105754243766505,
+    "NO3PAIR": 4.631935795510955,
+    "NO2PAIR": 12.01840492862162,
+    "SO3RED": 0.13477597873109914,
+    "ALT": 0.18548706495028,
+    "AST": 0.07784030736329883,
+    "GLNS": -7.79996504400874,
+    "PPC": 34.731173147101345,
+    "PPCK": -50.473147334420226,
+    "PPA": -0.14019102588672538,
+    "GDH_NAD": 55.565037825124705,
+    "GDH_NADP": 55.19973856049234,
+    "GLUS": -86.86419184592114,
+    "ICL": 1.9509830525227478,
+    "GAD": 30.335929296354294,
+    "GABT": 4.4053928807020375,
+    "CA": 48.68090268276474,
+    "PDH": 17.141989526517023,
+    "FDH": 0.8159154020136619,
+    "FHL": 0.4151053005872149,
+    "FABH": 45.413479636012696,
+    "FABG": 4.621782876837415,
+    "FABZ": 1.0027308795306027,
+    "FABI": 0.1760188410421506,
+    "FADA_16": 1.139277219894268,
+    "ECHA_16": 1.0987872967508743,
+    "HACD_16": 0.36934887770598834,
+    "FACD_16": -2.382538786373118,
+    "THIO_16": -2.184014605712477,
+    "ACK": 0.30473938128318445,
+    "PTA": -1.177270420771407,
+    "PFL": 7.126074124503425,
+    "GTP_HYDRO": 1.2580258126813533,
+    "UTP_HYDRO": -0.23367657046435397,
+    "FRD": 1.9476219752393717,
+    "NAR": -0.7918385411193185,
+    "NIR": 12.037880610253367,
+    "MCM": -5.125871424708706,
+    "RPI": 0.7862793558162479,
+    "G6PDH": 0.11522209544682482,
+    "GND": 6.329087285196238,
+    "TKT1": -0.003956272335017275,
+    "TALA": 0.7324865570649308,
+    "TKT2": 1.7963186361180874,
+    "ARGCHG": -0.18221111106853982,
+    "ALACHG": 3.3479487876132907,
+    "GLUCHG": 9.33462744996973,
+    "PHECHG": -0.2631359721158333
+  },
+  "self_tests_kJ_mol": {
+    "glycolysis_glucose_to_2pyr": 18.788633676761947,
+    "homolactic_fermentation": -28.189323069925194,
+    "oxidative_phosphorylation_unit": 62.57214676370366,
+    "atp_hydrolysis": -39.76280219511659,
+    "tca_citrate_to_succinate": 63.78815346468582,
+    "atp_adenylate_kinase": 0.9305257484493268
+  },
+  "benchmarks": [
+    {
+      "id": "ATPS_HYDRO",
+      "dG_obs_kJ_mol": -45.6,
+      "residual_kJ_mol": 5.837197804883292
+    },
+    {
+      "id": "GLC_OX",
+      "dG_obs_kJ_mol": -2870.0,
+      "residual_kJ_mol": -18.731189051100472
+    },
+    {
+      "id": "ADK",
+      "dG_obs_kJ_mol": 0.6,
+      "residual_kJ_mol": 0.33052574844932686
+    },
+    {
+      "id": "HEX1",
+      "dG_obs_kJ_mol": -16.7,
+      "residual_kJ_mol": 4.356313481586039
+    },
+    {
+      "id": "PGI",
+      "dG_obs_kJ_mol": 1.7,
+      "residual_kJ_mol": 4.483232671749692
+    },
+    {
+      "id": "PFK",
+      "dG_obs_kJ_mol": -14.2,
+      "residual_kJ_mol": 4.905205965089589
+    },
+    {
+      "id": "FBA",
+      "dG_obs_kJ_mol": 23.8,
+      "residual_kJ_mol": 7.880132423571475
+    },
+    {
+      "id": "TPI",
+      "dG_obs_kJ_mol": -7.5,
+      "residual_kJ_mol": 3.015538347803272
+    },
+    {
+      "id": "GAPD",
+      "dG_obs_kJ_mol": 6.3,
+      "residual_kJ_mol": 10.841084319140872
+    },
+    {
+      "id": "PGK",
+      "dG_obs_kJ_mol": -18.9,
+      "residual_kJ_mol": 11.085065297319169
+    },
+    {
+      "id": "PGM",
+      "dG_obs_kJ_mol": 4.4,
+      "residual_kJ_mol": 6.373754176585612
+    },
+    {
+      "id": "ENO",
+      "dG_obs_kJ_mol": 1.8,
+      "residual_kJ_mol": 6.513683218320788
+    },
+    {
+      "id": "PYK",
+      "dG_obs_kJ_mol": -31.4,
+      "residual_kJ_mol": 6.510518382114377
+    },
+    {
+      "id": "LDH_D",
+      "dG_obs_kJ_mol": -25.1,
+      "residual_kJ_mol": 1.6110216266562034
+    },
+    {
+      "id": "CS",
+      "dG_obs_kJ_mol": -32.2,
+      "residual_kJ_mol": 3.747213059630738
+    },
+    {
+      "id": "ACONT",
+      "dG_obs_kJ_mol": 6.7,
+      "residual_kJ_mol": 8.013718819457655
+    },
+    {
+      "id": "ICDH_NADP",
+      "dG_obs_kJ_mol": -14.0,
+      "residual_kJ_mol": 29.699448511417415
+    },
+    {
+      "id": "AKGDH",
+      "dG_obs_kJ_mol": -33.5,
+      "residual_kJ_mol": -2.1958301653942858
+    },
+    {
+      "id": "SUCOAS",
+      "dG_obs_kJ_mol": -2.9,
+      "residual_kJ_mol": -2.3553501113758335
+    },
+    {
+      "id": "SUCD",
+      "dG_obs_kJ_mol": -16.0,
+      "residual_kJ_mol": -5.951447648436896
+    },
+    {
+      "id": "FUM",
+      "dG_obs_kJ_mol": -3.8,
+      "residual_kJ_mol": -0.6837984017498231
+    },
+    {
+      "id": "MDH",
+      "dG_obs_kJ_mol": 29.7,
+      "residual_kJ_mol": -2.068039508069872
+    },
+    {
+      "id": "NADPAIR",
+      "dG_obs_kJ_mol": 61.75,
+      "residual_kJ_mol": -0.6898252272105765
+    },
+    {
+      "id": "NADPPAIR",
+      "dG_obs_kJ_mol": 61.75,
+      "residual_kJ_mol": -0.32452596257803634
+    },
+    {
+      "id": "QPAIR",
+      "dG_obs_kJ_mol": -21.2,
+      "residual_kJ_mol": 0.5199486634325687
+    },
+    {
+      "id": "FADPAIR",
+      "dG_obs_kJ_mol": 42.5,
+      "residual_kJ_mol": -0.04547004424443912
+    },
+    {
+      "id": "NDH_UNIT",
+      "dG_obs_kJ_mol": -17.4,
+      "residual_kJ_mol": -1.6637316866368579
+    },
+    {
+      "id": "CYTBO3_UNIT",
+      "dG_obs_kJ_mol": -70.7,
+      "residual_kJ_mol": 8.21479163403076
+    },
+    {
+      "id": "CYDBD_UNIT",
+      "dG_obs_kJ_mol": -136.3,
+      "residual_kJ_mol": 11.13829721131043
+    },
+    {
+      "id": "ATPS_OP",
+      "dG_obs_kJ_mol": -8.5,
+      "residual_kJ_mol": -3.445305703627242
+    },
+    {
+      "id": "PNT_UNIT",
+      "dG_obs_kJ_mol": -32.8,
+      "residual_kJ_mol": 1.8270520532724248
+    },
+    {
+      "id": "OXP_UNIT",
+      "dG_obs_kJ_mol": -96.6,
+      "residual_kJ_mol": 3.105754243766505
+    },
+    {
+      "id": "NO3PAIR",
+      "dG_obs_kJ_mol": -81.1,
+      "residual_kJ_mol": 4.631935795510955
+    },
+    {
+      "id": "NO2PAIR",
+      "dG_obs_kJ_mol": -196.8,
+      "residual_kJ_mol": 12.01840492862162
+    },
+    {
+      "id": "SO3RED",
+      "dG_obs_kJ_mol": -118.0,
+      "residual_kJ_mol": 0.13477597873109914
+    },
+    {
+      "id": "ALT",
+      "dG_obs_kJ_mol": -0.5,
+      "residual_kJ_mol": 0.18548706495028
+    },
+    {
+      "id": "AST",
+      "dG_obs_kJ_mol": -1.5,
+      "residual_kJ_mol": 0.07784030736329883
+    },
+    {
+      "id": "GLNS",
+      "dG_obs_kJ_mol": -16.3,
+      "residual_kJ_mol": -7.79996504400874
+    },
+    {
+      "id": "PPC",
+      "dG_obs_kJ_mol": -30.0,
+      "residual_kJ_mol": 34.731173147101345
+    },
+    {
+      "id": "PPCK",
+      "dG_obs_kJ_mol": 2.0,
+      "residual_kJ_mol": -50.473147334420226
+    },
+    {
+      "id": "PPA",
+      "dG_obs_kJ_mol": -19.2,
+      "residual_kJ_mol": -0.14019102588672538
+    },
+    {
+      "id": "GDH_NAD",
+      "dG_obs_kJ_mol": -32.0,
+      "residual_kJ_mol": 55.565037825124705
+    },
+    {
+      "id": "GDH_NADP",
+      "dG_obs_kJ_mol": -32.0,
+      "residual_kJ_mol": 55.19973856049234
+    },
+    {
+      "id": "GLUS",
+      "dG_obs_kJ_mol": -61.3,
+      "residual_kJ_mol": -86.86419184592114
+    },
+    {
+      "id": "ICL",
+      "dG_obs_kJ_mol": 9.2,
+      "residual_kJ_mol": 1.9509830525227478
+    },
+    {
+      "id": "GAD",
+      "dG_obs_kJ_mol": -17.0,
+      "residual_kJ_mol": 30.335929296354294
+    },
+    {
+      "id": "GABT",
+      "dG_obs_kJ_mol": -1.0,
+      "residual_kJ_mol": 4.4053928807020375
+    },
+    {
+      "id": "CA",
+      "dG_obs_kJ_mol": -4.7,
+      "residual_kJ_mol": 48.68090268276474
+    },
+    {
+      "id": "PDH",
+      "dG_obs_kJ_mol": -33.5,
+      "residual_kJ_mol": 17.141989526517023
+    },
+    {
+      "id": "FDH",
+      "dG_obs_kJ_mol": -19.3,
+      "residual_kJ_mol": 0.8159154020136619
+    },
+    {
+      "id": "FHL",
+      "dG_obs_kJ_mol": -1.2,
+      "residual_kJ_mol": 0.4151053005872149
+    },
+    {
+      "id": "FABH",
+      "dG_obs_kJ_mol": -25.0,
+      "residual_kJ_mol": 45.413479636012696
+    },
+    {
+      "id": "FABG",
+      "dG_obs_kJ_mol": -25.0,
+      "residual_kJ_mol": 4.621782876837415
+    },
+    {
+      "id": "FABZ",
+      "dG_obs_kJ_mol": 0.0,
+      "residual_kJ_mol": 1.0027308795306027
+    },
+    {
+      "id": "FABI",
+      "dG_obs_kJ_mol": -25.0,
+      "residual_kJ_mol": 0.1760188410421506
+    },
+    {
+      "id": "FADA_16",
+      "dG_obs_kJ_mol": 5.0,
+      "residual_kJ_mol": 1.139277219894268
+    },
+    {
+      "id": "ECHA_16",
+      "dG_obs_kJ_mol": -3.0,
+      "residual_kJ_mol": 1.0987872967508743
+    },
+    {
+      "id": "HACD_16",
+      "dG_obs_kJ_mol": -5.0,
+      "residual_kJ_mol": 0.36934887770598834
+    },
+    {
+      "id": "FACD_16",
+      "dG_obs_kJ_mol": 0.0,
+      "residual_kJ_mol": -2.382538786373118
+    },
+    {
+      "id": "THIO_16",
+      "dG_obs_kJ_mol": 0.0,
+      "residual_kJ_mol": -2.184014605712477
+    },
+    {
+      "id": "ACK",
+      "dG_obs_kJ_mol": -4.0,
+      "residual_kJ_mol": 0.30473938128318445
+    },
+    {
+      "id": "PTA",
+      "dG_obs_kJ_mol": 1.0,
+      "residual_kJ_mol": -1.177270420771407
+    },
+    {
+      "id": "PFL",
+      "dG_obs_kJ_mol": -5.0,
+      "residual_kJ_mol": 7.126074124503425
+    },
+    {
+      "id": "GTP_HYDRO",
+      "dG_obs_kJ_mol": -45.0,
+      "residual_kJ_mol": 1.2580258126813533
+    },
+    {
+      "id": "UTP_HYDRO",
+      "dG_obs_kJ_mol": -45.0,
+      "residual_kJ_mol": -0.23367657046435397
+    },
+    {
+      "id": "FRD",
+      "dG_obs_kJ_mol": -20.0,
+      "residual_kJ_mol": 1.9476219752393717
+    },
+    {
+      "id": "NAR",
+      "dG_obs_kJ_mol": -95.0,
+      "residual_kJ_mol": -0.7918385411193185
+    },
+    {
+      "id": "NIR",
+      "dG_obs_kJ_mol": -380.0,
+      "residual_kJ_mol": 12.037880610253367
+    },
+    {
+      "id": "MCM",
+      "dG_obs_kJ_mol": -5.0,
+      "residual_kJ_mol": -5.125871424708706
+    },
+    {
+      "id": "RPI",
+      "dG_obs_kJ_mol": 2.0,
+      "residual_kJ_mol": 0.7862793558162479
+    },
+    {
+      "id": "G6PDH",
+      "dG_obs_kJ_mol": -12.0,
+      "residual_kJ_mol": 0.11522209544682482
+    },
+    {
+      "id": "GND",
+      "dG_obs_kJ_mol": -25.0,
+      "residual_kJ_mol": 6.329087285196238
+    },
+    {
+      "id": "TKT1",
+      "dG_obs_kJ_mol": 0.0,
+      "residual_kJ_mol": -0.003956272335017275
+    },
+    {
+      "id": "TALA",
+      "dG_obs_kJ_mol": 0.0,
+      "residual_kJ_mol": 0.7324865570649308
+    },
+    {
+      "id": "TKT2",
+      "dG_obs_kJ_mol": 0.0,
+      "residual_kJ_mol": 1.7963186361180874
+    },
+    {
+      "id": "ARGCHG",
+      "dG_obs_kJ_mol": -25.0,
+      "residual_kJ_mol": -0.18221111106853982
+    },
+    {
+      "id": "ALACHG",
+      "dG_obs_kJ_mol": -25.0,
+      "residual_kJ_mol": 3.3479487876132907
+    },
+    {
+      "id": "GLUCHG",
+      "dG_obs_kJ_mol": -25.0,
+      "residual_kJ_mol": 9.33462744996973
+    },
+    {
+      "id": "PHECHG",
+      "dG_obs_kJ_mol": -25.0,
+      "residual_kJ_mol": -0.2631359721158333
+    }
+  ]
+}

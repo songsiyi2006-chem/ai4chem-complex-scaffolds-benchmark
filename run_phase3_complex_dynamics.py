@@ -19,10 +19,10 @@ Stages
 1A  Macromolecular ingestion & curation (RCSB fetch, PDBFixer repair @ pH 7.4,
     native-ligand pocket centroid, R = 10 A pocket definition).
 2   Structure-based docking (meeko + AutoDock Vina python API), top-3 poses.
-3   Force-field duality: MMFF94 (RDKit) + GAFF2 (OpenMM) vs MACE-OFF23
+3   Force-field duality: MMFF94 (RDKit) + Sage 2.1 (OpenMM) vs MACE-OFF23
     (fallback ANI-2x) single-point energies/forces on the pocket-frozen
     ligand; per-atom force discrepancy vector decomposed by moiety.
-4   OpenMM complex MD: Amber14SB protein + GAFF2 ligand (+GDP via GAFF2),
+4   OpenMM complex MD: Amber14SB protein + Sage 2.1 ligand (+GDP via Sage),
     GBSA/OBC2, 0.15 M ionic strength, T = 310 K, C-alpha restraints
     k = 5 kcal/mol/A^2, 100k production steps (200 ps), C-alpha/ligand RMSD
     + protein-ligand interaction fingerprints (PLIF) over time.
@@ -358,7 +358,7 @@ def _ml_calc():
                 num = torch.tensor(atoms.get_atomic_numbers(),
                                    dtype=torch.long).unsqueeze(0)
                 _, e = self.model((num, pos))
-                return float(e.item())
+                return float(e.item()) * 27.211386245988
             def get_forces(self, atoms):
                 import torch
                 pos = torch.tensor(atoms.get_positions(),
@@ -368,7 +368,7 @@ def _ml_calc():
                                    dtype=torch.long).unsqueeze(0)
                 _, e = self.model((num, pos))
                 f = -torch.autograd.grad(e, pos)[0]
-                return f.squeeze(0).detach().numpy()
+                return f.squeeze(0).detach().numpy() * 27.211386245988
         return _ANIWrapper(), "ANI-2x (torchani, ASE-style adapter)"
     except Exception as exc:
         _fallback(f"ANI-2x also unavailable ({exc.__class__.__name__}: "
@@ -423,7 +423,7 @@ def stage3_ff_duality(out: Path, force: bool = False) -> bool:
         unit.kilojoule_per_mole / unit.nanometer))
     e_gaff = e_gaff_kj / 4.184
     f_gaff = f_gaff_kjnm * KJNM_TO_KCALA
-    _log("3", f"GAFF2 single point: E = {e_gaff:.2f} kcal/mol, "
+    _log("3", f"Sage 2.1 single point: E = {e_gaff:.2f} kcal/mol, "
               f"|F|max = {np.abs(f_gaff).max():.2f} kcal/mol/A")
 
     # ---------------- classical 2: MMFF94 (numeric gradients) -------------- #
@@ -617,7 +617,7 @@ def _mol_to_pdb_string(mol, resname="LIG") -> str:
 def _place_hydrogens_openmm(mol, sys_builder, tag: str) -> bool:
     """Relax ONLY hydrogens with heavy atoms pinned."""
     try:
-        from openmm import (CustomExternalForce, LocalEnergyMinimization,
+        from openmm import (CustomExternalForce, LocalEnergyMinimizer,
                             LangevinMiddleIntegrator, Platform, Context, unit)
         system = sys_builder(mol)
         conf = mol.GetConformer()
@@ -639,8 +639,8 @@ def _place_hydrogens_openmm(mol, sys_builder, tag: str) -> bool:
                                          1 * unit.femtosecond)
         ctx = Context(system, integ, Platform.getPlatformByName("CPU"))
         ctx.setPositions(pos_nm)
-        LocalEnergyMinimization(ctx, tolerance=10 * unit.kilojoule_per_mole
-                                / unit.nanometer)
+        LocalEnergyMinimizer.minimize(ctx, tolerance=10 * unit.kilojoule_per_mole
+                                     / unit.nanometer)
         newpos = np.array(ctx.getState(getPositions=True)
                           .getPositions().value_in_unit(unit.nanometer)) * 10.0
         for i in range(mol.GetNumAtoms()):
@@ -811,7 +811,7 @@ def stage2_docking(out: Path, force: bool = False) -> bool:
                      if not l.startswith(("TER", "END", "CRYST", "HEADER"))])
         texts.append(t)
     rec_merged = out / "receptor_merged.pdb"
-    rec_merged.write_text(nl_join(texts) + nl + "END" + nl, encoding="ascii")
+    rec_merged.write_text(nl_join(texts) + "\nEND\n", encoding="ascii")
     rec_pdbqt = out / "receptor.pdbqt"
     ob = shutil.which("obabel")
     if ob is None:
@@ -828,7 +828,7 @@ def stage2_docking(out: Path, force: bool = False) -> bool:
     engine = None
     try:
         from vina import Vina
-        v = Vina(sf_name="vina", cpu=0, seed=42, verbosity=1)
+        v = Vina(sf_name="vina", cpu=int(os.environ.get("OMP_NUM_THREADS", "2")), seed=42, verbosity=1)
         v.set_receptor(str(rec_pdbqt))
         v.set_ligand_from_string(lig_pdbqt_str)
         v.compute_vina_maps(center=center, box_size=box)
@@ -837,9 +837,10 @@ def stage2_docking(out: Path, force: bool = False) -> bool:
         v.write_poses(str(pose_pdbqt), n_poses=9, overwrite=True)
         engine = "AutoDock Vina 1.2 (python API)"
     except ImportError:
-        vina_exe = Path(__file__).parent / "tools" / "vina.exe"
+        vina_exe = Path(os.environ.get("VINA_EXE") or shutil.which("vina")
+                        or Path(__file__).parent / "tools" / "vina.exe")
         if not vina_exe.exists():
-            raise RuntimeError("neither vina python module nor tools/vina.exe")
+            raise RuntimeError("Vina unavailable: install its Python package or set VINA_EXE to an existing executable")
         cmd = [str(vina_exe),
                "--receptor", str(rec_pdbqt),
                "--ligand", str(out / "T04_docking_input.pdbqt"),
@@ -849,7 +850,8 @@ def stage2_docking(out: Path, force: bool = False) -> bool:
                "--center_z", f"{center[2]:.3f}",
                "--size_x", str(box[0]), "--size_y", str(box[1]),
                "--size_z", str(box[2]),
-               "--exhaustiveness", "16", "--num_modes", "9", "--seed", "42"]
+               "--exhaustiveness", "16", "--num_modes", "9", "--seed", "42",
+               "--cpu", os.environ.get("OMP_NUM_THREADS", "2")]
         (out / "T04_docking_input.pdbqt").write_text(lig_pdbqt_str,
                                                      encoding="ascii")
         proc = subprocess.run(cmd, capture_output=True, text=True, timeout=3600)
@@ -866,8 +868,7 @@ def stage2_docking(out: Path, force: bool = False) -> bool:
                 energies.append([aff, rmsd_lb, rmsd_ub, 0.0, 0.0, 0.0])
         if not energies:
             raise RuntimeError("could not parse vina CLI output")
-        engine = ("AutoDock Vina v1.2.5 CLI executable "
-                  "(python API wheel unavailable on win/py312)")
+        engine = f"AutoDock Vina CLI executable {vina_exe} (Python API unavailable)"
     dt = time.time() - t0
     top3 = energies[:3]
     _log("2", "top poses (kcal/mol): " +
@@ -948,6 +949,17 @@ def _gdp_rdkol_with_h(out: Path):
         except Exception:
             continue
     return None
+
+
+def _splice_bonds(force, combined, system, mol, offset, existing_constraints):
+    """OpenMM bond tuple is (atom1, atom2, length, spring constant)."""
+    for i in range(force.getNumBonds()):
+        p1, p2, length, spring = force.getBondParameters(i)
+        combined.addBond(p1 + offset, p2 + offset, length, spring)
+        h1 = mol.GetAtomWithIdx(p1).GetAtomicNum() == 1
+        h2 = mol.GetAtomWithIdx(p2).GetAtomicNum() == 1
+        if h1 != h2 and frozenset((p1, p2)) not in existing_constraints:
+            system.addConstraint(p1 + offset, p2 + offset, length)
 
 
 def _build_complex_system(topology, positions, keep_small_mols=True):
@@ -1049,15 +1061,7 @@ def _build_complex_system(topology, positions, keep_small_mols=True):
                 if combined_b is None:
                     combined_b = HarmonicBondForce()
                     system.addForce(combined_b)
-                for i in range(f.getNumBonds()):
-                    p1, p2, k, r0 = f.getBondParameters(i)
-                    combined_b.addBond(p1 + offset, p2 + offset, k, r0)
-                    # constrain X-H bonds lacking a Sage constraint
-                    # (free hydrogens at dt=2 fs blow up numerically)
-                    h1 = rdmol.GetAtomWithIdx(p1).GetAtomicNum() == 1
-                    h2 = rdmol.GetAtomWithIdx(p2).GetAtomicNum() == 1
-                    if h1 != h2 and frozenset((p1, p2)) not in small_cons:
-                        system.addConstraint(p1 + offset, p2 + offset, r0)
+                _splice_bonds(f, combined_b, system, rdmol, offset, small_cons)
             elif isinstance(f, HarmonicAngleForce):
                 if combined_a is None:
                     combined_a = HarmonicAngleForce()
@@ -1355,7 +1359,7 @@ def stage4_complex_md(out: Path, args, force: bool = False) -> bool:
 
     m = analyzer.summary()
     rec = {
-        "force_field": "Amber14SB (protein) + GAFF-2.11/AM1-BCC (ligand+GDP) "
+        "force_field": "Amber14SB (protein) + Sage-2.1/AM1-BCC (ligand+GDP) "
                        "+ GBSA/OBC2 implicit",
         "ionic_strength_M": 0.15,
         "temperature_K": 310.0,
@@ -2048,7 +2052,7 @@ def stage6_figures(fig_dir: Path) -> bool:
                        edgecolors="none", label=m)
         lim = max(fg.max(), fm.max()) * 1.05
         a1.plot([0, lim], [0, lim], "k--", lw=0.8)
-        a1.set_xlabel("|ΔF| GAFF2 − ML (kcal/mol/Å)")
+        a1.set_xlabel("|ΔF| Sage 2.1 − ML (kcal/mol/Å)")
         a1.set_ylabel("|ΔF| MMFF94 − ML (kcal/mol/Å)")
         a1.set_title("(A) force-field discrepancy magnitude\n"
                      "(distance to the ML reference)", fontsize=10.5)
@@ -2058,11 +2062,11 @@ def stage6_figures(fig_dir: Path) -> bool:
         a2.bar(range(len(order)), fg[order],
                color=[mcol[moieties[i]] for i in order], width=1.0)
         a2.set_xlabel("ligand atom (sorted)")
-        a2.set_ylabel("|F_GAFF2 − F_ML| (kcal/mol/Å)")
+        a2.set_ylabel("|F_Sage − F_ML| (kcal/mol/Å)")
         p = ml["parity"]["gaff2"]
-        a2.set_title(f"(B) atomic force discrepancy (GAFF2 vs "
+        a2.set_title(f"(B) atomic force discrepancy (Sage 2.1 vs "
                      f"{ml['engine'].split(' (')[0]})\n"
-                     f"mean cos(F_GAFF2, F_ML) = {p['mean_cosine']:.3f} | "
+                     f"mean cos(F_Sage, F_ML) = {p['mean_cosine']:.3f} | "
                      f"⟨|ΔF|⟩ = {p['df_atom_mean']:.2f} kcal/mol/Å",
                      fontsize=10.5)
         fig.suptitle("Classical vs ML potential: force-field discrepancy "
@@ -2159,6 +2163,8 @@ def main() -> int:
             _hr(f"STAGE {name}")
             try:
                 ok = fn()
+                if not ok:
+                    raise RuntimeError("stage returned unsuccessful status")
                 _log("stage", f"{name}: {'OK' if ok else 'SKIPPED'}")
             except Exception as exc:
                 code = 1

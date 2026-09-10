@@ -1,0 +1,58 @@
+{
+  "mode": "same-campaign implicit-and-analysis continuation",
+  "timestamp": "2026-09-10T14:40:37.865150",
+  "pid": 8900,
+  "driver": "$SOURCE_ROOT\\run_phase6_explicit_metadynamics.py",
+  "cwd": "$CAMPAIGN\\phase06\\20260910T135824",
+  "completed_explicit_steps": 200000,
+  "artifacts": [
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\phase6_results.json",
+      "sha256": "63aeb996ea159d58b56872fe2b656f072b9c964df64d68d6d6a5133491a5b10b"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\metadyn_state.json",
+      "sha256": "648ef125ada007c9ae1a7960f31dc6cdae67c5af8c540ff61dce39ffb0ccacdc"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\prod_explicit.chk",
+      "sha256": "d0ab52c6133bb521a5025d8782176e3368cf3030e1dbc3028208eeeb6285772a"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\progress_explicit.csv",
+      "sha256": "97962b6ba09fb591def20eca20913416b9c303406b9c6727726033e958987557"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\traj_explicit.dcd",
+      "sha256": "dcb66ad507850b12e0d7d4b5b3177e6cd0b6b9df327ba42a4cd27829c081b567"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\solvated_equilibrated.pdb",
+      "sha256": "5a22430c57f29ce3ef4bfd4c6f4d123a837bb5271eb48d16a013eb01036fddf5"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\cache\\charges_reactant.txt",
+      "sha256": "a1ff166c66ea32e5b7674dcef417eab22a27207d7e91d7e84483df144a8f8386"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\cache\\charges_product.txt",
+      "sha256": "07adfd774fcd555d38cf04eff9891f73ef791680bc87862a48f186b5e1fff2a3"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\cache\\morse_fit.json",
+      "sha256": "b496938caec77cb5b4faeecb12fb8002f80356bcad274acffbc9b853f983a3b7"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\rerun_status.json",
+      "sha256": "8f423dda2b4a66a66368b9843977728e6a84ed8a31f54ab2505010aa0e88b95d"
+    },
+    {
+      "source": "$SOURCE_ROOT\\run_phase6_explicit_metadynamics.py",
+      "sha256": "7df774868dca17911c12be8f90b7d15e634862a61b945758e2b11f01519230fe"
+    },
+    {
+      "source": "$CAMPAIGN\\phase06\\20260910T135824\\run_phase6_explicit_metadynamics.py",
+      "sha256": "43cb9eaf2d35dcdae865344dfe49412befa213638051b028b3645bd9bd799baf"
+    }
+  ]
+}

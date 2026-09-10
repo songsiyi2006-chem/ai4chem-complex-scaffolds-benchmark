@@ -1,3 +1,9 @@
+## Phase 1–19 fresh reruns / 本轮重新计算（持续更新）
+
+修复代码与本轮独立运行的证据已分开记录，**不代表全部阶段通过**。查看 [逐阶段状态](PHASE1_19_RERUN_STATUS.md)、[公开核验证据](audit/phase1_19_rerun_20260910/README.md) 和 [命令、源码与结果哈希](audit/phase1_19_rerun_20260910/manifest.json)。其中包括失败和采样不足的结果；下方旧审计说明及历史图表不自动等于本轮结果。
+
+Current evidence distinguishes completed checks, failed convergence, insufficient sampling and pending runs. No experimental or hardware validation is implied. Large trajectories/checkpoints are not included in the selected public evidence bundle; omissions and text-path redaction are documented in its manifest.
+
 ## Phase 24 · GXNU AI-assisted high-throughput catalysis pilot
 
 Based on the supplied GXNU platform proposal, this phase implements a **simulation-only software/data pilot**, not an experimentally commissioned laboratory. 基于广西师范大学平台论证材料完成的软件原型，全部反应响应为模拟，OT-2 默认仅作水替代调试。
@@ -853,8 +859,29 @@ python run_phase19_active_inference_denovo_enzyme.py --fig_only # re-render figu
 # stages: build | curate | tfba | sweep | dynamics | figures | all   (resumable, HiGHS MILP)
 ```
 
-> The master architecture is complete through Phase 19 — the Pantheon stands.
+> These phases are computational prototypes. Code availability, a completed run,
+> numerical convergence, and experimental validation are distinct claims.
 > This repository also preserves the earlier sibling project [`aqueous-solubility-ml-benchmark`](https://github.com/songsiyi2006-chem/aqueous-solubility-ml-benchmark) (ESOL/AqSolDB solubility modeling) in its history — see the initial commit.
+
+## Phase 1–19 fresh rerun audit (2026-09-10)
+
+The audit is in progress; it must not be described as all 19 phases passing.
+See [live rerun inventory](PHASE1_19_RERUN_STATUS.md),
+[public command/source-hash manifest](audit/phase1_19_rerun_20260910/manifest.json), and
+[Phase 1/2/9/14/18 corrections](PHASE1_2_9_14_18_RERUN_NOTES.md).
+Other corrections are documented in `PHASE*_RERUN_NOTES.md`.
+
+```bash
+python run_phase1_19_regressions.py
+python rerun_phase1_19_campaign.py --phases 1
+python summarize_phase1_19_reruns.py
+```
+
+The campaign runner currently records this Windows host's interpreter/dependency
+paths. Adapt those paths before using another host. It creates fresh source
+snapshots and does not push commits, operate hardware, or shut down the computer.
+For Phases 6/7, supply `--phase4-attempt PATH` to the fresh Phase 4 geometry run.
+Original phase figures are not automatically replaced by unreviewed reruns.
 
 ## License
 

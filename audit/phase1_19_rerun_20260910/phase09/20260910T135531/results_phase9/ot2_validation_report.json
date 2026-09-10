@@ -1,0 +1,22 @@
+{
+  "round1": {
+    "path": "$CAMPAIGN\\phase09\\20260910T135531\\output_ot2_protocol.py",
+    "py_compile": "PASS",
+    "ast_audit": "PASS",
+    "ast_findings": [],
+    "opentrons_simulate_binary": "$WORK_ROOT\\phase24-ot2-env\\Scripts\\opentrons_simulate.exe",
+    "opentrons_simulate_attempts": [],
+    "opentrons_simulate": "PASS (opentrons_simulate rc=0)",
+    "hardware_validation_passed": true
+  },
+  "champion": {
+    "path": "$CAMPAIGN\\phase09\\20260910T135531\\results_phase9\\output_ot2_protocol_champion.py",
+    "py_compile": "PASS",
+    "ast_audit": "PASS",
+    "ast_findings": [],
+    "opentrons_simulate_binary": "$WORK_ROOT\\phase24-ot2-env\\Scripts\\opentrons_simulate.exe",
+    "opentrons_simulate_attempts": [],
+    "opentrons_simulate": "PASS (opentrons_simulate rc=0)",
+    "hardware_validation_passed": true
+  }
+}

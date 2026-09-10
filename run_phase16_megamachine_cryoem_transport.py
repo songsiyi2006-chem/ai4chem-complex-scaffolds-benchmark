@@ -72,6 +72,7 @@ import argparse
 import gc
 import json
 import math
+import os
 import time
 from pathlib import Path
 
@@ -1592,7 +1593,8 @@ def openmm_crosscheck(en, types, pos_fit, n_drift):
     integ = mm.LangevinMiddleIntegrator(T_SIM * u.kelvin, 5.0 / u.picosecond, 0.020 * u.picoseconds)
     names = [mm.Platform.getPlatform(q).getName() for q in range(mm.Platform.getNumPlatforms())]
     plat = mm.Platform.getPlatformByName("CPU" if "CPU" in names else "Reference")
-    context = mm.Context(system, integ, plat)
+    properties = {"Threads": os.environ.get("OMP_NUM_THREADS", "2")} if plat.getName() == "CPU" else {}
+    context = mm.Context(system, integ, plat, properties)
     context.setPositions(pos_fit * u.nanometer)
     f_omm = context.getState(getForces=True).getForces(asNumpy=True).value_in_unit(
         u.kilojoule_per_mole / u.nanometer)
@@ -1878,6 +1880,15 @@ def analyze_transport(results, fast):
         eq_cts = d["eq_contact_max"].astype(float)
         gamma = d["gamma"].astype(np.float64)      # amu/ps (whole complex)
         M_cx = float(d["M_cx"])
+        if (z0s.ndim != 1 or len(z0s) < 2 or not np.isfinite(z0s).all()
+                or not np.all(np.diff(z0s) > 0)):
+            raise ValueError("Transport windows must have finite increasing coordinates")
+        if (force.ndim != 2 or force.shape[0] != len(z0s)
+                or force.shape[1] < 2 or not np.isfinite(force).all()):
+            raise ValueError("Transport needs two or more finite force samples per window")
+        if (gamma.shape != z0s.shape or not np.isfinite(gamma).all()
+                or np.any(gamma <= 0)):
+            raise ValueError("Transport friction must be finite and positive in every window")
         Fbar = force.mean(axis=1)
         half = max(1, force.shape[1] // 2)
         F1 = force[:, :half].mean(axis=1)
@@ -1905,6 +1916,8 @@ def analyze_transport(results, fast):
         Dsel = np.maximum(Dz, 1e-8)
         Rint = float(TRAPZ(np.exp(gg) / Dsel, zz))
         rh = float(d["rh"])
+        if not np.isfinite(Rint) or Rint <= 0 or not np.isfinite(rh) or rh <= 0:
+            raise ValueError("Transport resistance and hydrodynamic radius must be positive and finite")
         D_SE_um2 = (KT * 1.6605e-21 / (6 * math.pi * ETA_WATER * rh * 1e-9)) * 1e12
         zbulk = np.abs(z0s) > 22.0
         bulk_D = float(np.mean(Dz[zbulk])) if zbulk.any() else float(np.mean(Dz))

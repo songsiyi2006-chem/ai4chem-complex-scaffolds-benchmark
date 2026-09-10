@@ -68,6 +68,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import time
@@ -835,7 +836,7 @@ def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
     """
     import torch
     torch.manual_seed(seed)
-    torch.set_num_threads(4)
+    torch.set_num_threads(max(1, int(os.environ.get("OMP_NUM_THREADS", "2"))))
     dt64 = torch.float64
 
     class Net(torch.nn.Module):
@@ -904,7 +905,7 @@ def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
         opt.step()
         sched.step()
         if step % 500 == 0 or step == n_steps - 1:
-            print(f"      {elapsed()} step {step:5d}  loss = {float(loss):.3e}",
+            print(f"      {elapsed()} step {step:5d}  loss = {float(loss.detach()):.3e}",
                   flush=True)
     return net
 
@@ -1882,9 +1883,16 @@ def main():
     export_cpp_kernel(RES / "phase12_kernels.hpp", expr_rows, netH, netV)
     try:
         cpp_ok = cpp_demo_and_verify(RES / "phase12_kernels.hpp", expr_rows, netH, netV)
+        results["12B"]["cpp_execution_check"] = {
+            "status": "measured" if cpp_ok is not None else "not_completed",
+            "max_abs_diff": cpp_ok,
+        }
     except Exception as exc:                               # noqa: BLE001
         print(f"   {elapsed()} C++ execution check skipped ({exc})")
         cpp_ok = None
+        results["12B"]["cpp_execution_check"] = {
+            "status": "not_completed", "error": str(exc),
+        }
     if cpp_ok:
         results["12B"]["cpp_kernel_max_abs_diff"] = cpp_ok
 

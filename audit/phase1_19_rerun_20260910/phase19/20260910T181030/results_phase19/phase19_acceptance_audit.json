@@ -1,0 +1,466 @@
+{
+  "source": "$CAMPAIGN\\phase19\\20260910T181030\\results_phase19\\phase19_results.json",
+  "source_sha256": "77ea6b78c93367a203d1e78db91244f23f52dfcd824a7544c0b8cc3d63dec785",
+  "snapshot_barrier_gate": 12.0,
+  "audit_barrier_gate": 12.0,
+  "audit_rmsf_gate": 0.8,
+  "audit_minimum_production_ps": 40.0,
+  "measurements_recomputed": false,
+  "candidates": [
+    {
+      "generation": 1,
+      "candidate": 0,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 1,
+      "candidate": 1,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 1,
+      "candidate": 2,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 1,
+      "candidate": 3,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 1,
+      "candidate": 4,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 1,
+      "candidate": 5,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 2,
+      "candidate": 0,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 2,
+      "candidate": 1,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 2,
+      "candidate": 2,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 2,
+      "candidate": 3,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 2,
+      "candidate": 4,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 2,
+      "candidate": 5,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 3,
+      "candidate": 0,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 3,
+      "candidate": 1,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 3,
+      "candidate": 2,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 3,
+      "candidate": 3,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 3,
+      "candidate": 4,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 3,
+      "candidate": 5,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 4,
+      "candidate": 0,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 4,
+      "candidate": 1,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 4,
+      "candidate": 2,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 4,
+      "candidate": 3,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 4,
+      "candidate": 4,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 4,
+      "candidate": 5,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 5,
+      "candidate": 0,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 5,
+      "candidate": 1,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 5,
+      "candidate": 2,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 5,
+      "candidate": 3,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 5,
+      "candidate": 4,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    },
+    {
+      "generation": 5,
+      "candidate": 5,
+      "accepted": false,
+      "gate_failures": [
+        "construction_or_static_gate_failed",
+        "constellation_rmsd_above_0.30_A_or_missing",
+        "md_missing_failed_or_insufficient_frames",
+        "md_below_full_declared_production_duration",
+        "rmsf_above_gate_or_missing",
+        "ca_rmsd_above_4_A_or_missing",
+        "potential_scan_missing_failed_or_above_gate"
+      ],
+      "barrier_kcal": null
+    }
+  ],
+  "candidate_records_available": true,
+  "acceptance_status": "no_accepted_design",
+  "accepted_candidates": [],
+  "enzyme_performance_validated": false,
+  "extra_champion_md_performed": false
+}

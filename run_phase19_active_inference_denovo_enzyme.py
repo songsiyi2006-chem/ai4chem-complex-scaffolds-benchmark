@@ -150,8 +150,8 @@ CONFIG = dict(
     MD_PS_CAND=40.0,             # production ps per MD-gated candidate
     MD_PS_CHAMPION=120.0,        # production ps for the final champion
     MD_DT_FS=2.0,
-    RMSF_GATE=25.0,              # theozyme RMSF acceptance (A; 0.8 target)
-    BARRIER_GATE=12.5,           # catalytic barrier acceptance (kcal/mol)
+    RMSF_GATE=0.8,               # theozyme RMSF acceptance (A)
+    BARRIER_GATE=12.0,           # potential-scan model target (kcal/mol)
     BARRIER_PREFERENCE=12.0,     # prior preference C (kcal/mol)
     QM_MM_SCAN_PTS=9,
     QM_MM_FC=1.5,                # scan constraint force constant (Eh/a0^2 rel.)
@@ -240,6 +240,47 @@ def rigid_apply(P, R, t):
 
 
 _SUB_CACHE = {}
+_GLU_GRID_CACHE = None
+
+
+def _glu_rotamer_grid():
+    """Build each chi triple once; proper rigid rotations preserve NeRF geometry."""
+    global _GLU_GRID_CACHE
+    if _GLU_GRID_CACHE is None:
+        names = ("CB", "CG", "CD", "OE1", "OE2")
+        frame = motif_frame_atoms(np.zeros(3), np.eye(3))
+        chis = [(float(a), float(b), float(c))
+                for a in range(-180, 180, 24)
+                for b in range(-180, 180, 24)
+                for c in range(-180, 180, 24)]
+        xyz = np.array([[sc[k] for k in names] for sc in
+                        (build_sidechain("GLU", frame, list(chi), 1.0)
+                         for chi in chis)])
+        _GLU_GRID_CACHE = names, chis, xyz
+    return _GLU_GRID_CACHE
+
+
+def _select_glu_anchor(o_base, zhat, sub_heavy, rotations):
+    """Exhaust the original grid; test stem clearance in the translated frame."""
+    names, chis, canonical = _glu_rotamer_grid()
+    best = None
+    for rotation in rotations:
+        xyz = canonical @ rotation.T
+        ca = o_base - xyz[:, 3]
+        reach = np.linalg.norm(xyz[:, 3], axis=1)
+        z = ca @ zhat
+        stems = xyz[:, 1:3] + ca[:, None, :]
+        clearance = np.linalg.norm(
+            stems[:, :, None, :] - sub_heavy[None, None, :, :], axis=-1)
+        valid = ((reach >= 4.2) & (reach <= 4.9) & (z >= 1.0)
+                 & (z <= 1.9) & (clearance.min(axis=(1, 2)) > 3.0))
+        costs = np.where(valid, np.abs(reach - 4.5)
+                         + np.maximum(0.0, 1.2 - z) * 4.0, np.inf)
+        idx = int(np.argmin(costs))
+        if np.isfinite(costs[idx]) and (best is None or costs[idx] < best[0]):
+            best = (float(costs[idx]), ca[idx].copy(),
+                    dict(zip(names, xyz[idx].copy())), rotation, chis[idx])
+    return best
 
 
 def _cached_geom(smiles, seed, key):
@@ -355,34 +396,11 @@ class Theozyme:
         # reproduce the constellation bit-for-bit.
         a_glu = rotate_about(attack_axis, self.zhat, 0.0)             + self.zhat * 0.55
         a_glu /= np.linalg.norm(a_glu)
-        best_g = None
         R_g0 = _rot_between(_KHAT, a_glu)
-        for roll in range(-180, 180, 10):
-            R_g = _rot_about_axis(a_glu, math.radians(roll)) @ R_g0
-            res0 = motif_frame_atoms(np.zeros(3), R_g)
-            for chi1 in range(-180, 180, 24):
-                for chi2 in range(-180, 180, 24):
-                    for chi3 in range(-180, 180, 24):
-                        chis = (float(chi1), float(chi2), float(chi3))
-                        sc = build_sidechain("GLU", res0, list(chis), 1.0)
-                        if "OE1" not in sc:
-                            continue
-                        ca_try = self.o_base - sc["OE1"]
-                        z_off = float(ca_try @ self.zhat)
-                        d = float(np.linalg.norm(ca_try - self.o_base))
-                        stem_pts = [sc[k] for k in ("CG", "CD")
-                                    if k in sc]
-                        sub_h = self.pos_sub[[j for j, nm in
-                                              enumerate(self.sym)
-                                              if nm != "H"]]
-                        stem_clear = all(
-                            np.linalg.norm(sub_h - q, axis=1).min() > 3.0
-                            for q in stem_pts)
-                        ok = (4.2 <= d <= 4.9 and 1.0 <= z_off <= 1.9
-                              and stem_clear)
-                        cost = abs(d - 4.5) + max(0.0, 1.2 - z_off) * 4.0
-                        if ok and (best_g is None or cost < best_g[0]):
-                            best_g = (cost, ca_try, sc, R_g, chis)
+        rotations = [_rot_about_axis(a_glu, math.radians(roll)) @ R_g0
+                     for roll in range(-180, 180, 10)]
+        sub_h = self.pos_sub[[j for j, nm in enumerate(self.sym) if nm != "H"]]
+        best_g = _select_glu_anchor(self.o_base, self.zhat, sub_h, rotations)
         if best_g is None:
             raise AssertionError("Glu theozyme anchor unreachable")
         _, ca_glu, sc_g, R_g, chis_g = best_g
@@ -458,7 +476,7 @@ class Theozyme:
         long_ax = cen - ind_pos[i_n1]                   # N1 -> six-ring center
         _, _, ez_ind = _pca_frame(ind_pos[heavy])
         ez_ind = ez_ind / np.linalg.norm(ez_ind)
-        long_ax = long_ax - long_ax * (long_ax @ ez_ind)
+        long_ax = long_ax - ez_ind * (long_ax @ ez_ind)
         long_ax /= np.linalg.norm(long_ax)
         R0 = np.vstack([long_ax, np.cross(ez_ind, long_ax), ez_ind])
         ind = (ind_pos - cen) @ R0.T                    # canonical: z = normal
@@ -509,13 +527,22 @@ class Theozyme:
 
 
 def _rot_between(a, b):
-    """Rotation matrix taking unit vector a onto unit vector b."""
+    """Proper rotation mapping directions a onto b, including antiparallel axes."""
+    a, b = np.asarray(a, float), np.asarray(b, float)
+    na, nb = np.linalg.norm(a), np.linalg.norm(b)
+    if not np.isfinite(na + nb) or min(na, nb) < 1e-12:
+        raise ValueError("Rotation directions must be finite and nonzero")
+    a, b = a / na, b / nb
     v = np.cross(a, b)
-    c = float(a @ b)
-    if abs(c) > 1 - 1e-9:
-        return np.eye(3) if c > 0 else np.diag([1.0, -1.0, -1.0])
+    c = float(np.clip(a @ b, -1., 1.))
+    if np.linalg.norm(v) < 1e-12:
+        if c > 0:
+            return np.eye(3)
+        axis = np.cross(a, np.eye(3)[int(np.argmin(np.abs(a)))])
+        axis /= np.linalg.norm(axis)
+        return 2.0 * np.outer(axis, axis) - np.eye(3)
     vx = np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
-    return np.eye(3) + vx + vx @ vx * (1.0 / (1.0 + c))
+    return np.eye(3) + vx + vx @ vx * ((1.0 - c) / float(v @ v))
 
 
 def _rot_about_axis(axis, ang):
@@ -803,9 +830,9 @@ def place_helix_anchor(p_ca, axis, n_res, offset_idx, azimuth_deg,
     # roll about the target axis so residue offset_idx faces `azimuth_deg`
     a = np.asarray(axis, float) / np.linalg.norm(axis)
     r_vec = hel[offset_idx]["CA"] - P.mean(0)
-    r_vec = r_vec - r_vec * (r_vec @ ax_src)
+    r_vec = r_vec - ax_src * (r_vec @ ax_src)
     r_rot = r_vec @ R0.T
-    r_rot = r_rot - r_rot * (r_rot @ a)
+    r_rot = r_rot - a * (r_rot @ a)
     az_now = math.degrees(math.atan2(np.linalg.norm(np.cross(r_rot, a)),
                                      float(r_rot @ a)))
     roll = math.radians(azimuth_deg - az_now)
@@ -826,7 +853,7 @@ def face_azimuth(p_ca, target, axis):
     `target`, given the helix axis."""
     a = np.asarray(axis, float) / np.linalg.norm(axis)
     d = np.asarray(target, float) - p_ca
-    d = d - d * (d @ a)
+    d = d - a * (d @ a)
     if np.linalg.norm(d) < 1e-9:
         return 0.0
     return math.degrees(math.atan2(np.linalg.norm(np.cross(d, a)),
@@ -881,9 +908,9 @@ def place_helix_anchor(p_ca, axis, n_res, offset_idx, azimuth_deg=0.0):
     R0 = _rot_between(ax_src, np.asarray(axis, float))
     a = np.asarray(axis, float) / np.linalg.norm(axis)
     r_vec = hel[offset_idx]["CA"] - P.mean(0)
-    r_vec = r_vec - r_vec * (r_vec @ ax_src)
+    r_vec = r_vec - ax_src * (r_vec @ ax_src)
     r_rot = r_vec @ R0.T
-    r_rot = r_rot - r_rot * (r_rot @ a)
+    r_rot = r_rot - a * (r_rot @ a)
     az_now = math.degrees(math.atan2(np.linalg.norm(np.cross(r_rot, a)),
                                      float(r_rot @ a)))
     roll = math.radians(azimuth_deg - az_now)
@@ -1011,9 +1038,9 @@ def aim_frame_cb(ca, R0, aim_target):
     axis = R0 @ _KHAT
     axis /= np.linalg.norm(axis)
     cb = R0 @ _CBHAT
-    cb = cb - cb * (cb @ axis)
+    cb = cb - axis * (cb @ axis)
     tgt = np.asarray(aim_target, float) - ca
-    tgt = tgt - tgt * (tgt @ axis)
+    tgt = tgt - axis * (tgt @ axis)
     if np.linalg.norm(tgt) < 1e-9 or np.linalg.norm(cb) < 1e-9:
         return R0
     err = math.atan2(float(np.cross(cb, tgt) @ axis), float(cb @ tgt))
@@ -1263,22 +1290,22 @@ def place_free_bundle(tz, rng, flow_dirs=None):
             n_ref = np.cross(to_t, ax_w)
             n_ref /= max(np.linalg.norm(n_ref), 1e-9)
             d_hat = (0.62 * to_t + 0.79 * n_ref)
-            d_hat = d_hat - d_hat * (d_hat @ ax_w)
+            d_hat = d_hat - ax_w * (d_hat @ ax_w)
         elif htype == "GLU":
             # aim the all-anti OE1 reach axis at the attack position
             d_hat = np.asarray(target, float) - ca
-            d_hat = d_hat - d_hat * (d_hat @ ax_w)
+            d_hat = d_hat - ax_w * (d_hat @ ax_w)
         else:
             cb_w = fr @ _CBHAT
             d_hat = np.asarray(target, float) - ca
-            d_hat = d_hat - d_hat * (d_hat @ ax_w)
+            d_hat = d_hat - ax_w * (d_hat @ ax_w)
         d_hat = d_hat / max(np.linalg.norm(d_hat), 1e-9)
         cg_w = fr @ _CGHAT
-        cgp = cg_w - cg_w * (cg_w @ ax_w)
+        cgp = cg_w - ax_w * (cg_w @ ax_w)
         if htype == "GLU":
             # roll so the anti-OE1 axis faces the target directly
             o_w = fr @ _oe1hat()
-            op = o_w - o_w * (o_w @ ax_w)
+            op = o_w - ax_w * (o_w @ ax_w)
             roll = math.degrees(math.atan2(float(np.cross(op, d_hat) @ ax_w),
                                            float(op @ d_hat)))
         else:
@@ -1301,7 +1328,7 @@ def place_free_bundle(tz, rng, flow_dirs=None):
         d = np.asarray(to, float) - np.asarray(frm, float)
         d /= np.linalg.norm(d)
         v = rng.normal(size=3)
-        v -= v * (v @ d)
+        v -= d * (v @ d)
         n = np.linalg.norm(v)
         if n < 1e-6:
             return None
@@ -1311,7 +1338,7 @@ def place_free_bundle(tz, rng, flow_dirs=None):
         d = np.asarray(to, float) - np.asarray(frm, float)
         d /= np.linalg.norm(d)
         v = rng.normal(size=3)
-        v -= v * (v @ d)
+        v -= d * (v @ d)
         n = np.linalg.norm(v)
         if n < 1e-6:
             return None
@@ -1334,10 +1361,10 @@ def place_free_bundle(tz, rng, flow_dirs=None):
             continue
         c4.append((_aimed_rod(tz.ca_trp, v, HELIX_LENS[4], tz.ne1,
                               htype="CB"), v))
-    c7 = []
-    for az in range(-180, 180, 12):
-        c7.append(place_helix_ncap(tz.n_don1, tz.helix_c_axis,
-                                   HELIX_LENS[7], tz.pos_sub[tz.i_O7]))
+    # The former az loop did not pass az to the deterministic N-cap solver:
+    # all 30 candidates were identical, including their internal roll search.
+    c7 = [place_helix_ncap(tz.n_don1, tz.helix_c_axis,
+                           HELIX_LENS[7], tz.pos_sub[tz.i_O7])]
     c1 = [(r, v) for (r, v) in c1 if r is not None]
     c4 = [(r, v) for (r, v) in c4 if r is not None]
     c1.sort(key=lambda t: rod_cost(t[0], []))
@@ -1386,7 +1413,7 @@ def place_free_bundle(tz, rng, flow_dirs=None):
             r = rng.uniform(12.0, 17.0)
             cen_i = cen + r * u
             t = rng.normal(size=3)
-            t -= t * (t @ u)
+            t -= u * (t @ u)
             if np.linalg.norm(t) < 0.15:
                 continue
             t /= np.linalg.norm(t)
@@ -1428,8 +1455,12 @@ def fold_dataset(tz, n_structs, rng, seg_lens=None):
     realization stage solves it by DP over rod orientations."""
     data = []
     tries = 0
+    started = time.monotonic()
     while len(data) < n_structs and tries < n_structs * 40:
         tries += 1
+        if tries > 1 and (tries - 1) % 25 == 0:
+            log(f"    fold proposals={tries - 1}, accepted={len(data)}/{n_structs}, "
+                f"elapsed={time.monotonic() - started:.1f}s")
         rods, cost = place_free_bundle(tz, rng)
         if rods is None:
             continue
@@ -1466,22 +1497,8 @@ def fold_dataset(tz, n_structs, rng, seg_lens=None):
 
 # --- SO(3) utilities (numpy + torch) ----------------------------------------
 def so3_log(R):
-    """Rotation vector (axis-angle, radians) from a rotation matrix."""
-    c = (np.trace(R) - 1.0) / 2.0
-    c = float(np.clip(c, -1.0, 1.0))
-    theta = math.acos(c)
-    if theta < 1e-8:
-        return np.zeros(3)
-    if abs(math.pi - theta) < 1e-5:                      # near-pi branch
-        A = (R + np.eye(3)) / 2.0
-        axis = np.sqrt(np.clip(np.diag(A), 0.0, 1.0))
-        k = int(np.argmax(axis))
-        axis = A[:, k] / axis[k] if axis[k] > 1e-12 else axis
-        axis = axis / np.linalg.norm(axis)
-        return axis * theta
-    w = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0],
-                  R[1, 0] - R[0, 1]]) / (2.0 * math.sin(theta))
-    return w * theta
+    """Principal rotation vector, using the same stable path as batch targets."""
+    return _so3_log_batch(np.eye(3)[None], np.asarray(R)[None])[0]
 
 
 def so3_exp(w):
@@ -1528,23 +1545,27 @@ def random_rotations(n, rng):
 
 
 def _so3_log_batch(A, B):
-    """Vectorized batch so3_log(A^T B) for (M,3,3) arrays -> (M,3).
-    Near-pi rotations use the skew part (axis*2*sin) rescaled by theta/sin,
-    the measure-zero exact-pi case is harmless for training targets."""
+    """Principal SO(3) log via stable quaternion conversion, including pi.
+
+    Float32 input roundoff may make trace-derived cos(theta) round to -1
+    while the skew part is nonzero. Dividing it by sin(arccos(-1)) created
+    enormous targets. Validate rotations first; SciPy's quaternion path
+    handles this representational roundoff without clipping target vectors.
+    """
+    from scipy.spatial.transform import Rotation
     A = np.asarray(A, float).reshape(-1, 3, 3)
     B = np.asarray(B, float).reshape(-1, 3, 3)
+    if A.shape != B.shape:
+        raise ValueError("SO(3) input batches must match")
+    for matrices in (A, B):
+        if (not np.isfinite(matrices).all()
+                or np.max(np.abs(matrices.transpose(0, 2, 1) @ matrices - np.eye(3))) > 1e-5
+                or np.max(np.abs(np.linalg.det(matrices) - 1.)) > 1e-5):
+            raise ValueError("SO(3) inputs are not proper orthonormal rotations")
     R = np.matmul(np.transpose(A, (0, 2, 1)), B)
-    tr = R[:, 0, 0] + R[:, 1, 1] + R[:, 2, 2]
-    c = np.clip((tr - 1.0) / 2.0, -1.0, 1.0)
-    theta = np.arccos(c)
-    small = theta < 1e-8
-    st = np.sin(theta)
-    st_safe = np.where(small, 1.0, st)
-    w = np.stack([R[:, 2, 1] - R[:, 1, 2],
-                  R[:, 0, 2] - R[:, 2, 0],
-                  R[:, 1, 0] - R[:, 0, 1]], axis=1)
-    w = w / (2.0 * st_safe[:, None]) * theta[:, None]
-    w[small] = 0.0
+    w = Rotation.from_matrix(R).as_rotvec()
+    if not np.isfinite(w).all() or np.max(np.linalg.norm(w, axis=1)) > math.pi + 1e-12:
+        raise FloatingPointError("Invalid principal SO(3) logarithm")
     return w
 
 
@@ -1686,14 +1707,18 @@ def cfm_train(flow, data, steps, batch, lr, rng, log_every=150):
         loss_u = ((u_pred - (x1 - x0)) ** 2).sum(-1).mean() / sig_u ** 2
         loss_w = ((w_pred - w) ** 2).sum(-1).mean() / sig_w ** 2
         loss = loss_u + 0.25 * loss_w
+        if not torch.isfinite(loss) or loss.item() > 1e6:
+            raise FloatingPointError(f"Unstable flow training at step {step}: "
+                                     f"loss={loss.item()}, u={loss_u.item()}, w={loss_w.item()}")
         opt.zero_grad()
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(flow.parameters(), 5.0)
+        torch.nn.utils.clip_grad_norm_(flow.parameters(), 5.0, error_if_nonfinite=True)
         opt.step()
         sched.step()
         if step % log_every == 0 or step == steps - 1:
             log(f"    cfm step {step:5d}  loss={loss.item():.4f} "
-                f"(u={loss_u.item():.4f}, w={loss_w.item():.4f})")
+                f"(u={loss_u.item():.4f}, w={loss_w.item():.4f}, "
+                f"max_target_angle={w.norm(dim=-1).max().item():.6f})")
     return flow
 
 
@@ -1843,10 +1868,10 @@ def place_cb(res_atoms, outward=1.0):
     L-preserving sign always wins."""
     N, CA, C = res_atoms["N"], res_atoms["CA"], res_atoms["C"]
     s_ref = _l_cb_reference_sign()
-    cb = place_atom(N, CA, C, 1.53, 110.5, outward * 121.0 * s_ref)
+    cb = place_atom(C, N, CA, 1.53, 110.5, outward * 121.0 * s_ref)
     M = np.column_stack([N - CA, C - CA, cb - CA])
     if np.linalg.det(M) * s_ref < 0:
-        cb = place_atom(N, CA, C, 1.53, 110.5, -outward * 121.0 * s_ref)
+        cb = place_atom(C, N, CA, 1.53, 110.5, -outward * 121.0 * s_ref)
     return cb
 
 
@@ -1944,25 +1969,28 @@ def build_sidechain(resname, res_atoms, chis, outward):
                    if k2 != j and np.linalg.norm(frag_pos[j]
                                                  - frag_pos[k2]) < 1.7]
                for j in heavy_set}
-        i_ce2 = [j for j in nbr[i_c3] if j != i_c2][0]
-        # six-ring walk starting from CE2 avoiding CG
-        ring = [i_ce2]
-        prev = i_c3
-        cur = i_ce2
-        while len(ring) < 6:
-            nxts = [j for j in nbr[cur] if j != prev and j not in ring]
-            if not nxts:
-                break
-            prev, cur = cur, nxts[0]
+        i_cd2 = next(j for j in nbr[i_c3] if j != i_c2)
+        i_ce2 = next(j for j in nbr[i_n1] if j != i_c2)
+        ring = [i_cd2]
+        cur = i_cd2
+        while len(ring) < 5:
+            nxts = [j for j in nbr[cur]
+                    if j not in ring and j not in (i_c3, i_c2, i_n1, i_ce2)]
+            if len(nxts) != 1:
+                raise ValueError("Ambiguous indole six-ring connectivity")
+            cur = nxts[0]
             ring.append(cur)
-        names6 = ["CE2", "CD2", "CE3", "CZ3", "CH2", "CZ2"]
-        for nm, j in zip(names6, ring):
+        if i_ce2 not in nbr[cur]:
+            raise ValueError("Indole six-ring does not close")
+        ring.append(i_ce2)
+        for nm, j in zip(["CD2", "CE3", "CZ3", "CH2", "CZ2", "CE2"], ring):
             out[nm] = frag[j]
         out["CG"] = out["CG"] if "CG" in out else cg
     if resname in ("ASP", "GLU"):
         key1, key2 = ("OD1", "OD2") if resname == "ASP" else ("OE1", "OE2")
         cd = out.get("CD", out["CG"])
-        out[key2] = _trigonal_third(cd, out[key1], out["CG"], 1.25, 121.5)
+        stem = out["CB"] if resname == "ASP" else out["CG"]
+        out[key2] = _trigonal_third(cd, out[key1], stem, 1.25, 121.5)
     if resname == "ASN":
         out["ND2"] = _trigonal_third(out["CG"], out["OD1"], out["CB"],
                                      1.33, 121.0)
@@ -1973,20 +2001,31 @@ def build_sidechain(resname, res_atoms, chis, outward):
 
 
 def _trigonal_third(center, lig1, lig2, bond, angle_deg):
-    """Third sp2 ligand of `center` given two existing ligands: placed in
-    the ligand plane opposing the bisector, with `angle_deg` to lig1."""
+    """Branch with the requested angle: planar sp2, tetrahedral sp3.
+
+    Angles below115 degrees denote existing tetrahedral branch callers.
+    Invalid/coincident reference atoms are errors, not arbitrary axes.
+    """
     u1 = lig1 - center
-    u1 /= max(np.linalg.norm(u1), 1e-9)
     u2 = lig2 - center
-    u2 /= max(np.linalg.norm(u2), 1e-9)
-    n = np.cross(u1, u2)
-    nn = np.linalg.norm(n)
-    if nn < 1e-9:
-        n = np.cross(u1, np.array([0.3, 0.71, 0.63]))
-        nn = np.linalg.norm(n)
-    n /= nn
-    w = (math.cos(math.radians(angle_deg)) * (-u1)
-         + math.sin(math.radians(angle_deg)) * n)
+    if min(np.linalg.norm(u1), np.linalg.norm(u2)) < 1e-9:
+        raise ValueError("Coincident branch reference atoms")
+    u1 = u1 / np.linalg.norm(u1)
+    u2 = u2 / np.linalg.norm(u2)
+    dot = float(u1 @ u2)
+    transverse = u2 - dot * u1
+    if np.linalg.norm(transverse) < 1e-9:
+        raise ValueError("Collinear branch reference atoms")
+    transverse /= np.linalg.norm(transverse)
+    c = math.cos(math.radians(angle_deg))
+    if angle_deg < 115.0:
+        planar = c / (1.0 + dot) * (u1 + u2)
+        h2 = 1.0 - float(planar @ planar)
+        if h2 < -1e-10:
+            raise ValueError("Incompatible tetrahedral branch angles")
+        w = planar + math.sqrt(max(0., h2)) * np.cross(u1, transverse)
+    else:
+        w = c * u1 - math.sin(math.radians(angle_deg)) * transverse
     return center + bond * w
 
 
@@ -2023,8 +2062,8 @@ def ramachandran_allowed(phi, psi):
 def dihedral(p0, p1, p2, p3):
     b0, b1, b2 = p0 - p1, p2 - p1, p3 - p2
     b1n = b1 / np.linalg.norm(b1)
-    v = b0 - b0 * (b0 @ b1n)
-    w = b2 - b2 * (b2 @ b1n)
+    v = b0 - b1n * (b0 @ b1n)
+    w = b2 - b1n * (b2 @ b1n)
     x = float(v @ w)
     y = float(np.cross(b1n, v) @ w)
     return math.degrees(math.atan2(y, x))
@@ -2440,8 +2479,8 @@ def pack_sidechains(atoms, seq, slot_idx, tz):
     def aim_outward(r, target):
         """CB hemisphere preference; the caller (place_cb) still enforces
         L-stereochemistry, so this only orders the trial signs."""
-        c1 = place_atom(r["N"], r["CA"], r["C"], 1.53, 110.5, 121.0)
-        c2 = place_atom(r["N"], r["CA"], r["C"], 1.53, 110.5, -121.0)
+        c1 = place_atom(r["C"], r["N"], r["CA"], 1.53, 110.5, 121.0)
+        c2 = place_atom(r["C"], r["N"], r["CA"], 1.53, 110.5, -121.0)
         d = target - r["CA"]
         return 1.0 if (c1 - r["CA"]) @ d >= (c2 - r["CA"]) @ d else -1.0
 
@@ -2532,12 +2571,11 @@ def pack_sidechains(atoms, seq, slot_idx, tz):
     # backbone anchors are exact by construction; the carboxylate/stack
     # placements are best-effort under the single-rotamer constraint and
     # are RECORDED (not gated) — the QM/MM barrier prices them honestly
-    anchor_pairs = [(atoms[gi]["CA"], tz.ca_glu),
-                    (atoms[ni]["N"], tz.n_don1)]
+    anchor_pairs = [(atoms[slot_idx[sl["res"]]][name], target)
+                    for sl in tz.slots for name, target in sl["anchors"].items()]
     diffs = np.array([p - q for p, q in anchor_pairs])
     const_rmsd = float(np.sqrt((diffs ** 2).sum(1).mean()))
-    tassert(const_rmsd <= 0.30,
-            f"backbone constellation RMSD {const_rmsd:.3f} A > 0.30 A gate")
+    # Return the achieved all-anchor RMSD; the evolution gate records failures.
     carboxylate_dev = float(0.5 * (np.linalg.norm(atoms[gi]["OE1"] - tz.o_base)
                                    + np.linalg.norm(atoms[gi]["OE2"] - tz.oe2)))
     stack_dev = float(np.linalg.norm(atoms[ti]["NE1"] - tz.ne1))
@@ -2723,7 +2761,7 @@ def openmm_fold_check(pdb_path, slot_idx, budget_s, production_ps,
                                         CONFIG["MD_DT_FS"] * unit.femtosecond)
     plat = mm.Platform.getPlatformByName("CPU")
     sim = app.Simulation(mod.topology, system, integ, plat,
-                         {"Threads": str(min(12, os.cpu_count() or 4))})
+                         {"Threads": os.environ.get("OMP_NUM_THREADS", "2")})
     sim.context.setPositions(mod.positions)
     # ---- junction omega regularization (CustomTorsionForce -> trans) ----
     pos0 = mod.positions.value_in_unit(unit.nanometer)
@@ -2749,8 +2787,8 @@ def openmm_fold_check(pdb_path, slot_idx, budget_s, production_ps,
         a0, a1, a2, a3 = (np.array(pos0[q]) for q in quad)
         b0, b1, b2 = a0 - a1, a2 - a1, a3 - a2
         b1n = b1 / np.linalg.norm(b1)
-        v = b0 - b0 * (b0 @ b1n)
-        wv = b2 - b2 * (b2 @ b1n)
+        v = b0 - b1n * (b0 @ b1n)
+        wv = b2 - b1n * (b2 @ b1n)
         om = math.atan2(float(np.cross(b1n, v) @ wv), float(v @ wv))
         dev = min(abs(om - math.pi), abs(om + math.pi))
         if dev > math.radians(45.0):
@@ -2789,12 +2827,13 @@ def openmm_fold_check(pdb_path, slot_idx, budget_s, production_ps,
     tassert(len(idx) >= 8, "constellation atom set too small in system")
     # design-model reference positions (from the input PDB, heavy atoms)
     design_pos = pdb.positions.value_in_unit(unit.nanometer)
-    design_const = np.array([design_pos[i] for i in idx])
-    ca_design = np.array([design_pos[a.index] for a in mod.topology.atoms()
+    # Hydrogen addition renumbers atoms. Read reference CAs from the
+    # original PDB topology, whose indices address design_pos.
+    ca_design = np.array([design_pos[a.index] for a in pdb.topology.atoms()
                           if a.name == "CA"])
     n_frames = 0
     frames_const, frames_ca = [], []
-    n_steps = int(production_ps * 500)          # 2 fs steps
+    n_steps = int(round(production_ps * 1000.0 / CONFIG["MD_DT_FS"]))
     report_every = max(250, n_steps // 60)
     t_last = time.time()
     step = 0
@@ -2809,10 +2848,8 @@ def openmm_fold_check(pdb_path, slot_idx, budget_s, production_ps,
                        if a.name == "CA"])
         frames_ca.append(ca)
         n_frames += 1
-        if time.time() - t0 > budget_s:
-            log(f"    [{tag}] MD wall-clock budget reached at "
-                f"{step * CONFIG['MD_DT_FS'] / 1000:.1f} ps")
-            break
+        # Wall budget is advisory: a slow/suspended host must not silently
+        # turn the declared production duration into a shorter stability test.
     wall = time.time() - t0
     F = np.array(frames_const)                   # (F, K, 3) nm
     # proper RMSF: remove rigid-body motion by iterative Kabsch to the mean
@@ -2822,7 +2859,7 @@ def openmm_fold_check(pdb_path, slot_idx, budget_s, production_ps,
         Rk, t = kabsch(F[f], ref)
         aligned[f] = F[f] @ Rk.T + t
     mu = aligned.mean(0)
-    rmsf = np.sqrt(((aligned - mu) ** 2).sum(-1)).mean(0) * 10.0
+    rmsf = np.sqrt(((aligned - mu) ** 2).sum(-1).mean(0)) * 10.0
     ca_aligned = []
     for f in range(len(frames_ca)):
         Rk, t = kabsch(frames_ca[f], ca_design)
@@ -2838,6 +2875,9 @@ def openmm_fold_check(pdb_path, slot_idx, budget_s, production_ps,
         rmsf_mean_A=float(rmsf.mean()),
         rmsf_max_A=float(rmsf.max()))
     return dict(tag=tag, wall_s=wall, simulated_ns=ns, n_frames=n_frames,
+                requested_steps=n_steps, executed_steps=step,
+                simulated_ps=step * CONFIG["MD_DT_FS"] / 1000.0,
+                wall_time_includes_interruptions=True,
                 rmsf_constellation_A=float(rmsf.mean()),
                 rmsf_max_A=float(rmsf.max()),
                 rmsf_per_atom_A=[float(v) for v in rmsf],
@@ -3118,14 +3158,19 @@ def qmmm_kemp_scan(tz, enzyme, slot_idx, scan_pts, charge_qm=-1,
         a = np.asarray(tz.o_base, float)
         attack = tz.pos_sub[tz.i_H3] - tz.pos_sub[tz.i_C3]
         attack /= np.linalg.norm(attack)
-        v = np.cross(attack, tz.zhat)
-        if np.linalg.norm(v) < 1e-6:
-            v = np.cross(attack, np.array([1.0, 0.0, 0.0]))
-        v /= np.linalg.norm(v)
-        e1 = -attack                       # O -> C points away from C3
-        e3 = v
-        e2 = np.cross(e3, e1)
-        R_ace = np.column_stack([e1, e2, e3])
+        # RDKit returns an arbitrary laboratory frame. Align the actual
+        # O(anion)->C(carboxyl) vector away from the substrate, preserving
+        # all internal distances by a proper rigid rotation.
+        src_x = ace_pos[1] - ace_pos[3]
+        src_x /= np.linalg.norm(src_x)
+        src_y = ace_pos[2] - ace_pos[3]
+        src_y -= src_x * (src_y @ src_x)
+        src_y /= np.linalg.norm(src_y)
+        dst_y = tz.zhat - attack * (tz.zhat @ attack)
+        dst_y /= np.linalg.norm(dst_y)
+        src_frame = np.column_stack([src_x, src_y, np.cross(src_x, src_y)])
+        dst_frame = np.column_stack([attack, dst_y, np.cross(attack, dst_y)])
+        R_ace = dst_frame @ src_frame.T
         base = (ace_pos - ace_pos[3]) @ R_ace.T + a
         heavy = list(range(len(ace_sym)))  # complete acetate, including methyl H
         i_oe1 = None
@@ -3321,6 +3366,35 @@ S_PRIOR_MEAN = np.array([0.55, 0.38, 0.45, 0.40, 0.50, 0.30])
 S_PRIOR_SIG = np.array([0.17, 0.17, 0.17, 0.17, 0.15, 0.18])
 
 
+def candidate_gate_failures(candidate, require_qm=True):
+    """No missing, failed or nonfinite observation can certify a design."""
+    reasons = []
+    if not candidate.get("feas", False):
+        reasons.append("construction_or_static_gate_failed")
+    rmsd = candidate.get("const_rmsd", float("nan"))
+    if not np.isfinite(rmsd) or rmsd > 0.30:
+        reasons.append("constellation_rmsd_above_0.30_A_or_missing")
+    md = candidate.get("md", {})
+    if (not md or md.get("error") or md.get("n_frames", 0) < 2
+            or md.get("simulated_ns", 0) <= 0):
+        reasons.append("md_missing_failed_or_insufficient_frames")
+    duration = md.get("simulated_ns", float("nan"))
+    if not np.isfinite(duration) or duration + 1e-12 < CONFIG["MD_PS_CAND"] / 1000.0:
+        reasons.append("md_below_full_declared_production_duration")
+    rmsf = md.get("rmsf_constellation_A", float("nan"))
+    if not np.isfinite(rmsf) or rmsf > CONFIG["RMSF_GATE"]:
+        reasons.append("rmsf_above_gate_or_missing")
+    ca_rmsd = md.get("ca_rmsd_to_design_A", float("nan"))
+    if not np.isfinite(ca_rmsd) or ca_rmsd > 4.0:
+        reasons.append("ca_rmsd_above_4_A_or_missing")
+    if require_qm:
+        qm = candidate.get("qmmm", {})
+        barrier = qm.get("barrier_kcal", float("nan"))
+        if qm.get("error") or not np.isfinite(barrier) or barrier > CONFIG["BARRIER_GATE"]:
+            reasons.append("potential_scan_missing_failed_or_above_gate")
+    return reasons
+
+
 def run_evolution(quick=False):
     """Five generations of sample -> generate -> verify -> believe."""
     global XTB_EXE
@@ -3331,7 +3405,9 @@ def run_evolution(quick=False):
     res = dict(
         engine_note="single-file autonomous engine: torch CPU flow + OpenMM "
                     "amber14SB/GBn2 + GFN2-xTB subprocess QM/MM",
-        xtb=bool(XTB_EXE), openmm=False, lit=LIT.copy())
+        xtb=bool(XTB_EXE), openmm=False, lit=LIT.copy(), config=CONFIG.copy(),
+        scope="quick" if quick else "default/full",
+        extra_champion_md_performed=False, enzyme_performance_validated=False)
     # ---- generative model training (once; fold topology engine) -------------
     tz0 = Theozyme(S_PRIOR_MEAN)
     log("19B  building the theozyme-anchored fold distribution ...")
@@ -3348,7 +3424,6 @@ def run_evolution(quick=False):
     log(f"19B  SE(3) equivariance audit: |du|={audit['max_translation_err']:.1e}"
         f", |dw|={audit['max_angular_err']:.1e} (tol {audit['tolerance']})")
     res["equivariance_audit"] = audit
-    res["openmm"] = True
     # ---- the epistemic loop --------------------------------------------------
     agent = ActiveInferenceAgent(S_PRIOR_MEAN, S_PRIOR_SIG)
     gens = []
@@ -3376,7 +3451,8 @@ def run_evolution(quick=False):
                 # the MD foldability gate are the real filters (crossing
                 # helical rods always show transient sidechain overlaps)
                 feas = (static["n_clashes"] <= 5000
-                        and static["frac_ramachandran"] >= 0.45)
+                        and static["frac_ramachandran"] >= 0.45
+                        and np.isfinite(const_rmsd) and const_rmsd <= 0.30)
                 cands.append(dict(s=s, atoms=atoms, seq=seq,
                                   slot_idx=slot_idx, static=static,
                                   feas=feas, diag=diag, dinfo=dinfo,
@@ -3418,30 +3494,36 @@ def run_evolution(quick=False):
                           error=str(exc)[:300])
             md_left -= md.get("wall_s", 0.0)
             rmsf = md["rmsf_constellation_A"]
-            g_rmsfs.append(rmsf)
-            agent.observe(c["s"], rmsf=rmsf)
+            if not md.get("error") and np.isfinite(rmsf):
+                g_rmsfs.append(rmsf)
+                agent.observe(c["s"], rmsf=rmsf)
             c["md"] = md
-            md_pass = (rmsf <= CONFIG["RMSF_GATE"]
-                       and md.get("ca_rmsd_to_design_A", 9.9) <= 4.0)
+            res["openmm"] = res["openmm"] or (not md.get("error") and md.get("n_frames", 0) > 0)
+            md_pass = not candidate_gate_failures(c, require_qm=False)
             log(f"  [{tag}] MD: RMSF_const={rmsf:.2f} A "
-                f"({'PASS' if rmsf <= CONFIG['RMSF_GATE'] else 'FAIL'}), "
+                f"({'PASS' if md_pass else 'FAIL'}), "
                 f"Ca RMSD {md.get('ca_rmsd_to_design_A', -1):.2f} A, "
                 f"{md.get('simulated_ns', 0):.2f} ns, "
                 f"{md.get('ns_per_day', 0):.1f} ns/day")
             if md_pass and XTB_EXE and (rank == 0 or quick):
-                qm = qmmm_kemp_scan(
-                    Theozyme(c["s"]),
-                    dict(atoms=c["atoms"], seq=c["seq"]), c["slot_idx"],
-                    scan_pts, tag=tag)
+                try:
+                    qm = qmmm_kemp_scan(
+                        Theozyme(c["s"]),
+                        dict(atoms=c["atoms"], seq=c["seq"]), c["slot_idx"],
+                        scan_pts, tag=tag)
+                except Exception as exc:
+                    c["qmmm"] = dict(error=str(exc))
+                    log(f"  [{tag}] QM scan FAILED: {exc}")
+                    continue
                 agent.observe(c["s"], barrier=qm["barrier_kcal"])
                 c["qmmm"] = qm
                 g_barriers.append(qm["barrier_kcal"])
-                log(f"  [{tag}] QM/MM barrier DG_act = "
+                log(f"  [{tag}] constrained potential-energy scan peak = "
                     f"{qm['barrier_kcal']:.2f} kcal/mol "
-                    f"(TS probe d(C-H)={qm['ts_d_CH']:.2f}, "
+                    f"(sampled peak d(C-H)={qm['ts_d_CH']:.2f}, "
                     f"d(N-O)={qm['ts_d_NO']:.2f} A)")
-                if (champion is None
-                        or qm["barrier_kcal"] < champion["qmmm"]["barrier_kcal"]):
+                if (not candidate_gate_failures(c) and (champion is None
+                        or qm["barrier_kcal"] < champion["qmmm"]["barrier_kcal"])):
                     champion = dict(gen=g + 1, cand=ci, **{
                         "s": c["s"], "atoms": c["atoms"], "seq": c["seq"],
                         "slot_idx": c["slot_idx"], "md": md, "qmmm": qm,
@@ -3463,22 +3545,31 @@ def run_evolution(quick=False):
             measured_barriers=g_barriers, measured_rmsfs=g_rmsfs,
             designs=[np.asarray(d["s"]).tolist() for d in cands],
             feasible=[bool(d.get("feas")) for d in cands],
+            candidates=[dict(candidate=i, s=np.asarray(c["s"]).tolist(),
+                             selected_for_md=i in sel, feasible=bool(c.get("feas")),
+                             construction_error=c.get("error"),
+                             static=c.get("static"), constellation_rmsd_A=c.get("const_rmsd"),
+                             md=c.get("md"), qmmm=c.get("qmmm"),
+                             accepted=not candidate_gate_failures(c),
+                             gate_failures=candidate_gate_failures(c))
+                        for i, c in enumerate(cands)],
             wall_s=time.time() - t_g)
         agent.evolve_belief()
         gens.append(gen_rec)
+        (RES / "evolution_progress.json").write_text(json.dumps(
+            dict(generations=gens, complete=False, config=CONFIG), indent=2), encoding="utf-8")
         log(f"GEN {g + 1}  F_active = {F:.3f} (KL {Fcomp['kl']:.3f} + "
             f"accuracy {Fcomp['accuracy']:.3f})  |  wall "
             f"{(time.time() - t_start) / 60:.1f} min")
-    # ---- final champion verification ----------------------------------------
+    # ---- export best gate-passing candidate; no extra MD is performed --------
     if champion is not None:
         log(f"CHAMPION: generation {champion['gen']} candidate "
-            f"{champion['cand']}, DG_act = "
+            f"{champion['cand']}, sampled potential-energy peak = "
             f"{champion['qmmm']['barrier_kcal']:.2f} kcal/mol")
         write_pdb(champion["atoms"], champion["seq"],
-                  RES / "champion_enzyme_g5.pdb" if not quick else
                   RES / "champion_enzyme_final.pdb",
                   remarks=[f"overall champion (gen {champion['gen']})",
-                           f"DG_act = "
+                           f"sampled potential-energy peak = "
                            f"{champion['qmmm']['barrier_kcal']:.2f} kcal/mol",
                            f"constellation RMSD "
                            f"{champion['const_rmsd']:.3f} A"])
@@ -3490,12 +3581,13 @@ def run_evolution(quick=False):
             uncat = qmmm_kemp_scan(Theozyme(S_PRIOR_MEAN), None, None,
                                    scan_pts, charge_qm=0, solvent="water",
                                    tag="uncat", base_water=True)
-            log(f"  uncatalyzed barrier (raw GFN2-xTB/ALPB) = "
-                f"{uncat['barrier_kcal']:.2f} kcal/mol "
-                f"(experimental anchor {LIT['kemp_uncat_barrier_exp_kcal']})")
+            log(f"  uncatalyzed sampled potential-energy peak (GFN2-xTB/ALPB) = "
+                f"{uncat['barrier_kcal']:.2f} kcal/mol (not an activation free energy)")
         except Exception as exc:
             log(f"  uncatalyzed scan failed: {str(exc)[:140]}")
-    res.update(generations=gens, champion=None if champion is None else dict(
+    res.update(evolution_completed=len(gens) == n_gens,
+        acceptance_status="candidate_passed_model_gates" if champion else "no_accepted_design",
+        generations=gens, champion=None if champion is None else dict(
         gen=champion["gen"], s=champion["s"].tolist(),
         barrier_kcal=champion["qmmm"]["barrier_kcal"],
         qmmm_profile=champion["qmmm"]["profile"],
@@ -3512,6 +3604,9 @@ def run_evolution(quick=False):
                            "TYR": "Y", "VAL": "V"}[a]
                           for a in champion["seq"]) if champion else None),
         wall_total_min=(time.time() - t_start) / 60.0)
+    (RES / "evolution_progress.json").write_text(json.dumps(
+        dict(generations=gens, complete=True, config=CONFIG,
+             acceptance_status=res["acceptance_status"]), indent=2), encoding="utf-8")
     return res
 
 
@@ -3602,20 +3697,18 @@ def fig1_active_inference(results):
     ax = fig.add_subplot(2, 2, 2)
     ax.axhspan(0, CONFIG["BARRIER_GATE"], color="#D5F5E3", alpha=0.7,
                zorder=0)
-    ax.axhline(LIT["kemp_uncat_barrier_exp_kcal"], color="#7B241C", ls=":",
-               lw=1.4, label="uncatalyzed aqueous (exp. 32.2)")
     ax.axhline(CONFIG["BARRIER_GATE"], color="#196F3D", ls="--", lw=1.2,
-               label="design gate 12.5")
+               label=f"design gate {CONFIG['BARRIER_GATE']:g}")
     ax.plot([m[0] for m in meas], [m[1] for m in meas], "kx", ms=8,
             mew=2, label="QM/MM-measured designs")
     ax.plot(g, mbar, "o-", color="#2471A3", lw=1.8,
-            label=r"belief-predictive $\Delta G^{\ddagger}(\mu_g)$")
+            label=r"predicted potential scan peak at $\mu_g$")
     ax.fill_between(g, mbar - np.sqrt(vbar), mbar + np.sqrt(vbar),
                     color="#2471A3", alpha=0.18,
                     label=r"predictive $\pm 1\sigma$")
     ax.set_xlabel("evolutionary generation")
-    ax.set_ylabel(r"$\Delta G^{\ddagger}$ (kcal/mol)")
-    ax.set_title("(b) Catalytic barrier under belief guidance")
+    ax.set_ylabel(r"potential scan $\Delta E$ (kcal/mol)")
+    ax.set_title("(b) Model prediction and sampled potential peaks")
     ax.legend(fontsize=7.2)
     # (c) epistemic uncertainty ------------------------------------------------
     ax = fig.add_subplot(2, 2, 3)
@@ -3660,6 +3753,9 @@ def fig1_active_inference(results):
 
 
 def fig2_denovo_dock(results):
+    if not results.get("champion"):
+        log("fig2: no accepted design; no champion structure to plot")
+        return None
     champ = None
     for p in sorted(RES.glob("champion_enzyme_g*.pdb")):
         champ = p
@@ -3709,8 +3805,8 @@ def fig2_denovo_dock(results):
         for nm, tgt in items:
             ax.scatter(*tgt, color=CAT_COLORS[rnm], s=22, marker="*",
                        depthshade=False)
-    ax.set_title("(a) De novo enzyme (flow-matched fold) cradling the Kemp "
-                 "transition state", fontsize=9.5)
+    ax.set_title("(a) Generated fold around the Kemp substrate "
+                 "(no validated transition state)", fontsize=9.5)
     ax.set_xlabel("x (A)")
     ax.set_ylabel("y (A)")
     ax.set_zlabel("z (A)")
@@ -3843,14 +3939,54 @@ def _champion_profile(results):
 # MAIN
 # ============================================================================
 
+def audit_saved_acceptance(path):
+    """Reassess fresh saved observations without rerunning or changing measurements."""
+    import hashlib
+    path = Path(path).resolve()
+    raw = path.read_bytes()
+    results = json.loads(raw)
+    candidates = []
+    for generation in results.get("generations", []):
+        for saved in generation.get("candidates", []):
+            candidate = dict(feas=saved.get("feasible", False),
+                             const_rmsd=saved.get("constellation_rmsd_A"),
+                             md=saved.get("md") or {}, qmmm=saved.get("qmmm") or {})
+            if candidate["const_rmsd"] is None:
+                candidate["const_rmsd"] = float("nan")
+            reasons = candidate_gate_failures(candidate)
+            candidates.append(dict(generation=generation["generation"],
+                                   candidate=saved["candidate"], accepted=not reasons,
+                                   gate_failures=reasons,
+                                   barrier_kcal=candidate["qmmm"].get("barrier_kcal")))
+    accepted = [c for c in candidates if c["accepted"]]
+    audit = dict(source=str(path), source_sha256=hashlib.sha256(raw).hexdigest(),
+                 snapshot_barrier_gate=results.get("config", {}).get("BARRIER_GATE"),
+                 audit_barrier_gate=CONFIG["BARRIER_GATE"], audit_rmsf_gate=CONFIG["RMSF_GATE"],
+                 audit_minimum_production_ps=CONFIG["MD_PS_CAND"],
+                 measurements_recomputed=False, candidates=candidates,
+                 candidate_records_available=bool(candidates),
+                 acceptance_status=("candidate_passed_model_gates" if accepted else
+                                    "no_accepted_design" if candidates else "insufficient_candidate_records"),
+                 accepted_candidates=accepted, enzyme_performance_validated=False,
+                 extra_champion_md_performed=results.get("extra_champion_md_performed", False))
+    out = path.with_name("phase19_acceptance_audit.json")
+    out.write_text(json.dumps(audit, indent=2), encoding="utf-8")
+    log(f"strict saved-candidate audit -> {out}: {audit['acceptance_status']}")
+    return audit
+
+
 def main():
     ap = argparse.ArgumentParser(description="Phase 19 active-inference "
                                  "de novo enzyme engine")
     ap.add_argument("--stage", default="all",
-                    choices=["all", "evolve", "figures", "qm-audit"])
+                    choices=["all", "evolve", "figures", "qm-audit", "acceptance-audit"])
+    ap.add_argument("--audit-input", type=Path, default=RES / "phase19_results.json")
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--fig_only", action="store_true")
     args = ap.parse_args()
+    if args.stage == 'acceptance-audit':
+        audit_saved_acceptance(args.audit_input)
+        return
     if args.stage == 'qm-audit':
         rerun_qm_audit(5 if args.quick else CONFIG['QM_MM_SCAN_PTS'])
         return
@@ -3872,6 +4008,9 @@ def main():
     if not args.fig_only:
         log("=" * 72)
         log("PHASE 19 ACCEPTANCE SUMMARY")
+        log(f"  design acceptance        {results.get('acceptance_status', 'not recorded')}")
+        log("  extra champion MD        not performed")
+        log("  enzyme performance       not validated by model gates or potential scans")
         if results.get("equivariance_audit"):
             ea = results["equivariance_audit"]
             log(f"  SE(3) equivariance       |du|={ea['max_translation_err']:.1e}"

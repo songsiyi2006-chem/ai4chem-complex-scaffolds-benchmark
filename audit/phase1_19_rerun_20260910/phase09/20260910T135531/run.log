@@ -1,0 +1,106 @@
+==============================================================================
+PHASE 9 — SELF-DRIVING LAB COMPILER  (robotic execution & closed-loop twin)
+==============================================================================
+[9B] initial Sobol design (robot-executed):
+  init 01: Sobol point projected onto feasible region (phi -> 0.98, T -> 79.1 C)
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  init 01: T= 79.1C cat= 3.1% t= 12.0h phi=0.98 -> Y= 85.0% ee= 74.8% E= 69.2 feasible=True
+  init 02: T= 30.8C cat= 8.1% t= 20.8h phi=0.29 -> Y= 95.6% ee= 85.9% E= 69.1 feasible=True
+  init 03: Sobol point projected onto feasible region (phi -> 0.67, T -> 43.2 C)
+  init 03: T= 43.2C cat= 4.4% t=  6.7h phi=0.67 -> Y= 92.8% ee= 88.1% E= 69.1 feasible=True
+  init 04: Sobol point projected onto feasible region (phi -> 0.84, T -> 59.0 C)
+  init 04: T= 59.0C cat= 7.0% t= 14.8h phi=0.84 -> Y= 89.6% ee= 86.2% E= 67.2 feasible=True
+  init 05: Sobol point projected onto feasible region (phi -> 0.93, T -> 69.9 C)
+  init 05: T= 69.9C cat= 5.5% t= 23.0h phi=0.93 -> Y= 86.7% ee= 81.6% E= 69.3 feasible=True
+  init 06: Sobol point projected onto feasible region (phi -> 0.81, T -> 54.1 C)
+  init 06: T= 54.1C cat= 5.9% t=  8.4h phi=0.81 -> Y= 91.7% ee= 82.5% E= 68.1 feasible=True
+  init 07: T= 33.6C cat= 2.0% t= 16.9h phi=0.44 -> Y= 93.0% ee= 87.4% E= 77.9 feasible=True
+  init 08: Sobol point projected onto feasible region (phi -> 0.96, T -> 81.9 C)
+  init 08: T= 81.9C cat= 9.2% t=  3.1h phi=0.96 -> Y= 81.5% ee= 79.4% E= 76.9 feasible=True
+  init 09: Sobol point projected onto feasible region (phi -> 0.98, T -> 87.3 C)
+  init 09: T= 87.3C cat= 3.4% t= 15.6h phi=0.98 -> Y= 76.4% ee= 75.1% E= 79.5 feasible=True
+  init 10: Sobol point projected onto feasible region (phi -> 0.57, T -> 39.0 C)
+  init 10: T= 39.0C cat= 7.2% t=  1.4h phi=0.57 -> Y= 89.2% ee= 86.9% E= 71.9 feasible=True
+[9B] round 1: q-EI batch of 5 (guardrail rejections on 16384-grid: {'G1_exotherm': 0, 'G2_boiling': 11816, 'G3_viscosity': 1201})
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  exp R1-1: T= 25.2C cat= 2.8% t=  8.2h phi=0.15 -> HPLC: X= 40.5% Y= 34.0% ee= 87.6% E=222.8 $39751.7/mol
+  exp R1-2: T= 25.9C cat= 4.5% t=  9.9h phi=0.21 -> HPLC: X= 77.2% Y= 67.4% ee= 87.3% E=106.1 $31746.4/mol
+  exp R1-3: T= 39.3C cat= 3.6% t=  9.6h phi=0.98 -> HPLC: X= 81.2% Y= 74.0% ee= 83.0% E= 80.2 $23087.6/mol
+  exp R1-4: T= 25.8C cat= 1.1% t=  4.9h phi=0.17 -> HPLC: X= 14.2% Y= 11.8% ee=100.0% E=650.2 $43280.8/mol
+  exp R1-5: T= 33.3C cat= 1.0% t=  9.2h phi=0.76 -> HPLC: X= 60.2% Y= 51.8% ee= 86.9% E=122.3 $9505.8/mol
+[9B] round 2: q-EI batch of 5 (guardrail rejections on 16384-grid: {'G1_exotherm': 0, 'G2_boiling': 11799, 'G3_viscosity': 1209})
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  exp R2-1: T= 30.8C cat= 3.5% t= 22.3h phi=0.47 -> HPLC: X=100.0% Y= 94.6% ee= 86.7% E= 72.3 $17864.3/mol
+  exp R2-2: T= 39.5C cat= 1.6% t= 21.1h phi=0.57 -> HPLC: X=100.0% Y= 93.5% ee= 82.7% E= 71.9 $8276.1/mol
+  exp R2-3: T= 65.7C cat= 1.1% t=  1.0h phi=0.87 -> HPLC: X= 87.7% Y= 74.5% ee= 78.0% E= 84.4 $7026.3/mol
+  exp R2-4: T= 38.5C cat= 1.1% t= 12.4h phi=0.57 -> HPLC: X= 97.6% Y= 90.2% ee= 84.0% E= 74.6 $6108.5/mol
+  exp R2-5: T= 34.1C cat= 1.2% t= 16.5h phi=0.56 -> HPLC: X= 97.1% Y= 90.4% ee= 85.0% E= 75.2 $6600.7/mol
+[9B] round 3: q-EI batch of 5 (guardrail rejections on 16384-grid: {'G1_exotherm': 0, 'G2_boiling': 11813, 'G3_viscosity': 1204})
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  exp R3-1: T= 85.5C cat= 1.0% t= 16.0h phi=0.97 -> HPLC: X=100.0% Y= 77.2% ee= 68.1% E= 77.4 $6427.8/mol
+  exp R3-2: T= 39.6C cat= 1.0% t=  4.1h phi=0.55 -> HPLC: X= 78.1% Y= 68.7% ee= 83.8% E= 96.3 $7313.0/mol
+  exp R3-3: T= 25.3C cat= 9.6% t= 23.2h phi=0.12 -> HPLC: X= 95.2% Y= 88.9% ee= 89.0% E= 73.8 $51969.7/mol
+  exp R3-4: T= 78.5C cat= 1.0% t= 21.7h phi=0.99 -> HPLC: X=100.0% Y= 84.1% ee= 72.4% E= 68.7 $5961.5/mol
+  exp R3-5: T= 34.4C cat= 1.0% t= 12.5h phi=0.51 -> HPLC: X= 91.2% Y= 84.4% ee= 86.5% E= 82.7 $5690.3/mol
+[9B] round 4: q-EI batch of 5 (guardrail rejections on 16384-grid: {'G1_exotherm': 0, 'G2_boiling': 11819, 'G3_viscosity': 1211})
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  exp R4-1: T= 37.3C cat= 1.1% t= 23.5h phi=0.98 -> HPLC: X= 64.9% Y= 58.5% ee= 83.1% E=101.5 $8695.8/mol
+  exp R4-2: T= 53.1C cat= 1.3% t= 23.0h phi=0.99 -> HPLC: X=100.0% Y= 90.9% ee= 78.2% E= 65.8 $6962.8/mol
+  exp R4-3: T= 50.9C cat= 1.0% t= 18.8h phi=0.90 -> HPLC: X=100.0% Y= 94.8% ee= 79.0% E= 63.6 $5170.8/mol
+  exp R4-4: T= 35.1C cat= 9.6% t= 23.3h phi=0.71 -> HPLC: X=100.0% Y= 91.2% ee= 85.7% E= 71.7 $50325.9/mol
+  exp R4-5: T= 39.8C cat= 1.0% t= 20.7h phi=0.87 -> HPLC: X= 91.2% Y= 80.5% ee= 82.4% E= 76.1 $6015.6/mol
+[9B] round 5: q-EI batch of 5 (guardrail rejections on 16384-grid: {'G1_exotherm': 0, 'G2_boiling': 11823, 'G3_viscosity': 1205})
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  exp R5-1: T= 32.8C cat=10.0% t=  4.2h phi=0.44 -> HPLC: X= 98.0% Y= 92.1% ee= 85.3% E= 71.2 $52122.5/mol
+  exp R5-2: T= 84.1C cat= 1.1% t=  1.6h phi=0.98 -> HPLC: X=100.0% Y= 82.0% ee= 66.1% E= 75.0 $6378.2/mol
+  exp R5-3: T= 59.6C cat= 1.1% t= 22.2h phi=0.83 -> HPLC: X=100.0% Y= 86.6% ee= 79.5% E= 71.2 $6038.5/mol
+  exp R5-4: T= 50.2C cat= 2.1% t= 23.5h phi=0.84 -> HPLC: X=100.0% Y= 90.6% ee= 84.8% E= 68.4 $11224.0/mol
+  exp R5-5: T= 25.2C cat= 9.7% t=  3.0h phi=0.14 -> HPLC: X= 37.1% Y= 32.8% ee= 90.4% E=210.8 $141384.1/mol
+[9B] round 6: q-EI batch of 5 (guardrail rejections on 16384-grid: {'G1_exotherm': 0, 'G2_boiling': 11808, 'G3_viscosity': 1203})
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  exp R6-1: T= 60.1C cat= 1.7% t=  6.6h phi=0.99 -> HPLC: X= 98.3% Y= 88.6% ee= 76.7% E= 68.3 $9325.5/mol
+  exp R6-2: T= 34.7C cat= 8.8% t= 22.7h phi=0.50 -> HPLC: X=100.0% Y= 93.8% ee= 83.1% E= 71.0 $44832.6/mol
+  exp R6-3: T= 66.2C cat= 1.6% t= 22.7h phi=0.92 -> HPLC: X=100.0% Y= 87.2% ee= 78.3% E= 72.0 $8761.4/mol
+  exp R6-4: T= 73.1C cat= 1.5% t= 13.5h phi=0.93 -> HPLC: X=100.0% Y= 84.5% ee= 72.9% E= 74.3 $8802.4/mol
+  exp R6-5: T= 73.3C cat= 1.0% t=  8.8h phi=0.94 -> HPLC: X=100.0% Y= 84.6% ee= 73.7% E= 72.5 $5739.6/mol
+[9B] round 7: q-EI batch of 5 (guardrail rejections on 16384-grid: {'G1_exotherm': 0, 'G2_boiling': 11814, 'G3_viscosity': 1212})
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  exp R7-1: T= 25.1C cat= 6.6% t= 19.9h phi=0.06 -> HPLC: X= 80.0% Y= 72.2% ee= 87.4% E= 97.5 $43910.0/mol
+  exp R7-2: T= 31.4C cat= 5.1% t= 12.7h phi=0.39 -> HPLC: X=100.0% Y= 93.3% ee= 84.6% E= 74.4 $26494.5/mol
+  exp R7-3: T= 68.2C cat= 1.0% t= 18.9h phi=0.95 -> HPLC: X=100.0% Y= 87.6% ee= 77.0% E= 68.3 $5503.9/mol
+  exp R7-4: T= 34.2C cat= 1.0% t= 22.7h phi=0.55 -> HPLC: X= 97.8% Y= 90.7% ee= 86.2% E= 76.9 $5400.2/mol
+  exp R7-5: T= 35.1C cat=10.0% t=  3.4h phi=0.90 -> HPLC: X= 72.5% Y= 66.1% ee= 87.5% E= 90.6 $72415.6/mol
+[9B] round 8: q-EI batch of 5 (guardrail rejections on 16384-grid: {'G1_exotherm': 0, 'G2_boiling': 11810, 'G3_viscosity': 1208})
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+  exp R8-1: T= 63.1C cat= 6.3% t=  1.0h phi=0.99 -> HPLC: X= 97.5% Y= 87.3% ee= 81.9% E= 68.6 $34537.8/mol
+  exp R8-2: T= 51.8C cat= 1.0% t= 21.4h phi=0.88 -> HPLC: X=100.0% Y= 92.3% ee= 78.6% E= 67.1 $5409.5/mol
+  exp R8-3: T= 49.7C cat= 4.2% t= 24.0h phi=0.78 -> HPLC: X=100.0% Y= 91.3% ee= 83.3% E= 68.9 $22345.0/mol
+  exp R8-4: T= 40.6C cat= 5.5% t= 22.7h phi=0.59 -> HPLC: X=100.0% Y= 94.3% ee= 85.7% E= 71.3 $28257.2/mol
+  exp R8-5: T= 43.2C cat= 1.8% t=  1.8h phi=0.98 -> HPLC: X= 23.9% Y= 21.4% ee= 87.5% E=277.8 $40717.8/mol
+[9B] champion batch: INIT-02 (Y=95.6%), R4-3 (Y=94.8%)
+[9A] compiling Opentrons OT-2 protocols ...
+[9A] compiled: output_ot2_protocol.py, output_ot2_protocol_champion.py, autoprotocol_workflow.jsonld
+[9A] validating protocols (byte-compile + AST audit + simulation) ...
+[9A] round-1 validation: compile=PASS AST=PASS official_sim=PASS (opentrons_simulate rc=0) mock=not used
+[out] $CAMPAIGN\phase09\20260910T135531\results_phase9\phase9_results.json
+[fig] fig1_robotic_deck_architecture.png
+[fig] fig2_bayesian_pareto_frontier.png
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1349: FutureWarning: Input has data type int64, but the output has been cast to float64.  In the future, the output data type will match the input. To avoid this warning, set the `dtype` parameter to `None` to have the output dtype match the input, or set it to the desired output data type.
+  D = sparse.diags([1, -2, 1], [0, -1, -2], shape=(L, L - 2))
+$CAMPAIGN\phase09\20260910T135531\run_phase9_self_driving_lab_compiler.py:1957: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  fig.tight_layout(rect=(0, 0, 1, 0.975))
+[fig] fig3_inline_hplc_deconvolution.png
+------------------------------------------------------------------------------
+campaign complete in 56 s — 50 robotic experiments, 2 Pareto-optimal
+best feasible: INIT-02  T=30.8°C cat=8.1% t=20.8h φ=0.29 -> Y=95.6% ee=85.9% E=69.1 $40474.9/mol
+hallucination audit: |dY|max=3.12%  |dee|max=13.82%
+PHASE 9 COMPLETE

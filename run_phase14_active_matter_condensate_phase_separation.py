@@ -409,8 +409,12 @@ class ActiveCondensateSim:
         raise RuntimeError("stability guard exhausted; dt could not be rescued")
 
     def _attempt(self, dt: float) -> bool:
+        if not np.isfinite(dt) or dt <= 0 or self.t + dt <= self.t:
+            raise ValueError('Phase14 timestep must be finite, positive and advance time')
         n, dx = self.n, self.dx
         phi, psi = self.phi, self.psi
+        if not np.isfinite(phi).all() or not np.isfinite(psi).all():
+            raise ValueError('Phase14 state contains nonfinite concentrations')
         phihat = np.fft.rfft2(phi)
         psihat = np.fft.rfft2(psi)
 
@@ -454,6 +458,8 @@ class ActiveCondensateSim:
             s=(n, n)) + dt * np.fft.irfft2(gam_hat, s=(n, n))
         psi_new = np.fft.irfft2((psihat - dt * gam_hat) / g_psi, s=(n, n))
 
+        if not np.isfinite(phi_new).all() or not np.isfinite(psi_new).all():
+            return False
         if phi_new.min() < -0.03 or phi_new.max() > 1.03:
             return False
         if psi_new.min() < -0.03 or psi_new.max() > 1.03:
@@ -504,21 +510,26 @@ class ActiveCondensateSim:
 
     def run(self, snapshot_times=SNAP_TIMES) -> None:
         t_next_snap = 0
-        pending = sorted(snapshot_times)
+        pending = sorted(set(float(t) for t in snapshot_times if self.t <= t <= self.t_end))
         while self.t < self.t_end - 1e-9:
-            dt = min(self.dt, self.t_end - self.t)
-            # capture snapshots that fall inside the upcoming step
-            while t_next_snap < len(pending) and pending[t_next_snap] <= self.t + dt + 1e-9:
+            # A snapshot belongs to the reached time, not the next proposed
+            # step (which may subsequently be rejected and shortened).
+            while t_next_snap < len(pending) and pending[t_next_snap] <= self.t + 1e-9:
                 self.snapshots[float(pending[t_next_snap])] = self.phi.copy()
                 t_next_snap += 1
+            boundary = self.t_end
+            if t_next_snap < len(pending):
+                boundary = min(boundary, pending[t_next_snap])
+            self.dt = min(self.dt, boundary - self.t)
             self.step()
             if len(self.frames) % 400 == 1:
                 fr = self.frames[-1]
                 log(f"  t={fr['t']:7.1f}s  <phi>={fr['phi_mean']:.3f} "
                     f"<psi>={fr['psi_mean']:.3f}  R={fr['R_mean_um']:.2f}um "
                     f"N={fr['n_droplets']:3d}  dissipation_proxy={fr['S_total']:.3e}")
-        if len(self.snapshots) < len(pending):
-            self.snapshots[float(pending[-1])] = self.phi.copy()
+        while t_next_snap < len(pending) and pending[t_next_snap] <= self.t + 1e-9:
+            self.snapshots[float(pending[t_next_snap])] = self.phi.copy()
+            t_next_snap += 1
 
     def ness_stats(self, last_frac: float = 0.2) -> dict:
         tail = self.frames[int(len(self.frames) * (1.0 - last_frac)):]
@@ -659,7 +670,14 @@ def simulate_frap(sim: ActiveCondensateSim, k_atp: float,
         sol, info = cg(lop, rhs, M=precond, rtol=1e-7, atol=1e-12,
                        maxiter=250, x0=x0)
         if info != 0 or not np.all(np.isfinite(sol)):
-            sol = (c.ravel() + dt_f * kdiag * f_ref) / (1.0 + dt_f * kdiag)
+            # Retry the SAME diffusion-reaction equation, never silently drop
+            # diffusion and report a different model as a successful FRAP solve.
+            guess = sol if np.all(np.isfinite(sol)) else x0
+            sol, info = cg(lop, rhs, M=precond, rtol=1e-7, atol=1e-12,
+                           maxiter=2000, x0=guess)
+        residual = float(np.linalg.norm(lop @ sol - rhs))
+        if info != 0 or not np.all(np.isfinite(sol)) or residual > max(1e-12, 1e-7 * np.linalg.norm(rhs)):
+            raise RuntimeError(f'FRAP diffusion solve failed at t={t:g}: info={info}, residual={residual:g}')
         x0 = sol
         c = sol.reshape(n, n)
         t += dt_f

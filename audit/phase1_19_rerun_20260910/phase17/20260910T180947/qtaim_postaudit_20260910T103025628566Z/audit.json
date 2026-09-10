@@ -1,0 +1,102 @@
+{
+  "status": "completed",
+  "source_sha256": "f5cf4aed9bfadde27508dd6490c5ebc48f09a66b995a366dc342e6d26164603d",
+  "helper_sha256": "6b45d7c0b4fd374cc781939f5f22bed3c5390c685157b33234bb4619d9c7d85f",
+  "utility_helper_sha256": "51ea7cb3bce3356a13080a4c876d765ea87203f720a2aec4cd44b405af39d537",
+  "original_json_sha256": "d0f731c64f66ca4f9d6858453a0ef5e97e4069b29f6845fb2ec375895f53f963",
+  "input_breit_candidate_sha256": "7a0f7a938c3bdb3d1b9de08225e1b16445802405fa0245aee92d520cf231c26c",
+  "input_breit_audit_sha256": "1314794f61ff402f3280be248eb6335a2e0d3f1efe4a71a0dfdb9619944c1ca0",
+  "input_planes_sha256": "c2525d4cd9951315f53dcec3e5e06b2e924dd3c4e558fb7361e8acb5a1c2745d",
+  "changed_fields": [
+    "bonding.qtaim.Am",
+    "bonding.qtaim.Eu",
+    "bonding.model_scope"
+  ],
+  "inherited_fields": "Breit from hash-verified completed audit; all other fields unchanged",
+  "computations": "Cached fresh promolecular plane differentiation and fig3 only; no SCF/FFT/overlap/angular stages",
+  "limitations": [
+    "N SCF metadata not persisted in original cache; convergence cannot be independently certified here",
+    "Linear radial interpolation and display-grid derivatives lack refinement certification",
+    "Coarsening comparison is diagnostic, not a fine-grid convergence pass",
+    "Promolecule minimum not stationary-point/Hessian-certified molecular QTAIM",
+    "WH mixing and density-weighted S_rms are proxies, not molecular EDA or signed overlap"
+  ],
+  "ions": {
+    "Am": {
+      "old": {
+        "R_mn_a0": 4.781007095303198,
+        "rho_bcp": 0.029865776426626047,
+        "lap_bcp": 0.16169845560402119,
+        "H_bcp": 0.032168206506008386,
+        "G_bcp": 0.008256407394996912,
+        "x_bcp_a0": 2.5936690317677327,
+        "delta_mn": 4.2920124281243854e-05
+      },
+      "corrected": {
+        "rho_bcp": 0.029868978252481346,
+        "lap_bcp": 0.16169501566139358,
+        "G_bcp": 0.00825777220701072,
+        "H_bcp": 0.032165981708337676,
+        "x_bcp_a0": 2.5936690317677327,
+        "axis_gradient_residual": -0.0019573142263302305,
+        "descriptor_scope": "discrete on-axis promolecular density minimum; not a stationary-point/Hessian-certified molecular BCP"
+      },
+      "coarsened": {
+        "rho_bcp": 0.029868978252481346,
+        "lap_bcp": 0.1653098831231438,
+        "G_bcp": 0.0082592247816636,
+        "H_bcp": 0.03306824599912235,
+        "x_bcp_a0": 2.5936690317677327,
+        "axis_gradient_residual": -0.0026372215060958626,
+        "descriptor_scope": "discrete on-axis promolecular density minimum; not a stationary-point/Hessian-certified molecular BCP"
+      },
+      "lap_coarsening_absolute_change": 0.0036148674617502152,
+      "old_minimum_actual_x": -8.881784197001252e-16,
+      "old_minimum_actual_z": 0.013333333333333334,
+      "corrected_lap_min": -592712145.5629703,
+      "corrected_lap_max": 1427320375.536138,
+      "undefined_boundary_cells": 721,
+      "core_display_mask_radius": 0.19452517738257935
+    },
+    "Eu": {
+      "old": {
+        "R_mn_a0": 4.667623527825653,
+        "rho_bcp": 0.02943127426666911,
+        "lap_bcp": 0.1667881970986208,
+        "H_bcp": 0.0336415848919082,
+        "G_bcp": 0.008055464382746996,
+        "x_bcp_a0": 2.4919776465433374,
+        "delta_mn": 1.5113586251909363e-05
+      },
+      "corrected": {
+        "rho_bcp": 0.029434395343754076,
+        "lap_bcp": 0.16678467893184729,
+        "G_bcp": 0.008056785008747121,
+        "H_bcp": 0.033639384724214696,
+        "x_bcp_a0": 2.4919776465433374,
+        "axis_gradient_residual": -0.00022799551898750522,
+        "descriptor_scope": "discrete on-axis promolecular density minimum; not a stationary-point/Hessian-certified molecular BCP"
+      },
+      "coarsened": {
+        "rho_bcp": 0.029903658215550553,
+        "lap_bcp": 0.1586523070654257,
+        "G_bcp": 0.008368093403136538,
+        "H_bcp": 0.03129498336321989,
+        "x_bcp_a0": 2.5558745092752178,
+        "axis_gradient_residual": 0.014385852701064222,
+        "descriptor_scope": "discrete on-axis promolecular density minimum; not a stationary-point/Hessian-certified molecular BCP"
+      },
+      "lap_coarsening_absolute_change": 0.008132371866421573,
+      "old_minimum_actual_x": 0.0,
+      "old_minimum_actual_z": 0.013333333333333334,
+      "corrected_lap_min": -373332810.3172888,
+      "corrected_lap_max": 858044907.7226529,
+      "undefined_boundary_cells": 721,
+      "core_display_mask_radius": 0.191690588195641
+    }
+  },
+  "corrected_json_sha256": "cca00c01d963dae5f76489e375b508b1dd48788b9339c7b36f87ee75299a7d2b",
+  "prior_fig3_sha256": "5c697334e225ef8bb9734222096bd502f195347a4bf75a1e7d85980f3a63a268",
+  "corrected_fig3_sha256": "367e3dc131ed41f2b9568e3b1ce79ff151b62d7b63a99c51ef1a40fc6b4597c0",
+  "acceptance": "Coordinate/operator corrections applied; numerical derivative convergence and molecular interpretation NOT certified"
+}

@@ -1,0 +1,25 @@
+test_backend_path (test_phase10_13_rerun.RerunTests.test_backend_path) ... ok
+test_bath_charge_order_and_translation (test_phase10_13_rerun.RerunTests.test_bath_charge_order_and_translation) ... ok
+test_partial_reference_failure_is_explicit (test_phase10_13_rerun.RerunTests.test_partial_reference_failure_is_explicit) ... [refs] running Psi4 1.11 DETCI per-energy subprocesses (HF & FCI in aug-cc-pV{T,Q}Z, CCSD(T) in QZ -> CBS) ...
+[refs] good: HF=-1.100000 CCSD(T)=-1.100000 FCI/CBS=-1.100000
+ok
+test_plant_timestep_respects_short_remaining_interval (test_phase10_13_rerun.RerunTests.test_plant_timestep_respects_short_remaining_interval) ... ok
+test_sac_update (test_phase10_13_rerun.RerunTests.test_sac_update) ... ok
+test_scalar_training_both_modes (test_phase10_13_rerun.RerunTests.test_scalar_training_both_modes) ... [refs] bad hf/aug-cc-pVTZ: synthetic reference failure
+[refs] bad fci/aug-cc-pVTZ: synthetic reference failure
+[refs] bad hf/aug-cc-pVQZ: synthetic reference failure
+[refs] bad fci/aug-cc-pVQZ: synthetic reference failure
+[refs] bad ccsd(t)/aug-cc-pVQZ: synthetic reference failure
+[refs] bad: incomplete -> literature fallback
+[refs] Psi4 done in 0s (1/2 systems)
+      test step     0  loss = 2.689e-01
+      test step     1  loss = 3.910e-01
+      test step     0  loss = 1.006e+00
+      test step     1  loss = 7.165e-01
+ok
+test_vmc_ad_and_parameter_gradient (test_phase10_13_rerun.RerunTests.test_vmc_ad_and_parameter_gradient) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 3.200s
+
+OK

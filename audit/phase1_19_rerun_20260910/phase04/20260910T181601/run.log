@@ -1,0 +1,63 @@
+[18:16:02] [main] PHASE 4 skeletal editing CI-NEB — 2026-09-10T18:16:02 | engine=xtb | images=9 | fmax=0.05
+========================================================================
+STAGE 2 bounded fresh-band refinement
+========================================================================
+[18:16:06] [refine] step 0: fmax=0.152173 eV/A
+[18:16:20] [refine] step 10: fmax=0.151117 eV/A
+[18:16:36] [refine] step 20: fmax=0.164839 eV/A
+[18:16:51] [refine] step 30: fmax=0.181335 eV/A
+[18:17:03] [refine] step 40: fmax=0.193489 eV/A
+[18:17:14] [refine] step 50: fmax=0.204133 eV/A
+[18:17:29] [refine] step 60: fmax=0.214004 eV/A
+[18:17:43] [refine] step 70: fmax=0.222924 eV/A
+[18:17:57] [refine] step 80: fmax=0.230994 eV/A
+[18:18:12] [refine] step 90: fmax=0.238235 eV/A
+[18:18:26] [refine] step 100: fmax=0.244755 eV/A
+[18:18:41] [refine] step 110: fmax=0.250673 eV/A
+[18:18:56] [refine] step 120: fmax=0.256079 eV/A
+[18:19:11] [refine] step 130: fmax=0.261055 eV/A
+[18:19:25] [refine] step 140: fmax=0.265665 eV/A
+[18:19:39] [refine] step 150: fmax=0.269966 eV/A
+[18:19:40] [stage] 2 bounded fresh-band refinement: FAILED — AttributeError: '_PerAtomCalc' object has no attribute 'results'
+Traceback (most recent call last):
+  File "$CAMPAIGN\phase04\20260910T181601\run_phase4_reaction_mechanism.py", line 1358, in main
+    ok = fn()
+         ^^^^
+  File "$CAMPAIGN\phase04\20260910T181601\run_phase4_reaction_mechanism.py", line 1351, in <lambda>
+    stages = [("2 bounded fresh-band refinement", lambda: stage_bounded_refinement(_OUT, args)),
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "$CAMPAIGN\phase04\20260910T181601\run_phase4_reaction_mechanism.py", line 914, in stage_bounded_refinement
+    write(str(out / 'ts_candidate.xyz'), images[i_ts])
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\ase\io\formats.py", line 713, in write
+    return _write(filename, fd, format, io, images,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\ase\parallel.py", line 269, in new_func
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\ase\io\formats.py", line 749, in _write
+    return io.write(fd, images, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\ase\io\formats.py", line 176, in _write_wrapper
+    return function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\ase\utils\__init__.py", line 600, in iofunc
+    obj = func(fd, *args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\ase\io\extxyz.py", line 853, in write_xyz
+    save_calc_results(atoms, calculator, calc_prefix="")
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\ase\io\extxyz.py", line 992, in save_calc_results
+    for prop, value in calc_use.results.items():
+                       ^^^^^^^^^^^^^^^^
+AttributeError: '_PerAtomCalc' object has no attribute 'results'
+[18:19:40] [warn] figure generation failed: Validated current-version TS record required; refusing misleading figures
+Traceback (most recent call last):
+  File "$CAMPAIGN\phase04\20260910T181601\run_phase4_reaction_mechanism.py", line 1372, in main
+    stage4_figures(_FIG)
+  File "$CAMPAIGN\phase04\20260910T181601\run_phase4_reaction_mechanism.py", line 1137, in stage4_figures
+    raise RuntimeError('Validated current-version TS record required; refusing misleading figures')
+RuntimeError: Validated current-version TS record required; refusing misleading figures
+========================================================================
+FINALIZING
+========================================================================
+[18:19:40] [final] results -> results_phase4\phase4_results.json
+[18:19:40] [final] shutdown NOT triggered (disabled or failure)

@@ -1,0 +1,11 @@
+{
+  "phase": 9,
+  "checks": {
+    "round1_official_simulation": true,
+    "champion_official_simulation": true,
+    "50_synthetic_experiments": true,
+    "synthetic_origin_declared": true
+  },
+  "passed": true,
+  "limitations": "Protocol/software simulation only; approximate surrogate and batch EI, no wet-lab validation. HPLC errors must be reviewed separately."
+}

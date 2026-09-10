@@ -1,0 +1,26 @@
+{
+  "reactant_atoms": 19,
+  "formula": "C9H9N",
+  "n_images": 9,
+  "e_r_ev": -727.8605050767377,
+  "e_p_ev": -728.0811431598361,
+  "broken_bonds_R_idx": [
+    [
+      4,
+      5
+    ],
+    [
+      6,
+      9
+    ]
+  ],
+  "formed_bonds_R_idx": [
+    [
+      4,
+      9
+    ]
+  ],
+  "mcs_pairing": "MCS + greedy element/distance",
+  "interpolation": "IDPP (ASE)",
+  "engine": "GFN2-xTB"
+}

@@ -556,7 +556,8 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
                    net.raw_b_en, net.raw_b_ee_u, net.raw_b_ee_l]
     warm_opt = torch.optim.Adam(warm_params, lr=8e-3)
     step = 0.35
-    for _ in range(200):
+    warm_start = time.monotonic()
+    for warm_epoch in range(200):
         with torch.no_grad():
             r, acc = metropolis(net, r, step, 2)
             step = adapt_step(step, acc)
@@ -566,18 +567,28 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
         med = centred.abs().median()
         sig = 1.4826 * med + 1e-6
         weights = 2.0 * torch.clamp(centred, -5.0 * sig, 5.0 * sig) / el.numel()
-        weights = torch.nan_to_num(weights, nan=0.0, posinf=0.0, neginf=0.0)
+        if not torch.isfinite(el).all():
+            raise FloatingPointError(f"{cfg.name}: nonfinite warm-up local energy")
         loss = (weights.detach() * net.logabs(r)).sum()
         warm_opt.zero_grad(set_to_none=True)
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(warm_params, 5.0)
+        torch.nn.utils.clip_grad_norm_(warm_params, 5.0, error_if_nonfinite=True)
         warm_opt.step()
+        if not quiet and (warm_epoch == 0 or (warm_epoch + 1) % 25 == 0):
+            warm_seconds = time.monotonic() - warm_start
+            print(f"  [{cfg.name}] warm-up {warm_epoch + 1}/200 "
+                  f"elapsed={warm_seconds:.1f}s mean_update={warm_seconds/(warm_epoch+1):.3f}s",
+                  flush=True)
 
     # burn-in: 400 sweeps with step-size adaptation
     step = 0.35
-    for _ in range(16):
+    burn_start = time.monotonic()
+    for burn_block in range(16):
         r, acc = metropolis(net, r, step, 25)
         step = adapt_step(step, acc)
+        if not quiet and (burn_block + 1) % 4 == 0:
+            print(f"  [{cfg.name}] burn-in {(burn_block+1)*25}/400 sweeps "
+                  f"elapsed={time.monotonic()-burn_start:.1f}s", flush=True)
 
     history = {k: [] for k in ("epoch", "E", "var", "acc", "step",
                                "gnorm", "lr", "time")}
@@ -604,7 +615,8 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
         med = centred.abs().median()
         sig = 1.4826 * med + 1e-6
         weights = 2.0 * torch.clamp(centred, -5.0 * sig, 5.0 * sig) / el.numel()
-        weights = torch.nan_to_num(weights, nan=0.0, posinf=0.0, neginf=0.0)
+        if not torch.isfinite(el).all():
+            raise FloatingPointError(f"{cfg.name}: nonfinite local energy at epoch {epoch}")
 
         # grad_theta <E> = 2 E[(E_L - <E_L>) grad_theta ln|Psi|]
         # -> d/dtheta of sum_b w_b ln|Psi_b| with w_b held constant
@@ -612,7 +624,8 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
         loss = (weights.detach() * lp).sum()
         opt.zero_grad(set_to_none=True)
         loss.backward()
-        gnorm = float(torch.nn.utils.clip_grad_norm_(net.parameters(), 5.0))
+        gnorm = float(torch.nn.utils.clip_grad_norm_(net.parameters(), 5.0,
+                                                    error_if_nonfinite=True))
         opt.step()
         sched.step()
 
@@ -633,7 +646,8 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
                 print(f"  [{cfg.name}] epoch {epoch:5d}  "
                       f"E = {history['E'][-1]:.6f} +- {err:.6f} Eh  "
                       f"Var(E_L) = {float(evar):.3e}  acc = {acc:6.1%}  "
-                      f"step = {step:.3f}  |g| = {gnorm:.2f}", flush=True)
+                      f"step = {step:.3f}  |g| = {gnorm:.2f} "
+                      f"elapsed={time.time()-t0:.1f}s mean_epoch={(time.time()-t0)/epoch:.3f}s", flush=True)
 
     # ---- final production statistics: frozen network, blocked error bars
     with torch.no_grad():
@@ -645,6 +659,8 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
             r, _ = metropolis(net, r, step, blk)
             lap, gsq = net.kinetic_terms(r)
             el = -0.5 * (lap + gsq) + electronic_potential(r, net.Z, net.R)
+            if not torch.isfinite(el).all():
+                raise FloatingPointError(f"{cfg.name}: nonfinite production local energy")
             blocks.append(float(el.mean()) + enn)
         el_final_sample = el.detach().cpu().numpy().copy()
     blocks_arr = np.array(blocks)
@@ -728,7 +744,7 @@ geom, basis, method, log = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 psi4.set_memory("900 MB")     # stay inside this build's 512 MB - 2 GB band
 psi4.set_output_file(log, False)
 mol = psi4.geometry("units bohr\n" + geom)
-psi4.set_options({"reference": "rhf", "scf__fail_on_maxiter": False})
+psi4.set_options({"reference": "rhf", "scf__fail_on_maxiter": True})
 print("ENERGY", psi4.energy(method + "/" + basis, molecule=mol))
 '''
 
@@ -738,10 +754,16 @@ def _psi4_one(geom, basis, method, log, timeout=600):
     Windows Psi4 build when energies run sequentially in one driver)."""
     script = RESULTS / "_psi4_one.py"
     script.write_text(PSI4_ONE_SCRIPT, encoding="utf-8")
+    env = os.environ.copy()
+    env.pop("PYTHONPATH", None)
+    env["PATH"] = os.pathsep.join([str(PHASE7_PY.parent / "Library" / "bin"),
+                                   str(PHASE7_PY.parent), env.get("PATH", "")])
     proc = subprocess.run(
         [str(PHASE7_PY), str(script), geom, basis, method, str(log)],
         capture_output=True, text=True, timeout=timeout,
-        cwd=str(RESULTS / "psiscratch"))
+        cwd=str(RESULTS / "psiscratch"), env=env)
+    if proc.returncode:
+        raise RuntimeError(f"Psi4 exited {proc.returncode}: {proc.stderr[-400:]}")
     for line in proc.stdout.splitlines():
         if line.startswith("ENERGY"):
             return float(line.split()[1])
@@ -816,15 +838,18 @@ def compute_references(systems, use_psi4=True):
                   f"({len(refs)}/{len(systems)} systems)")
         except Exception as exc:  # noqa: BLE001
             print(f"[refs] Psi4 unavailable ({exc}) -> literature fallback")
-    if lit_only:
-        for s in systems:
-            if s.name in refs:
-                continue
-            lit = LITERATURE.get(s.tag, LITERATURE["H2_diss"])
-            refs[s.name] = {"hf": lit["hf"], "ccsdt": lit["ccsdt"],
-                            "fci": lit["fci"], "source": lit["source"]}
+    computed_systems = sorted(refs)
+    for s in systems:
+        if s.name in refs:
+            continue
+        lit = LITERATURE.get(s.tag, LITERATURE["H2_diss"])
+        refs[s.name] = {"hf": lit["hf"], "ccsdt": lit["ccsdt"],
+                        "fci": lit["fci"], "source": lit["source"]}
 
-    payload = {"complete": not lit_only, "refs": refs, "literature": LITERATURE}
+    payload = {"complete": len(computed_systems) == len(systems),
+               "computed_systems": computed_systems,
+               "fallback_systems": [s.name for s in systems if s.name not in computed_systems],
+               "refs": refs, "literature": LITERATURE}
     ref_path.write_text(json.dumps(payload, indent=1), encoding="utf-8")
     return payload
 
@@ -1107,7 +1132,7 @@ def main():
     torch.manual_seed(SEED)
     np.random.seed(SEED)
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    torch.set_num_threads(min(8, os.cpu_count() or 4))
+    torch.set_num_threads(max(1, int(os.environ.get("OMP_NUM_THREADS", "2"))))
 
     RESULTS.mkdir(exist_ok=True)
     FIGURES.mkdir(exist_ok=True)
@@ -1198,8 +1223,8 @@ def main():
     net_h2 = nets[systems[0].name]
     R_eq = 1.4011
     r2_fixed = [0.0, 0.0, 1.15]
-    slope_nuc, ts_n, ln_n = cusp_slope(net_h2, [-R_eq / 2, 0.0, 0.0],
-                                       [-1.0, 0.0, 0.0], r2_fixed=r2_fixed)
+    slope_nuc, ts_n, ln_n = cusp_slope(net_h2, [0.0, 0.0, -R_eq / 2],
+                                       [0.0, 0.0, -1.0], r2_fixed=r2_fixed)
     slope_ee, ts_e, ln_e = cusp_slope(net_h2, [0.0, 0.0, 1.15],
                                       [0.0, 0.0, 1.0], r2_fixed=r2_fixed)
     print(f"\n[cusps] H2 e-n slope = {slope_nuc:.4f} (Kato exact -2Z = -2.000); "

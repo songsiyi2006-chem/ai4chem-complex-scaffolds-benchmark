@@ -282,7 +282,12 @@ def stage2_torsion_scans(out_dir: Path, num_points: int) -> None:
                 ff = make_ff(mh)
                 target = (theta + 180.) % 360. - 180.
                 add_torsion_constraint(ff, i, j, k, l, target - 5.0, target + 5.0)
-                if ff.Minimize(800) != 0:
+                converged = False
+                for _ in range(6):
+                    if ff.Minimize(800) == 0:
+                        converged = True
+                        break
+                if not converged:
                     raise RuntimeError(f'Torsion {theta:g}: minimization did not converge')
                 angle = AllChem.GetDihedralDeg(conf, i, j, k, l)
                 if periodic_angle_error(angle, theta) > 5.1:
@@ -570,7 +575,8 @@ def stage3_openmm_md(out_dir: Path, args: argparse.Namespace) -> None:
     simulation.reporters.append(analysis)
     simulation.reporters.append(app.StateDataReporter(
         sys.stdout, 5000, step=True, time=True, speed=True, temperature=True,
-        potentialEnergy=True, remainingTime=True, totalSteps=args.md_steps))
+        potentialEnergy=True, remainingTime=True,
+        totalSteps=args.equil_steps + args.md_steps))
 
     _log("stage3", f"production: {args.md_steps} steps "
                    f"({args.md_steps * 0.002:.0f} ps), recording every {args.report_interval}")
@@ -884,6 +890,8 @@ def main() -> int:
                                        "reason": "run incomplete — power-off suppressed"}
                 write_json_atomic(results_path, RESULTS)
                 print("[shutdown] --auto_shutdown set but run incomplete — suppressed.")
+    if not RESULTS.get("all_stages_ok", False):
+        exit_code = 1
     return exit_code
 
 

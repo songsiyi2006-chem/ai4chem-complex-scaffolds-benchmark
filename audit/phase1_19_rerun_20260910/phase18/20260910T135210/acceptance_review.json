@@ -1,0 +1,15 @@
+{
+  "phase": 18,
+  "checks": {
+    "stoichiometry_residual_below_1e-5": true,
+    "all_fluxes_finite": true,
+    "no_thermo_sign_violations": true,
+    "no_closed_flux_cycle": true,
+    "enzyme_budget_satisfied": true,
+    "moiety_drift_adenylate_below_1e-8": true,
+    "moiety_drift_nad_below_1e-8": true,
+    "all_dynamic_states_finite": true
+  },
+  "passed": true,
+  "limitations": "Assigned/curated network, not a validated organism. Stoichiometry residual=1.78e-14; formation-energy benchmark RMS=18.1 kJ/mol, not chemically accurate throughout."
+}

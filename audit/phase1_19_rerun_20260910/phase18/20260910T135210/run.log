@@ -1,0 +1,34 @@
+[phase18 13:52:13] ==============================================================================
+[phase18 13:52:13] PHASE 18 - WHOLE-CELL METABOLIC NETWORKS, tFBA & CYBERNETIC KINETICS
+[phase18 13:52:13] ==============================================================================
+[phase18 13:52:13] [18A] polymer series deepened by 12 additional degrees (glycogen->37, polyP->41, PHB->41, LTA->29)
+[phase18 13:52:13] [18A] reconstruction: 817 internal metabolites (869 rows incl. boundary), 1269 reactions (1201 enzymatic+transport, 67 boundary), 4748 nonzeros, orphan mets: 70
+[phase18 13:52:13]       orphans (first 12): ['x_glc_D', 'x_o2', 'x_nh4', 'x_pi', 'x_so4', 'x_no3', 'x_b12', 'x_thm', 'x_fe2', 'x_mg2', 'x_kx', 'x_co2']
+[phase18 13:52:13] [18B-0] curation: 869 formation energies | 79 benchmark rows (unbenchmarked chemistry handled by MILP delta-gauge variables)
+[phase18 13:52:14]   pass 1 (benchmarks): LS status 3, residual RMS = 18.09 kJ/mol, max|resid| = 86.86
+[phase18 13:52:14]   pass 2 (gauge propagation): 775 unbenchmarked metabolites, 962 class rows, residual RMS = 44.19
+[phase18 13:52:14] [18B] tFBA model: 4195 vars (1269 flux, 864 ln-concentration, 1198 binaries), 817 equality + 2400 inequality rows, 1 thermo-blocked directions
+[phase18 13:52:14]   LP relaxation (thermo rows, z in [0,1]): success=True, mu = 0.3247 /h
+[phase18 13:52:18]   MILP done in 4 s: status 0, mu_tFBA = 0.3234 /h (relaxation bound 0.3247)
+[phase18 13:52:33]     u_glc=  1.0: mu=0.295  ac=  5.78  o2=  4.39  ATP_ox= 21.14  enzyme budget 100.0%
+[phase18 13:53:01]     u_glc=  2.0: mu=0.302  ac=  5.73  o2=  4.32  ATP_ox= 20.79  enzyme budget 100.0%
+[phase18 13:53:24]     u_glc=  3.0: mu=0.308  ac=  5.69  o2=  4.25  ATP_ox= 20.42  enzyme budget 100.0%
+[phase18 13:54:11]     u_glc=  4.0: mu=0.314  ac=  5.64  o2=  4.17  ATP_ox= 20.06  enzyme budget 100.0%
+[phase18 13:54:23]     u_glc=  6.0: mu=0.323  ac=  6.94  o2=  3.57  ATP_ox= 17.07  enzyme budget 100.0%
+[phase18 13:55:12]     u_glc=  8.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.91  enzyme budget 100.0%
+[phase18 13:55:17]     u_glc= 10.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.91  enzyme budget 100.0%
+[phase18 13:55:20]     u_glc= 12.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.91  enzyme budget 100.0%
+[phase18 13:55:24]     u_glc= 14.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.91  enzyme budget 100.0%
+[phase18 13:55:34]     u_glc= 17.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.90  enzyme budget 100.0%
+[phase18 13:56:14]     u_glc= 20.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.90  enzyme budget 100.0%
+[phase18 13:56:19]     u_glc= 24.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.91  enzyme budget 100.0%
+[phase18 13:56:36]     u_glc= 28.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.91  enzyme budget 100.0%
+[phase18 13:56:43]     u_glc= 32.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.89  enzyme budget 100.0%
+[phase18 13:56:47]     u_glc= 38.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.91  enzyme budget 100.0%
+[phase18 13:56:51]     u_glc= 45.0: mu=0.323  ac=  7.02  o2=  3.53  ATP_ox= 16.91  enzyme budget 100.0%
+[phase18 13:56:51] [18C] stiff cybernetic dynamics t in [0, 7200] s (batch glucose exhaustion, H2O2 pulse @ 5400 s)
+[phase18 13:56:53]   integrated in 2 s (5959 rhs evals); glucose exhausted at t = 1945 s; moiety drifts adenylate 2.4e-15, NAD 3.7e-15
+[phase18 13:56:53] [FIG1] genome-scale flux map
+[phase18 13:56:56] [FIG2] thermodynamic driving forces
+[phase18 13:56:58] [FIG3] dynamic metabolic rewiring
+[phase18 13:57:01] record -> $CAMPAIGN\phase18\20260910T135210\results_phase18\phase18_results.json

@@ -1,0 +1,501 @@
+{
+  "phase": 6,
+  "title": "Explicit-solvent well-tempered metadynamics & 2D free energy surface reconstruction of the cyclopropa[b]indole ring expansion",
+  "timestamp": "2026-09-10T13:58:39",
+  "system": {
+    "stage0": {
+      "engine": "GFN2-xTB (xtb.exe)",
+      "xtb_exe": "$USER_PROFILE/miniconda3/envs/phase2ff/Library/bin\\xtb.EXE",
+      "n_atoms": 19,
+      "formula": "C9H9N",
+      "broken_in_R": [
+        [
+          4,
+          5
+        ],
+        [
+          6,
+          9
+        ]
+      ],
+      "formed_in_R": [
+        [
+          4,
+          9
+        ]
+      ],
+      "cv_reactant_qm": [
+        1.4312986760281725,
+        67.18259201137727
+      ],
+      "cv_product_qm": [
+        2.4285313113073097,
+        -155.37078049412602
+      ],
+      "idpp_path_cv": [
+        [
+          1.4313462589835957,
+          67.17941296859647
+        ],
+        [
+          1.5546601855049846,
+          48.543590470696934
+        ],
+        [
+          1.8247668577248366,
+          -13.195361174712753
+        ],
+        [
+          2.1179214456592104,
+          -54.204008364679886
+        ],
+        [
+          1.8499795112843809,
+          -65.746692281669
+        ],
+        [
+          1.9797342361294534,
+          -85.36119244795613
+        ],
+        [
+          2.1932955940476524,
+          -103.04831023811215
+        ],
+        [
+          2.395554195454109,
+          -127.17178065010278
+        ],
+        [
+          2.428453230022617,
+          -155.37492714612813
+        ]
+      ],
+      "charges_source": "results_phase6\\cache\\charges_*.txt",
+      "charge_total_e": -9.999999966980866e-09,
+      "q_range_e": [
+        -0.178703185,
+        0.14555192
+      ]
+    },
+    "explicit": {
+      "n_atoms": 1497,
+      "n_water": 492,
+      "n_na": 1,
+      "n_cl": 1,
+      "box_nm": [
+        2.60686,
+        2.45982,
+        2.50923
+      ],
+      "padding_nm": 1.0,
+      "cutoff_nm": 1.0,
+      "electrostatics": "PME, tolerance 1e-4",
+      "water_model": "TIP3P (amber14/tip3p.xml)",
+      "ionic_strength_M": 0.15,
+      "integrator": "LangevinMiddle 300 K, friction 1/ps, dt 2 fs, HBonds",
+      "dof": 3003,
+      "morse_kj": {
+        "break_nc": [
+          303.7584,
+          22.866136883479903,
+          0.14475894054740787
+        ],
+        "break_cc": [
+          347.6904,
+          16.816921721958895,
+          0.14833829083557024
+        ],
+        "form_nc": [
+          303.7584,
+          33.927096195242,
+          0.14400600976333527
+        ]
+      },
+      "build_s": 206.17364931106567
+    },
+    "implicit": {
+      "n_atoms": 19,
+      "implicit_model": "GBSA-OBC2; Bondi radii (C 1.70, N 1.55, H 1.20 A), OBC2 screening (C .72, N .79, H .85), eps_solute 1, eps_solvent 78.5",
+      "dof": 45
+    }
+  },
+  "force_field": {
+    "valence_ff": "OpenFF Sage 2.1.0 (openff-2.1.0.offxml) on the reactant valence graph",
+    "charges": "GFN2-xTB Mulliken, (reactant+product)/2 under the Phase-4 pairing",
+    "n_particles": 19,
+    "coulomb14Scale": 0.833333,
+    "lj14Scale": 0.5,
+    "xml": "results_phase6\\solute_sage.xml",
+    "n_bonds": 12,
+    "n_angles": 39,
+    "n_torsions": 114,
+    "n_improper_entries": 16,
+    "n_xh_constraints": 9,
+    "energy_reference_kjmol": -51.43575778708601,
+    "energy_xml_kjmol": -51.43575510193298,
+    "energy_abs_diff_kjmol": 2.685153027925935e-06
+  },
+  "morse_calibration": {
+    "method": "GFN2-xTB constrained relaxed scans (sequential warm-started; breaking pairs on the reactant, forming pair on the product); robust Morse fit E(r)=off+De(1-exp(-a(r-Re)))^2-De with trailing trim of non-dissociative relaxation",
+    "break_nc": {
+      "De_kcal": 119.72406685884836,
+      "Re_A": 1.4475894054740788,
+      "a_invA": 1.7806164405657168,
+      "offset_kcal": 118.8977765676699,
+      "residual_rms_kcal": 15.564814432621134,
+      "scan_molecule": "reactant",
+      "scan_r_A": [
+        1.4,
+        1.6199999999999999,
+        1.8399999999999999,
+        2.0599999999999996,
+        2.28,
+        2.5,
+        2.7199999999999998,
+        2.9399999999999995
+      ],
+      "scan_E_rel_kcal": [
+        0.0,
+        8.054684579106834,
+        28.921143279236276,
+        51.44585400248616,
+        71.21039265754007,
+        85.80344895675807,
+        94.60289538280995,
+        58.69674237147774
+      ]
+    },
+    "break_cc": {
+      "De_kcal": 87.75075073571834,
+      "Re_A": 1.4833829083557024,
+      "a_invA": 1.6365210438219477,
+      "offset_kcal": 87.23042341603148,
+      "residual_rms_kcal": 1.143575507183378,
+      "scan_molecule": "reactant",
+      "scan_r_A": [
+        1.45,
+        1.67,
+        1.89,
+        2.11,
+        2.33,
+        2.55,
+        2.7699999999999996
+      ],
+      "scan_E_rel_kcal": [
+        0.0,
+        4.394165898447682,
+        21.373778724388103,
+        36.52162537903496,
+        47.75959021766903,
+        57.688359801624756,
+        68.52489694517499
+      ]
+    },
+    "form_nc": {
+      "De_kcal": 65.52566731390297,
+      "Re_A": 1.4400600976333529,
+      "a_invA": 3.5711597186438784,
+      "offset_kcal": 56.19872082725055,
+      "residual_rms_kcal": 2.182495981071111,
+      "scan_molecule": "product",
+      "scan_r_A": [
+        1.35,
+        1.57,
+        1.79,
+        2.01,
+        2.23,
+        2.45,
+        2.67,
+        2.8899999999999997
+      ],
+      "scan_E_rel_kcal": [
+        0.0,
+        0.716846687017096,
+        19.038236266227614,
+        41.512186948668386,
+        51.33846303698738,
+        53.368287730663724,
+        53.45051847851937,
+        54.27913637745587
+      ]
+    }
+  },
+  "explicit": {
+    "steps": 200000,
+    "n_hills": 400,
+    "target_steps": 200000,
+    "sim_time_ps": 400.0
+  },
+  "implicit": {
+    "steps": 500000,
+    "n_hills": 500,
+    "target_steps": 500000,
+    "sim_time_ps": 1000.0
+  },
+  "fes": {
+    "explicit": {
+      "n_hills": 400,
+      "reactant_basin": {
+        "idx": [
+          7,
+          49
+        ],
+        "cv": [
+          1.4400000000000002,
+          65.0
+        ],
+        "G_kcal": -12.34191989423986
+      },
+      "product_basin": null,
+      "saddle_cv": null,
+      "saddle_G_kcal": null,
+      "dG_act_kcal": null,
+      "dG_rxn_kcal": null,
+      "d_limit_A": 1.8400000000000005,
+      "ascent_at_limit_kcal": 12.339177586362613,
+      "convergence": [
+        {
+          "frac": 0.15,
+          "n_hills": 60,
+          "time_ps": 60.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 5.607926982816682
+        },
+        {
+          "frac": 0.3,
+          "n_hills": 120,
+          "time_ps": 120.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 8.169628689079591
+        },
+        {
+          "frac": 0.5,
+          "n_hills": 200,
+          "time_ps": 200.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 9.726600080181733
+        },
+        {
+          "frac": 0.7,
+          "n_hills": 280,
+          "time_ps": 280.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 11.080877780560812
+        },
+        {
+          "frac": 0.85,
+          "n_hills": 340,
+          "time_ps": 340.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 11.792876852019475
+        },
+        {
+          "frac": 1.0,
+          "n_hills": 400,
+          "time_ps": 400.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 12.339177586362613
+        }
+      ]
+    },
+    "implicit": {
+      "n_hills": 500,
+      "reactant_basin": {
+        "idx": [
+          7,
+          49
+        ],
+        "cv": [
+          1.4400000000000002,
+          65.0
+        ],
+        "G_kcal": -13.450206019745035
+      },
+      "product_basin": null,
+      "saddle_cv": null,
+      "saddle_G_kcal": null,
+      "dG_act_kcal": null,
+      "dG_rxn_kcal": null,
+      "d_limit_A": 1.8000000000000005,
+      "ascent_at_limit_kcal": 13.43878100263691,
+      "convergence": [
+        {
+          "frac": 0.15,
+          "n_hills": 75,
+          "time_ps": 150.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 6.248335400840789
+        },
+        {
+          "frac": 0.3,
+          "n_hills": 150,
+          "time_ps": 300.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 8.475856721412255
+        },
+        {
+          "frac": 0.5,
+          "n_hills": 250,
+          "time_ps": 500.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 10.467854362590126
+        },
+        {
+          "frac": 0.7,
+          "n_hills": 350,
+          "time_ps": 700.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 11.984271752173907
+        },
+        {
+          "frac": 0.85,
+          "n_hills": 425,
+          "time_ps": 850.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 12.766416417045008
+        },
+        {
+          "frac": 1.0,
+          "n_hills": 500,
+          "time_ps": 1000.0,
+          "dG_act_kcal": null,
+          "ascent_kcal": 13.43878100263691
+        }
+      ]
+    },
+    "ddg_profile": {
+      "d_A": [
+        1.3,
+        1.32,
+        1.34,
+        1.36,
+        1.38,
+        1.4,
+        1.42,
+        1.44,
+        1.46,
+        1.48,
+        1.5,
+        1.52,
+        1.54,
+        1.56,
+        1.58,
+        1.6,
+        1.62,
+        1.64,
+        1.66,
+        1.68,
+        1.7,
+        1.72,
+        1.74,
+        1.76,
+        1.78,
+        1.8
+      ],
+      "ddG_solv_kcal": [
+        -0.214,
+        -0.13,
+        -0.035,
+        0.031,
+        0.077,
+        0.076,
+        0.04,
+        0.0,
+        -0.051,
+        -0.098,
+        -0.115,
+        -0.1,
+        -0.09,
+        -0.144,
+        -0.298,
+        -0.615,
+        -0.95,
+        -1.184,
+        -1.335,
+        -1.398,
+        -1.391,
+        -1.331,
+        -1.261,
+        -1.201,
+        -1.159,
+        -1.132
+      ],
+      "d_max_matched_A": 1.8000000000000005,
+      "ddG_at_dmax_kcal": -1.1323024141565305
+    }
+  },
+  "meta": {
+    "fallbacks": [],
+    "warnings": [],
+    "platform": "CPU",
+    "platforms_available": [
+      "Reference",
+      "CPU",
+      "CUDA",
+      "OpenCL"
+    ],
+    "continuation": {
+      "mode": "same-campaign implicit-and-analysis continuation",
+      "timestamp": "2026-09-10T14:40:37.865150",
+      "pid": 8900,
+      "driver": "$SOURCE_ROOT\\run_phase6_explicit_metadynamics.py",
+      "cwd": "$CAMPAIGN\\phase06\\20260910T135824",
+      "completed_explicit_steps": 200000,
+      "artifacts": [
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\phase6_results.json",
+          "sha256": "63aeb996ea159d58b56872fe2b656f072b9c964df64d68d6d6a5133491a5b10b"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\metadyn_state.json",
+          "sha256": "648ef125ada007c9ae1a7960f31dc6cdae67c5af8c540ff61dce39ffb0ccacdc"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\prod_explicit.chk",
+          "sha256": "d0ab52c6133bb521a5025d8782176e3368cf3030e1dbc3028208eeeb6285772a"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\progress_explicit.csv",
+          "sha256": "97962b6ba09fb591def20eca20913416b9c303406b9c6727726033e958987557"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\traj_explicit.dcd",
+          "sha256": "dcb66ad507850b12e0d7d4b5b3177e6cd0b6b9df327ba42a4cd27829c081b567"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\solvated_equilibrated.pdb",
+          "sha256": "5a22430c57f29ce3ef4bfd4c6f4d123a837bb5271eb48d16a013eb01036fddf5"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\cache\\charges_reactant.txt",
+          "sha256": "a1ff166c66ea32e5b7674dcef417eab22a27207d7e91d7e84483df144a8f8386"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\cache\\charges_product.txt",
+          "sha256": "07adfd774fcd555d38cf04eff9891f73ef791680bc87862a48f186b5e1fff2a3"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\results_phase6\\cache\\morse_fit.json",
+          "sha256": "b496938caec77cb5b4faeecb12fb8002f80356bcad274acffbc9b853f983a3b7"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\rerun_status.json",
+          "sha256": "8f423dda2b4a66a66368b9843977728e6a84ed8a31f54ab2505010aa0e88b95d"
+        },
+        {
+          "source": "$SOURCE_ROOT\\run_phase6_explicit_metadynamics.py",
+          "sha256": "7df774868dca17911c12be8f90b7d15e634862a61b945758e2b11f01519230fe"
+        },
+        {
+          "source": "$CAMPAIGN\\phase06\\20260910T135824\\run_phase6_explicit_metadynamics.py",
+          "sha256": "43cb9eaf2d35dcdae865344dfe49412befa213638051b028b3645bd9bd799baf"
+        }
+      ]
+    },
+    "wall_time_scope": "implicit-and-analysis continuation only"
+  },
+  "fatal_error": null,
+  "all_stages_ok": true,
+  "continuation_wall_time_min": 204.51637767155964,
+  "wall_time_min": 204.51637767155964
+}

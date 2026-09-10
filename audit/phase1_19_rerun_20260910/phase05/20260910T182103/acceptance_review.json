@@ -1,0 +1,11 @@
+{
+  "phase": 5,
+  "checks": {
+    "execution_completed": false,
+    "default_modules_present": false,
+    "no_fatal_error": false
+  },
+  "passed": false,
+  "limitations": "RuntimeError: TS2b-scan(dC3-H): too few converged frames (2); constrained scan peaks are not validated stationary TSs. Default A/B/C only; D exploratory kinetics is not enabled.",
+  "validator_sha256": "2a08581a08295f07210381024ef96903893ef2a1413625fed8ada6a96e2d371d"
+}

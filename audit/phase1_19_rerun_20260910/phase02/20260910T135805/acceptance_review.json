@@ -1,0 +1,13 @@
+{
+  "phase": 2,
+  "checks": {
+    "all_stages_ok": true,
+    "five_36_point_scans": true,
+    "angles_achieved": true,
+    "unrestrained_energies": true,
+    "full_100000_step_MD": true,
+    "finite_MD_trace": true
+  },
+  "passed": true,
+  "limitations": "200 ps implicit-solvent trajectory, not long-time convergence. Parameterization: OpenFF Sage 2.1.0 (valence+vdW) + MMFF94 charges + GBSA/OBC2. Old reporter ETA counted equilibration incorrectly; display-only fix does not change trajectory."
+}

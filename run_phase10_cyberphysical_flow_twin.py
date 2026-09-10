@@ -584,19 +584,30 @@ class FlowPlant:
         The substep respects the advective CFL, the coolant CFL *and* the
         reaction timescale (the Arrhenius acceleration during a runaway
         transiently stiffens the kinetics by two orders of magnitude)."""
+        if not np.isfinite(dt_target) or dt_target <= 0:
+            raise ValueError("Plant advance requires a finite positive interval")
         self._apply_actuators(actions)
         t_end = self.t + dt_target
         guard = 0
-        while self.t < t_end - 1e-9 and guard < 200000:
+        while self.t < t_end - 1e-9:
+            if guard >= 200000:
+                raise RuntimeError(f"Plant substep limit at t={self.t}; target={t_end}")
             guard += 1
             self._tf = self._thermal_fields()
+            if not np.isfinite([self.t, self.dt_cap, self.dz, self.u,
+                               self.u_cool, self._k_eff]).all():
+                raise FloatingPointError("Nonfinite plant timestep inputs")
             dt = min(self.dt_cap,
                      0.7 * self.dz / max(self.u, 1e-6),
                      0.7 * self.dz / max(self.u_cool, 1e-6),
                      0.3 / max(self._k_eff, 1e-6),
                      t_end - self.t)
-            dt = max(dt, 1e-3)
+            if dt <= 0 or self.t + dt == self.t:
+                raise FloatingPointError(f"Plant timestep cannot advance at t={self.t}: dt={dt}")
             self._step_chemical(dt)
+            if (not np.isfinite(self.T).all() or not np.isfinite(self.Tc).all()
+                    or any(not np.isfinite(v).all() for v in self.C.values())):
+                raise FloatingPointError(f"Nonfinite plant state at t={self.t}, dt={dt}")
             self.t += dt
         return self.t
 
@@ -2055,7 +2066,7 @@ def main():
     # ------------------------------------------------------------------ #
     # 1. Train the SAC agent on the domain-randomized fault family
     # ------------------------------------------------------------------ #
-    torch.set_num_threads(min(4, os.cpu_count() or 2))
+    torch.set_num_threads(max(1, int(os.environ.get("OMP_NUM_THREADS", "2"))))
     if args.skip_train and (RESULTS / "sac_policy.pt").exists():
         agent = SACAgent()
         agent.actor.load_state_dict(

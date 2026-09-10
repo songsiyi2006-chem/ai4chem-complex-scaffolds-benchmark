@@ -38,12 +38,10 @@ Protocol
 Engines & environments (fault-tolerant dual-interpreter orchestration)
 ----------------------------------------------------------------------
 QC engine    : Psi4 1.11 (conda-forge win-64) in env `phase7` — DETCI-based
-               CASSCF.  The reference protocol specifies PySCF; PySCF ships
-               no native win32 build (no wheels / no MSVC toolchain on this
-               host), so Psi4 1.11 is the drop-in ab-initio backend and the
-               substitution is logged in every result file.  On a POSIX host
-               with PySCF the script reports the substitution as a fallback
-               either way — the 7A/7B quantities are backend-invariant.
+               CASSCF. The reference protocol specifies PySCF, which is
+               unavailable in the inspected qbscf environment. This script
+               implements a Psi4 workflow; numerical equivalence to PySCF
+               has not been established.
 Chem engine  : env `phase2ff` python (ASE + torchani + MACE-OFF) driving
                xtb.exe GFN2-xTB (phase-4 subprocess wrapper pattern).
 Known Psi4 build quirk: this win-64 build's DETCI/DPD cache sizing
@@ -304,7 +302,7 @@ class XTBWrap:
             cmd = [self.xtb, "m.xyz", "--grad", "--chrg", str(CHARGE),
                    "--mult", str(MULTIPLICITY)]
             proc = subprocess.run(cmd, cwd=td, capture_output=True,
-                                  text=True, timeout=600)
+                                  text=True, encoding="utf-8", errors="replace", timeout=600)
             grad = Path(td) / "gradient"
             if not grad.exists():
                 raise RuntimeError(
@@ -386,8 +384,9 @@ def worker_G(args):
         try:
             at = Atoms(numbers=atoms_from_elements(els),
                        positions=cur_pos)
+            at.set_distance(bridge, partner, R)
             at.calc = calc
-            at.set_constraint(FixBondLengths([(bridge, partner)]))
+            at.set_constraint(FixBondLengths([(bridge, partner)], bondlengths=[R]))
             opt = LBFGS(at, logfile=None)
             opt.run(fmax=0.03, steps=250)
             p = at.get_positions()
@@ -570,8 +569,9 @@ def _spin_square(wfn):
     Da = np.asarray(wfn.Da_subset("AO"))
     Db = np.asarray(wfn.Db_subset("AO"))
     nb = wfn.nbeta()
-    ss_two = 0.25 * (wfn.nalpha() - wfn.nbeta()) ** 2
-    return float(nb - np.trace(Da @ S @ Db @ S) + ss_two)
+    spin_projection = 0.5 * (wfn.nalpha() - wfn.nbeta())
+    return float(nb - np.trace(Da @ S @ Db @ S)
+                 + spin_projection * (spin_projection + 1.0))
 
 
 def _ao_atom_map(basisset, natoms):
@@ -988,15 +988,10 @@ def merge_and_analyze():
         return None
 
     r_crit = {}
-    # mission gate: DS^2 = <S^2> - S(S+1) exceeding 0.3.  The singlet UHF/
-    # UKS remain on the closed-shell branch for this system (DS2 ~ 0 for
-    # the whole window — audited negative result); the open-shell single-
-    # determinant sector is the S_z = 1 one, so the contamination gate is
-    # evaluated on the triplet solutions, and the symmetry-breaking bond
-    # length is additionally pinpointed by the singlet-triplet gap sign
-    # change (closed-shell singlet stops being the lowest determinant).
+    # DS^2 = <S^2> - S(S+1); triplets have S(S+1)=2. Missing points
+    # cannot be replaced with zero when locating threshold crossings.
     for name, ss in (("UHF_triplet", s2_uhf_t), ("UKS_triplet", s2_uks_t)):
-        rc, _ = interp_crossing(Rs, [0 if v is None else v for v in ss],
+        rc, _ = interp_crossing(Rs, [np.nan if v is None else v - 2.0 for v in ss],
                                 S2_GATE)
         r_crit[name] = rc
     dE_st_uhf = [None if (a is None or b is None) else (a - b) * HARTREE_KCAL
@@ -1010,9 +1005,9 @@ def merge_and_analyze():
     r_crit["ST_crossing_UHF"] = rc_st_uhf
     r_crit["ST_crossing_UKS"] = rc_st_uks
     r_crit["DS2_singlet_UHF"] = interp_crossing(
-        Rs, [0 if v is None else v for v in s2_uhf], S2_GATE)[0]
+        Rs, [np.nan if v is None else v for v in s2_uhf], S2_GATE)[0]
     r_crit["DS2_singlet_UKS"] = interp_crossing(
-        Rs, [0 if v is None else v for v in s2_uks], S2_GATE)[0]
+        Rs, [np.nan if v is None else v for v in s2_uks], S2_GATE)[0]
 
     analysis = {
         "R": Rs,
@@ -1404,27 +1399,57 @@ def write_summary_csv(ana):
 # --------------------------------------------------------------------------- #
 #  orchestrator
 # --------------------------------------------------------------------------- #
+def wait_for_qc_memory(minimum_gib=2.5):
+    """On Windows, hold before each 2-GB Psi4 worker until headroom exists."""
+    if os.name != "nt":
+        return
+    import ctypes
+    class MemoryStatus(ctypes.Structure):
+        _fields_ = [("length", ctypes.c_ulong), ("load", ctypes.c_ulong)] + [
+            (name, ctypes.c_ulonglong) for name in
+            ("total_phys", "avail_phys", "total_page", "avail_page",
+             "total_virtual", "avail_virtual", "avail_extended")]
+    while True:
+        status = MemoryStatus()
+        status.length = ctypes.sizeof(status)
+        if not ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(status)):
+            raise OSError("Cannot verify available physical memory before Psi4")
+        available = status.avail_phys / 1024**3
+        if available >= minimum_gib:
+            _log("memory", f"QC launch headroom: {available:.2f} GiB available")
+            return
+        _log("memory", f"HOLD Psi4: {available:.2f} GiB available; "
+                        f"requires {minimum_gib:.2f} GiB")
+        time.sleep(30)
+
+
 def run_cmd(cmd, env=None, cwd=None, timeout=None):
     _log("orch", "spawn: " + " ".join(str(c) for c in cmd[:6]) +
          (" ..." if len(cmd) > 6 else ""))
     e = dict(os.environ)
     if env:
         e.update(env)
+    prefix = Path(cmd[0]).resolve().parent
+    e["PATH"] = os.pathsep.join([str(prefix / "Library" / "bin"),
+                                 str(prefix), e.get("PATH", "")])
+    e.pop("PYTHONPATH", None)
+    if "--worker" in cmd and cmd[cmd.index("--worker") + 1] in ("7A", "7B"):
+        wait_for_qc_memory()
     return subprocess.run([str(c) for c in cmd], env=e,
                           cwd=str(cwd or Path.cwd()), timeout=timeout)
 
 
 def orchestrate(args):
     t00 = time.time()
+    failed = False
     META["engines"] = {
         "py_qc": find_py_qc(),
         "py_chem": find_py_chem(),
         "xtb": find_xtb(),
         "qc_backend": "Psi4 1.11 (DETCI CASSCF)",
-        "note": ("reference protocol names PySCF; PySCF provides no native "
-                 "win32 build on this host — Psi4 1.11 substitute, "
-                 "protocol-equivalent (RHF/UHF/RKS/UKS + CAS(2e,2o) CASSCF "
-                 "+ NOON); substitution logged by design"),
+        "note": ("This is a Psi4 workflow. The reference protocol names "
+                 "PySCF; it is unavailable in the inspected qbscf environment. "
+                 "Numerical equivalence to PySCF has not been established."),
     }
     scan_r = SMOKE_R if args.smoke else args.scan_r
     basis = SMOKE_BASIS if args.smoke else args.basis
@@ -1437,16 +1462,24 @@ def orchestrate(args):
 
     # ---- stage G & AI: chem env ------------------------------------------
     if "G" in stages:
+        if not REACTANT_MOL.is_file():
+            OUT.mkdir(parents=True, exist_ok=True)
+            write_json_atomic(OUT / "phase7_results.json", {
+                "all_stages_ok": False,
+                "fatal_error": f"Fresh Phase 4 prerequisite required: {REACTANT_MOL}"})
+            return 1
         rc = run_cmd([py_chem, __file__, "--worker", "G",
                       "--scan-r", *[str(r) for r in scan_r],
-                      "--threads", str(threads)])
+                      "--threads", str(threads)] + (["--force"] if args.force else []))
         if rc.returncode != 0:
             _warn(f"stage G worker exit {rc.returncode}")
+            return 1
     if "AI" in stages:
         rc = run_cmd([py_chem, __file__, "--worker", "AI",
                       "--threads", str(threads)])
         if rc.returncode != 0:
             _warn(f"stage AI worker exit {rc.returncode}")
+            failed = True
 
     # ---- stages 7A/7B: per-point isolated QC subprocesses -----------------
     if "G" in stages or (ckpt_dir("G") / "scan.json").exists():
@@ -1467,10 +1500,11 @@ def orchestrate(args):
                     break
                 _fallback(f"7A point {i} ({pt['R']:.2f} A) tier {basis_t} "
                           f"failed — degrading basis (logged trade-off: "
-                          f"reduced polarization/flexibility; qualitative "
-                          f"profiles preserved)")
+                          f"reduced polarization/flexibility; effects on "
+                          f"profiles require validation)")
             if not ok:
                 _warn(f"7A point {i} failed on every basis tier")
+                failed = True
     if "7B" in stages:
         for i, pt in enumerate(scan):
             ok = False
@@ -1493,12 +1527,13 @@ def orchestrate(args):
                               f"{basis_t}/skip{skip} unconverged — "
                               f"degrading (trade-off logged: smaller basis "
                               f"or AO/DF algorithm shifts NOON fractions "
-                              f"and total energy, not the qualitative "
-                              f"diradical signature)")
+                              f"and total energy; effects on the diradical "
+                              f"signature require validation)")
                 if ok:
                     break
             if not ok:
                 _warn(f"7B point {i} failed on every basis tier")
+                failed = True
 
     if "merge" in stages or "fig" in stages:
         try:
@@ -1508,16 +1543,28 @@ def orchestrate(args):
                               "scan_r": scan_r, "cube_rs": cube_rs}
             master["analysis"] = ana
             master["wall_s"] = round(time.time() - t00, 1)
-            master["all_stages_ok"] = all(
-                v is not None for v in ana["E_casscf_eh"]) and any(
-                v is not None for v in ana["S2_uhf"])
+            master["all_stages_ok"] = bool(scan) and not failed and all(
+                len(ana[key]) == len(scan) and all(
+                    v is not None and np.isfinite(v) for v in ana[key])
+                for key in ("E_casscf_eh", "E_rhf_eh", "E_uhf_eh",
+                            "E_rks_eh", "E_uks_eh", "S2_uhf",
+                            "E_uhf_triplet_eh", "E_uks_triplet_eh"))
+            master["all_stages_ok"] = master["all_stages_ok"] and all(
+                point.get("converged", False) for point in scan) and all(
+                len(ana["E_rel_kcal"][name]) == len(scan) and all(
+                    value is not None and np.isfinite(value)
+                    for value in ana["E_rel_kcal"][name])
+                for name in ("MACE-OFF", "ANI-2x"))
+            failed = failed or not master["all_stages_ok"]
             write_json_atomic(OUT / "phase7_results.json", master)
             write_summary_csv(ana)
             _log("merge", "phase7_results.json + CSV written")
         except Exception as exc:
+            failed = True
             _log("merge", f"merge failed: {traceback.format_exc()[-500:]}")
             master = dict(META)
             master["fatal_error"] = str(exc)
+            master["all_stages_ok"] = False
             write_json_atomic(OUT / "phase7_results.json", master)
 
     if "fig" in stages:
@@ -1528,10 +1575,11 @@ def orchestrate(args):
             fig2(args, ana)
             fig3(args, ana)
         except Exception:
+            failed = True
             _log("fig", f"figures failed: {traceback.format_exc()[-500:]}")
 
     _log("orch", f"done in {round(time.time()-t00,1)} s")
-    return 0
+    return 1 if failed else 0
 
 
 def _basis_chain_for(basis):

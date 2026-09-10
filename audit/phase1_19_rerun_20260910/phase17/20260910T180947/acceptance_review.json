@@ -1,0 +1,174 @@
+{
+  "status": "specified_checks_passed_with_limitations",
+  "whole_model_validated": false,
+  "main_final_regression_report": {
+    "run": "184148",
+    "passed": 126,
+    "suites": [
+      119,
+      7
+    ],
+    "exit_codes": [
+      0,
+      0
+    ],
+    "diff_check": "clean",
+    "evidence_scope": "Reported by main; worker independently ran27 focused tests previously"
+  },
+  "review_scope": "Persisted four-atom SCF convergence, finite data, internal LS ladder algebra, post-audit provenance, hydrogenic radial refinement, and corrected promolecular operator/coordinates. Not experimental or molecular-model validation.",
+  "canonical_json_overwritten": false,
+  "reviewed_candidate": "kb_postaudit_20260910T104108041864Z/phase17_results.merged_corrected.json",
+  "reviewed_candidate_sha256": "2f4888159cc8cbaf69373e517d593867557f634cb6ca8910828901450547511b",
+  "final_merge_check": "Verified final differs from QTAIM/Breit merged candidate only in certificates; persisted KB hash and published fig4 hash match completed audit",
+  "canonical_prior_sha256": "d0f731c64f66ca4f9d6858453a0ef5e97e4069b29f6845fb2ec375895f53f963",
+  "checks": {
+    "fresh_atomic_provenance": {
+      "status": "passed",
+      "parent": "../20260910T141424",
+      "radial_npz_sha256": "aa5cf8b90a61eea27ee8e168355be930998de9b32ce3dd82ed42d700926a312a",
+      "scope": "Same-campaign validated atomic checkpoint; no historical cache substituted"
+    },
+    "four_persisted_scf": {
+      "status": "passed",
+      "energy_tolerance_eh": 3e-06,
+      "density_l1_per_electron_tolerance": 3e-06,
+      "max_iteration_budget": 80,
+      "Am3+": {
+        "iterations": 35,
+        "final_dE_eh": 1.9226354197598994e-06,
+        "final_density_residual": 1.7380337626788374e-06,
+        "electron_count": 91.99999999999999,
+        "charge_error": 1.4210854715202004e-14
+      },
+      "Eu3+": {
+        "iterations": 34,
+        "final_dE_eh": 3.089553501922637e-07,
+        "final_density_residual": 2.1589831144627916e-06,
+        "electron_count": 60.00000000000001,
+        "charge_error": 7.105427357601002e-15
+      },
+      "Am3+NR": {
+        "iterations": 34,
+        "final_dE_eh": 2.6455381885170937e-08,
+        "final_density_residual": 2.0094374572983466e-06,
+        "electron_count": 92.00000000000001,
+        "charge_error": 1.4210854715202004e-14
+      },
+      "Eu3+NR": {
+        "iterations": 33,
+        "final_dE_eh": 7.363087206613272e-08,
+        "final_density_residual": 2.2008333104855723e-06,
+        "electron_count": 60.0,
+        "charge_error": 0.0
+      }
+    },
+    "nitrogen_scf": {
+      "status": "process_evidence_only_not_independently_certified",
+      "evidence": "run.log: N iteration32 at18:21:48 dE2.78e-9 Eh and density2.69e-6; source returns only after strict final verification; bonding starts18:21:52 and figures stage exits zero",
+      "limitation": "Final N SCF verification/history/charge and orbitals not persisted. Cannot independently audit its final fixed point or integrated electron count from the combined plane cache. No invented N certificate."
+    },
+    "finiteness": {
+      "status": "passed_with_explicit_undefined_boundaries",
+      "merged_json_numeric_values_checked": 1844,
+      "nonfinite_json_values": 0,
+      "atomic_npz_arrays_checked": 204,
+      "nonfinite_atomic_arrays": 0,
+      "corrected_plane_arrays_checked": 12,
+      "allowed_undefined_laplacian_boundary_cells_per_ion": 721,
+      "boundary_convention": "NaN only on outer differentiation boundaries, explicitly masked; all interior derivatives and input densities finite. Do not call all NPZ entries finite."
+    },
+    "internal_ls_ladder_and_trace": {
+      "status": "passed_internal_algebra_only",
+      "formula": "E_J=zeta*J*(J+1)/2, J=0..6; degeneracy weighted trace of E_J-12*zeta is zero",
+      "comparison_absolute_tolerance_cm": 1e-07,
+      "Am_max_ladder_error_cm": 1.4551915228366852e-11,
+      "Eu_max_ladder_error_cm": 1.1368683772161603e-12,
+      "Am_centered_weighted_trace_cm": -2.6921043172478676e-10,
+      "Eu_centered_weighted_trace_cm": 5.4569682106375694e-11,
+      "Am_J1_relative_experimental_error": 0.19264449652288218,
+      "Eu_J1_relative_experimental_error": 3.8738752099453366,
+      "limitation": "Trace is reconstructed LS ladder algebra, not an independent many-electron Hamiltonian trace. Experimental agreement, especially Eu, is not established. Hund diagonal validators report true but are not full multiplet diagonalization."
+    },
+    "hydrogenic_and_spinor_diagnostics": {
+      "status": "measured_diagnostics_not_global_certificate",
+      "spinor_orthonormality_error": 9.769962616701378e-15,
+      "max_hydrogenic_dirac_relative_energy_error": 0.00017524705968884307,
+      "hydrogenic_degeneracy_relative_error": 5.400689245334879e-11,
+      "NR_hydrogen_relative_error": 2.263558984694214e-08
+    },
+    "hydrogenic_breit_radial_refinement": {
+      "status": "passed",
+      "angular_grid": [
+        30,
+        36,
+        40
+      ],
+      "radial_nodes": [
+        3000,
+        6000
+      ],
+      "relative_change_gate": 0.001,
+      "Z20": 1.3772018623320942e-05,
+      "Z50": 1.5323864004594065e-05,
+      "Z80": 2.1020156036863635e-05,
+      "Z92": 2.8529035449970285e-05,
+      "limitation": "Radial-only refinement on one full-default angular table; angular/radius-ratio-table convergence is not established."
+    },
+    "coulomb_scaling": {
+      "status": "linearity_provenance_verified_not_independent_highZ_certification",
+      "J1": 0.6278079251225043,
+      "J1_exact": 0.625,
+      "relative_error_inherited_all_Z": 0.004492680196006837,
+      "method": "Discrete scaled-grid identity J(Z)=Z*J(1), not a repeated Coulomb angular computation"
+    },
+    "promolecular_derivatives": {
+      "status": "operator_coordinates_corrected_convergence_not_certified",
+      "Am_axis_laplacian": 0.16169501566139358,
+      "Eu_axis_laplacian": 0.16678467893184729,
+      "Am_coarsening_absolute_change": 0.0036148674617502152,
+      "Eu_coarsening_absolute_change": 0.008132371866421573,
+      "Am_axis_gradient": -0.0019573142263302305,
+      "Eu_axis_gradient": -0.00022799551898750522,
+      "limitation": "Linear radial interpolation, finite display grid and nonzero axis gradients preclude refined derivative or stationary-point/Hessian certification. Nuclear-core values unresolved and masked in display. WH and density-overlap proxies do not establish molecular EDA or a binary bonding conclusion."
+    },
+    "gaussian_kinetic_balance": {
+      "status": "corrected_finite_basis_diagnostic_passed_original_failure_preserved",
+      "original_relative_error": 403.5991275298716,
+      "cause": "Incorrect LL/SS block assembly, incorrect radial Gaussian measure/basis, and negative-continuum eigenvalue selected as1s",
+      "cheap_corrected_32_basis_energy_eh": -4860.633745613042,
+      "analytic_energy_eh": -4861.197904369715,
+      "final_relative_error": 0.00011605344356898546,
+      "last_basis_relative_change": 1.1671196242783273e-05,
+      "final_eigen_residual_relative": 5.389047540627614e-13,
+      "basis_sizes_measured": [
+        10,
+        16,
+        24,
+        32
+      ],
+      "criteria": {
+        "analytic_relative_error": 0.001,
+        "last_basis_relative_change": 0.001,
+        "eigen_residual_relative": 1e-08
+      },
+      "criteria_scope": "Explicit finite-basis diagnostic gates, not relaxed SCF tolerances or global no-spectral-pollution proof",
+      "corrected_source_sha256": "d828beb1875239adc5f15e25dd9c92d535fe35bcb20ae9e92fd49b6abe5d43d1",
+      "limitation": "Final completed post-audit verified. Positive total-energy branch excludes the negative continuum. Residual finite-basis/radial-quadrature error remains; no global variational-stability claim."
+    }
+  },
+  "figure_provenance": {
+    "fig1": "Original180947 rendering from validated atomic checkpoint; unaffected by QTAIM plane coordinate bug",
+    "fig2": "Original180947 rendering from persisted LS ladders; internal consistency not experimental accuracy",
+    "fig3": {
+      "source_sha256": "f5cf4aed9bfadde27508dd6490c5ebc48f09a66b995a366dc342e6d26164603d",
+      "published_png_sha256": "367e3dc131ed41f2b9568e3b1ce79ff151b62d7b63a99c51ef1a40fc6b4597c0",
+      "scope": "Corrected cached promolecular plane and neutral proxy labels",
+      "visual_review": "Main confirmed correct orientation and neutral promolecule labels; derivative/ring limitations retained"
+    },
+    "fig4": {
+      "source_sha256": "d828beb1875239adc5f15e25dd9c92d535fe35bcb20ae9e92fd49b6abe5d43d1",
+      "published_png_sha256": "e203a3a873e14d8d26b88f287afe6f5b64103542f1dee053daada4f0dae488da",
+      "scope": "Final KB post-audit rendering using inherited corrected hydrogenic rows and neutral global title; hash verified, visual review delegated to main"
+    }
+  }
+}

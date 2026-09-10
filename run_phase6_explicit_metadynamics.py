@@ -59,7 +59,7 @@ Simulation protocol
   * Bias     : ONE CustomCVForce with N_MAX pre-allocated hill slots
                driven by global parameters (zero recompilation; deposits
                are context.setParameter calls).
-  * FES      : Delta-G(d, theta) = -(gamma-1)/gamma * V_bias on a
+  * FES      : Delta-G(d, theta) = -gamma/(gamma-1) * V_bias on a
                periodic grid; deposition-density masking, Gaussian
                smoothing, Dijkstra minimum-energy path, saddle
                extraction, convergence trace.
@@ -83,6 +83,8 @@ from Context checkpoints (existing artifacts are picked up automatically).
 from __future__ import annotations
 
 import argparse
+import gc
+import hashlib
 import datetime as _dt
 import json
 import math
@@ -236,7 +238,8 @@ def _xtb_run(args, cwd: Path, timeout=900):
     env = dict(os.environ)
     env["PATH"] = str(Path(XTB_EXE).parent) + os.pathsep + env.get("PATH", "")
     return subprocess.run([XTB_EXE, *args], cwd=str(cwd), capture_output=True,
-                          text=True, timeout=timeout, env=env)
+                          text=True, encoding="utf-8", errors="replace",
+                          timeout=timeout, env=env)
 
 
 def _torsion_deg(p0, p1, p2, p3):
@@ -271,6 +274,12 @@ def _read_idpp(path: Path):
 
 def stage0_assets():
     """Load Phase-4 assets, re-derive the R<-P pairing, QM caches."""
+    required = [Path("results_phase4") / name for name in
+                ("reactant_3d.mol", "product_3d.mol", "images_idpp.xyz")]
+    missing = [str(path) for path in required if not path.is_file()]
+    if missing:
+        raise FileNotFoundError("Fresh Phase 4 prerequisites required: "
+                                + ", ".join(missing))
     rmol = _mol_from_molfile(Path("results_phase4/reactant_3d.mol"))
     pmol = _mol_from_molfile(Path("results_phase4/product_3d.mol"))
     s0 = {"engine": "GFN2-xTB (xtb.exe)" if XTB_EXE else "unavailable",
@@ -406,6 +415,10 @@ def _morse_calibration(rmol, pmol, ppos_r):
     for tag, pair in MORSE_PAIRS.items():
         i, j = pair
         mol, rvals = scans[tag]
+        if mol is pmol:
+            import run_phase4_reaction_mechanism as p4
+            inv = np.argsort(p4._pair_atoms(rmol, pmol, verbose=False))
+            i, j = int(inv[i]), int(inv[j])
         try:
             sym = [a.GetSymbol() for a in mol.GetAtoms()]
             pos = mol.GetConformer().GetPositions()
@@ -908,25 +921,15 @@ def bias_on_grid(hills, r_grid_nm, th_grid_rad, s1_nm, s2_rad):
     return V
 
 
-W_MIN_KJ = 0.05 * KCAL   # skip negligible WT tail hills (bias error
-                         # per skipped hill < 0.02 kcal/mol, negligible)
-
-
 def deposit(meta, ctx, hills, w0_kj, kt_gamma1):
     r, th = meta.getCollectiveVariableValues(ctx)
     s1, s2 = sigma_constants()
     v = bias_eval(r, th, hills, s1, s2)
     w = w0_kj * math.exp(-v / kt_gamma1)
-    if w < W_MIN_KJ:
-        # well-tempered tail: the hill is energetically irrelevant;
-        # skipping keeps the compiled expression within N_MAX slots
-        # while the 500-step deposition cadence is preserved.
-        return float(r), float(th), w
     n = len(hills)
     if n >= N_MAX_HILLS:
-        # slots full: treat as a skipped hill (cadence preserved; the
-        # accumulated bias is already defined by the stored hills)
-        return float(r), float(th), w
+        raise RuntimeError("Metadynamics hill capacity exhausted; refusing "
+                           "to continue with a silently frozen bias")
     ctx.setParameter(f"w{n}", w)
     ctx.setParameter(f"r{n}", float(r))
     ctx.setParameter(f"th{n}", float(th))
@@ -942,7 +945,8 @@ def make_simulation(system, topology, platform_name, seed=20260904):
     plat = mm.Platform.getPlatformByName(platform_name)
     props = {}
     if platform_name == "CPU":
-        props["Threads"] = str(os.cpu_count() or 4)
+        props["Threads"] = os.environ.get("OPENMM_CPU_THREADS",
+                                          os.environ.get("OMP_NUM_THREADS", "2"))
     if platform_name == "CUDA":
         props["Precision"] = "mixed"
     return app.Simulation(topology, system, integrator, plat, props)
@@ -1103,9 +1107,10 @@ def run_metadynamics(sim, meta, state, leg, n_steps, deposit_every,
                             "hills,W_last_kcal,V_kJmol,sps\n")
     dcd = None
     if dcd_path:
-        mode = "wb" if start == 0 else "ab"
+        mode = "wb" if start == 0 else "r+b"
         dcd = app.DCDFile(open(dcd_path, mode), sim.topology,
-                          DT_FS * unit.femtosecond)
+                          DT_FS * unit.femtosecond, firstStep=dcd_every,
+                          interval=dcd_every, append=start > 0)
 
     s1, s2 = sigma_constants()
     t0 = time.time()
@@ -1608,6 +1613,124 @@ def figures(assets, fes_ex, fes_im, ddg_profile=None):
 # ------------------------------------------------------------------ #
 #  driver
 # ------------------------------------------------------------------ #
+def read_dcd_timing(path):
+    """Read OpenMM CHARMM DCD records and production step/time metadata."""
+    import struct
+    data = Path(path).read_bytes()
+    offset = 0
+
+    def record():
+        nonlocal offset
+        size = struct.unpack_from("<i", data, offset)[0]
+        offset += 4
+        block = data[offset:offset + size]
+        offset += size
+        if size < 0 or len(block) != size or struct.unpack_from("<i", data, offset)[0] != size:
+            raise ValueError("Incomplete DCD record")
+        offset += 4
+        return block
+
+    header = record()
+    if len(header) != 84 or header[:4] != b"CORD":
+        raise ValueError("Unsupported DCD header")
+    control = struct.unpack_from("<20i", header, 4)
+    dt_ps = struct.unpack_from("<f", header, 40)[0] * 0.04888821
+    record()  # title
+    atoms = struct.unpack("<i", record())[0]
+    coordinate_start = offset
+    frames = 0
+    while offset < len(data):
+        if control[10] and len(record()) != 48:
+            raise ValueError("Invalid periodic cell record")
+        for _ in range(3):
+            if len(record()) != 4 * atoms:
+                raise ValueError("Incomplete DCD coordinate frame")
+        frames += 1
+    if frames != control[0] or not frames:
+        raise ValueError("DCD frame count disagrees with complete records")
+    steps = [control[1] + i * control[2] for i in range(frames)]
+    return {"frames": frames, "atoms": atoms, "first_step": control[1],
+            "interval": control[2], "last_step": control[3], "dt_ps": dt_ps,
+            "steps": steps, "times_ps": [step * dt_ps for step in steps],
+            "coordinate_start": coordinate_start}
+
+
+def correct_dcd_timing_copy(source, destination, progress_csv, frame_stride=5000):
+    """Create a verified metadata-only copy; never overwrite the source."""
+    import csv
+    import struct
+    source, destination = Path(source), Path(destination)
+    if source.resolve() == destination.resolve() or destination.exists():
+        raise ValueError("DCD correction requires a new destination")
+    before = read_dcd_timing(source)
+    with Path(progress_csv).open(newline="") as handle:
+        rows = {int(row["step"]): float(row["time_ps"]) for row in csv.DictReader(handle)}
+    steps = [(i + 1) * frame_stride for i in range(before["frames"])]
+    if steps[-1] != max(rows) or any(step not in rows for step in steps):
+        raise ValueError("DCD frame schedule does not match completed CSV")
+    original = source.read_bytes()
+    corrected = bytearray(original)
+    struct.pack_into("<3i", corrected, 12, steps[0], frame_stride, steps[-1])
+    with destination.open("xb") as handle:
+        handle.write(corrected)
+    after = read_dcd_timing(destination)
+    if (after["steps"] != steps or any(abs(time_ps - rows[step]) > 1e-4
+                                      for step, time_ps in zip(steps, after["times_ps"]))):
+        raise ValueError("Corrected DCD reader timestamps disagree with CSV")
+    if original[:12] != corrected[:12] or original[24:] != corrected[24:]:
+        raise ValueError("DCD correction altered bytes outside timing fields")
+    provenance = {
+        "source": str(source.resolve()), "source_sha256": hashlib.sha256(original).hexdigest(),
+        "corrected": str(destination.resolve()), "corrected_sha256": hashlib.sha256(corrected).hexdigest(),
+        "progress_csv": str(Path(progress_csv).resolve()),
+        "progress_csv_sha256": hashlib.sha256(Path(progress_csv).read_bytes()).hexdigest(),
+        "time_origin": "production-relative; equilibration excluded; first saved frame at step 5000",
+        "coordinate_bytes_identical": original[before["coordinate_start"]:] == corrected[after["coordinate_start"]:],
+        "reader": "OpenMM CHARMM DCD record/header reader with AKMA-to-ps conversion",
+        "before": before, "after": after}
+    with destination.with_suffix(".provenance.json").open("x", encoding="utf-8") as handle:
+        json.dump(provenance, handle, indent=2)
+    return provenance
+
+
+def load_completed_explicit(out, state, expected_steps):
+    """Validate and fingerprint an already-completed explicit campaign leg."""
+    prior = json.loads((out / "phase6_results.json").read_text(encoding="utf-8"))
+    explicit = state.get("explicit", {})
+    expected_hills = expected_steps // DEPOSIT_STEPS_EXPL
+    recorded = prior.get("explicit", {})
+    if (explicit.get("steps_done") != expected_steps
+            or recorded.get("steps") != expected_steps
+            or recorded.get("target_steps") != expected_steps
+            or len(explicit.get("hills", [])) != expected_hills
+            or recorded.get("n_hills") != expected_hills):
+        raise ValueError("Cannot resume implicit: explicit leg is incomplete or protocol differs")
+    paths = [out / name for name in (
+        "phase6_results.json", "metadyn_state.json", "prod_explicit.chk",
+        "progress_explicit.csv", "traj_explicit.dcd", "solvated_equilibrated.pdb")]
+    paths += [out / "cache" / name for name in
+              ("charges_reactant.txt", "charges_product.txt", "morse_fit.json")]
+    paths += [Path.cwd() / "rerun_status.json", Path(__file__).resolve()]
+    snapshot_source = Path.cwd() / Path(__file__).name
+    if snapshot_source.resolve() != Path(__file__).resolve():
+        paths.append(snapshot_source)
+    provenance = {"mode": "same-campaign implicit-and-analysis continuation",
+                  "timestamp": _dt.datetime.now().isoformat(),
+                  "pid": os.getpid(), "driver": str(Path(__file__).resolve()),
+                  "cwd": str(Path.cwd()),
+                  "completed_explicit_steps": expected_steps, "artifacts": []}
+    for path in paths:
+        if not path.is_file():
+            raise FileNotFoundError(f"Required continuation artifact missing: {path}")
+        digest = hashlib.sha256()
+        with path.open("rb") as handle:
+            for block in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(block)
+        provenance["artifacts"].append({"source": str(path.resolve()),
+                                         "sha256": digest.hexdigest()})
+    return prior, provenance
+
+
 def main():
     global STATE
     ap = argparse.ArgumentParser(
@@ -1622,7 +1745,11 @@ def main():
                     help="smoke protocol (reduced steps)")
     ap.add_argument("--selftest", action="store_true",
                     help="build systems, benchmark, exit")
+    ap.add_argument("--resume-implicit", action="store_true",
+                    help="reuse a completed explicit leg in this campaign directory; run implicit and analysis")
     args = ap.parse_args()
+    if args.resume_implicit and (args.fast or args.selftest):
+        ap.error("--resume-implicit cannot be combined with smoke/selftest")
 
     t_wall = time.time()
     OUT.mkdir(exist_ok=True)
@@ -1633,6 +1760,14 @@ def main():
             STATE.update(loaded)
         except Exception:
             pass
+    if args.resume_implicit:
+        prior, provenance = load_completed_explicit(OUT, STATE, args.steps_explicit)
+        RESULTS.update(prior)
+        RESULTS["fatal_error"] = None
+        RESULTS["all_stages_ok"] = False
+        RESULTS["meta"]["continuation"] = provenance
+        write_json_atomic(OUT / "implicit_resume_provenance.json", provenance)
+        _log("resume", "validated completed explicit leg; its Context will not be constructed")
 
     avail = [mm.Platform.getPlatform(i).getName()
              for i in range(mm.Platform.getNumPlatforms())]
@@ -1640,8 +1775,17 @@ def main():
     if plat == "auto":
         for pref in ("CUDA", "OpenCL", "CPU"):
             if pref in avail:
-                plat = pref
-                break
+                try:
+                    probe_system = mm.System()
+                    probe_system.addParticle(1.0)
+                    probe_integrator = mm.VerletIntegrator(0.001)
+                    probe_context = mm.Context(probe_system, probe_integrator,
+                                               mm.Platform.getPlatformByName(pref))
+                    del probe_context, probe_integrator, probe_system
+                    plat = pref
+                    break
+                except Exception as exc:
+                    _warn(f"installed platform {pref} is unusable: {exc}")
     RESULTS["meta"]["platform"] = plat
     RESULTS["meta"]["platforms_available"] = avail
     _log("main", f"OpenMM platforms available: {avail} -> using {plat}")
@@ -1649,6 +1793,13 @@ def main():
     n_expl, n_impl = args.steps_explicit, args.steps_implicit
     if args.fast or args.selftest:
         n_expl, n_impl = min(n_expl, 6000), min(n_impl, 12000)
+    for steps, interval in ((n_expl, DEPOSIT_STEPS_EXPL),
+                             (n_impl, DEPOSIT_STEPS_IMPL)):
+        if steps <= 0 or steps % interval:
+            ap.error("production steps must be positive multiples of the deposition interval")
+        if steps // interval > N_MAX_HILLS:
+            ap.error(f"requested protocol exceeds {N_MAX_HILLS} hill slots; "
+                     "longer runs require a validated scalable bias implementation")
 
     def _die(stage, exc):
         RESULTS["fatal_error"] = f"{stage}: {exc}\n{traceback.format_exc()}"
@@ -1681,14 +1832,15 @@ def main():
     # ---- stage 2: explicit system ------------------------------------
     try:
         t0 = time.time()
-        sim_ex, modeller, meta_ex, info_ex = build_explicit(
-            assets, ff, RESULTS["morse_calibration"], plat)
-        info_ex["build_s"] = time.time() - t0
-        RESULTS["system"]["explicit"] = info_ex
-        write_json_atomic(OUT / "phase6_results.json")
-        _log("stage2", f"explicit system built in {info_ex['build_s']:.1f}"
-                       f" s ({info_ex['n_atoms']} atoms, dof "
-                       f"{info_ex['dof']})")
+        if not args.resume_implicit:
+            sim_ex, modeller, meta_ex, info_ex = build_explicit(
+                assets, ff, RESULTS["morse_calibration"], plat)
+            info_ex["build_s"] = time.time() - t0
+            RESULTS["system"]["explicit"] = info_ex
+            write_json_atomic(OUT / "phase6_results.json")
+            _log("stage2", f"explicit system built in {info_ex['build_s']:.1f}"
+                           f" s ({info_ex['n_atoms']} atoms, dof "
+                           f"{info_ex['dof']})")
     except Exception as exc:
         return _die("stage2 explicit build", exc)
 
@@ -1728,7 +1880,9 @@ def main():
         return 0
 
     # ---- equilibration (explicit) ------------------------------------
-    if (OUT / "eq_explicit.chk").exists():
+    if args.resume_implicit:
+        pass
+    elif (OUT / "eq_explicit.chk").exists():
         _load_checkpoint(sim_ex.context, OUT / "eq_explicit.chk")
         _log("eq-expl", "loaded equilibration checkpoint")
     else:
@@ -1741,9 +1895,10 @@ def main():
 
     # ---- production (explicit) ---------------------------------------
     try:
-        run_metadynamics(sim_ex, meta_ex, STATE["explicit"], "explicit",
-                         n_expl, DEPOSIT_STEPS_EXPL,
-                         dcd_path=str(OUT / "traj_explicit.dcd"))
+        if not args.resume_implicit:
+            run_metadynamics(sim_ex, meta_ex, STATE["explicit"], "explicit",
+                             n_expl, DEPOSIT_STEPS_EXPL,
+                             dcd_path=str(OUT / "traj_explicit.dcd"))
         RESULTS["explicit"].update({
             "steps": STATE["explicit"]["steps_done"],
             "n_hills": len(STATE["explicit"]["hills"]),
@@ -1752,6 +1907,11 @@ def main():
         write_json_atomic(OUT / "phase6_results.json")
     except Exception as exc:
         return _die("production explicit", exc)
+
+    if not args.resume_implicit:
+        del sim_ex, meta_ex, modeller
+        gc.collect()
+        _log("memory", "released explicit Context/Integrator before implicit construction")
 
     # ---- implicit reference leg --------------------------------------
     fes_ex = fes_im = None
@@ -1832,6 +1992,9 @@ def main():
         return _die("figures", exc)
 
     RESULTS["all_stages_ok"] = True
+    if args.resume_implicit:
+        RESULTS["continuation_wall_time_min"] = (time.time() - t_wall) / 60.0
+        RESULTS["meta"]["wall_time_scope"] = "implicit-and-analysis continuation only"
     RESULTS["wall_time_min"] = (time.time() - t_wall) / 60.0
     write_json_atomic(OUT / "phase6_results.json")
     _log("main", f"PHASE 6 COMPLETE in {RESULTS['wall_time_min']:.1f} min")

@@ -39,11 +39,9 @@ of the N=N chromophore), treated with a three-layer multi-scale protocol:
 Engines & environments (fault-tolerant multi-interpreter orchestration)
 ----------------------------------------------------------------------
 QC engine    : Psi4 1.11 (conda env `phase7`) — TDSCF + DETCI SA-CASSCF.
-               The reference protocol names PySCF; PySCF ships no win32 wheels
-               (PyPI 2.14.0 = macOS/Linux only; no conda-forge win-64 build),
-               so Psi4 1.11 is the drop-in ab-initio backend and the
-               substitution is logged in every result file.  Quantities are
-               backend-invariant (excitation energies, CAS state energies).
+               The reference protocol names PySCF, which is unavailable in
+               the inspected qbscf environment. This is a Psi4 workflow;
+               numerical equivalence to PySCF has not been established.
 Chem engine  : xtb.exe GFN2-xTB (phase-4 subprocess wrapper pattern) for the
                S0 relaxed geometries and the normal-mode basis (g98.out).
 Dynamics     : pure numpy vectorized FSSH under the driver interpreter.
@@ -77,6 +75,7 @@ import argparse
 import datetime as _dt
 import json
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -86,6 +85,7 @@ import traceback
 from pathlib import Path
 
 import numpy as np
+from run_phase7_strong_correlation_wall import wait_for_qc_memory
 
 # --------------------------------------------------------------------------- #
 #  constants
@@ -138,11 +138,10 @@ EDC_ALPHA = 0.1                          # Granucci-Persico decoherence [Eh]
 SAVE_EVERY_FS = 5.0
 CI_TORSION_DEG = 90.0                    # nominal CI torsion (refined from scan)
 
-ENGINE_NOTE = ("The reference protocol names PySCF (tdscf/mcscf); PySCF ships "
-               "no win32 wheels (PyPI 2.14.0 = macOS/Linux only, no "
-               "conda-forge win-64 build), so Psi4 1.11 DETCI/TDSCF is the "
-               "drop-in ab-initio backend on this Windows host. Quantities "
-               "are backend-invariant.")
+ENGINE_NOTE = ("This workflow uses Psi4 DETCI/TDSCF. The reference protocol "
+               "names PySCF (tdscf/mcscf), which is unavailable in the "
+               "inspected qbscf environment. Numerical equivalence to "
+               "PySCF has not been established.")
 
 
 # --------------------------------------------------------------------------- #
@@ -210,8 +209,8 @@ def run_xtb(xtb_exe, xyz_path, workdir, opt=False, hess=False, timeout=900):
     if hess:
         cmd += ["--hess"]
     proc = subprocess.run(cmd, cwd=workdir, capture_output=True, text=True,
-                          timeout=timeout)
-    (workdir / "xtb.stdout").write_text((proc.stdout or "")[-8000:])
+                          encoding="utf-8", errors="replace", timeout=timeout)
+    (workdir / "xtb.stdout").write_text((proc.stdout or "")[-8000:], encoding="utf-8")
     return proc, workdir
 
 
@@ -649,6 +648,23 @@ def worker_8a_scan(args, res_path):
 # --------------------------------------------------------------------------- #
 #  WORKER 8B — SA-CASSCF scans, BRS MECI, branching space
 # --------------------------------------------------------------------------- #
+def _inverse_bfgs_update(matrix, displacement, gradient_change):
+    """Inverse-Hessian BFGS update; keep the matrix for bad curvature."""
+    sv = np.asarray(displacement).reshape(-1, 1)
+    yv = np.asarray(gradient_change).reshape(-1, 1)
+    sy = float((sv.T @ yv).item())
+    if not np.isfinite(sy) or sy <= 1e-12:
+        return matrix
+    transform = np.eye(sv.size) - sv @ yv.T / sy
+    return transform @ matrix @ transform.T + sv @ sv.T / sy
+
+
+def _meci_gate(gap_ev, gradient_norm):
+    return (np.isfinite(gap_ev) and np.isfinite(gradient_norm)
+            and 0 <= gap_ev < MECI_GAP_EV_GATE
+            and 0 <= gradient_norm < MECI_GRAD_GATE)
+
+
 def worker_8b(args, res_path):
     """SA-CASSCF scans + BRS penalty MECI + branching space.
 
@@ -684,13 +700,10 @@ def worker_8b(args, res_path):
             "detci", {"num_roots": nroots, "avg_states": list(range(nroots))})
         # NOTE: never pass a CIWavefunction as ref_wfn here — this Psi4
         # build treats it as already-converged and returns stale energies.
-        # Near-degenerate SA roots oscillate at the 1e-5 Eh level; FD
-        # gradients need only ~1e-5 Eh, so the retry chain relaxes the
-        # energy gate instead of burning iterations.
-        tries = [({}, 150),
-                 ({"maxiter": 300, "e_convergence": 1e-6}, 150),
-                 ({"maxiter": 400, "e_convergence": 1e-5}, 150),
-                 ({"maxiter": 500, "e_convergence": 3e-4}, 150)]
+        # Retry with more iterations while preserving the energy tolerance
+        # used for finite differences; unconverged energies are not inputs.
+        tries = [({"maxiter": count, "e_convergence": 2e-7}, 150)
+                 for count in (150, 300, 400, 500)]
         last_exc = None
         for extra, it0 in tries:
             try:
@@ -840,8 +853,7 @@ def worker_8b(args, res_path):
                     break
                 except Exception:
                     if step == d / 2.0:
-                        g0[k] = 0.0
-                        g1[k] = 0.0
+                        raise RuntimeError(f"Finite-difference gradient failed at coordinate {k}")
         return g0, g1
 
     if ck["phase"] == "meci":
@@ -849,18 +861,21 @@ def worker_8b(args, res_path):
             istep = st["istep"] + 1
             gap = E1 - E0
             gap_eV = gap * EH_EV
+            gradient_valid = True
             try:
                 g0, g1 = fd_grads(x, E0, E1)
                 gF = (0.5 * (g0 + g1)
                       + PENALTY_SIGMA * (g1 - g0) * gap
                       * (gap + 2 * PENALTY_ALPHA) / (gap + PENALTY_ALPHA)**2)
             except Exception:
+                gradient_valid = False
                 if gF_prev is None:
                     _warn("8B", f"step {istep}: gradient failed — perturbing")
                     rngx = np.random.default_rng(SEED + istep)
-                    x = x + rngx.normal(0, 0.01, x.size)
+                    x_try = x + rngx.normal(0, 0.01, x.size)
                     try:
-                        E0, E1, F = objective(x)
+                        E0, E1, F = objective(x_try)
+                        x = x_try
                     except Exception:
                         pass
                     st.update({"x": x.tolist(), "e0": E0, "e1": E1,
@@ -875,20 +890,17 @@ def worker_8b(args, res_path):
             _log("8B", f"MECI step {istep:2d}: gap={gap_eV:7.4f} eV  "
                        f"|gradF|={gnorm:.4f} Eh/A  "
                        f"E_avg={0.5 * (E0 + E1):.5f}")
-            if gap_eV < MECI_GAP_EV_GATE and gnorm < MECI_GRAD_GATE:
+            if gradient_valid and _meci_gate(gap_eV, gnorm):
                 _log("8B", f"MECI converged at step {istep} "
                            f"(gap {gap_eV:.4f} eV < {MECI_GAP_EV_GATE} eV)")
                 st["istep"] = istep
+                st.update({"converged": True, "gradF_norm": gnorm,
+                           "x": x.tolist(), "e0": E0, "e1": E1, "F": F})
                 break
             if x_old is not None and gF_prev is not None:
-                sv = (x - np.array(x_old)).reshape(-1, 1)
-                yv = (gF - gF_prev).reshape(-1, 1)
-                sy = float((sv.T @ yv).item())
-                if sy > 1e-12:
-                    Hs = Hbfgs @ sv
-                    Hbfgs += (np.outer(yv.ravel(), yv.ravel()) / sy
-                              - np.outer(Hs.ravel(), Hs.ravel())
-                              / float((sv.T @ Hs).item()))
+                Hbfgs = _inverse_bfgs_update(Hbfgs, x - np.array(x_old),
+                                             gF - gF_prev)
+            x_old = x.tolist()
             pvec = -Hbfgs @ gF
             pnorm = float(np.linalg.norm(pvec))
             if pnorm > 0.15:
@@ -909,14 +921,14 @@ def worker_8b(args, res_path):
                 alpha *= 0.5
             if not improved:
                 rng = np.random.default_rng(SEED + 99 * istep)
-                x = x + rng.normal(0, 0.01, x.size)
+                x_try = x + rng.normal(0, 0.01, x.size)
                 try:
-                    E0, E1, F = objective(x)
+                    E0, E1, F = objective(x_try)
+                    x = x_try
                 except Exception:
                     pass
                 _warn("8B", f"step {istep}: line search stalled — perturbing")
             gF_prev = gF
-            x_old = x.tolist()
             st.update({"x": x.tolist(), "e0": E0, "e1": E1, "F": F,
                        "istep": istep, "H": Hbfgs.tolist(),
                        "gF_prev": gF.tolist(), "x_prev": x_old})
@@ -928,7 +940,9 @@ def worker_8b(args, res_path):
     gap_eV = (E1 - E0) * EH_EV
     write_xyz(OUT / "meci.xyz", els0, xyz_meci,
               f"diazene MECI SA-CASSCF(4,4)/{eng} gap={gap_eV:.4f} eV")
-    out["meci"] = {"gap_eV": gap_eV, "converged": gap_eV < MECI_GAP_EV_GATE,
+    out["meci"] = {"gap_eV": gap_eV,
+                   "converged": bool(st.get("converged", False)),
+                   "gradF_norm": st.get("gradF_norm"),
                    "steps": st["steps"], "e0_eh": E0, "e1_eh": E1,
                    "n_steps": len(st["steps"])}
 
@@ -947,8 +961,7 @@ def worker_8b(args, res_path):
                     break
                 except Exception:
                     if step == d / 2.0:
-                        g0[k] = 0.0
-                        g1[k] = 0.0
+                        raise RuntimeError(f"Branching-space gradient failed at coordinate {k}")
         g_vec = g1 - g0
         ck["g_vector"] = {"units": "Eh/Angstrom",
                           "norm": float(np.linalg.norm(g_vec)),
@@ -1663,13 +1676,30 @@ def stage_structures(args) -> dict:
     return meta
 
 
-def run_worker(stage, extra, timeout=14400, smoke=False):
+def run_worker(stage, extra, timeout=14400, smoke=False, threads=2):
+    if threads < 1:
+        raise ValueError("threads must be positive")
+    extra = list(extra) + ["--threads", str(threads)]
     if smoke:
         extra = list(extra) + ["--smoke"]
     cmd = [ENV_PY_QC, str(Path(__file__).resolve()), "--worker", stage] + extra
     _log(stage.upper(), "dispatching QC worker (psi4 env) ...")
     t0 = time.time()
-    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+    env = os.environ.copy()
+    prefix = Path(ENV_PY_QC).resolve().parent
+    env["PATH"] = os.pathsep.join([str(prefix / "Library" / "bin"),
+                                   str(prefix), env.get("PATH", "")])
+    env.pop("PYTHONPATH", None)
+    for name in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
+        env[name] = str(threads)
+    wait_for_qc_memory()
+    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout,
+                          env=env, encoding="utf-8", errors="replace")
+    log = OUT / f"worker_{stage}.log"
+    with log.open("a", encoding="utf-8") as handle:
+        handle.write(f"\n--- worker exit {proc.returncode} ---\n")
+        handle.write(proc.stdout or "")
+        handle.write(proc.stderr or "")
     dt = time.time() - t0
     if proc.returncode != 0:
         err = (proc.stderr or "").splitlines()[-8:]
@@ -1684,7 +1714,7 @@ def stage_8a(args) -> dict:
     try:
         res.update(run_worker("8a", ["--xyz", str(OUT / "azobenzene_s0.xyz"),
                                      "--res", str(OUT / "res_8a.json")],
-                              smoke=args.smoke))
+                              smoke=args.smoke, threads=args.threads))
         res.update(parse_json(OUT / "res_8a.json"))
     except Exception as exc:
         _warn("8A", f"vertical-excitation worker failed: {str(exc)[:150]}")
@@ -1692,10 +1722,11 @@ def stage_8a(args) -> dict:
     try:
         run_worker("8a_scan", ["--scan-json", str(OUT / "scan_azobenzene.json"),
                                "--res", str(OUT / "res_8a_scan.json")],
-                   smoke=args.smoke)
+                   smoke=args.smoke, threads=args.threads)
         res["torsion_scan"] = parse_json(OUT / "res_8a_scan.json")
     except Exception as exc:
         _warn("8A", f"torsion scan worker failed: {str(exc)[:150]}")
+        res["scan_error"] = str(exc)[:400]
     return res
 
 
@@ -1715,7 +1746,7 @@ def stage_8b(args) -> dict:
     for attempt in range(1, attempts + 1):
         try:
             run_worker("8b", extra + (["--resume"] if attempt > 1 else []),
-                       timeout=21600, smoke=args.smoke)
+                       timeout=21600, smoke=args.smoke, threads=args.threads)
             res = parse_json(OUT / "res_8b.json")
             res["n_worker_attempts"] = attempt
             return res
@@ -1795,9 +1826,20 @@ def main():
             render_all()
         except Exception as exc:
             _warn("fig", f"figure rendering failed: {str(exc)[:200]}")
+            master.setdefault("errors", {})["fig"] = str(exc)
 
     _log("P8", f"phase 8 pipeline done — master record: {master_path}")
+    failed = bool(master.get("errors")) or any(
+        "error" in master.get(key, {}) or "scan_error" in master.get(key, {})
+        for key in ("module_8a", "module_8b", "module_8c"))
+    master["process_stages_ok"] = not failed
+    if args.stage == "all":
+        master["all_stages_ok"] = not failed and bool(
+            master.get("module_8b", {}).get("meci", {}).get("converged", False))
+        master["run_scope"] = "smoke" if args.smoke else "full/default"
+    dump_json(master, master_path)
+    return 1 if failed or master.get("all_stages_ok") is False else 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

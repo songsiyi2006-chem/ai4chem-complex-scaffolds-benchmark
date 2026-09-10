@@ -151,7 +151,10 @@ CONFIG = dict(
     UMB_K_KJ=3000.0,             # umbrella harmonic k (kJ/mol/nm^2)
     UMB_R_RELEASE_NM=4.0,        # released window center (nm)
     UMB_N_WIN=8,
-    OPENMM_BUDGET_MIN=30.0,      # wall-clock budget for OpenMM sampling
+    OPENMM_BUDGET_MIN=30.0,      # advisory only; never reduces requested sampling
+    MD_PRODUCTION_PS=300.0,
+    UMB_SAMPLE_PS=150.0,
+    UMB_SETTLE_PS=12.0,
     RF_B1_UT=50.0,               # RF field amplitude (microtesla)
     RF_F_MAX_MHZ=12.0,
     RF_N_FREQ=76,
@@ -299,7 +302,7 @@ def hfcc_stage():
         return mol, xyz
 
     def ub3lyp_single(xyz, charge, spin, name):
-        m = gto.M(atom=xyz, basis="def2-svp", charge=charge, spin=spin,
+        m = gto.M(atom=xyz, unit="Bohr", basis="def2-svp", charge=charge, spin=spin,
                   verbose=0)
         mf = dft.UKS(m)
         mf.xc = "b3lyp"
@@ -395,6 +398,10 @@ def load_hyperfine():
 
     def try_interp(exe):
         env = dict(os.environ, PHASE15_STAGE="hfcc_only")
+        prefix = Path(exe).parent
+        env.pop("PYTHONPATH", None)
+        env["PATH"] = os.pathsep.join([str(prefix / "Library" / "bin"),
+                                       str(prefix), env.get("PATH", "")])
         try:
             r = subprocess.run([exe, str(Path(__file__).resolve())],
                                capture_output=True, text=True,
@@ -431,6 +438,40 @@ def load_hyperfine():
 SX = sp.csr_matrix(np.array([[0, 0.5], [0.5, 0]], dtype=complex))
 SY = sp.csr_matrix(np.array([[0, -0.5j], [0.5j, 0]], dtype=complex))
 SZ = sp.csr_matrix(np.array([[0.5, 0], [0, -0.5]], dtype=complex))
+
+
+def integrate_spin_yields(t, ps, pt, survival, k_s, k_t):
+    """Simpson quadrature of saved populations, with unrenormalized closure audit.
+
+    Population samples need adequate temporal resolution; this is not exact
+    augmented-observable propagation. Endpoint survival is a separate finite
+    window truncation term, not an integration correction.
+    """
+    from scipy.integrate import simpson
+    t, ps, pt, survival = [np.asarray(x, float) for x in (t, ps, pt, survival)]
+    if (t.ndim != 1 or len(t) < 3 or not np.all(np.diff(t) > 0)
+            or any(a.shape != t.shape or not np.isfinite(a).all()
+                   for a in (t, ps, pt, survival))):
+        raise ValueError("Yield integration needs finite aligned increasing traces")
+    phi_s = float(k_s * simpson(ps, x=t))
+    phi_t = float(k_t * simpson(pt, x=t))
+    trap_s = float(k_s * np.trapezoid(ps, t))
+    trap_t = float(k_t * np.trapezoid(pt, t))
+    initial, remaining = float(survival[0]), float(survival[-1])
+    out = dict(method="composite_simpson_saved_populations_no_renormalization",
+               phi_S=phi_s, phi_T=phi_t, initial_trace=initial,
+               finite_window_remaining_probability=remaining,
+               expected_total_from_trace=initial - remaining,
+               closure_error=phi_s + phi_t + remaining - initial,
+               trapezoid_phi_S=trap_s, trapezoid_phi_T=trap_t,
+               trapezoid_closure_error=trap_s + trap_t + remaining - initial,
+               individual_yields_grid_converged=False,
+               trace_population_mismatch_max=float(np.max(np.abs(ps + pt - survival))))
+    if k_s == k_t:
+        expected = initial * np.exp(-k_s * (t - t[0]))
+        out.update(equal_rate_analytic_total=float(initial - expected[-1]),
+                   equal_rate_trace_max_error=float(np.max(np.abs(survival - expected))))
+    return out
 
 
 def spin_ops(n_dim):
@@ -580,7 +621,7 @@ class RadicalPairSpinSystem:
         return np.array(pts), n_sub
 
     def propagate(self, H):
-        """EXACT Lindblad SLE propagation via segmented expm_multiply.
+        """Numerical Lindblad SLE propagation via segmented expm_multiply.
 
         The trajectory is marched over geometric segments; inside each segment
         scipy's interval algorithm emits n_sub linearly spaced states.
@@ -608,8 +649,9 @@ class RadicalPairSpinSystem:
             v = block[-1]
             k += n_pts
         PT_t = surv - PS_t                       # Tr[(I-PS) rho] = Tr rho - PS
-        phi_S = CONFIG["K_S"] * np.trapezoid(PS_t, t)
-        phi_T = CONFIG["K_T"] * np.trapezoid(PT_t, t)
+        from scipy.integrate import simpson
+        phi_S = CONFIG["K_S"] * simpson(PS_t, x=t)
+        phi_T = CONFIG["K_T"] * simpson(PT_t, x=t)
         return t, PS_t, PT_t, surv, float(phi_S), float(phi_T)
 
     def propagate_eigen(self, H, n_rf=None, rng=None, t_grid=None,
@@ -839,7 +881,9 @@ def spin_dynamics_stage(hfc):
         t, PS_t, PT_t, surv, phiS, phiT = sys_full.propagate(
             sys_full.hamiltonian(B, D_dip_MHz=D_t))
         curves[tag] = dict(t_s=list(t), PS=list(PS_t), PT=list(PT_t),
-                           survival=list(surv), phi_S=phiS, phi_T=phiT)
+                           survival=list(surv), phi_S=phiS, phi_T=phiT,
+                           yield_audit=integrate_spin_yields(
+                               t, PS_t, PT_t, surv, CONFIG["K_S"], CONFIG["K_T"]))
         if th is not None:
             out[f"yield_{tag}"] = phiS
         log(f"    {tag:>7s}: Phi_S = {phiS:.4f} (Phi_T = {phiT:.4f}) "
@@ -982,7 +1026,7 @@ def build_helix_backbone(n_res, phi=-57.0, psi=-47.0):
         res.append({"N": Nn, "CA": Can, "C": Cn, "O": On})
         N, CA, C, O = Nn, Can, Cn, On
     res[-1]["OXT"] = place_atom(res[-1]["N"], res[-1]["CA"], res[-1]["C"],
-                                1.25, 117.0, psi - 180.0)
+                                1.25, 117.0, psi)
     return res
 
 
@@ -1052,55 +1096,47 @@ def _helix_axis(helix):
     return vt[0], cen
 
 
+def sidechain_geometry(residue, resname, l_sign):
+    """Heavy atoms with CA-attached L-CB and correctly branched amide/carboxylate."""
+    N, CA, C = (residue[key] for key in ("N", "CA", "C"))
+    candidates = [place_atom(C, N, CA, 1.53, 110.5, sign * 121.) for sign in (1., -1.)]
+    cb = next(point for point in candidates
+              if np.linalg.det(np.column_stack([N-CA, C-CA, point-CA])) * l_sign > 0)
+    out = dict(CB=cb)
+    spec = SIDECHAIN[resname][1:]
+    branched = resname in ("ASN", "ASP", "GLN")
+    linear = spec[:-1] if branched else spec
+    pa, pb, pc = N, CA, cb
+    torsions = (180., 180., 0., -60., 180.)
+    for j, (name, bond, angle) in enumerate(linear):
+        branch_frame = (pa, pb, pc)
+        point = place_atom(pa, pb, pc, bond, angle, torsions[j])
+        out[name] = point
+        pa, pb, pc = pb, pc, point
+    if branched:
+        name, bond, angle = spec[-1]
+        out[name] = place_atom(*branch_frame, bond, angle, torsions[len(linear)-1] + 180.)
+    return out
+
+
 def build_construct(state, path_pdb):
     """Docked CCT/core construct PDB for one electrostatic state.
 
     state 'FAD_oxid'  -> FAD-mimic residue = ASN (neutral flavin)
     state 'FAD_radan' -> FAD-mimic residue = ASP (anionic flavin radical)
-    Side chains use staggered default rotamers; Cbeta handedness is chosen
-    outward from the (PCA) helix axis and the whole construct is mirrored if
-    needed so every center is L (amber14 chirality).
+    Side chains use staggered default rotamers and individual L-stereochemistry;
+    the backbone is not mirrored to compensate for incorrectly attached atoms.
     """
     core = build_helix_backbone(len(CORE_SEQ))
     cct = build_helix_backbone(len(CCT_SEQ))
 
     def attach_sidechains(helix, seqs):
-        axis, cen = _helix_axis(helix)
+        l_sign = _l_chirality_sign()
         for r, name0 in zip(helix, seqs):
             resname = {"FADX": "ASN" if state == "FAD_oxid" else "ASP"}.get(
                 name0, name0)
             r["resname"] = resname
-            N, CA, C = r["N"], r["CA"], r["C"]
-            cands = {}
-            for sgn in (+1.0, -1.0):
-                CB = place_atom(N, CA, C, 1.53, 110.5, sgn * 121.0)
-                dperp = CB - cen - np.dot(CB - cen, axis) * axis
-                cands[np.linalg.norm(dperp)] = CB
-            CB = cands[max(cands)]
-            r["CB"] = CB
-            pa, pb, pc = N, CA, CB
-            for j, (nm, b, a) in enumerate(SIDECHAIN[resname][1:], start=1):
-                chi = (180.0, 180.0, 0.0, -60.0, 180.0)[j - 1]
-                pt = place_atom(pa, pb, pc, b, a, chi)
-                r[nm] = pt
-                pa, pb, pc = pb, pc, pt
-        if ensure_l_chirality(helix):
-            axis, cen = _helix_axis(helix)          # mirrored: recompute
-            for r, name0 in zip(helix, seqs):       # re-aim side chains
-                N, CA, C = r["N"], r["CA"], r["C"]
-                cands = {}
-                for sgn in (+1.0, -1.0):
-                    CB = place_atom(N, CA, C, 1.53, 110.5, sgn * 121.0)
-                    dperp = CB - cen - np.dot(CB - cen, axis) * axis
-                    cands[np.linalg.norm(dperp)] = CB
-                r["CB"] = cands[max(cands)]
-                pa, pb, pc = N, CA, r["CB"]
-                resname = r["resname"]
-                for j, (nm, b, a) in enumerate(SIDECHAIN[resname][1:], start=1):
-                    chi = (180.0, 180.0, 0.0, -60.0, 180.0)[j - 1]
-                    pt = place_atom(pa, pb, pc, b, a, chi)
-                    r[nm] = pt
-                    pa, pb, pc = pb, pc, pt
+            r.update(sidechain_geometry(r, resname, l_sign))
         return helix
 
     attach_sidechains(core, CORE_SEQ)
@@ -1190,7 +1226,8 @@ def run_openmm_allostery():
         f.addGlobalParameter("k_u", 0.0 * unit.kilojoule_per_mole
                              / unit.nanometer ** 2)
         f.addGlobalParameter("r0_u", 0.0 * unit.nanometer)
-        f.addBond([f.addGroup(groups[0]), f.addGroup(groups[1])], [])
+        # Match the arithmetic-centroid CV recorded in the umbrella samples.
+        f.addBond([f.addGroup(group, [1.0] * len(group)) for group in groups], [])
         system.addForce(f)
         return f
 
@@ -1209,7 +1246,7 @@ def run_openmm_allostery():
             CONFIG["MD_DT_FS"] * unit.femtosecond)
         plat = mm.Platform.getPlatformByName("CPU")
         sim = app.Simulation(mod.topology, system, integ, plat,
-                             {"Threads": str(min(10, os.cpu_count() or 4))})
+                             {"Threads": os.environ.get("OMP_NUM_THREADS", "2")})
         sim.context.setPositions(mod.positions)
         return sim
 
@@ -1219,6 +1256,16 @@ def run_openmm_allostery():
 
     state_results = {}
     for state in ("FAD_oxid", "FAD_radan"):
+        state_wall_start = time.time()
+        state_cpu_start = time.process_time()
+        executed_steps = 0
+        prod_ps = CONFIG["MD_PRODUCTION_PS"]
+        win_ps = CONFIG["UMB_SAMPLE_PS"]
+        settle_ps = CONFIG["UMB_SETTLE_PS"]
+        n_win = CONFIG["UMB_N_WIN"]
+        requested_steps = (int(20.0 / dt_ps) + int(50.0 / dt_ps)
+                           + int(prod_ps / dt_ps)
+                           + n_win * (int(settle_ps / dt_ps) + int(win_ps / dt_ps)))
         log(f"  15C state {state}: build, minimize, thermalize ...")
         mod, system, groups, workdir = build_system(state)
         nz = [a.index for a in mod.topology.atoms()          # latch Asp carboxylate
@@ -1230,41 +1277,39 @@ def run_openmm_allostery():
         f_bias = add_bias(system, groups)
         f_latch = add_latch(system, nz, cg)
         sim = new_sim(mod, system)
+        def advance(steps):
+            nonlocal executed_steps
+            sim.step(steps)
+            executed_steps += steps
+            (workdir / "sampling_progress.json").write_text(json.dumps(dict(
+                requested_steps=requested_steps, executed_steps=executed_steps,
+                simulated_ps=executed_steps * dt_ps,
+                wall_elapsed_s=time.time() - state_wall_start,
+                process_cpu_s=time.process_time() - state_cpu_start,
+                wall_time_includes_interruptions=True)), encoding="utf-8")
         sim.context.setParameter("k_u", 0.0)
         sim.context.setParameter("k_l", 1500.0)      # latch pull during relax
         sim.minimizeEnergy(maxIterations=2500)
         # throughput probe: 20 ps
         t0 = time.time()
         n_probe = int(20.0 / dt_ps)
-        sim.step(n_probe)
+        advance(n_probe)
         rate = n_probe * dt_ps / (time.time() - t0)  # ps per second
         ns_per_day = rate * 86.4
-        log(f"    throughput {ns_per_day:.1f} ns/day -> budgeting sampling")
-        sim.step(int(50.0 / dt_ps))                  # latch closes (70 ps total)
+        log(f"    wall throughput {ns_per_day:.1f} ns/day (interruptions included; sampling unchanged)")
+        advance(int(50.0 / dt_ps))                  # latch closes (70 ps total)
         sim.context.setParameter("k_l", 0.0)
         sim.minimizeEnergy(maxIterations=200)
 
-        # ---- budget allocation ----------------------------------------------
-        n_win = CONFIG["UMB_N_WIN"]
-        settle_ps = 12.0
-        # fixed costs: probe+latch (70 ps) + unrestrained production + windows
-        prod_ps = float(np.clip(budget_s * rate * 0.16 / 2, 60.0, 300.0))
-        win_ps = float(np.clip(budget_s * rate * 0.60 / 2 / n_win, 25.0, 150.0))
-        planned_s = 2 * (70.0 + prod_ps + n_win * (settle_ps + win_ps)) / rate
-        if planned_s > budget_s:
-            scale = budget_s / planned_s
-            prod_ps, win_ps = prod_ps * scale, win_ps * scale
-            planned_s = budget_s
-        log(f"    [budget] {prod_ps:.0f} ps unrestrained + "
-            f"{win_ps:.0f} ps/window x {n_win} states x2 "
-            f"(projected {planned_s/60:.0f} min of {CONFIG['OPENMM_BUDGET_MIN']:.0f} cap)")
+        log(f"    [fixed sampling] {prod_ps:g} ps production + {win_ps:g} ps/window "
+            f"x {n_win}; requested_steps={requested_steps} per state")
 
         # ---- unrestrained production: latch statistics -----------------------
         nst = int(prod_ps / dt_ps)
         latch_d = []
         ch = max(250, nst // 100)
         for s in range(0, nst, ch):
-            sim.step(min(ch, nst - s))
+            advance(min(ch, nst - s))
             pos = get_positions(sim)
             latch_d.append(float(np.linalg.norm(
                 pos[nz].mean(0) - pos[cg].mean(0))))
@@ -1288,12 +1333,12 @@ def run_openmm_allostery():
         for wi, r0 in enumerate(r_targets):
             sim.context.setParameter("k_u", CONFIG["UMB_K_KJ"])
             sim.context.setParameter("r0_u", float(r0))
-            sim.step(int(settle_ps / dt_ps))
+            advance(int(settle_ps / dt_ps))
             nst = int(win_ps / dt_ps)
             samples = []
             ch = max(250, nst // 80)
             for s in range(0, nst, ch):
-                sim.step(min(ch, nst - s))
+                advance(min(ch, nst - s))
                 pos = get_positions(sim)
                 samples.append(float(np.linalg.norm(
                     pos[groups[0]].mean(0) - pos[groups[1]].mean(0))))
@@ -1302,6 +1347,14 @@ def run_openmm_allostery():
             log(f"    window {wi + 1}/{n_win} r0 = {r0:.2f} nm, "
                 f"<r> = {np.mean(samples):.2f} nm")
         state_results[state]["windows"] = windows
+        state_results[state].update(requested_steps=requested_steps,
+                                    executed_steps=executed_steps,
+                                    simulated_ps=executed_steps * dt_ps,
+                                    wall_elapsed_s=time.time() - state_wall_start,
+                                    process_cpu_s=time.process_time() - state_cpu_start,
+                                    wall_time_includes_interruptions=True)
+        if executed_steps != requested_steps:
+            raise RuntimeError("Incomplete fixed allostery sampling")
         np.savez(workdir / "umbrella.npz",
                  r0=np.array([w["r0_nm"] for w in windows]),
                  k=np.array([w["k"] for w in windows]),
@@ -1315,9 +1368,8 @@ def run_openmm_allostery():
     out["states"] = state_results
     out["wham"] = wham_pmfs(state_results)
     allo = out["wham"]["allostery"]
-    log(f"  15C Delta G release: FAD {allo['dG_release_FAD_oxid_kcal']:.2f} "
-        f"kcal/mol vs FAD.- {allo['dG_release_FAD_radan_kcal']:.2f} kcal/mol "
-        f"=> Delta G allostery = {allo['dG_allostery_kcal']:+.2f} kcal/mol")
+    log(f"  15C latch population diagnostic = {allo['dG_latch_shift_kcal']:+.2f} "
+        "kcal/mol (not a validated release free energy)")
     return out
 
 
@@ -1386,8 +1438,9 @@ def wham_pmfs(state_results):
         latch_occupancy_FAD_radan=float(occ_ra),
         note="Short-window umbrella sampling (tens of ps/window) makes the "
              "WHAM profiles qualitative; bins with <2 samples are masked. "
-             "The statistically robust differential is the latch bound-"
-             "register free-energy shift -kT ln(occ_radan/occ_oxid).")
+             "The latch population ratio is a short-trajectory diagnostic, "
+             "not a statistically validated binding free energy; occupancies "
+             "are floored at 1e-3 for the logarithm.")
     return pmfs
 
 
@@ -1839,13 +1892,83 @@ def fig4_spectroscopy(mfe, odmr):
 # MAIN
 # ============================================================================
 
+def audit_saved_yields(path):
+    """Audit saved populations; retain original files and the exact input hash."""
+    import hashlib
+    path = Path(path).resolve()
+    raw = path.read_bytes()
+    results = json.loads(raw)
+    config = results["config"]
+    curves = results["spin"]["full_dynamics"]
+    audits = {name: integrate_spin_yields(curve["t_s"], curve["PS"], curve["PT"],
+                                        curve["survival"], config["K_S"], config["K_T"])
+              for name, curve in curves.items()}
+    out = dict(source=str(path), source_sha256=hashlib.sha256(raw).hexdigest(),
+               density_dynamics_recomputed=False, individual_yields_grid_converged=False,
+               cross_validation_scalars_recomputed=False, curves=audits,
+               note="Fresh saved traces re-integrated; no normalization or exact-trace claim")
+    target = path.with_name("phase15_yield_audit.json")
+    target.write_text(json.dumps(out, indent=2), encoding="utf-8")
+    log(f"saved-trace yield audit -> {target}")
+    return out
+
+
+def assemble_fresh_stages(spin_path, allostery_path):
+    """Combine explicitly supplied fresh stages, retaining hashes and raw inputs."""
+    import hashlib
+    spin_path, allostery_path = Path(spin_path).resolve(), Path(allostery_path).resolve()
+    spin_raw, allo_raw = spin_path.read_bytes(), allostery_path.read_bytes()
+    results, allostery = json.loads(spin_raw), json.loads(allo_raw)
+    if set(results.get("spin", {}).get("full_dynamics", {})) != {
+            "theta0", "theta30", "theta60", "theta90", "Bzero"}:
+        raise ValueError("A complete fresh five-curve spin record is required")
+    if not allostery.get("states") or not allostery.get("wham"):
+        raise ValueError("A completed corrected allostery stage is required")
+    for name, curve in results["spin"]["full_dynamics"].items():
+        audit = integrate_spin_yields(curve["t_s"], curve["PS"], curve["PT"], curve["survival"],
+                                      results["config"]["K_S"], results["config"]["K_T"])
+        curve["original_phi_S"], curve["original_phi_T"] = curve["phi_S"], curve["phi_T"]
+        curve.update(phi_S=audit["phi_S"], phi_T=audit["phi_T"], yield_audit=audit)
+        if name.startswith("theta"):
+            results["spin"][f"yield_{name}"] = audit["phi_S"]
+    results["allostery"] = allostery
+    inputs = []
+    for path, raw in ((spin_path, spin_raw), (allostery_path, allo_raw)):
+        status_path = path.parent.parent / "rerun_status.json"
+        status = json.loads(status_path.read_text(encoding="utf-8")) if status_path.exists() else {}
+        inputs.append(dict(path=str(path), sha256=hashlib.sha256(raw).hexdigest(),
+                           phase_source_sha256=status.get("source_sha256", {}).get(Path(__file__).name),
+                           attempt_status=status.get("status")))
+    results["stage_assembly"] = dict(inputs=inputs, single_default_run=False,
+                                    spin_dynamics_recomputed=False, spin_yields_reintegrated=True,
+                                    cross_validation_scalars_recomputed=False,
+                                    scope="fresh spin plus corrected geometry/allostery stage")
+    target = allostery_path.with_name("phase15_results.json")
+    if target.exists():
+        raise FileExistsError(f"Refusing to overwrite existing result: {target}")
+    target.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    log(f"provenance-preserving stage assembly -> {target}")
+    return results
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--stage", default="all",
-                    choices=["all", "hfcc", "spin", "allostery", "figures"])
+                    choices=["all", "hfcc", "spin", "allostery", "figures", "yield-audit", "assemble"])
+    ap.add_argument("--audit-input", type=Path, default=RES / "phase15_results.json")
+    ap.add_argument("--allostery-input", type=Path)
     args = ap.parse_args()
 
-    if os.environ.get("PHASE15_STAGE") == "hfcc_only":
+    if args.stage == "assemble":
+        if args.allostery_input is None:
+            ap.error("--stage assemble requires --allostery-input")
+        assemble_fresh_stages(args.audit_input, args.allostery_input)
+        return
+    if args.stage == "yield-audit":
+        audit_saved_yields(args.audit_input)
+        return
+
+    if os.environ.get("PHASE15_STAGE") == "hfcc_only" or args.stage == "hfcc":
         hfcc_stage()
         return
 

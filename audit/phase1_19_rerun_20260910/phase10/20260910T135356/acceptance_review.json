@@ -1,0 +1,14 @@
+{
+  "phase": 10,
+  "checks": {
+    "full_110_training_episodes": true,
+    "tlog_open_complete_saved_trace": true,
+    "tlog_open_finite": true,
+    "tlog_ctrl_complete_saved_trace": true,
+    "tlog_ctrl_finite": true,
+    "PAT_audit_finite": true
+  },
+  "passed": true,
+  "limitations": "Synthetic plant/controller only, no hardware safety certification. Old integration floor caused endpoint overshoots of 10.4/2.1 ms; future-source fix bounds the final step. Saved-state rate checks found no recorded reaction timestep requirement below 1 ms; unsaved microsteps cannot be certified. Zero observed breaches in eight shielded validation cases is not a universal guarantee.",
+  "validator_sha256": "4a0a969a417781294eb8ae916ff5becfea847c1e7ad0cf534fb78e580fcac06d"
+}

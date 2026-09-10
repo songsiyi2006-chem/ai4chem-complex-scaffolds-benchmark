@@ -1,0 +1,110 @@
+{
+  "status": "completed",
+  "original_json_sha256": "d0f731c64f66ca4f9d6858453a0ef5e97e4069b29f6845fb2ec375895f53f963",
+  "input_candidate_sha256": "cca00c01d963dae5f76489e375b508b1dd48788b9339c7b36f87ee75299a7d2b",
+  "upstream_audit_sha256": "60a072c38ea78070e5fcceeb9058d7d5a3af24e8fcd0607669ea8a6f9f263fbd",
+  "source_sha256": "d828beb1875239adc5f15e25dd9c92d535fe35bcb20ae9e92fd49b6abe5d43d1",
+  "helper_sha256": "6227571c474c5a73700ea1bd57c1dab2e914fd394a522cce3d47134ac1b7ce79",
+  "changed_fields": [
+    "certificates.kb_balanced_1s_err",
+    "certificates.kb_refinement"
+  ],
+  "scope": "Gaussian matrix demo and fig4 only; no atomic/N/Breit/Gaunt/QTAIM recomputation",
+  "criteria": {
+    "analytic_relative_error": 0.001,
+    "last_basis_relative_change": 0.001,
+    "eigen_residual_relative": 1e-08
+  },
+  "criteria_scope": "Declared finite-basis diagnostic checks, not an existing SCF tolerance or proof of no spectral pollution",
+  "rows": [
+    {
+      "n_basis": 10,
+      "exact_eh": -4861.197904369715,
+      "relative_error": 0.01391702616644958,
+      "balanced": {
+        "bound_1s_eh": -4793.5444859343115,
+        "lowest_spectrum_eh": -3606373.920498292,
+        "retained_metric_rank": 20,
+        "matrix_size": 20,
+        "eigen_residual_relative": 4.1285414770051007e-13,
+        "hermiticity_max_abs": 2.9103830456733704e-11
+      },
+      "unbalanced": {
+        "bound_1s_eh": -4842.552388677606,
+        "lowest_spectrum_eh": -3577653.8166945553,
+        "retained_metric_rank": 20,
+        "matrix_size": 20,
+        "eigen_residual_relative": 2.876982394013135e-13,
+        "hermiticity_max_abs": 2.9103830456733704e-11
+      }
+    },
+    {
+      "n_basis": 16,
+      "exact_eh": -4861.197904369715,
+      "relative_error": 0.0002437568138681566,
+      "balanced": {
+        "bound_1s_eh": -4860.012954256963,
+        "lowest_spectrum_eh": -4130933.560165374,
+        "retained_metric_rank": 32,
+        "matrix_size": 32,
+        "eigen_residual_relative": 2.0038276431065303e-13,
+        "hermiticity_max_abs": 1.1641532182693481e-10
+      },
+      "unbalanced": {
+        "bound_1s_eh": -4861.211310034385,
+        "lowest_spectrum_eh": -4060921.544281596,
+        "retained_metric_rank": 32,
+        "matrix_size": 32,
+        "eigen_residual_relative": 1.7982598723969022e-13,
+        "hermiticity_max_abs": 1.1641532182693481e-10
+      }
+    },
+    {
+      "n_basis": 24,
+      "exact_eh": -4861.197904369715,
+      "relative_error": 0.0001277232853292542,
+      "balanced": {
+        "bound_1s_eh": -4860.577016202733,
+        "lowest_spectrum_eh": -4812840.268946245,
+        "retained_metric_rank": 48,
+        "matrix_size": 48,
+        "eigen_residual_relative": 6.081749921880478e-13,
+        "hermiticity_max_abs": 5.820766091346741e-11
+      },
+      "unbalanced": {
+        "bound_1s_eh": -4861.019436545204,
+        "lowest_spectrum_eh": -4629113.051327331,
+        "retained_metric_rank": 48,
+        "matrix_size": 48,
+        "eigen_residual_relative": 5.413360477134599e-13,
+        "hermiticity_max_abs": 1.1641532182693481e-10
+      }
+    },
+    {
+      "n_basis": 32,
+      "exact_eh": -4861.197904369715,
+      "relative_error": 0.00011605344356898546,
+      "balanced": {
+        "bound_1s_eh": -4860.633745613042,
+        "lowest_spectrum_eh": -5430250.675969341,
+        "retained_metric_rank": 64,
+        "matrix_size": 64,
+        "eigen_residual_relative": 5.389047540627614e-13,
+        "hermiticity_max_abs": 1.1641532182693481e-10
+      },
+      "unbalanced": {
+        "bound_1s_eh": -4861.022097462788,
+        "lowest_spectrum_eh": -5104365.978649292,
+        "retained_metric_rank": 64,
+        "matrix_size": 64,
+        "eigen_residual_relative": 1.8435617715062145e-13,
+        "hermiticity_max_abs": 1.1641532182693481e-10
+      }
+    }
+  ],
+  "last_basis_relative_change": 1.1671196242783273e-05,
+  "diagnostic_gate_pass": true,
+  "corrected_json_sha256": "2f4888159cc8cbaf69373e517d593867557f634cb6ca8910828901450547511b",
+  "prior_fig4_sha256": "a1818c74716b7a2ec705374bb1a3e9f4adabd0df1a4b758f13476d556c8b7b71",
+  "fig4_sha256": "e203a3a873e14d8d26b88f287afe6f5b64103542f1dee053daada4f0dae488da"
+}

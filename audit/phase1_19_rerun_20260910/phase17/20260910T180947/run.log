@@ -1,0 +1,107 @@
+
+RECOMPUTE STAGE breit
+[phase17 18:09:50] ==============================================================================
+[phase17 18:09:50] PHASE 17 - FULLY RELATIVISTIC 4-COMPONENT DIRAC QUANTUM CHEMISTRY & ACTINIDE 5f COVALENCY
+[phase17 18:09:50] ==============================================================================
+[phase17 18:09:50] [certify] spherical-spinor orthonormality: worst dev 9.77e-15
+[phase17 18:09:50] [MODULE 17A-tail] Breit interaction
+[phase17 18:09:52]   angular coulomb: 1/40 radial ratios
+[phase17 18:09:59]   angular coulomb: 6/40 radial ratios
+[phase17 18:10:06]   angular coulomb: 11/40 radial ratios
+[phase17 18:10:12]   angular coulomb: 16/40 radial ratios
+[phase17 18:10:19]   angular coulomb: 21/40 radial ratios
+[phase17 18:10:27]   angular coulomb: 26/40 radial ratios
+[phase17 18:10:34]   angular coulomb: 31/40 radial ratios
+[phase17 18:10:42]   angular coulomb: 36/40 radial ratios
+[phase17 18:10:48]   angular coulomb: 40/40 radial ratios
+[phase17 18:10:52]   Breit-machinery certification Z=1: J = 0.62781 vs 5Z/8 = 0.62500 (err 0.449%)
+[phase17 18:10:55]   Breit-machinery certification Z=20: J = 12.59505 vs 5Z/8 = 12.50000 (err 0.760%)
+[phase17 18:10:59]   Breit-machinery certification Z=50: J = 31.89334 vs 5Z/8 = 31.25000 (err 2.059%)
+[phase17 18:11:03]   Breit-machinery certification Z=80: J = 51.14551 vs 5Z/8 = 50.00000 (err 2.291%)
+[phase17 18:11:09]   angular breit: 1/40 radial ratios
+[phase17 18:11:43]   angular breit: 6/40 radial ratios
+[phase17 18:12:19]   angular breit: 11/40 radial ratios
+[phase17 18:12:55]   angular breit: 16/40 radial ratios
+[phase17 18:13:35]   angular breit: 21/40 radial ratios
+[phase17 18:14:17]   angular breit: 26/40 radial ratios
+[phase17 18:14:59]   angular breit: 31/40 radial ratios
+[phase17 18:15:43]   angular breit: 36/40 radial ratios
+[phase17 18:16:18]   angular breit: 40/40 radial ratios
+[phase17 18:16:23]   angular gaunt: 1/40 radial ratios
+[phase17 18:16:47]   angular gaunt: 6/40 radial ratios
+[phase17 18:17:10]   angular gaunt: 11/40 radial ratios
+[phase17 18:17:33]   angular gaunt: 16/40 radial ratios
+[phase17 18:17:57]   angular gaunt: 21/40 radial ratios
+[phase17 18:18:22]   angular gaunt: 26/40 radial ratios
+[phase17 18:18:46]   angular gaunt: 31/40 radial ratios
+[phase17 18:19:11]   angular gaunt: 36/40 radial ratios
+[phase17 18:19:30]   angular gaunt: 40/40 radial ratios
+[phase17 18:19:31]   hydrogenic Breit(1s^2) Z=20: 10871.9 cm-1
+[phase17 18:19:31]   hydrogenic Breit(1s^2) Z=50: 205490.1 cm-1
+[phase17 18:19:32]   hydrogenic Breit(1s^2) Z=80: 1016002.9 cm-1
+[phase17 18:19:33]   hydrogenic Breit(1s^2) Z=92: 1587198.8 cm-1
+[phase17 18:19:33]   Am Breit(1s^2) = 1422409.9 cm-1 (Gaunt 1604264.8, retardation -181854.9)
+[phase17 18:19:33]   Eu Breit(1s^2) = 347427.8 cm-1 (Gaunt 391887.0, retardation -44459.2)
+
+RECOMPUTE STAGE multiplet
+[phase17 18:19:36] ==============================================================================
+[phase17 18:19:36] PHASE 17 - FULLY RELATIVISTIC 4-COMPONENT DIRAC QUANTUM CHEMISTRY & ACTINIDE 5f COVALENCY
+[phase17 18:19:36] ==============================================================================
+[phase17 18:19:36] [certify] spherical-spinor orthonormality: worst dev 9.77e-15
+[phase17 18:19:37] [MODULE 17B] f^6 multiplet engine (CAS(6e,7o) atomic limit)
+[phase17 18:19:44]   [17B] Am Hund validator: F2/F4/F6 = 0.4042/0.2654/0.1955 Eh, min-diagonal det is max-spin: True
+[phase17 18:19:44]   [17B] Am: zeta(DF) = 3459 cm-1 | 7F1 = 3459, 7F6 = 72632 cm-1 | zeta(exp fit) = 2180 cm-1
+[phase17 18:19:49]   [17B] Eu Hund validator: F2/F4/F6 = 0.5529/0.3484/0.2513 Eh, min-diagonal det is max-spin: True
+[phase17 18:19:49]   [17B] Eu: zeta(DF) = 1803 cm-1 | 7F1 = 1803, 7F6 = 37870 cm-1 | zeta(exp fit) = 254 cm-1
+[phase17 18:19:49]   [17B] dE_SO(Am 5f) / dE_SO(Eu 4f) = 1.92
+
+RECOMPUTE STAGE figures
+[phase17 18:19:51] ==============================================================================
+[phase17 18:19:51] PHASE 17 - FULLY RELATIVISTIC 4-COMPONENT DIRAC QUANTUM CHEMISTRY & ACTINIDE 5f COVALENCY
+[phase17 18:19:51] ==============================================================================
+[phase17 18:19:51] [certify] spherical-spinor orthonormality: worst dev 9.77e-15
+[phase17 18:19:51] [FIGURES] 300 DPI publication renders
+[phase17 18:19:53]   17A KB demo: balanced 1s = -1966836.43086 Eh (exact -4861.19790); unbalanced lowest = -4264510.12551, 1 spurious states below
+[phase17 18:19:56]   [N] it=00 E=-48.412798 Eh  dE=inf density_residual=1.16e+00 norbs=48
+[phase17 18:20:13]   [N] it=05 E=-53.580163 Eh  dE=4.90e-04 density_residual=3.70e-02 norbs=48
+[phase17 18:20:28]   [N] it=09 E=-53.580298 Eh  dE=1.04e-06 density_residual=2.17e-03 norbs=48
+[phase17 18:20:31]   [N] it=10 E=-53.580298 Eh  dE=2.26e-07 density_residual=1.12e-03 norbs=48
+[phase17 18:20:34]   [N] it=11 E=-53.580298 Eh  dE=2.85e-08 density_residual=8.53e-04 norbs=48
+[phase17 18:20:38]   [N] it=12 E=-53.580298 Eh  dE=2.56e-09 density_residual=6.48e-04 norbs=48
+[phase17 18:20:41]   [N] it=13 E=-53.580298 Eh  dE=1.70e-08 density_residual=4.93e-04 norbs=48
+[phase17 18:20:45]   [N] it=14 E=-53.580298 Eh  dE=2.76e-09 density_residual=3.75e-04 norbs=48
+[phase17 18:20:48]   [N] it=15 E=-53.580298 Eh  dE=2.81e-09 density_residual=2.86e-04 norbs=48
+[phase17 18:20:51]   [N] it=16 E=-53.580298 Eh  dE=1.01e-08 density_residual=2.18e-04 norbs=48
+[phase17 18:20:55]   [N] it=17 E=-53.580298 Eh  dE=7.74e-09 density_residual=1.66e-04 norbs=48
+[phase17 18:20:58]   [N] it=18 E=-53.580298 Eh  dE=5.52e-10 density_residual=1.26e-04 norbs=48
+[phase17 18:21:01]   [N] it=19 E=-53.580298 Eh  dE=8.31e-09 density_residual=9.58e-05 norbs=48
+[phase17 18:21:05]   [N] it=20 E=-53.580298 Eh  dE=5.46e-09 density_residual=7.29e-05 norbs=48
+[phase17 18:21:08]   [N] it=21 E=-53.580298 Eh  dE=7.58e-09 density_residual=5.55e-05 norbs=48
+[phase17 18:21:12]   [N] it=22 E=-53.580298 Eh  dE=5.12e-09 density_residual=4.22e-05 norbs=48
+[phase17 18:21:15]   [N] it=23 E=-53.580298 Eh  dE=2.18e-09 density_residual=3.21e-05 norbs=48
+[phase17 18:21:19]   [N] it=24 E=-53.580298 Eh  dE=1.02e-08 density_residual=2.44e-05 norbs=48
+[phase17 18:21:23]   [N] it=25 E=-53.580298 Eh  dE=1.29e-08 density_residual=1.85e-05 norbs=48
+[phase17 18:21:26]   [N] it=26 E=-53.580298 Eh  dE=3.11e-09 density_residual=1.41e-05 norbs=48
+[phase17 18:21:30]   [N] it=27 E=-53.580298 Eh  dE=1.34e-09 density_residual=1.07e-05 norbs=48
+[phase17 18:21:33]   [N] it=28 E=-53.580298 Eh  dE=1.23e-08 density_residual=8.11e-06 norbs=48
+[phase17 18:21:37]   [N] it=29 E=-53.580298 Eh  dE=5.36e-09 density_residual=6.16e-06 norbs=48
+[phase17 18:21:41]   [N] it=30 E=-53.580298 Eh  dE=4.94e-09 density_residual=4.67e-06 norbs=48
+[phase17 18:21:44]   [N] it=31 E=-53.580298 Eh  dE=3.49e-09 density_residual=3.54e-06 norbs=48
+[phase17 18:21:48]   [N] it=32 E=-53.580298 Eh  dE=2.78e-09 density_residual=2.69e-06 norbs=48
+[phase17 18:21:52] [MODULE 17C] relativistic bonding, QTAIM & EDA
+[phase17 18:22:07]   17C Am: S_rms(5f/4f, N2p @ 2.53 A) = 0.01912 (5-4)
+[phase17 18:22:15]   17C Eu: S_rms(5f/4f, N2p @ 2.47 A) = 0.01398 (4-4)
+[phase17 18:22:15]   17C dE_cov(Am) = -0.56 kcal/mol, dE_cov(Eu) = -0.33 kcal/mol, selectivity = -0.23 kcal/mol
+[phase17 18:22:15]   17C Am: FFT electrostatic M-density x N-density = 0.2550 Eh
+[phase17 18:22:15]   17C Am QTAIM: rho(BCP) = 0.02987 e/a0^3, lap rho(BCP) = +0.16170, H(BCP) = +0.032168 Eh/a0^3, delta(M,N) = 0.0000
+[phase17 18:22:16]   17C Eu: FFT electrostatic M-density x N-density = 0.1991 Eh
+[phase17 18:22:16]   17C Eu QTAIM: rho(BCP) = 0.02943 e/a0^3, lap rho(BCP) = +0.16679, H(BCP) = +0.033642 Eh/a0^3, delta(M,N) = 0.0000
+[phase17 18:22:16]   fig1: 4-component spinor orbitals
+[phase17 18:22:20]     fig1 saved
+[phase17 18:22:20]   fig2: spin-orbit multiplet splitting
+[phase17 18:22:21]     fig2 saved
+[phase17 18:22:21]   fig3: QTAIM relativistic covalency map
+[phase17 18:22:23]     fig3 saved
+[phase17 18:22:23]   fig4: relativistic foundation validation
+[phase17 18:22:26]     fig4 saved
+[phase17 18:22:26] DONE - figures in $CAMPAIGN\phase17\20260910T180947\figures_phase17, record in $CAMPAIGN\phase17\20260910T180947\results_phase17\phase17_results.json

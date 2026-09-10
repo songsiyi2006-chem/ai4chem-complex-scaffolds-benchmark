@@ -1,0 +1,21 @@
+{
+  "audit_version": "phase1-5-validation-v1",
+  "energy_cache_version": "phase1-5-validation-v1-physical-sp-v2",
+  "scan_energy_scope": "unrestrained GFN2 single points on constrained geometries; not verified TS barriers",
+  "evidence_status": "exploratory_effective_model_not_validated_prediction",
+  "phase": 5,
+  "title": "Autonomous Chemical World Model: ARN + stiff microkinetics + TS-conditioned generative catalyst design",
+  "timestamp": "2026-09-10T18:21:04",
+  "fallbacks": [],
+  "warnings": [
+    "TS1-scan(dN1-C2) frame s=2.350 failed (xtb geometry optimization did not converge: 27 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.172 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.016 sec\r\n * ratio c/w:     0.091 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 36.443 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  4.656 sec\r\n * ratio c/w:     0.128 speedup\r\n\r\n); skipped",
+    "TS1-scan(dN1-C2) frame s=2.500 failed (xtb geometry optimization did not converge: 47 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.170 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.031 sec\r\n * ratio c/w:     0.183 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 37.406 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  5.500 sec\r\n * ratio c/w:     0.147 speedup\r\n\r\n); skipped",
+    "TS2a-scan(dC2-H) frame s=1.900 failed (xtb geometry optimization did not converge: 35 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.162 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.031 sec\r\n * ratio c/w:     0.193 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 36.208 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  4.875 sec\r\n * ratio c/w:     0.135 speedup\r\n\r\n); skipped",
+    "TS2a-scan(dC2-H) frame s=1.350 failed (xtb geometry optimization did not converge: 22 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.152 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.016 sec\r\n * ratio c/w:     0.102 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 34.625 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  4.234 sec\r\n * ratio c/w:     0.122 speedup\r\n\r\n); skipped",
+    "TS2b-scan(dC3-H) frame s=1.600 failed (xtb geometry optimization did not converge: 28 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.165 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.062 sec\r\n * ratio c/w:     0.378 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 36.900 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  4.703 sec\r\n * ratio c/w:     0.127 speedup\r\n\r\n); skipped",
+    "TS2b-scan(dC3-H) frame s=1.400 failed (xtb geometry optimization did not converge: 28 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.174 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.062 sec\r\n * ratio c/w:     0.359 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 35.828 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  4.531 sec\r\n * ratio c/w:     0.126 speedup\r\n\r\n); skipped"
+  ],
+  "assigned_parameters": [],
+  "execution_status": "failed",
+  "fatal_error": "RuntimeError: TS2b-scan(dC3-H): too few converged frames (2)"
+}
