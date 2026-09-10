@@ -1,0 +1,104 @@
+[
+  {
+    "member_id": "N01",
+    "ligand": "bpy",
+    "aryl": "o-tolyl",
+    "halide": "Cl",
+    "origin": "untethered literature complex 1",
+    "charge": 0,
+    "formal_Ni_oxidation": 2,
+    "spin_multiplicities": [
+      1,
+      3,
+      5
+    ],
+    "solvent": "THF",
+    "coordinating_solvent_adducts": "0 and 1 THF; exchange free energies required",
+    "structure_status": "literature XYZ available for N01/N06; derivatives pending"
+  },
+  {
+    "member_id": "N02",
+    "ligand": "bpy",
+    "aryl": "o-tolyl",
+    "halide": "Br",
+    "origin": "designed",
+    "charge": 0,
+    "formal_Ni_oxidation": 2,
+    "spin_multiplicities": [
+      1,
+      3,
+      5
+    ],
+    "solvent": "THF",
+    "coordinating_solvent_adducts": "0 and 1 THF; exchange free energies required",
+    "structure_status": "literature XYZ available for N01/N06; derivatives pending"
+  },
+  {
+    "member_id": "N03",
+    "ligand": "bpy",
+    "aryl": "o-tolyl",
+    "halide": "I",
+    "origin": "designed",
+    "charge": 0,
+    "formal_Ni_oxidation": 2,
+    "spin_multiplicities": [
+      1,
+      3,
+      5
+    ],
+    "solvent": "THF",
+    "coordinating_solvent_adducts": "0 and 1 THF; exchange free energies required",
+    "structure_status": "literature XYZ available for N01/N06; derivatives pending"
+  },
+  {
+    "member_id": "N04",
+    "ligand": "4,4-dimethyl-bpy",
+    "aryl": "o-tolyl",
+    "halide": "Cl",
+    "origin": "designed",
+    "charge": 0,
+    "formal_Ni_oxidation": 2,
+    "spin_multiplicities": [
+      1,
+      3,
+      5
+    ],
+    "solvent": "THF",
+    "coordinating_solvent_adducts": "0 and 1 THF; exchange free energies required",
+    "structure_status": "literature XYZ available for N01/N06; derivatives pending"
+  },
+  {
+    "member_id": "N05",
+    "ligand": "4,4-bis(trifluoromethyl)-bpy",
+    "aryl": "o-tolyl",
+    "halide": "Cl",
+    "origin": "designed",
+    "charge": 0,
+    "formal_Ni_oxidation": 2,
+    "spin_multiplicities": [
+      1,
+      3,
+      5
+    ],
+    "solvent": "THF",
+    "coordinating_solvent_adducts": "0 and 1 THF; exchange free energies required",
+    "structure_status": "literature XYZ available for N01/N06; derivatives pending"
+  },
+  {
+    "member_id": "N06",
+    "ligand": "6-phenyl-bpy cyclometalated",
+    "aryl": "tethered phenyl",
+    "halide": "Cl",
+    "origin": "literature complex 2",
+    "charge": 0,
+    "formal_Ni_oxidation": 2,
+    "spin_multiplicities": [
+      1,
+      3,
+      5
+    ],
+    "solvent": "THF",
+    "coordinating_solvent_adducts": "0 and 1 THF; exchange free energies required",
+    "structure_status": "literature XYZ available for N01/N06; derivatives pending"
+  }
+]

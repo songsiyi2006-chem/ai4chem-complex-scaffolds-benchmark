@@ -1,0 +1,6 @@
+{
+  "mapped_smiles": "[CH3:401][O:402][C:403](=[O:404])[C:405]1=[C:406]([CH3:407])[NH:408][C:409]([CH3:410])=[C:411]([C:412](=[O:413])[O:414][CH3:415])[CH2:416]1",
+  "name": "dimethyl 2,6-dimethyl-1,4-dihydropyridine-3,5-dicarboxylate",
+  "stoichiometry": "imine + HEH2 -> amine + aromatic HE; acid regenerated",
+  "mapping_status": "component maps defined; transferred H identities pending path validation"
+}

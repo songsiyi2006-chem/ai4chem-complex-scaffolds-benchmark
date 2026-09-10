@@ -1,0 +1,75 @@
+[
+  {
+    "name": "reference_E_imine",
+    "atoms": 28,
+    "source_doi": "10.1021/ja800793t",
+    "SI_pages": [
+      2,
+      3
+    ],
+    "sha256": "918310dd7bd84a03c4225aa394c35523da9ac10534c8fd75ee48f9c03233d638",
+    "provenance": "literature_geometry",
+    "license": "CC BY-NC 4.0 per Figshare; retain author and DOI attribution",
+    "modification": "selected Cartesian coordinates reformatted as XYZ; coordinates unchanged"
+  },
+  {
+    "name": "N01_singlet",
+    "atoms": 36,
+    "source_doi": "10.1021/acs.inorgchem.3c03822",
+    "SI_pages": [
+      45
+    ],
+    "sha256": "6dd9bd3829329592b743a32f763f4ad44d77b78cfb98954027770614e1555f71",
+    "provenance": "literature_geometry",
+    "license": "CC BY-NC 4.0 per Figshare; retain author and DOI attribution",
+    "modification": "selected Cartesian coordinates reformatted as XYZ; coordinates unchanged"
+  },
+  {
+    "name": "N01_triplet",
+    "atoms": 36,
+    "source_doi": "10.1021/acs.inorgchem.3c03822",
+    "SI_pages": [
+      46
+    ],
+    "sha256": "65366d27f9b85df5c9f2ec45b2529c6b714ee0b0528dca55e274f11b230f38b0",
+    "provenance": "literature_geometry",
+    "license": "CC BY-NC 4.0 per Figshare; retain author and DOI attribution",
+    "modification": "selected Cartesian coordinates reformatted as XYZ; coordinates unchanged"
+  },
+  {
+    "name": "N06_singlet",
+    "atoms": 31,
+    "source_doi": "10.1021/acs.inorgchem.3c03822",
+    "SI_pages": [
+      47
+    ],
+    "sha256": "6e810b7732bc813e3d987fda310c1d2aa2292a2f6207ff69e48cb7fe5357d513",
+    "provenance": "literature_geometry",
+    "license": "CC BY-NC 4.0 per Figshare; retain author and DOI attribution",
+    "modification": "selected Cartesian coordinates reformatted as XYZ; coordinates unchanged"
+  },
+  {
+    "name": "N06_triplet",
+    "atoms": 31,
+    "source_doi": "10.1021/acs.inorgchem.3c03822",
+    "SI_pages": [
+      48
+    ],
+    "sha256": "47483b77de6280e8cb37c9a06e15db9c3683cd97a1f60f9e217e131c810e1774",
+    "provenance": "literature_geometry",
+    "license": "CC BY-NC 4.0 per Figshare; retain author and DOI attribution",
+    "modification": "selected Cartesian coordinates reformatted as XYZ; coordinates unchanged"
+  },
+  {
+    "name": "N06_NiI_intermediate",
+    "atoms": 30,
+    "source_doi": "10.1021/acs.inorgchem.3c03822",
+    "SI_pages": [
+      49
+    ],
+    "sha256": "0b00d947ec0c139ebdaac73bd0aeb70e192a028d930709a905c72a86d17bf6de",
+    "provenance": "literature_geometry",
+    "license": "CC BY-NC 4.0 per Figshare; retain author and DOI attribution",
+    "modification": "selected Cartesian coordinates reformatted as XYZ; coordinates unchanged"
+  }
+]

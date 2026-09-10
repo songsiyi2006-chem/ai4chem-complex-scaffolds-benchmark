@@ -1,0 +1,22 @@
+{
+  "evidence_kind": "analytical_design_diagnostics_not_chemical_predictions",
+  "T_K": 298.15,
+  "RT_kcal_mol": 0.5924849497137634,
+  "kBT_eV": 0.025692579121085315,
+  "standard_1atm_to_1M_kcal_mol": 1.8943284454832239,
+  "ee_magnitude_for_hypothetical_0_5kcal_single_ddG": 0.39857331438871163,
+  "rate_ratio_for_hypothetical_0_05eV_barrier_change": 7.001239640044402,
+  "wilson_n385_near_half": {
+    "CI": [
+      0.44901710714896836,
+      0.5484111506221221
+    ],
+    "halfwidth": 0.04969702173657685,
+    "n": 385
+  },
+  "warnings": [
+    "single-ddG ee identity requires validated kinetic assumptions",
+    "binomial Wilson precision assumes independent equal-horizon fully observed absorbing outcomes; censored trajectories require competing-risk treatment",
+    "none of these diagnostics estimates an actual system response"
+  ]
+}

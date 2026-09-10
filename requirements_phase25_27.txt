@@ -1,0 +1,6 @@
+numpy>=2.0
+scipy>=1.13
+rdkit>=2024.9
+ase>=3.23
+# Optional local quantum pilot: Psi4 1.11 in a separate environment.
+# Production GCDFT, explicit-solvent PMFs and SOC/NAC dynamics are NOT provided by these dependencies.

@@ -1,0 +1,302 @@
+[
+  {
+    "catalyst_id": "C01_axis_positive",
+    "pair_id": "C01",
+    "substituent_3_3prime": "phenyl",
+    "scaffold_family": "phenyl",
+    "formula": "C32H21O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[cH:27][cH:28][cH:29][cH:30][cH:31]3)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:32]3[cH:33][cH:34][cH:35][cH:36][cH:37]3)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_positive",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C01_axis_negative",
+    "pair_id": "C01",
+    "substituent_3_3prime": "phenyl",
+    "scaffold_family": "phenyl",
+    "formula": "C32H21O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[cH:27][cH:28][cH:29][cH:30][cH:31]3)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:32]3[cH:33][cH:34][cH:35][cH:36][cH:37]3)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_negative",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C02_axis_positive",
+    "pair_id": "C02",
+    "substituent_3_3prime": "4-methylphenyl",
+    "scaffold_family": "phenyl",
+    "formula": "C34H25O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[cH:27][cH:28][c:29]([CH3:30])[cH:31][cH:32]3)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:33]3[cH:34][cH:35][c:36]([CH3:37])[cH:38][cH:39]3)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_positive",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C02_axis_negative",
+    "pair_id": "C02",
+    "substituent_3_3prime": "4-methylphenyl",
+    "scaffold_family": "phenyl",
+    "formula": "C34H25O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[cH:27][cH:28][c:29]([CH3:30])[cH:31][cH:32]3)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:33]3[cH:34][cH:35][c:36]([CH3:37])[cH:38][cH:39]3)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_negative",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C03_axis_positive",
+    "pair_id": "C03",
+    "substituent_3_3prime": "3,5-bis(trifluoromethyl)phenyl",
+    "scaffold_family": "phenyl",
+    "formula": "C36H17F12O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[cH:27][c:28]([C:29]([F:30])([F:31])[F:32])[cH:33][c:34]([C:35]([F:36])([F:37])[F:38])[cH:39]3)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:40]3[cH:41][c:42]([C:43]([F:44])([F:45])[F:46])[cH:47][c:48]([C:49]([F:50])([F:51])[F:52])[cH:53]3)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_positive",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C03_axis_negative",
+    "pair_id": "C03",
+    "substituent_3_3prime": "3,5-bis(trifluoromethyl)phenyl",
+    "scaffold_family": "phenyl",
+    "formula": "C36H17F12O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[cH:27][c:28]([C:29]([F:30])([F:31])[F:32])[cH:33][c:34]([C:35]([F:36])([F:37])[F:38])[cH:39]3)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:40]3[cH:41][c:42]([C:43]([F:44])([F:45])[F:46])[cH:47][c:48]([C:49]([F:50])([F:51])[F:52])[cH:53]3)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_negative",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C04_axis_positive",
+    "pair_id": "C04",
+    "substituent_3_3prime": "2,4,6-triisopropylphenyl",
+    "scaffold_family": "phenyl",
+    "formula": "C50H57O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[c:27]([CH:28]([CH3:29])[CH3:30])[cH:31][c:32]([CH:33]([CH3:34])[CH3:35])[cH:36][c:37]3[CH:38]([CH3:39])[CH3:40])[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:41]3[c:42]([CH:43]([CH3:44])[CH3:45])[cH:46][c:47]([CH:48]([CH3:49])[CH3:50])[cH:51][c:52]3[CH:53]([CH3:54])[CH3:55])[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_positive",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C04_axis_negative",
+    "pair_id": "C04",
+    "substituent_3_3prime": "2,4,6-triisopropylphenyl",
+    "scaffold_family": "phenyl",
+    "formula": "C50H57O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[c:27]([CH:28]([CH3:29])[CH3:30])[cH:31][c:32]([CH:33]([CH3:34])[CH3:35])[cH:36][c:37]3[CH:38]([CH3:39])[CH3:40])[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:41]3[c:42]([CH:43]([CH3:44])[CH3:45])[cH:46][c:47]([CH:48]([CH3:49])[CH3:50])[cH:51][c:52]3[CH:53]([CH3:54])[CH3:55])[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_negative",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C05_axis_positive",
+    "pair_id": "C05",
+    "substituent_3_3prime": "9-anthracenyl",
+    "scaffold_family": "fused_polyaryl",
+    "formula": "C48H29O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[c:27]4[cH:28][cH:29][cH:30][cH:31][c:32]4[cH:33][c:34]4[cH:35][cH:36][cH:37][cH:38][c:39]34)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:40]3[c:41]4[cH:42][cH:43][cH:44][cH:45][c:46]4[cH:47][c:48]4[cH:49][cH:50][cH:51][cH:52][c:53]34)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_positive",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C05_axis_negative",
+    "pair_id": "C05",
+    "substituent_3_3prime": "9-anthracenyl",
+    "scaffold_family": "fused_polyaryl",
+    "formula": "C48H29O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[c:27]4[cH:28][cH:29][cH:30][cH:31][c:32]4[cH:33][c:34]4[cH:35][cH:36][cH:37][cH:38][c:39]34)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:40]3[c:41]4[cH:42][cH:43][cH:44][cH:45][c:46]4[cH:47][c:48]4[cH:49][cH:50][cH:51][cH:52][c:53]34)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_negative",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C06_axis_positive",
+    "pair_id": "C06",
+    "substituent_3_3prime": "1-naphthyl",
+    "scaffold_family": "fused_polyaryl",
+    "formula": "C40H25O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[cH:27][cH:28][cH:29][c:30]4[cH:31][cH:32][cH:33][cH:34][c:35]34)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:36]3[cH:37][cH:38][cH:39][c:40]4[cH:41][cH:42][cH:43][cH:44][c:45]34)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_positive",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  },
+  {
+    "catalyst_id": "C06_axis_negative",
+    "pair_id": "C06",
+    "substituent_3_3prime": "1-naphthyl",
+    "scaffold_family": "fused_polyaryl",
+    "formula": "C40H25O4P",
+    "mapped_connectivity_smiles": "[O:1]=[P:2]1([OH:3])[O:4][c:5]2[c:6](-[c:26]3[cH:27][cH:28][cH:29][c:30]4[cH:31][cH:32][cH:33][cH:34][c:35]34)[cH:7][c:8]3[cH:9][cH:10][cH:11][cH:12][c:13]3[c:14]2-[c:15]2[c:16]([c:18](-[c:36]3[cH:37][cH:38][cH:39][c:40]4[cH:41][cH:42][cH:43][cH:44][c:45]34)[cH:19][c:20]3[cH:21][cH:22][cH:23][cH:24][c:25]23)[O:17]1",
+    "intended_axis": "axis_negative",
+    "absolute_axis_assignment": "PENDING",
+    "charge": 0,
+    "multiplicity": 1,
+    "axis_atoms_maps": [
+      14,
+      15
+    ],
+    "priority_reference_maps": [
+      5,
+      16
+    ],
+    "substitution_maps": [
+      6,
+      18
+    ],
+    "origin": "prospective_design; absolute stereochemistry not yet certified"
+  }
+]

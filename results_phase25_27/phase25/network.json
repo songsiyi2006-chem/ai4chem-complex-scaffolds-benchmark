@@ -1,0 +1,806 @@
+{
+  "species": [
+    {
+      "id": "Cat",
+      "conserved_moieties": [
+        1,
+        0,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "Cat2",
+      "conserved_moieties": [
+        2,
+        0,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "H",
+      "conserved_moieties": [
+        0,
+        0,
+        1
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "Hox",
+      "conserved_moieties": [
+        0,
+        0,
+        1
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "IE",
+      "conserved_moieties": [
+        0,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "IZ",
+      "conserved_moieties": [
+        0,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "PR",
+      "conserved_moieties": [
+        0,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "PS",
+      "conserved_moieties": [
+        0,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "CH",
+      "conserved_moieties": [
+        1,
+        0,
+        1
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "CPR",
+      "conserved_moieties": [
+        1,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "CPS",
+      "conserved_moieties": [
+        1,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "BR",
+      "conserved_moieties": [
+        1,
+        1,
+        1
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "BS",
+      "conserved_moieties": [
+        1,
+        1,
+        1
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "CIE_HB",
+      "conserved_moieties": [
+        1,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "CIE_IP",
+      "conserved_moieties": [
+        1,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "TE",
+      "conserved_moieties": [
+        1,
+        1,
+        1
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "CIZ_HB",
+      "conserved_moieties": [
+        1,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "CIZ_IP",
+      "conserved_moieties": [
+        1,
+        1,
+        0
+      ],
+      "G0_kcal_mol": null
+    },
+    {
+      "id": "TZ",
+      "conserved_moieties": [
+        1,
+        1,
+        1
+      ],
+      "G0_kcal_mol": null
+    }
+  ],
+  "reactions": [
+    {
+      "reaction_id": "free_EZ",
+      "reactants": {
+        "IE": 1
+      },
+      "products": {
+        "IZ": 1
+      },
+      "reversible": true,
+      "kind": "E_Z_exchange",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "IE": 1
+        },
+        {
+          "IZ": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "dimerization",
+      "reactants": {
+        "Cat": 2
+      },
+      "products": {
+        "Cat2": 1
+      },
+      "reversible": true,
+      "kind": "aggregation",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "Cat": 2
+        },
+        {
+          "Cat2": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "donor_binding",
+      "reactants": {
+        "Cat": 1,
+        "H": 1
+      },
+      "products": {
+        "CH": 1
+      },
+      "reversible": true,
+      "kind": "association",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "Cat": 1,
+          "H": 1
+        },
+        {
+          "CH": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "imine_binding_E",
+      "reactants": {
+        "Cat": 1,
+        "IE": 1
+      },
+      "products": {
+        "CIE_HB": 1
+      },
+      "reversible": true,
+      "kind": "association",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "Cat": 1,
+          "IE": 1
+        },
+        {
+          "CIE_HB": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "proton_transfer_E",
+      "reactants": {
+        "CIE_HB": 1
+      },
+      "products": {
+        "CIE_IP": 1
+      },
+      "reversible": true,
+      "kind": "protonation",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "CIE_HB": 1
+        },
+        {
+          "CIE_IP": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "ternary_via_imine_E",
+      "reactants": {
+        "CIE_IP": 1,
+        "H": 1
+      },
+      "products": {
+        "TE": 1
+      },
+      "reversible": true,
+      "kind": "association",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "CIE_IP": 1,
+          "H": 1
+        },
+        {
+          "TE": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "ternary_via_donor_E",
+      "reactants": {
+        "CH": 1,
+        "IE": 1
+      },
+      "products": {
+        "TE": 1
+      },
+      "reversible": true,
+      "kind": "association",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "CH": 1,
+          "IE": 1
+        },
+        {
+          "TE": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "hydride_E_R",
+      "reactants": {
+        "TE": 1
+      },
+      "products": {
+        "BR": 1
+      },
+      "reversible": true,
+      "kind": "H_transfer",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "TE": 1
+        },
+        {
+          "BR": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "uncatalyzed_E_R",
+      "reactants": {
+        "IE": 1,
+        "H": 1
+      },
+      "products": {
+        "PR": 1,
+        "Hox": 1
+      },
+      "reversible": true,
+      "kind": "uncatalyzed_control",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "IE": 1,
+          "H": 1
+        },
+        {
+          "PR": 1,
+          "Hox": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "hydride_E_S",
+      "reactants": {
+        "TE": 1
+      },
+      "products": {
+        "BS": 1
+      },
+      "reversible": true,
+      "kind": "H_transfer",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "TE": 1
+        },
+        {
+          "BS": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "uncatalyzed_E_S",
+      "reactants": {
+        "IE": 1,
+        "H": 1
+      },
+      "products": {
+        "PS": 1,
+        "Hox": 1
+      },
+      "reversible": true,
+      "kind": "uncatalyzed_control",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "IE": 1,
+          "H": 1
+        },
+        {
+          "PS": 1,
+          "Hox": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "imine_binding_Z",
+      "reactants": {
+        "Cat": 1,
+        "IZ": 1
+      },
+      "products": {
+        "CIZ_HB": 1
+      },
+      "reversible": true,
+      "kind": "association",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "Cat": 1,
+          "IZ": 1
+        },
+        {
+          "CIZ_HB": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "proton_transfer_Z",
+      "reactants": {
+        "CIZ_HB": 1
+      },
+      "products": {
+        "CIZ_IP": 1
+      },
+      "reversible": true,
+      "kind": "protonation",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "CIZ_HB": 1
+        },
+        {
+          "CIZ_IP": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "ternary_via_imine_Z",
+      "reactants": {
+        "CIZ_IP": 1,
+        "H": 1
+      },
+      "products": {
+        "TZ": 1
+      },
+      "reversible": true,
+      "kind": "association",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "CIZ_IP": 1,
+          "H": 1
+        },
+        {
+          "TZ": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "ternary_via_donor_Z",
+      "reactants": {
+        "CH": 1,
+        "IZ": 1
+      },
+      "products": {
+        "TZ": 1
+      },
+      "reversible": true,
+      "kind": "association",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "CH": 1,
+          "IZ": 1
+        },
+        {
+          "TZ": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "hydride_Z_R",
+      "reactants": {
+        "TZ": 1
+      },
+      "products": {
+        "BR": 1
+      },
+      "reversible": true,
+      "kind": "H_transfer",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "TZ": 1
+        },
+        {
+          "BR": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "uncatalyzed_Z_R",
+      "reactants": {
+        "IZ": 1,
+        "H": 1
+      },
+      "products": {
+        "PR": 1,
+        "Hox": 1
+      },
+      "reversible": true,
+      "kind": "uncatalyzed_control",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "IZ": 1,
+          "H": 1
+        },
+        {
+          "PR": 1,
+          "Hox": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "hydride_Z_S",
+      "reactants": {
+        "TZ": 1
+      },
+      "products": {
+        "BS": 1
+      },
+      "reversible": true,
+      "kind": "H_transfer",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "TZ": 1
+        },
+        {
+          "BS": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "uncatalyzed_Z_S",
+      "reactants": {
+        "IZ": 1,
+        "H": 1
+      },
+      "products": {
+        "PS": 1,
+        "Hox": 1
+      },
+      "reversible": true,
+      "kind": "uncatalyzed_control",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "IZ": 1,
+          "H": 1
+        },
+        {
+          "PS": 1,
+          "Hox": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "bound_EZ_HB",
+      "reactants": {
+        "CIE_HB": 1
+      },
+      "products": {
+        "CIZ_HB": 1
+      },
+      "reversible": true,
+      "kind": "E_Z_exchange",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "CIE_HB": 1
+        },
+        {
+          "CIZ_HB": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "bound_EZ_IP",
+      "reactants": {
+        "CIE_IP": 1
+      },
+      "products": {
+        "CIZ_IP": 1
+      },
+      "reversible": true,
+      "kind": "E_Z_exchange",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "CIE_IP": 1
+        },
+        {
+          "CIZ_IP": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "ternary_EZ",
+      "reactants": {
+        "TE": 1
+      },
+      "products": {
+        "TZ": 1
+      },
+      "reversible": true,
+      "kind": "E_Z_exchange",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "TE": 1
+        },
+        {
+          "TZ": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "product_release_R",
+      "reactants": {
+        "BR": 1
+      },
+      "products": {
+        "Cat": 1,
+        "PR": 1,
+        "Hox": 1
+      },
+      "reversible": true,
+      "kind": "release",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "BR": 1
+        },
+        {
+          "Cat": 1,
+          "PR": 1,
+          "Hox": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "product_inhibition_R",
+      "reactants": {
+        "Cat": 1,
+        "PR": 1
+      },
+      "products": {
+        "CPR": 1
+      },
+      "reversible": true,
+      "kind": "product_inhibition",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "Cat": 1,
+          "PR": 1
+        },
+        {
+          "CPR": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "product_release_S",
+      "reactants": {
+        "BS": 1
+      },
+      "products": {
+        "Cat": 1,
+        "PS": 1,
+        "Hox": 1
+      },
+      "reversible": true,
+      "kind": "release",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "BS": 1
+        },
+        {
+          "Cat": 1,
+          "PS": 1,
+          "Hox": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    },
+    {
+      "reaction_id": "product_inhibition_S",
+      "reactants": {
+        "Cat": 1,
+        "PS": 1
+      },
+      "products": {
+        "CPS": 1
+      },
+      "reversible": true,
+      "kind": "product_inhibition",
+      "Gts_kcal_mol": null,
+      "path_status": "NOT_RUN",
+      "required_endpoints": [
+        {
+          "Cat": 1,
+          "PS": 1
+        },
+        {
+          "CPS": 1
+        }
+      ],
+      "atom_mapping_status": "PENDING full reactive hydrogen mapping"
+    }
+  ],
+  "status": "proposed_topology_not_validated_complete_network",
+  "charge_rule": "all aggregates net neutral; bound IP denotes iminium/phosphate pair",
+  "required_extensions": [
+    "conformational microstates of every aggregate",
+    "donor/oxidized-donor inhibition",
+    "solvent-separated ions if populated",
+    "higher catalyst aggregates if concentration study requires",
+    "proton-relay intermediates if located"
+  ],
+  "controls": [
+    "mirror all 3D coordinates",
+    "achiral diphenyl phosphate O=P(O)(Oc1ccccc1)Oc1ccccc1",
+    "Cat concentration zero"
+  ],
+  "note": "No rates are assigned to uncomputed edges. Network cannot generate a chemical prediction until G/TS data and accepted pathways exist."
+}

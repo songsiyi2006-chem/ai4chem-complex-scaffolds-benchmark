@@ -1,0 +1,23 @@
+test_censoring_is_retained (phase25_27.test_analysis.AnalysisTests.test_censoring_is_retained) ... ok
+test_ch_slow_or_disconnected_rejected (phase25_27.test_analysis.AnalysisTests.test_ch_slow_or_disconnected_rejected) ... ok
+test_common_mode_uncertainty_cancels (phase25_27.test_analysis.AnalysisTests.test_common_mode_uncertainty_cancels) ... ok
+test_ensemble_degeneracy_and_energy_zero (phase25_27.test_analysis.AnalysisTests.test_ensemble_degeneracy_and_energy_zero) ... ok
+test_grand_energy_charge_and_potential (phase25_27.test_analysis.AnalysisTests.test_grand_energy_charge_and_potential) ... ok
+test_mirror_and_zero_conversion (phase25_27.test_analysis.AnalysisTests.test_mirror_and_zero_conversion) ... ok
+test_missing_energies_rejected (phase25_27.test_analysis.AnalysisTests.test_missing_energies_rejected) ... ok
+test_path_rejects_missing_mixed_surface_wrong_endpoint (phase25_27.test_analysis.AnalysisTests.test_path_rejects_missing_mixed_surface_wrong_endpoint) ... ok
+test_reversible_network_matches_exact_solution (phase25_27.test_analysis.AnalysisTests.test_reversible_network_matches_exact_solution) ... ok
+test_second_order_standard_state_and_balance (phase25_27.test_analysis.AnalysisTests.test_second_order_standard_state_and_balance) ... ok
+test_sign_uncertainty_abstains (phase25_27.test_analysis.AnalysisTests.test_sign_uncertainty_abstains) ... ok
+test_wilson_precision_does_not_imply_mechanism (phase25_27.test_analysis.AnalysisTests.test_wilson_precision_does_not_imply_mechanism) ... ok
+test_actual_imine_geometry_preserves_EZ (phase25_27.test_analysis.InputTests.test_actual_imine_geometry_preserves_EZ) ... ok
+test_catalyst_connectivity_matches_primary_structure (phase25_27.test_analysis.InputTests.test_catalyst_connectivity_matches_primary_structure) ... ok
+test_component_maps_are_disjoint (phase25_27.test_analysis.InputTests.test_component_maps_are_disjoint) ... ok
+test_mirror_preserves_distances_and_inverts_axis (phase25_27.test_analysis.InputTests.test_mirror_preserves_distances_and_inverts_axis) ... ok
+test_no_enantiomer_or_family_leak (phase25_27.test_analysis.InputTests.test_no_enantiomer_or_family_leak) ... ok
+test_production_values_remain_unfilled (phase25_27.test_analysis.InputTests.test_production_values_remain_unfilled) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.159s
+
+OK

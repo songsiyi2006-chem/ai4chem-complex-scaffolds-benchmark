@@ -1,0 +1,90 @@
+[
+  {
+    "substrate_id": "I01",
+    "name": "acetophenone N-phenyl ketimine",
+    "family": "phenyl_ketimine",
+    "E_Z": "E",
+    "charge": 0,
+    "multiplicity": 1,
+    "mapped_smiles": "[CH3:201]/[C:202](=[N:203]\\[c:204]1[cH:205][cH:206][cH:207][cH:208][cH:209]1)[c:210]1[cH:211][cH:212][cH:213][cH:214][cH:215]1",
+    "imine_C_map": 202,
+    "imine_N_map": 203
+  },
+  {
+    "substrate_id": "I01",
+    "name": "acetophenone N-phenyl ketimine",
+    "family": "phenyl_ketimine",
+    "E_Z": "Z",
+    "charge": 0,
+    "multiplicity": 1,
+    "mapped_smiles": "[CH3:201]/[C:202](=[N:203]/[c:204]1[cH:205][cH:206][cH:207][cH:208][cH:209]1)[c:210]1[cH:211][cH:212][cH:213][cH:214][cH:215]1",
+    "imine_C_map": 202,
+    "imine_N_map": 203
+  },
+  {
+    "substrate_id": "I02",
+    "name": "4-methylacetophenone N-phenyl ketimine",
+    "family": "phenyl_ketimine",
+    "E_Z": "E",
+    "charge": 0,
+    "multiplicity": 1,
+    "mapped_smiles": "[CH3:201]/[C:202](=[N:203]\\[c:204]1[cH:205][cH:206][cH:207][cH:208][cH:209]1)[c:210]1[cH:211][cH:212][c:213]([CH3:214])[cH:215][cH:216]1",
+    "imine_C_map": 202,
+    "imine_N_map": 203
+  },
+  {
+    "substrate_id": "I02",
+    "name": "4-methylacetophenone N-phenyl ketimine",
+    "family": "phenyl_ketimine",
+    "E_Z": "Z",
+    "charge": 0,
+    "multiplicity": 1,
+    "mapped_smiles": "[CH3:201]/[C:202](=[N:203]/[c:204]1[cH:205][cH:206][cH:207][cH:208][cH:209]1)[c:210]1[cH:211][cH:212][c:213]([CH3:214])[cH:215][cH:216]1",
+    "imine_C_map": 202,
+    "imine_N_map": 203
+  },
+  {
+    "substrate_id": "I03",
+    "name": "1-acetylnaphthalene N-phenyl ketimine",
+    "family": "naphthyl_ketimine",
+    "E_Z": "E",
+    "charge": 0,
+    "multiplicity": 1,
+    "mapped_smiles": "[CH3:201]/[C:202](=[N:203]\\[c:204]1[cH:205][cH:206][cH:207][cH:208][cH:209]1)[c:210]1[cH:211][cH:212][cH:213][c:214]2[cH:215][cH:216][cH:217][cH:218][c:219]12",
+    "imine_C_map": 202,
+    "imine_N_map": 203
+  },
+  {
+    "substrate_id": "I03",
+    "name": "1-acetylnaphthalene N-phenyl ketimine",
+    "family": "naphthyl_ketimine",
+    "E_Z": "Z",
+    "charge": 0,
+    "multiplicity": 1,
+    "mapped_smiles": "[CH3:201]/[C:202](=[N:203]/[c:204]1[cH:205][cH:206][cH:207][cH:208][cH:209]1)[c:210]1[cH:211][cH:212][cH:213][c:214]2[cH:215][cH:216][cH:217][cH:218][c:219]12",
+    "imine_C_map": 202,
+    "imine_N_map": 203
+  },
+  {
+    "substrate_id": "I04",
+    "name": "2-acetylnaphthalene N-phenyl ketimine",
+    "family": "naphthyl_ketimine",
+    "E_Z": "E",
+    "charge": 0,
+    "multiplicity": 1,
+    "mapped_smiles": "[CH3:201]/[C:202](=[N:203]\\[c:204]1[cH:205][cH:206][cH:207][cH:208][cH:209]1)[c:210]1[cH:211][cH:212][c:213]2[cH:214][cH:215][cH:216][cH:217][c:218]2[cH:219]1",
+    "imine_C_map": 202,
+    "imine_N_map": 203
+  },
+  {
+    "substrate_id": "I04",
+    "name": "2-acetylnaphthalene N-phenyl ketimine",
+    "family": "naphthyl_ketimine",
+    "E_Z": "Z",
+    "charge": 0,
+    "multiplicity": 1,
+    "mapped_smiles": "[CH3:201]/[C:202](=[N:203]/[c:204]1[cH:205][cH:206][cH:207][cH:208][cH:209]1)[c:210]1[cH:211][cH:212][c:213]2[cH:214][cH:215][cH:216][cH:217][c:218]2[cH:219]1",
+    "imine_C_map": 202,
+    "imine_N_map": 203
+  }
+]

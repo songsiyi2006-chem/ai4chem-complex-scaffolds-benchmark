@@ -1,0 +1,17 @@
+{
+  "rdkit": "2026.03.5",
+  "seeds": [
+    104729,
+    130363,
+    155921,
+    181081,
+    205019,
+    230003,
+    254959,
+    280001,
+    305093,
+    330017
+  ],
+  "scope": "preliminary inputs only",
+  "production_calculations_complete": false
+}

@@ -1,0 +1,171 @@
+
+Scratch directory: C:\Users\HUIWEI\Documents\Codex\2026-09-10\25-ee-phase5-phase24-1-hantzsch-3\work\qm_scratch/
+   => Libint2 <=
+
+    Primary   basis highest AM E, G, H:  7, 6, -
+    Auxiliary basis highest AM E, G, H:  7, 7, -
+    Onebody   basis highest AM E, G, H:  -, -, -
+    Solid Harmonics ordering:            Gaussian
+
+*** tstart() called on LAPTOP-257FNSVV
+*** at Thu Sep 10 21:31:06 2026
+
+   => Loading Basis Set <=
+
+    Name: DEF2-SVP
+    Role: ORBITAL
+    Keyword: BASIS
+    atoms 1-2, 4-15 entry C          line    90 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-svp.gbs 
+    atoms 3         entry N          line   110 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-svp.gbs 
+    atoms 16-28     entry H          line    15 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-svp.gbs 
+
+   => PBE-D3(BJ): Empirical Dispersion <=
+
+    Grimme's -D3 (BJ-damping) Dispersion Correction
+    Grimme S.; Ehrlich S.; Goerigk L. (2011), J. Comput. Chem., 32: 1456
+
+        s6 =       1.000000
+        s8 =       0.787500
+        a1 =       0.428900
+        a2 =       4.440700
+
+
+         ---------------------------------------------------------
+                                   SCF
+               by Justin Turney, Rob Parrish, Andy Simmonett
+                          and Daniel G. A. Smith
+                              RKS Reference
+                        4 Threads,  -1234 MiB Core
+         ---------------------------------------------------------
+
+  ==> Geometry <==
+
+    Molecular point group: c1
+    Full point group: C1
+
+    Geometry (in Angstrom), charge = 0, multiplicity = 1:
+
+       Center              X                  Y                   Z               Mass       
+    ------------   -----------------  -----------------  -----------------  -----------------
+         C           -1.143938017500    -3.054489658000    -0.150708589000    12.000000000000
+         C           -0.413816969100    -1.732048526200    -0.211215220400    12.000000000000
+         N            0.788057648100    -1.736933441300    -0.708348128500    14.003074004430
+         C            1.516822237000    -0.548741792500    -0.854570557700    12.000000000000
+         C            2.630852597900    -0.321503682500    -0.042813987000    12.000000000000
+         C            3.386956827500     0.843926543800    -0.184261241000    12.000000000000
+         C            3.040348741600     1.784207881300    -1.153440155100    12.000000000000
+         C            1.945922274700     1.554320742200    -1.986054185500    12.000000000000
+         C            1.193262983500     0.386848516100    -1.841913253600    12.000000000000
+         C           -1.154433712000    -0.553661357800     0.300346798100    12.000000000000
+         C           -2.350625218700    -0.176768875200    -0.317248578400    12.000000000000
+         C           -3.060791860500     0.920623806400     0.170203532000    12.000000000000
+         C           -2.578609262900     1.631393595700     1.270802984300    12.000000000000
+         C           -1.387047798600     1.247414610800     1.888574806200    12.000000000000
+         C           -0.672853148000     0.150537097800     1.406471562600    12.000000000000
+         H           -0.486580870100    -3.811938057500     0.286881054300     1.007825032230
+         H           -2.049799754600    -2.989056364800     0.457977785900     1.007825032230
+         H           -1.414073391400    -3.361636078100    -1.165234687400     1.007825032230
+         H            2.907889174000    -1.062029509100     0.702022525400     1.007825032230
+         H            4.248345548600     1.012313350800     0.456062402500     1.007825032230
+         H            3.629267497900     2.690526762100    -1.267312971800     1.007825032230
+         H            1.681172391600     2.278479930500    -2.751486611300     1.007825032230
+         H            0.351113595000     0.202590256400    -2.502134734800     1.007825032230
+         H           -2.725249664000    -0.722651538300    -1.178827037500     1.007825032230
+         H           -3.988336728200     1.225002115100    -0.308230689800     1.007825032230
+         H           -3.131964948600     2.488328418500     1.647694532600     1.007825032230
+         H           -1.013938162600     1.804047199400     2.744561419400     1.007825032230
+         H            0.252047989200    -0.149101945600     1.891459175800     1.007825032230
+
+  Running in c1 symmetry.
+
+  Rotational constants: A =      0.03057  B =      0.01562  C =      0.01273 [cm^-1]
+  Rotational constants: A =    916.32355  B =    468.33457  C =    381.76372 [MHz]
+  Nuclear repulsion =  897.282839290098877
+
+  Charge       = 0
+  Multiplicity = 1
+  Electrons    = 104
+  Nalpha       = 52
+  Nbeta        = 52
+
+  ==> Algorithm <==
+
+  SCF Algorithm Type is DF.
+  DIIS enabled.
+  MOM disabled.
+  Fractional occupation disabled.
+  Guess Type is SAD.
+  Energy threshold   = 1.00e-08
+  Density threshold  = 1.00e-08
+  Integral threshold = 1.00e-12
+
+  ==> Primary Basis <==
+
+  Basis Set: DEF2-SVP
+    Blend: DEF2-SVP
+    Number of shells: 129
+    Number of basis functions: 275
+    Number of Cartesian functions: 290
+    Spherical Harmonics?: true
+    Max angular momentum: 2
+
+  ==> DFT Potential <==
+
+   => LibXC <=
+
+    Version 7.1.2
+    S. Lehtola, C. Steigemann, M. J. T. Oliveira, and M. A. L. Marques,  SoftwareX 7, 1–5 (2018) (10.1016/j.softx.2017.11.002)
+
+   => Composite Functional: PBE-D3BJ2B <= 
+
+    PBE GGA Exchange-Correlation Functional
+
+    J.P. Perdew et. al., Phys. Rev. Lett., 77(18), 3865-3868, 1996
+
+
+    Deriv               =              1
+    GGA                 =           TRUE
+    Meta                =          FALSE
+
+    Exchange Hybrid     =          FALSE
+    MP2 Hybrid          =          FALSE
+
+   => Exchange Functionals <=
+
+    1.0000     XC_GGA_X_PBE
+
+   => Correlation Functionals <=
+
+    1.0000     XC_GGA_C_PBE
+
+   => LibXC Density Thresholds  <==
+
+    XC_GGA_C_PBE:  1.00E-12 
+    XC_GGA_X_PBE:  1.00E-15 
+
+   => Molecular Quadrature <=
+
+    Radial Scheme          =       TREUTLER
+    Pruning Scheme         =           NONE
+    Nuclear Scheme         =       TREUTLER
+
+    Blocking Scheme        =         OCTREE
+    BS radius alpha        =              1
+    Pruning alpha          =              1
+    Radial Points          =             75
+    Spherical Points       =            302
+    Total Points           =         579984
+    Total Blocks           =           4226
+    Max Points             =            256
+    Max Functions          =            237
+    Weights Tolerance      =       1.00E-15
+
+   => Loading Basis Set <=
+
+    Name: (DEF2-SVP AUX)
+    Role: JKFIT
+    Keyword: DF_BASIS_SCF
+    atoms 1-2, 4-15 entry C          line   198 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-universal-jkfit.gbs 
+    atoms 3         entry N          line   258 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-universal-jkfit.gbs 
+    atoms 16-28     entry H          line    18 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-universal-jkfit.gbs 
+

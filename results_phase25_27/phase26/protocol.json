@@ -1,0 +1,64 @@
+{
+  "potential_reference": "SHE; U_RHE=U_SHE+(kBT/e)*ln(10)*pH",
+  "charge_compensation": "explicit K+ or Cs+ in equilibrated first layers; continuum electrolyte reservoir and countercharge; matched ionic strength",
+  "production_method": "grand-canonical DFT + explicit-water constrained MD; code/pseudopotentials pending",
+  "proposed_methods": [
+    "PBE-D3(BJ)",
+    "RPBE-D3(BJ)"
+  ],
+  "water_thickness_A": [
+    15,
+    20,
+    25
+  ],
+  "lateral_size_test": "double interface area at fixed density and coverage",
+  "paths": [
+    "2*CO <-> *OCCO",
+    "*CO + *CHO <-> *COCHO",
+    "*CO + H2O + e- <-> *CHO + OH-",
+    "*CO + H2O + e- <-> *COH + OH-",
+    "* + H2O + e- <-> *H + OH-",
+    "2*H <-> H2 + 2*",
+    "*H + H2O + e- <-> H2 + OH- + *"
+  ],
+  "required_extensions": [
+    "CO2 supply and CO2-to-CO network",
+    "downstream C2 network before reporting final-product FE"
+  ],
+  "path_fields": [
+    "N_e",
+    "neutral_N_e",
+    "total_cell_charge_e",
+    "electrode_charge_partition_e",
+    "actual_U_V_SHE",
+    "target_U_V_SHE",
+    "mu_e_eV",
+    "G_eV",
+    "Omega_eV",
+    "water_seed",
+    "CVs",
+    "forces"
+  ],
+  "CVs": [
+    "C-C distance",
+    "C-H/O-H proton coordination",
+    "water H-bond connectivity",
+    "cation coordination"
+  ],
+  "convergence": {
+    "numerical_eV": 0.05,
+    "sampling_CI95_halfwidth_eV": 0.05,
+    "potential_deviation_V": 0.05,
+    "independent_interfaces": 3
+  },
+  "controls": [
+    "constant_charge",
+    "implicit_solvent",
+    "coverage",
+    "cation_positions"
+  ],
+  "forbidden_claims": [
+    "RDS from largest uphill reaction free energy",
+    "terminal FE from truncated C-C network"
+  ]
+}

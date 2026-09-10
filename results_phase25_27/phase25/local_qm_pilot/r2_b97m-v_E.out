@@ -1,0 +1,214 @@
+
+Scratch directory: C:\Users\HUIWEI\Documents\Codex\2026-09-10\25-ee-phase5-phase24-1-hantzsch-3\work\qm_scratch/
+   => Libint2 <=
+
+    Primary   basis highest AM E, G, H:  7, 6, -
+    Auxiliary basis highest AM E, G, H:  7, 7, -
+    Onebody   basis highest AM E, G, H:  -, -, -
+    Solid Harmonics ordering:            Gaussian
+
+*** tstart() called on LAPTOP-257FNSVV
+*** at Thu Sep 10 20:43:52 2026
+
+   => Loading Basis Set <=
+
+    Name: DEF2-SVP
+    Role: ORBITAL
+    Keyword: BASIS
+    atoms 1-2, 4-15 entry C          line    90 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-svp.gbs 
+    atoms 3         entry N          line   110 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-svp.gbs 
+    atoms 16-28     entry H          line    15 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-svp.gbs 
+
+
+         ---------------------------------------------------------
+                                   SCF
+               by Justin Turney, Rob Parrish, Andy Simmonett
+                          and Daniel G. A. Smith
+                              RKS Reference
+                        4 Threads,  -1234 MiB Core
+         ---------------------------------------------------------
+
+  ==> Geometry <==
+
+    Molecular point group: c1
+    Full point group: C1
+
+    Geometry (in Angstrom), charge = 0, multiplicity = 1:
+
+       Center              X                  Y                   Z               Mass       
+    ------------   -----------------  -----------------  -----------------  -----------------
+         C           -0.079845574600    -0.111316536100    -1.719850036300    12.000000000000
+         C           -0.419767175400     0.013614785400    -0.245231880700    12.000000000000
+         N            0.470771640500     0.073380294200     0.703822606900    14.003074004430
+         C            1.834745154400     0.005085828500     0.396830017900    12.000000000000
+         C            2.471506290600    -1.231359358600     0.261874366900    12.000000000000
+         C            3.836914388600    -1.296613599300    -0.022909133400    12.000000000000
+         C            4.575806455300    -0.122021617800    -0.160569915600    12.000000000000
+         C            3.951974979000     1.115524831100    -0.005894139000    12.000000000000
+         C            2.586371351700     1.176618288100     0.278984286400    12.000000000000
+         C           -1.865590011000     0.057536822600     0.138996726200    12.000000000000
+         C           -2.852583795700    -0.547467005400    -0.648194429200    12.000000000000
+         C           -4.193158267300    -0.490960333000    -0.257192416500    12.000000000000
+         C           -4.552205544600     0.161616215900     0.921667934400    12.000000000000
+         C           -3.572606642500     0.753788434200     1.716812566400    12.000000000000
+         C           -2.232390325700     0.698973207200     1.329448917700    12.000000000000
+         H            0.161872526800    -1.153181494900    -1.948172891500     1.007825032230
+         H           -0.908507002300     0.213162731600    -2.354284448600     1.007825032230
+         H            0.773332480200     0.522281149100    -1.976199319600     1.007825032230
+         H            1.897897961600    -2.145451262000     0.384968881400     1.007825032230
+         H            4.323089481900    -2.262515017600    -0.128864071900     1.007825032230
+         H            5.639629248100    -0.171169909000    -0.378034893100     1.007825032230
+         H            4.527596472000     2.032267839800    -0.099723510900     1.007825032230
+         H            2.101033156200     2.139166026400     0.411884961700     1.007825032230
+         H           -2.599177244100    -1.084462338300    -1.557343602300     1.007825032230
+         H           -4.957812140300    -0.963116343400    -0.869205203800     1.007825032230
+         H           -5.595347711900     0.201916112600     1.225436036100     1.007825032230
+         H           -3.848905853200     1.255162868100     2.640884708200     1.007825032230
+         H           -1.474644298300     1.159539380400     1.960057882300     1.007825032230
+
+  Running in c1 symmetry.
+
+  Rotational constants: A =      0.06599  B =      0.00898  C =      0.00855 [cm^-1]
+  Rotational constants: A =   1978.37968  B =    269.09261  C =    256.31969 [MHz]
+  Nuclear repulsion =  862.813233627788577
+
+  Charge       = 0
+  Multiplicity = 1
+  Electrons    = 104
+  Nalpha       = 52
+  Nbeta        = 52
+
+  ==> Algorithm <==
+
+  SCF Algorithm Type is DF.
+  DIIS enabled.
+  MOM disabled.
+  Fractional occupation disabled.
+  Guess Type is SAD.
+  Energy threshold   = 1.00e-08
+  Density threshold  = 1.00e-08
+  Integral threshold = 1.00e-12
+
+  ==> Primary Basis <==
+
+  Basis Set: DEF2-SVP
+    Blend: DEF2-SVP
+    Number of shells: 129
+    Number of basis functions: 275
+    Number of Cartesian functions: 290
+    Spherical Harmonics?: true
+    Max angular momentum: 2
+
+  ==> DFT Potential <==
+
+   => LibXC <=
+
+    Version 7.1.2
+    S. Lehtola, C. Steigemann, M. J. T. Oliveira, and M. A. L. Marques,  SoftwareX 7, 1–5 (2018) (10.1016/j.softx.2017.11.002)
+
+   => Composite Functional: B97M-V <= 
+
+    B97M-V GGA Exchange-Correlation Functional
+
+    N. Mardirossian and M. Head-Gordon,  J. Chem. Phys. 142, 074111 (2015) (10.1063/1.4907719)
+
+    Deriv               =              1
+    GGA                 =           TRUE
+    Meta                =           TRUE
+
+    Exchange Hybrid     =          FALSE
+    MP2 Hybrid          =          FALSE
+
+   => Exchange-Correlation Functionals <=
+
+    1.0000   B97M-V exchange-correlation functional
+
+   => LibXC Density Thresholds  <==
+
+    XC_MGGA_XC_B97M_V:  1.00E-15 
+
+   => VV10 Non-Local Parameters <=
+
+    VV10 B              =     6.0000E+00
+    VV10 C              =     1.0000E-02
+
+   => Molecular Quadrature <=
+
+    Radial Scheme          =       TREUTLER
+    Pruning Scheme         =           NONE
+    Nuclear Scheme         =       TREUTLER
+
+    Blocking Scheme        =         OCTREE
+    BS radius alpha        =              1
+    Pruning alpha          =              1
+    Radial Points          =             75
+    Spherical Points       =            302
+    Total Points           =         581285
+    Total Blocks           =           4273
+    Max Points             =            256
+    Max Functions          =            220
+    Weights Tolerance      =       1.00E-15
+
+   => Loading Basis Set <=
+
+    Name: (DEF2-SVP AUX)
+    Role: JKFIT
+    Keyword: DF_BASIS_SCF
+    atoms 1-2, 4-15 entry C          line   198 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-universal-jkfit.gbs 
+    atoms 3         entry N          line   258 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-universal-jkfit.gbs 
+    atoms 16-28     entry H          line    18 file C:\Users\HUIWEI\miniconda3\envs\phase7\Library\share\psi4\basis\def2-universal-jkfit.gbs 
+
+  ==> Integral Setup <==
+
+  DFHelper Memory: AOs need 0.628 GiB; user supplied 0.628 GiB. 
+  SCF_SUBTYPE=INCORE selected. In-core MEM_DF algorithm will be used.
+  Using in-core AOs.
+
+  ==> MemDFJK: Density-Fitted J/K Matrices <==
+
+    J tasked:                   Yes
+    K tasked:                    No
+    wK tasked:                   No
+    OpenMP threads:               4
+    Memory [MiB]:               642
+    Algorithm:                 Core
+    Schwarz Cutoff:           1E-12
+    Mask sparsity (%):      22.2307
+    Fitting Condition:        1E-10
+
+   => Auxiliary Basis Set <=
+
+  Basis Set: (DEF2-SVP AUX)
+    Blend: DEF2-UNIVERSAL-JKFIT
+    Number of shells: 453
+    Number of basis functions: 1361
+    Number of Cartesian functions: 1599
+    Spherical Harmonics?: true
+    Max angular momentum: 4
+
+  Cached 20.0% of DFT collocation blocks in 1.207 [GiB].
+
+  Minimum eigenvalue in the overlap matrix is 2.7212835068E-04.
+  Reciprocal condition number of the overlap matrix is 4.1848706508E-05.
+    Using symmetric orthogonalization.
+
+  ==> Pre-Iterations <==
+
+  SCF Guess: Superposition of Atomic Densities via on-the-fly atomic UHF (no occupation information).
+
+   -------------------------
+    Irrep   Nso     Nmo    
+   -------------------------
+     A        275     275 
+   -------------------------
+    Total     275     275
+   -------------------------
+
+  ==> Iterations <==
+
+                           Total Energy        Delta E     RMS |[F,P]|
+
+   @DF-RKS iter SAD:  -594.85747592429300   -5.94857e+02   0.00000e+00 
+   @DF-RKS iter   1:  -594.84796802897051    9.50790e-03   4.16706e-03 DIIS/ADIIS
+   @DF-RKS iter   2:  -594.51321552760714    3.34753e-01   5.14756e-03 DIIS/ADIIS
+   @DF-RKS iter   3:  -595.62613546111379   -1.11292e+00   6.76933e-04 DIIS/ADIIS

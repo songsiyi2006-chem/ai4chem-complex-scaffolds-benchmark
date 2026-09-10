@@ -1,0 +1,36 @@
+{
+  "seeds": [
+    104729,
+    130363,
+    155921,
+    181081,
+    205019,
+    230003,
+    254959,
+    280001,
+    305093,
+    330017
+  ],
+  "split_before_labels": true,
+  "labels_available": false,
+  "enantiomer_pairs_grouped": true,
+  "held_catalyst_families": [
+    "fused_polyaryl"
+  ],
+  "held_substrate_families": [
+    "naphthyl_ketimine"
+  ],
+  "compare": [
+    "ensemble_network",
+    "lowest_conformer_network",
+    "phase24_style_descriptor"
+  ],
+  "acquisition": [
+    "random",
+    "maxmin_diversity"
+  ],
+  "cost_unit": "measured core_seconds on calibrated common hardware; GPU_seconds separate",
+  "budget_rule": "same cumulative electronic-structure cost, including failed jobs and search; fit/scaling train only; no test acquisition",
+  "evaluation": "configuration accuracy with abstention, signed effective ddG MAE, 95% interval coverage, interval width, learning-curve cost AUC",
+  "preregistration_status": "protocol fixed before any labels; external independent custodian and label hash still required"
+}

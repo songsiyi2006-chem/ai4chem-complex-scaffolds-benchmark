@@ -1,0 +1,134 @@
+{
+  "overall": "NOT_SCIENTIFICALLY_COMPLETE",
+  "criteria": [
+    {
+      "phase": 25,
+      "criterion": "25.1",
+      "status": "PARTIAL",
+      "evidence": "12 prospective catalyst-axis entries, 8 E/Z imines, 2 solvents; absolute catalyst CIP and full reactive atom mapping pending"
+    },
+    {
+      "phase": 25,
+      "criterion": "25.2",
+      "status": "NOT_RUN",
+      "evidence": "19-species/26-edge proposed topology; no computed complete R/S pathway network or validated exchange timescales"
+    },
+    {
+      "phase": 25,
+      "criterion": "25.3",
+      "status": "PARTIAL",
+      "evidence": "144 MMFF starting conformers; no complex/TS DFT ensemble or correlated-wavefunction reference"
+    },
+    {
+      "phase": 25,
+      "criterion": "25.4",
+      "status": "NOT_RUN",
+      "evidence": "No accepted TS, frequencies, IRC, standard-state solution free energies, or explicit-solvent PMFs"
+    },
+    {
+      "phase": 25,
+      "criterion": "25.5",
+      "status": "NOT_RUN",
+      "evidence": "Kinetic and uncertainty kernels tested; no physical rates, conversion or signed ee"
+    },
+    {
+      "phase": 25,
+      "criterion": "25.6",
+      "status": "PARTIAL",
+      "evidence": "96 conditions, family-grouped split, 10 fixed seeds; no external labels or cost-matched model/AL evaluation"
+    },
+    {
+      "phase": 25,
+      "criterion": "25.7",
+      "status": "NOT_PASSED",
+      "evidence": "No ensemble ddG convergence, free-energy replication or external interval-coverage evidence"
+    },
+    {
+      "phase": 26,
+      "criterion": "26.1",
+      "status": "PARTIAL",
+      "evidence": "48 condition entries and 3 dry slab seeds; 0 complete solvated interfaces"
+    },
+    {
+      "phase": 26,
+      "criterion": "26.2",
+      "status": "NOT_RUN",
+      "evidence": "Legendre/charge/potential checks implemented; no grand-canonical DFT path points"
+    },
+    {
+      "phase": 26,
+      "criterion": "26.3",
+      "status": "NOT_RUN",
+      "evidence": "No explicit water/cation sampling or thickness/area convergence"
+    },
+    {
+      "phase": 26,
+      "criterion": "26.4",
+      "status": "NOT_RUN",
+      "evidence": "Competing reactions specified; no activation PMFs or committor tests"
+    },
+    {
+      "phase": 26,
+      "criterion": "26.5",
+      "status": "NOT_RUN",
+      "evidence": "No calibrated site-conserving surface model or mass-transfer solution"
+    },
+    {
+      "phase": 26,
+      "criterion": "26.6",
+      "status": "NOT_RUN",
+      "evidence": "Controls and degree-of-rate-control protocol specified, no evaluated mechanisms"
+    },
+    {
+      "phase": 26,
+      "criterion": "26.7",
+      "status": "NOT_PASSED",
+      "evidence": "0/3 independent interfaces; 0.05 eV and 0.05 V targets untested"
+    },
+    {
+      "phase": 27,
+      "criterion": "27.1",
+      "status": "PARTIAL",
+      "evidence": "6-member design; literature parent coordinates recovered; derivative/adduct/isomer structures not complete"
+    },
+    {
+      "phase": 27,
+      "criterion": "27.2",
+      "status": "NOT_RUN",
+      "evidence": "Published active-space details audited; no new converged multireference benchmark"
+    },
+    {
+      "phase": 27,
+      "criterion": "27.3",
+      "status": "NOT_RUN",
+      "evidence": "No new SOC/NAC/gradients/crossing searches"
+    },
+    {
+      "phase": 27,
+      "criterion": "27.4",
+      "status": "NOT_RUN",
+      "evidence": "3 excitation windows specified; 0 nonadiabatic trajectories"
+    },
+    {
+      "phase": 27,
+      "criterion": "27.5",
+      "status": "PARTIAL",
+      "evidence": "Censor-aware competing-risk analysis tested; no measured trajectories"
+    },
+    {
+      "phase": 27,
+      "criterion": "27.6",
+      "status": "NOT_RUN",
+      "evidence": "No generated absorption/TA spectra, state lifetimes or quantum yields"
+    },
+    {
+      "phase": 27,
+      "criterion": "27.7",
+      "status": "NOT_PASSED",
+      "evidence": "0/3 independent trajectory batches; branch CI precision not evaluated"
+    }
+  ],
+  "phase25_selectivity": "选择性未判定 / selectivity undetermined",
+  "phase26_mechanism": "UNDETERMINED",
+  "phase27_branch_quantum_yields": null
+}

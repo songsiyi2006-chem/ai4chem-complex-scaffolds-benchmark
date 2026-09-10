@@ -1,0 +1,1220 @@
+{
+  "C01": {
+    "requested_starts": 12,
+    "embedded": 12,
+    "converged": 12,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.02960906276137,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.135682493438175
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.02960947812983,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.13747924442135
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.02960904582261,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.13604365826138
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 80.01943602817929,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.98969351226159
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 80.01943634619803,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.98813545892909
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.02960903343153,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.13617048857541
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.02960907855407,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.13620641492533
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.02960903901227,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.13592337125703
+      },
+      {
+        "start": 8,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.02960904967571,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.13624236163749
+      },
+      {
+        "start": 9,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.02960904635172,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.13611220691139
+      },
+      {
+        "start": 10,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 80.0194360098707,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.98959705024854
+      },
+      {
+        "start": 11,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 76.0296090490879,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.136176809498224
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\C01.xyz",
+    "best_axis_dihedral_deg": 54.13617048857541,
+    "best_geometric_axis": "axis_positive",
+    "mirror_geometric_axis": "axis_negative"
+  },
+  "C02": {
+    "requested_starts": 12,
+    "embedded": 12,
+    "converged": 12,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 80.15511697257631,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.094832392553876
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 80.12438254955194,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.069935739241096
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 84.1513920336541,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.9789935433719
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 84.18520084498981,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.978713421925775
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 80.12438255359979,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.07004834562772
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 84.16557578589794,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.968470592389124
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 84.1513920451524,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.978892318619515
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 84.18520083302647,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.97872031068837
+      },
+      {
+        "start": 8,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 84.15139474578224,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.978052371322406
+      },
+      {
+        "start": 9,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 80.13300559217632,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.08656736016071
+      },
+      {
+        "start": 10,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 84.17092711757178,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.98788129317975
+      },
+      {
+        "start": 11,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 84.16557562213657,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.968048228999564
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\C02.xyz",
+    "best_axis_dihedral_deg": -54.069935739241096,
+    "best_geometric_axis": "axis_negative",
+    "mirror_geometric_axis": "axis_positive"
+  },
+  "C03": {
+    "requested_starts": 12,
+    "embedded": 12,
+    "converged": 12,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 171.86408543015642,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.5513143381122
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.04899626043914,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.69705249564081
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.04899489105873,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.69657795716475
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.08241754098273,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.72500662144234
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.07854399371092,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.72314132873347
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.0527439078892,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.69677407881744
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 171.86411112406614,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.55319618744634
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 171.86408667599,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.551075235691066
+      },
+      {
+        "start": 8,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.0527750566727,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.696950883175205
+      },
+      {
+        "start": 9,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.0824181772366,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.72507406425184
+      },
+      {
+        "start": 10,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.05274868694008,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.696681175408415
+      },
+      {
+        "start": 11,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 176.0489964807499,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.69699467780454
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\C03.xyz",
+    "best_axis_dihedral_deg": -54.5513143381122,
+    "best_geometric_axis": "axis_negative",
+    "mirror_geometric_axis": "axis_positive"
+  },
+  "C04": {
+    "requested_starts": 12,
+    "embedded": 12,
+    "converged": 12,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 127.85022599197762,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -53.77096936533325
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 127.85371026116178,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 53.77496573089124
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 132.4347681799701,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -55.01580939314409
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 127.85022708278046,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -53.77177967215643
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 127.85381264661413,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 53.77321293726423
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 132.33227472288402,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.96447913126157
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 127.85728905726164,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -53.776280300551974
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 132.68472860144277,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 55.2275998326107
+      },
+      {
+        "start": 8,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 127.85381231644804,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -53.774719278976896
+      },
+      {
+        "start": 9,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 127.85370724713403,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -53.773125899616744
+      },
+      {
+        "start": 10,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 138.17543709152977,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 52.775482466025146
+      },
+      {
+        "start": 11,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.97102092364972,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 51.128244504173615
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\C04.xyz",
+    "best_axis_dihedral_deg": -53.77096936533325,
+    "best_geometric_axis": "axis_negative",
+    "mirror_geometric_axis": "axis_positive"
+  },
+  "C05": {
+    "requested_starts": 12,
+    "embedded": 12,
+    "converged": 12,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.22854589062285,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.510077657230205
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.22853826640312,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.524428966319284
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.22853748400803,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.5159063639231
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.22855916343292,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.52359072631353
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 155.2881222480578,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.005953051348854
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.228536359516,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.51767484690365
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.22853880353708,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.5201690345147
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 155.28813072712768,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.00038898398182
+      },
+      {
+        "start": 8,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.22853602057978,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.517843622327476
+      },
+      {
+        "start": 9,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.22854208078428,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.519329430982744
+      },
+      {
+        "start": 10,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 150.22853991553177,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.51712773499672
+      },
+      {
+        "start": 11,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 155.28812717260044,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.00707528335788
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\C05.xyz",
+    "best_axis_dihedral_deg": 54.517843622327476,
+    "best_geometric_axis": "axis_positive",
+    "mirror_geometric_axis": "axis_negative"
+  },
+  "C06": {
+    "requested_starts": 12,
+    "embedded": 12,
+    "converged": 12,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 115.20037785240868,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.41714157540025
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 115.018317576389,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.09417683520222
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 118.58398517706686,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -53.93414834303253
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 121.07307313819318,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 55.10578902661092
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 115.42581019800178,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.77196365583062
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 115.20037910939249,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.41019261721746
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 119.51305879888793,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.9374857508656
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 114.21442925951578,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.34699164461927
+      },
+      {
+        "start": 8,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 115.99233884733684,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.26327635640282
+      },
+      {
+        "start": 9,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 120.11644004307644,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": -54.12413548463263
+      },
+      {
+        "start": 10,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 119.51307404257001,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 54.942831424677436
+      },
+      {
+        "start": 11,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 121.07307228120058,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null,
+        "axis_dihedral_deg": 55.10455070668749
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\C06.xyz",
+    "best_axis_dihedral_deg": -54.34699164461927,
+    "best_geometric_axis": "axis_negative",
+    "mirror_geometric_axis": "axis_positive"
+  },
+  "I01_E": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 49.68802893887525,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 49.68802893504359,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 49.688028856303674,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 49.68802885919216,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 49.688028858381465,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 49.68802884496162,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 49.68802894507638,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 49.68802900491378,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\I01_E.xyz"
+  },
+  "I01_Z": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 52.556337949758586,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 52.55633793693161,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 52.556337940489826,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 52.556337991087595,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 52.55633796261823,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 52.556337963110245,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 52.55633795848018,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 52.55633795729483,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\I01_Z.xyz"
+  },
+  "I02_E": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 51.699466383467666,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 51.73499074330098,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 51.73499055850259,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 51.69946638595569,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 51.69946639115823,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 51.699466379712874,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 51.69946643609362,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 51.734990741136144,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\I02_E.xyz"
+  },
+  "I02_Z": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 54.54484476903069,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 54.55301614525885,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 54.54484480702184,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 54.55301612182821,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 54.54484477182752,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 54.54484479490698,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 54.54484475835033,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 54.54484476458796,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\I02_Z.xyz"
+  },
+  "I03_E": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.82522160395311,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.82522165226686,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.82522167710235,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.8252215928976,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 69.24650431612397,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.82522160749136,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.82522162431843,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.82522172162241,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\I03_E.xyz"
+  },
+  "I03_Z": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.99260398630594,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.99260398090742,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.99260405056091,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.9926040023613,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.99260398765733,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.99260401609158,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.99260397358415,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 68.99260400788356,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\I03_Z.xyz"
+  },
+  "I04_E": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 60.698251245874175,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 60.698251271208875,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 60.69825128799997,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 60.6982518942743,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 60.69825127023982,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 60.69825125423813,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 60.698251247434534,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 60.698251341383326,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\I04_E.xyz"
+  },
+  "I04_Z": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 63.411358893821536,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 63.41135887060545,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 63.38084430114601,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 63.3808443168241,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 63.411359014289445,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 63.380844349837545,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 63.41135886477975,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": 63.411358861756725,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\I04_Z.xyz"
+  },
+  "HE_dimethyl": {
+    "requested_starts": 8,
+    "embedded": 8,
+    "converged": 8,
+    "records": [
+      {
+        "start": 0,
+        "converged": true,
+        "MMFF_energy_kcal_mol": -5.201799795777692,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 1,
+        "converged": true,
+        "MMFF_energy_kcal_mol": -5.224802828141691,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 2,
+        "converged": true,
+        "MMFF_energy_kcal_mol": -5.224802828239243,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 3,
+        "converged": true,
+        "MMFF_energy_kcal_mol": -5.201799795939641,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 4,
+        "converged": true,
+        "MMFF_energy_kcal_mol": -4.659438247683125,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 5,
+        "converged": true,
+        "MMFF_energy_kcal_mol": -4.659438247169479,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 6,
+        "converged": true,
+        "MMFF_energy_kcal_mol": -5.224802827977847,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      },
+      {
+        "start": 7,
+        "converged": true,
+        "MMFF_energy_kcal_mol": -4.870432261855074,
+        "physical_degeneracy": null,
+        "thermodynamic_weight": null
+      }
+    ],
+    "best_xyz": "results_phase25_27\\phase25\\starting_structures\\HE_dimethyl.xyz"
+  }
+}

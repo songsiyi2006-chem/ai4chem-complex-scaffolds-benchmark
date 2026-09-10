@@ -1,0 +1,26 @@
+{
+  "timestamp_utc": "2026-09-10T14:08:13.063058+00:00",
+  "tests_run": 18,
+  "failures": 0,
+  "errors": 0,
+  "test_scope": "analytic software fixtures + structural/split checks, not scientific validation",
+  "requested_forcefield_starts": 144,
+  "converged_forcefield_starts": 144,
+  "conditions": 96,
+  "split_counts": {
+    "test_both": 16,
+    "test_catalyst": 16,
+    "test_substrate": 32,
+    "train": 32
+  },
+  "successful_isolated_single_points": 4,
+  "quantum_production_paths": 0,
+  "solvated_interface_trajectories": 0,
+  "nonadiabatic_trajectories": 0,
+  "python": "3.14.6 | packaged by Anaconda, Inc. | (main, Jul  9 2026, 14:29:05) [MSC v.1942 64 bit (AMD64)]",
+  "numpy": "2.5.2",
+  "scipy": "1.18.1",
+  "rdkit": "2026.03.5",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "scientific_acceptance": "NOT_PASSED"
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "facet": "100",
+    "atoms": 64,
+    "cell_A": [
+      [
+        10.210621920333747,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        10.210621920333747,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        35.415
+      ]
+    ],
+    "lattice_parameter_A": 3.61,
+    "lattice_parameter_origin": "provisional conventional Cu value; converge with chosen functional before production",
+    "water_molecules": 0,
+    "ions": 0,
+    "CO_molecules": 0,
+    "electrode_potential_V": null,
+    "relaxed": false
+  },
+  {
+    "facet": "111",
+    "atoms": 64,
+    "cell_A": [
+      [
+        10.210621920333747,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        8.842657971447272,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        36.25270341532365
+      ]
+    ],
+    "lattice_parameter_A": 3.61,
+    "lattice_parameter_origin": "provisional conventional Cu value; converge with chosen functional before production",
+    "water_molecules": 0,
+    "ions": 0,
+    "CO_molecules": 0,
+    "electrode_potential_V": null,
+    "relaxed": false
+  },
+  {
+    "facet": "211",
+    "atoms": 96,
+    "cell_A": [
+      [
+        12.505406830647294,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        10.210621920333747,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        38.10576980716
+      ]
+    ],
+    "lattice_parameter_A": 3.61,
+    "lattice_parameter_origin": "provisional conventional Cu value; converge with chosen functional before production",
+    "water_molecules": 0,
+    "ions": 0,
+    "CO_molecules": 0,
+    "electrode_potential_V": null,
+    "relaxed": false
+  }
+]

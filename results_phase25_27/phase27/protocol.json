@@ -1,0 +1,77 @@
+{
+  "excitation_windows_nm": [
+    [
+      380,
+      400
+    ],
+    [
+      440,
+      460
+    ],
+    [
+      510,
+      530
+    ]
+  ],
+  "windows_origin": "proposed excitation bands; no experimental labels assigned",
+  "temperature_K": 298.15,
+  "independent_batches": 3,
+  "literature_active_space": "CAS(10e,9o), 15 singlet and 25 triplet roots, QD-NEVPT2; reference only, insufficient for all Ni-X/ligand channels without expansion",
+  "required_orbitals": [
+    "Ni 3d",
+    "occupied bpy pi and pi*",
+    "Ni-C sigma/sigma*",
+    "Ni-X sigma/sigma*",
+    "ligand donor orbitals by occupations/entanglement"
+  ],
+  "convergence": [
+    "active-space expansion",
+    "basis",
+    "state-average weights",
+    "root count",
+    "SOC",
+    "NAC and state overlap phases"
+  ],
+  "dynamics": "spin-mixed surface hopping with QM/MM explicit THF; direct and fitted surfaces analysed separately",
+  "nuclear_dt_fs": [
+    0.5,
+    0.25
+  ],
+  "electronic_substep_fs": [
+    0.02,
+    0.01
+  ],
+  "sensitivity": [
+    "SOC off",
+    "alternative decoherence",
+    "frustrated-hop policy",
+    "larger active space",
+    "longer trajectories"
+  ],
+  "outcomes": [
+    "first_Ni_C_break",
+    "first_Ni_X_break",
+    "radical_pair",
+    "cage_recombination",
+    "solvent_capture",
+    "permanent_separation",
+    "right_censored"
+  ],
+  "branch_rule": "bond excursion alone is never an absorbing product; persistence, recrossing and solvent/cage states required",
+  "CI": {
+    "confidence": 0.95,
+    "target_halfwidth": 0.05,
+    "unit": "independent absorbed-photon trajectories",
+    "sequential_rule": "fixed preregistered checkpoints or time-uniform intervals; cluster bootstrap by initial-condition batch"
+  },
+  "observables": [
+    "absorption",
+    "state populations",
+    "lifetime survival",
+    "competing-risk cumulative incidence",
+    "branch quantum yields",
+    "TA=GSB+SE+ESA convolved with instrument response"
+  ],
+  "trajectories_run": 0,
+  "production_status": "NOT_RUN"
+}

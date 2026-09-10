@@ -1,0 +1,29 @@
+[
+  {
+    "filename": "ja800793t_si_001.pdf",
+    "doi": "10.1021/ja800793t",
+    "url": "https://ndownloader.figshare.com/files/4627135",
+    "sha256": "33eee138abfaa38d663af5f0aaf59e6598bdf6cf1b61504d495a8dd0011bd2c2",
+    "figshare_article_id": 2928628,
+    "source_license": "CC BY-NC 4.0 according to Figshare metadata",
+    "retrieval_role": "literature reference, not independent predictions"
+  },
+  {
+    "filename": "ic3c03822_si_001.pdf",
+    "doi": "10.1021/acs.inorgchem.3c03822",
+    "url": "https://ndownloader.figshare.com/files/44610159",
+    "sha256": "0eaa3aeebb04a9717dc089af2c4025df0e4b1390561346ae2cda7e3b1743763b",
+    "figshare_article_id": 25250025,
+    "source_license": "CC BY-NC 4.0 according to Figshare metadata",
+    "retrieval_role": "literature reference, not independent predictions"
+  },
+  {
+    "filename": "jp0c08646_si_001.pdf",
+    "doi": "10.1021/acs.jpca.0c08646",
+    "url": "https://ndownloader.figshare.com/files/25563604",
+    "sha256": "9ef02f5a916b4e8c841807cb032a5c4c849744ff6093745539b37ef65da517dd",
+    "figshare_article_id": 13274896,
+    "source_license": "CC BY-NC 4.0 according to Figshare metadata",
+    "retrieval_role": "literature reference, not independent predictions"
+  }
+]

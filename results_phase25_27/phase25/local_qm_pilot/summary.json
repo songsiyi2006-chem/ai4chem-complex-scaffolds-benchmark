@@ -1,0 +1,21 @@
+{
+  "comparisons": [
+    {
+      "method": "pbe-d3bj",
+      "E_hartree": -594.9027949711834,
+      "Z_hartree": -594.8965536426383,
+      "Z_minus_E_kcal_mol": 3.9164927928005793,
+      "interpretation": "electronic single-point comparison of isolated MMFF geometries; not Gibbs energies or activation barriers"
+    },
+    {
+      "method": "wb97x-d",
+      "E_hartree": -595.4352432707938,
+      "Z_hartree": -595.4301707678029,
+      "Z_minus_E_kcal_mol": 3.1830436839757166,
+      "interpretation": "electronic single-point comparison of isolated MMFF geometries; not Gibbs energies or activation barriers"
+    }
+  ],
+  "total_successful_core_seconds": 647.8719999999994,
+  "complete_cost_accounting": false,
+  "cost_note": "failed logged jobs retained; initial interrupted and budget-stopped attempts lack complete core-second totals; not an AL cost benchmark"
+}
