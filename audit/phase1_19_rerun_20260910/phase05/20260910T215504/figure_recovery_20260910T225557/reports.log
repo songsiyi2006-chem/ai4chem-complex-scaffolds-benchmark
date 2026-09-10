@@ -1,0 +1,5 @@
+[p5 22:56:03] PHASE 5 chemical world model — stage=reports — engine=GFN2-xTB
+[p5 22:56:03] hydrated Module-A state from results/cache
+[p5 22:56:03] hydrated Module-B state from results JSON
+[p5 22:56:03] hydrated Module-C state from results JSON
+[p5 22:56:03] PHASE 5 done in 0.0 min — 0 fallbacks, 9 warnings

@@ -1,0 +1,167 @@
+[p5 21:55:08] PHASE 5 chemical world model — stage=all — engine=GFN2-xTB
+[p5 21:55:08] ======================================================================
+[p5 21:55:08] MODULE A — automated reaction network (GFN2-xTB topology)
+[p5 21:55:08] ======================================================================
+[p5 21:55:08] A.1 building species through RDKit programmatic gates ...
+[p5 21:55:08]   R        = CC12Cc3ccccc3N1C2
+[p5 21:55:08]   P_target = CC1C=Nc2ccccc2C1 (chiral centers: 1)
+[p5 21:55:08]   P_elim   = CC1=Cc2ccccc2NC1
+[p5 21:55:08]   Cat      = O=P1(O)Oc2ccc3ccccc3c2-c2ccc3ccccc3c2O1
+[p5 21:55:08] A.2 GFN2-xTB opt+hess of closed-shell species ...
+[p5 21:55:12]   species R: G=-18688.00 kcal/mol, n_imag=0 (5 s)
+[p5 21:55:15]   species P_target: G=-18690.94 kcal/mol, n_imag=0 (2 s)
+[p5 21:55:17]   species P_elim: G=-18691.19 kcal/mol, n_imag=0 (2 s)
+[p5 21:55:32]   species Cat: G=-42787.23 kcal/mol, n_imag=0 (15 s)
+[p5 21:55:32]   species H2: G=-618.54 kcal/mol, n_imag=0 (0 s)
+[p5 21:55:45]   species P_poly: G=-36218.87 kcal/mol, n_imag=0 (13 s)
+[p5 21:55:45] A.3 ionic partners: aziridinium R-H+ and chiral phosphate anion ...
+[p5 21:55:47]   species Rprot: G=-18745.39 kcal/mol, n_imag=0 (1 s)
+[p5 21:55:58]   species CPAneg: G=-42638.38 kcal/mol, n_imag=0 (11 s)
+[p5 21:55:58] A.4 Tier-2: assembling H-bonded complex RC and aziridinium ion pair I_RC ...
+[p5 21:58:31] A.5 Tier-2 relaxed scan: TS1 = aziridinium C2-N1 cleavage ...
+[p5 21:58:48]     TS1-scan(dN1-C2) frame 1/6 s=1.600 E=-61722.168 Eh-kcal
+[p5 21:59:12]     TS1-scan(dN1-C2) frame 2/6 s=1.800 E=-61711.133 Eh-kcal
+[p5 21:59:50]     TS1-scan(dN1-C2) frame 3/6 s=2.000 E=-61700.925 Eh-kcal
+[p5 22:00:33]     TS1-scan(dN1-C2) frame 4/6 s=2.200 E=-61714.987 Eh-kcal
+[p5 22:01:24] !! WARNING: TS1-scan(dN1-C2) frame s=2.350 failed (xtb geometry optimization did not converge: 23 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.125 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.000 sec
+ * ratio c/w:     0.000 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 51.319 sec
+ *  cpu-time:     0 d,  0 h,  0 min, 16.625 sec
+ * ratio c/w:     0.324 speedup
+
+); skipped
+[p5 22:02:20] !! WARNING: TS1-scan(dN1-C2) frame s=2.500 failed (xtb geometry optimization did not converge: 18 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.130 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.000 sec
+ * ratio c/w:     0.000 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 54.800 sec
+ *  cpu-time:     0 d,  0 h,  0 min, 17.469 sec
+ * ratio c/w:     0.319 speedup
+
+); skipped
+[p5 22:03:07]   TS1: d(N1-C2)*=2.00 A, G=-61452.68, n_imag=1
+[p5 22:04:35] A.6 Tier-2: diastereomeric TS2a proton-relay pair (Re/Si faces) ...
+[p5 22:06:08]   I1CatM: G=-61413.42, n_imag=1
+[p5 22:07:27]   I1Catm: G=-61417.68, n_imag=1
+[p5 22:08:09]     TS2a-scan(dC2-H) frame 1/5 s=2.200 E=-61696.629 Eh-kcal
+[p5 22:09:05] !! WARNING: TS2a-scan(dC2-H) frame s=1.900 failed (xtb geometry optimization did not converge: 65 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.130 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.000 sec
+ * ratio c/w:     0.000 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 55.490 sec
+ *  cpu-time:     0 d,  0 h,  0 min, 20.312 sec
+ * ratio c/w:     0.366 speedup
+
+); skipped
+[p5 22:09:43]     TS2a-scan(dC2-H) frame 3/5 s=1.600 E=-61647.570 Eh-kcal
+[p5 22:10:37] !! WARNING: TS2a-scan(dC2-H) frame s=1.350 failed (xtb geometry optimization did not converge: 57 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.124 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.000 sec
+ * ratio c/w:     0.000 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 52.977 sec
+ *  cpu-time:     0 d,  0 h,  0 min, 19.047 sec
+ * ratio c/w:     0.360 speedup
+
+); skipped
+[p5 22:11:21]     TS2a-scan(dC2-H) frame 5/5 s=1.150 E=-61722.838 Eh-kcal
+[p5 22:12:10]   TS2a: d(C2-H)*=1.60 A, G=-61398.56, n_imag=3
+[p5 22:12:38]     TS2b-scan(dC3-H) frame 1/4 s=1.600 E=-61718.162 Eh-kcal
+[p5 22:13:06]     TS2b-scan(dC3-H) frame 2/4 s=1.400 E=-61713.360 Eh-kcal
+[p5 22:13:33]     TS2b-scan(dC3-H) frame 3/4 s=1.250 E=-61707.147 Eh-kcal
+[p5 22:14:04]     TS2b-scan(dC3-H) frame 4/4 s=1.100 E=-61698.169 Eh-kcal
+[p5 22:14:53]   TS2b: d(C3-H)*=1.10 A, G=-61449.24, n_imag=2
+[p5 22:16:01]   I1Cat (unlocked): G=-61458.29, n_imag=0
+[p5 22:16:01] A.8 Tier-1: intrinsic thermal cleavage scan on neutral R ...
+[p5 22:16:01]     thermal-scan frame 1/5 s=1.600 E=-18777.641 Eh-kcal
+[p5 22:16:02]     thermal-scan frame 2/5 s=1.800 E=-18765.596 Eh-kcal
+[p5 22:16:02]     thermal-scan frame 3/5 s=2.000 E=-18752.920 Eh-kcal
+[p5 22:16:03]     thermal-scan frame 4/5 s=2.200 E=-18743.069 Eh-kcal
+[p5 22:16:04]     thermal-scan frame 5/5 s=2.400 E=-18734.620 Eh-kcal
+[p5 22:16:05] assigned parameter: dGTS2a_trap = 8.0  (post-RDS cation capture; computed raw = 59.73 kcal (relaxed scan collapses into product well))
+[p5 22:16:05] assigned parameter: dGTS2b_trap = 6.0  (C3 deprotonation capture; computed raw = 9.05 kcal)
+[p5 22:16:05] !! WARNING: network ΔG dG_proton_transfer = -104.8 kcal/mol outside sanity window
+[p5 22:16:05] !! WARNING: network ΔG dG_TS1_vs_RC = -81.0 kcal/mol outside sanity window
+[p5 22:16:05] !! WARNING: network ΔG dG_I1_vs_RC = -86.6 kcal/mol outside sanity window
+[p5 22:16:06] MODULE A complete — network written to results JSON
+[p5 22:16:06] ======================================================================
+[p5 22:16:06] MODULE B — stiff microkinetic world model (Eyring-Polanyi, Radau)
+[p5 22:16:06] ======================================================================
+[p5 22:16:06] assigned parameter: k_on(R+Cat→RC) = 1000000000.0  (Smoluchowski diffusion-limited cap)
+[p5 22:16:06] assigned parameter: k_dimer(2I1→P_poly) = 500.0  (cationic oligomerization surrogate)
+[p5 22:16:06] assigned parameter: ΔG‡(P_elim→Q+H2) = 52.0  (dehydrogenative aromatization reference barrier)
+[p5 22:16:08] 298 K: yield=0.0%  ee=0.0%  selectivity=0.1  stiffness ratio=7.03e+108
+[p5 22:16:08] B: temperature sweep T=250..350 K ...
+[p5 22:16:08]   T=250 K: yield=0.0%  ee=0.00%  sel=0.0
+[p5 22:16:08]   T=260 K: yield=0.0%  ee=0.00%  sel=0.0
+[p5 22:16:09]   T=270 K: yield=0.0%  ee=0.00%  sel=0.0
+[p5 22:16:09]   T=280 K: yield=0.0%  ee=0.00%  sel=0.1
+[p5 22:16:09]   T=290 K: yield=0.0%  ee=0.00%  sel=0.1
+[p5 22:16:09]   T=300 K: yield=0.0%  ee=0.00%  sel=0.1
+[p5 22:16:10]   T=310 K: yield=0.0%  ee=0.00%  sel=0.1
+[p5 22:16:10]   T=320 K: yield=0.0%  ee=0.00%  sel=0.1
+[p5 22:16:10]   T=330 K: yield=0.0%  ee=0.00%  sel=0.1
+[p5 22:16:10]   T=340 K: yield=0.0%  ee=0.00%  sel=0.1
+[p5 22:16:10]   T=350 K: yield=0.0%  ee=0.00%  sel=0.1
+[p5 22:16:10] MODULE B complete
+[p5 22:16:10] ======================================================================
+[p5 22:16:10] MODULE C — TS-conditioned inverse catalyst design
+[p5 22:16:10] ======================================================================
+[p5 22:16:10] C.1 ESP field extraction around the charge-redistribution center
+[p5 22:16:10] cache hit: sp_CPAneg
+[p5 22:16:10]   ESP range -1.056..1.340 e/A; hotspot vector length 1.59 A
+[p5 22:16:10] C.2 evolutionary 3,3'-scaffold assembly (RDKit valency gates + GFN2-xTB fitness)
+[p5 22:17:18]   gen0 cand 27/81 Me/OMe-Ph@+23°  E(TS·C)=-77447.8 kcal [69s]
+[p5 22:19:27]   gen0 cand 55/81 iPr-Ph/H@+27°  E(TS·C)=-76892.5 kcal [197s]
+[p5 22:19:37]   gen0 cand 56/81 iPr-Ph/tBu@+46°  E(TS·C)=-84846.4 kcal [207s]
+[p5 22:29:22]   GA winner: iPr-Ph/tBu @+36°
+[p5 22:29:22] C.3 exploratory constrained complex-energy comparison; not barrier proof
+[p5 22:33:58] cache hit: sp_R
+[p5 22:40:45] cache hit: sp_R
+[p5 22:42:24] !! WARNING: complex-energy proxy -25.18 kcal/mol is NOT a verified barrier reduction
+[p5 22:42:25] MODULE C complete
+[p5 22:42:25] !! WARNING: Module D skipped: unvalidated corrections require --exploratory-kinetics
+[p5 22:42:29] figure 1 -> fig1_reaction_network_topology.png
+$CAMPAIGN\phase05\20260910T215504\run_phase5_chemical_world_model.py:2262: UserWarning: Tight layout not applied. The bottom and top margins cannot be made large enough to accommodate all Axes decorations.
+  fig.tight_layout()
+Traceback (most recent call last):
+  File "$CAMPAIGN\phase05\20260910T215504\run_phase5_chemical_world_model.py", line 2506, in <module>
+    main()
+  File "$CAMPAIGN\phase05\20260910T215504\run_phase5_chemical_world_model.py", line 2491, in main
+    figure_2()
+  File "$CAMPAIGN\phase05\20260910T215504\run_phase5_chemical_world_model.py", line 2265, in figure_2
+    fig.savefig(p, dpi=300, bbox_inches="tight", facecolor="white")
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\matplotlib\figure.py", line 3515, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\matplotlib\backend_bases.py", line 2289, in print_figure
+    result = print_method(
+             ^^^^^^^^^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\matplotlib\backend_bases.py", line 2146, in <lambda>
+    print_method = functools.wraps(meth)(lambda *args, **kwargs: meth(
+                                                                 ^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\matplotlib\backends\backend_agg.py", line 537, in print_png
+    self._print_pil(filename_or_obj, "png", pil_kwargs, metadata)
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\matplotlib\backends\backend_agg.py", line 485, in _print_pil
+    FigureCanvasAgg.draw(self)
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\matplotlib\backends\backend_agg.py", line 433, in draw
+    self.renderer = self.get_renderer()
+                    ^^^^^^^^^^^^^^^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\matplotlib\backends\backend_agg.py", line 448, in get_renderer
+    self.renderer = RendererAgg(w, h, self.figure.dpi)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\matplotlib\backends\backend_agg.py", line 71, in __init__
+    self._renderer = _RendererAgg(int(width), int(height), dpi)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: __init__(): incompatible constructor arguments. The following argument types are supported:
+    1. matplotlib.backends._backend_agg.RendererAgg(width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex, dpi: typing.SupportsFloat | typing.SupportsIndex)
+
+Invoked with: 3600, 599229264149, 300

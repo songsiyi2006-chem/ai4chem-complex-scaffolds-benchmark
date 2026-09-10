@@ -1,0 +1,8 @@
+[p5 22:55:58] PHASE 5 chemical world model — stage=figures — engine=GFN2-xTB
+[p5 22:55:58] hydrated Module-A state from results/cache
+[p5 22:55:58] hydrated Module-B state from results JSON
+[p5 22:55:58] hydrated Module-C state from results JSON
+[p5 22:56:00] figure 1 -> fig1_reaction_network_topology.png
+[p5 22:56:01] figure 2 -> fig2_stiff_microkinetics_profile.png
+[p5 22:56:02] figure 3 -> fig3_ts_stabilization_dock.png
+[p5 22:56:02] PHASE 5 done in 0.1 min — 0 fallbacks, 9 warnings

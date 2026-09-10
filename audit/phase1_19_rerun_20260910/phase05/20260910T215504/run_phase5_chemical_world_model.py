@@ -2224,11 +2224,11 @@ def figure_2():
     sw = (XD.get("T_sweep_winner") if designed else XB["T_sweep"])
     if designed:
         base_sw = XB["T_sweep"]
-        ax2.plot([d["ee"] for d in base_sw],
+        ax2.plot([100 * d["ee"] for d in base_sw],
                  [100 * d["yield"] for d in base_sw], "--", color="#aaaaaa",
                  lw=1.4, zorder=1)
         ax2.annotate("baseline Cat (ee≈0 diagonal)", (
-            base_sw[-1]["ee"], 100 * base_sw[-1]["yield"]),
+            100 * base_sw[-1]["ee"], 100 * base_sw[-1]["yield"]),
             fontsize=8.4, color="#888888", xytext=(4, -10),
             textcoords="offset points")
     Ts = [d["T"] for d in sw]
@@ -2249,9 +2249,9 @@ def figure_2():
     ee_c = (XD.get("ee_curtin_winner_298K") if designed
             else XB["ee_curtin_298K"])
     ax2.axvline(ee_c, color="#8e44ad", ls="--", lw=1.2)
-    ax2.text(ee_c, 0.04, f" Curtin–Hammett ee limit "
+    ax2.text(ee_c, min(ys) - 2, f" Curtin–Hammett ee limit "
              f"({ee_c:.1f}% @298 K)", fontsize=8.8, color="#8e44ad",
-             rotation=90, va="bottom", transform=ax2.get_xaxis_transform())
+             rotation=90, va="bottom")
     ax2.set_xlabel("enantioselectivity  ee (%)", fontsize=12)
     ax2.set_ylabel("conditional model yield of P_target (%)", fontsize=12)
     ax2.set_title("Panel B — yield–ee Pareto frontier vs temperature "

@@ -319,6 +319,30 @@ P3 latest read-only observation: original PID14832 alive, DCD26 complete frames,
 
 ## Commands, dependencies and verification
 
+### 2026-09-10: default Phase5 A/B/C completed; drawing repaired separately
+
+Fresh attempt 215504 finished Module A at 22:16:06, B at 22:16:10 and C at
+22:42:25. The default correctly skipped optional exploratory Module D. It then
+failed in figure 2: a label at `min(yield_percent)-2` was outside the tiny
+near-zero-yield axis and tight bounding-box rendering requested a canvas
+599,229,264,149 pixels tall. The label now uses data-x/axes-y coordinates.
+The optional designed-panel baseline ee was already percent and its erroneous
+extra factor of 100 was also removed. No calculated concentrations were changed.
+
+`recover_phase5_figures.py` copied saved A/B/C evidence into the separate
+`figure_recovery_20260910T225557` directory, hashed original inputs, rendered
+three PNGs (largest dimension 4011 pixels) and generated both reports with
+exit codes zero. Original result files and failed process record remain intact.
+Figure 2 was visually inspected. Recovery does not establish scientific
+acceptance: TS2a/TS2b retain three/two imaginary modes; calculated 298 K target
+yield is approximately 4.65e-16 (fraction); the catalyst complex-energy change
+is not a verified activation-barrier reduction. Do not relabel this as a
+successful catalyst or a validated transition-state network.
+
+A real near-zero-yield PNG regression prevents the oversized-canvas failure.
+Full regressions at 225623 passed 140+23 executions, no skipped tests; one
+Torch test is executed in both groups, so this is not 163 unique tests.
+
 Source directory: `work/phase1-5-fixes`. PrimaryPython:
 `C:/Users/HUIWEI/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe`.
 MolecularPython: `C:/Users/HUIWEI/miniconda3/envs/phase2ff/python.exe`.

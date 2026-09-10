@@ -97,6 +97,14 @@ def main():
             if sub.is_dir():
                 candidates.update(sub.glob('*.png'))
         candidates.update(folder.glob('continuation*.log'))
+        for recovery in folder.glob('figure_recovery_*'):
+            rec_path = recovery/'recovery_status.json'
+            if rec_path.exists() and json.loads(rec_path.read_text(encoding='utf-8')).get('status') == 'completed':
+                candidates.add(rec_path)
+                candidates.update(recovery.glob('*.py'))
+                candidates.update(recovery.glob('*.log'))
+                candidates.update(recovery.glob('*.md'))
+                candidates.update((recovery/'figures_phase5').glob('*.png'))
         for audit in folder.glob('*_postaudit_*'):
             if audit.is_dir():
                 candidates.update(audit.glob('*.json'))

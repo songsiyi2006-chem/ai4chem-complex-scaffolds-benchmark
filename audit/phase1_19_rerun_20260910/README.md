@@ -1,6 +1,6 @@
 # Phase 1–19 fresh rerun evidence
 
-Snapshot: 2026-09-10 21:55:50
+Snapshot: 2026-09-10 23:00:01
 
 This is an ongoing computational audit, not an all-phases-pass or experimental-validation claim.
 本目录是持续重算的阶段性证据，不能解读为 19 个阶段全部通过。历史根目录结果没有被自动覆盖。
@@ -17,7 +17,7 @@ Text paths are redacted. JSON null may denote an originally nonfinite/unavailabl
 - [Phase 2](phase02/20260910T135805/run_status.json): process_completed; specified numerical/software checks passed; see limitations
 - [Phase 3](phase03/20260910T144409/run_status.json): process_interrupted; not accepted: computation interrupted before required completion artifacts
 - [Phase 4](phase04/20260910T181601/run_status.json): process_failed; not accepted: process failed or was deliberately stopped; inspect log/notes
-- [Phase 5](phase05/20260910T215504/run_status.json): running; pending output review
+- [Phase 5](phase05/20260910T215504/run_status.json): process_failed; not accepted: process failed or was deliberately stopped; inspect log/notes
 - [Phase 6](phase06/20260910T135824/run_status.json): process_failed; not accepted: process failed or was deliberately stopped; inspect log/notes
 - [Phase 7](phase07/20260910T181009/run_status.json): process_interrupted; not accepted: computation interrupted before required completion artifacts
 - [Phase 9](phase09/20260910T135531/run_status.json): process_completed; specified numerical/software checks passed; see limitations

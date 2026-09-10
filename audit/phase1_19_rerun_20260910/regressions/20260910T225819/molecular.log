@@ -1,0 +1,41 @@
+test_angular_cusp_removes_smooth_directional_background (test_phase10_13_rerun.RerunTests.test_angular_cusp_removes_smooth_directional_background) ... ok
+test_backend_path (test_phase10_13_rerun.RerunTests.test_backend_path) ... ok
+test_bath_charge_order_and_translation (test_phase10_13_rerun.RerunTests.test_bath_charge_order_and_translation) ... ok
+test_partial_reference_failure_is_explicit (test_phase10_13_rerun.RerunTests.test_partial_reference_failure_is_explicit) ... [refs] running Psi4 1.11 DETCI per-energy subprocesses (HF & FCI in aug-cc-pV{T,Q}Z, CCSD(T) in QZ -> CBS) ...
+[refs] good: HF=-1.100000 CCSD(T)=-1.100000 FCI/CBS=-1.100000
+ok
+test_phase12_selected_rows_own_storage (test_phase10_13_rerun.RerunTests.test_phase12_selected_rows_own_storage) ... ok
+test_plant_timestep_respects_short_remaining_interval (test_phase10_13_rerun.RerunTests.test_plant_timestep_respects_short_remaining_interval) ... ok
+test_sac_update (test_phase10_13_rerun.RerunTests.test_sac_update) ... ok
+test_scalar_training_both_modes (test_phase10_13_rerun.RerunTests.test_scalar_training_both_modes) ... [refs] bad hf/aug-cc-pVTZ: synthetic reference failure
+[refs] bad fci/aug-cc-pVTZ: synthetic reference failure
+[refs] bad hf/aug-cc-pVQZ: synthetic reference failure
+[refs] bad fci/aug-cc-pVQZ: synthetic reference failure
+[refs] bad ccsd(t)/aug-cc-pVQZ: synthetic reference failure
+[refs] bad: incomplete -> literature fallback
+[refs] Psi4 done in 0s (1/2 systems)
+      test step     0  loss = 2.689e-01
+      test step     1  loss = 3.910e-01
+      test step     0  loss = 1.006e+00
+      test step     1  loss = 7.165e-01
+ok
+test_vmc_ad_and_parameter_gradient (test_phase10_13_rerun.RerunTests.test_vmc_ad_and_parameter_gradient) ... ok
+test_all_wrong_hashes_and_state_rejected_without_mutation (test_phase15_checkpoint.CheckpointTests.test_all_wrong_hashes_and_state_rejected_without_mutation) ... ok
+test_atomic_replace_failure_keeps_prior_generation (test_phase15_checkpoint.CheckpointTests.test_atomic_replace_failure_keeps_prior_generation) ... ok
+test_corrupt_samples_rejected (test_phase15_checkpoint.CheckpointTests.test_corrupt_samples_rejected) ... ok
+test_cpu_real_checkpoint (test_phase15_checkpoint.CheckpointTests.test_cpu_real_checkpoint) ... ok
+test_explicit_flag_required (test_phase15_checkpoint.CheckpointTests.test_explicit_flag_required) ... ok
+test_full_sampling_defaults_unchanged (test_phase15_checkpoint.CheckpointTests.test_full_sampling_defaults_unchanged) ... ok
+test_incomplete_cannot_be_marked_complete (test_phase15_checkpoint.CheckpointTests.test_incomplete_cannot_be_marked_complete) ... ok
+test_real_roundtrip_continues_random_stream_and_samples (test_phase15_checkpoint.CheckpointTests.test_real_roundtrip_continues_random_stream_and_samples) ... ok
+test_all_six_converged_methods (test_phase7_resume.ResumeTests.test_all_six_converged_methods) ... ok
+test_changed_cache_rejected (test_phase7_resume.ResumeTests.test_changed_cache_rejected) ... ok
+test_nonfinite_and_unconverged_rejected (test_phase7_resume.ResumeTests.test_nonfinite_and_unconverged_rejected) ... ok
+test_path_escape_rejected (test_phase7_resume.ResumeTests.test_path_escape_rejected) ... ok
+test_near_zero_yield_bounded_canvas (test_phase5_plot.PlotTests.test_near_zero_yield_bounded_canvas) ... ok
+test_real_torch_training_checkpoint_roundtrip_and_no_overwrite (test_phase15_16_19_rerun.RerunTests.test_real_torch_training_checkpoint_roundtrip_and_no_overwrite) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 7.042s
+
+OK

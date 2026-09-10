@@ -65,6 +65,54 @@
       "files": {
         "results_phase7/checkpoints/7A/R1.60.json": "40882c5690183ebb6b4d1e869a51bc1515ef5889df6eda59058100e2b9cb9d12"
       }
+    },
+    "results_phase7/checkpoints/7A/R1.75.json": {
+      "basis": "6-31g",
+      "files": {
+        "results_phase7/checkpoints/7A/R1.75.json": "49acfcdd93734bc4d747a29f318aa0e4413b9320cbeae82badb01eed7e65c08b"
+      }
+    },
+    "results_phase7/checkpoints/7A/R1.90.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R1.90.json": "fa0c0f90b6ad95f229ab850f05bf45a81dddf9686fd5d6651b7656f9a27939fa"
+      }
+    },
+    "results_phase7/checkpoints/7A/R2.05.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R2.05.json": "dcc3b585b5598358a8c884243e9bf9ef0d314b4d397694ca6eacf42c8fe43bd8"
+      }
+    },
+    "results_phase7/checkpoints/7A/R2.20.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R2.20.json": "d3ccfdfa82ea2571f6111495c63f977f32d1a53ab1f309ef9477f20f5a6732ec"
+      }
+    },
+    "results_phase7/checkpoints/7A/R2.40.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R2.40.json": "8809182da0cd3fa0ba52e555af36c1990b68848a5d8768775e2dcc01eb20e70d"
+      }
+    },
+    "results_phase7/checkpoints/7A/R2.60.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R2.60.json": "93445787c1ecb48d455c802badfa452e96763311c21dd7c8b432d230067dbb56"
+      }
+    },
+    "results_phase7/checkpoints/7A/R2.90.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R2.90.json": "002619e9e8085a5a012017cd93fab0fca2118a3c314b21a662a8db1a4d910e1b"
+      }
+    },
+    "results_phase7/checkpoints/7A/R3.20.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R3.20.json": "7c02860ff789036d3d9d37cf1a5ba6bfa1216a9f7a4440062f96d5dec8dc4282"
+      }
     }
   },
   "commands": [
@@ -111,8 +159,204 @@
         "2"
       ],
       "started": 1789048471.9679172,
+      "status": "exited",
+      "pid": 21760,
+      "exit_code": 0,
+      "finished": 1789048729.8201313
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "4",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789048729.951645,
+      "status": "exited",
+      "pid": 6968,
+      "exit_code": 0,
+      "finished": 1789049162.4638708
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "5",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789049162.5918949,
+      "status": "exited",
+      "pid": 2536,
+      "exit_code": 0,
+      "finished": 1789049572.5419188
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "6",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789049572.714327,
+      "status": "exited",
+      "pid": 29008,
+      "exit_code": 0,
+      "finished": 1789049939.8059118
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "7",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789049939.9053833,
+      "status": "exited",
+      "pid": 3760,
+      "exit_code": 0,
+      "finished": 1789050786.0769694
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "8",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789050786.2373197,
+      "status": "exited",
+      "pid": 32368,
+      "exit_code": 0,
+      "finished": 1789051130.943016
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "9",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789051131.1038303,
+      "status": "exited",
+      "pid": 34396,
+      "exit_code": 0,
+      "finished": 1789051455.960822
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "10",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789051456.057974,
+      "status": "exited",
+      "pid": 11152,
+      "exit_code": 0,
+      "finished": 1789051887.338689
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7B",
+        "--point",
+        "0",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2",
+        "--skip-tiers",
+        "0",
+        "--cube-r",
+        "-1.0"
+      ],
+      "started": 1789051887.4829936,
       "status": "running",
-      "pid": 21760
+      "pid": 7120
     }
   ],
   "pending": [

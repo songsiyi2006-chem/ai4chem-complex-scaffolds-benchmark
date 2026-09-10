@@ -1,0 +1,84 @@
+{
+  "status": "completed",
+  "scope": "figures/reports only; original calculation unchanged",
+  "source_sha256": {
+    "phase_audit.py": "30850a3309de7ee5290ed156e7df52b9b7dc0c4338dfe9e64115318e0b425754",
+    "run_phase5_chemical_world_model.py": "2efe1c57ac87cc46ea59856a7156ca298857563cf4908dd08bbae31d033c7892"
+  },
+  "input_sha256": {
+    "results_phase5\\phase5_results.json": "9ea1b288c09d338738bea96979a846963f1ca5b9963966b99a5c6d65b536388e",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_I1Cat.json": "0b6610f64f42405f84ddcf35c0f458be2c9ace5536c77d6887056b8b78fbe415",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_I1Cat_face_minus35.json": "e92ef910929e36060d70b7a856f86d702447349b85c57d18c61287b7842908d7",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_I1Cat_face_plus35.json": "9c40bdf93933e7101a5a58dfd244059920261d0ed6d14ac0d6aeb0e354d5615a",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_I1Cat_unlocked.json": "3838b9c5fa96e75d0b82e713c6ce8c87ae75616b613b94f0ce145dbc72e10cae",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_IRC.json": "f8bff8e9b85c0f4c63fb9a14605fbcd209ba45496f3b91af8bdfcd0ab26062b5",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_RC.json": "52904bb132e3ba9ba882b884c7ba4e28d021284ea6b8f16e33e9eaa6e2c071ee",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_TS1.json": "3cc185a12ea8caa7ac17d1a076c1a783672b41608bb92aecba12b1ce2b1d665f",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_TS1_therm.json": "d057f2d5e6923f41d95e637f25cb5714d14b2cc078d9ecfa7d81f2169e4938a3",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_TS2a.json": "851b983dbf810c263a0cc4ea14fca87d4a74be24418190e3a42497a3e8639d89",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\cx_TS2b.json": "70da498fa27136dadc83695332436bea7ba00f590ed7dc3b2a26e2a7710b160b",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\sp_Cat.json": "50af4646bfb014ac20805ff45b3cda8bf2b95284bc76c3dccc2615a3348c3e6c",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\sp_CPAneg.json": "46e41d15cddd571b19b869ba01bada1167ab616230c65c83a093afad81702262",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\sp_H2.json": "d66020928906c61f2831c53217c67101bde01ee5377d59d3cf85d41b95fb8a0f",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\sp_P_elim.json": "4571b8a9481fb15a1e53a38937cb439c38d153ad823a8eb0e5baaba304fc3f6b",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\sp_P_poly.json": "1cd17bfa9fe2aebbb387f63e36d9bcb467a6b4a1d4922e50d4403af4afe7e452",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\sp_P_target.json": "2bc832966a573e80a49b18fc19de757833020078cfe14e84c2beeb1f7a62b392",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\sp_R.json": "0f5383a4cf23157be92219d31e871c9e2b92f95720b66d3c473372a42dd3ae90",
+    "results_phase5\\cache_phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4\\sp_Rprot.json": "ca1407564b9e3d00244bc6fbfc3c0766643d211f1c0354ce498c428c278aac7c",
+    "results_phase5\\scan_diagnostics\\thermal-scan\\000.json": "9dfd736e51004acf64367d22a6b4119cd222d11bae2ff3185fe86f0124d2e45e",
+    "results_phase5\\scan_diagnostics\\thermal-scan\\001.json": "f00e1f48208091722b434d1fc0c4e796df52688bd3cea03dd06ca3c58c91e734",
+    "results_phase5\\scan_diagnostics\\thermal-scan\\002.json": "017f27980773c6a1cd6f44e8bff2063b74cd79276d1a1b359d2ad883772a1b37",
+    "results_phase5\\scan_diagnostics\\thermal-scan\\003.json": "7a867ffdfeba4027f01cfbf8bdac479088de5f83c5895e87e3a28b8976a9ab82",
+    "results_phase5\\scan_diagnostics\\thermal-scan\\004.json": "d00c62278a7bedd39c5e23ea8f46341f0b5612da22f9915fe6d5921f143e752a",
+    "results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\000.json": "14244a69bbe481e14bc9ca6cd5fa64f1ab76c8d79c9ba57da410e2ef02c6461b",
+    "results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\001.json": "723f3e467793484a187a574ff6f0015a1eae49cb897bee22931ac5d2e867917f",
+    "results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\002.json": "ee61ecbe34ac0bbfadff181d1c0550087889b0898367697e317289337e02f10b",
+    "results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\003.json": "c44c1a76cfb6b48bea09642e46fe80d415e75eea27f71daffcfdf052c0a42217",
+    "results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\004.json": "003fb371573ac690adbee553293615a8054c7a17a5bf3bce42d76cb1a5bc19d3",
+    "results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\005.json": "9f6f7d0e2b15f8916894a75ba55867e28ceeaa5bff4be99a95511711141eea9f",
+    "results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\000.json": "1085a06c214d6b1cf1fe507c13daf0ecbe88964cee8d8e1275ab7d8500dc5db5",
+    "results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\001.json": "6b12758d04cf4199cbf7d1eef4ad4478280bc9ba02e5f1a57a3dfa10b1934711",
+    "results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\002.json": "a51d0c4d812a8fe019e9c4d9dda967d9b384bfc6537941d7d7e151a32c091468",
+    "results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\003.json": "9c3d364f625506d85739c724bb0bc2043dc6269ca7cb0f71fce6528d2d9ffd4c",
+    "results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\004.json": "3a1f5d83ce66c0eb4d5d9665ce4e61378efdfd16e6c525abfa64918003699509",
+    "results_phase5\\scan_diagnostics\\TS2b-scan_dC3-H_\\000.json": "3bc9d7b44957cb52fadb59b5a8cd569c8f98991a80366ce946e6a52942da2b58",
+    "results_phase5\\scan_diagnostics\\TS2b-scan_dC3-H_\\001.json": "13dedd294fa503930e715c8f764ec6b8b8b5a9d3ecd10d0c4f26e673edd6cb7a",
+    "results_phase5\\scan_diagnostics\\TS2b-scan_dC3-H_\\002.json": "16137be43f92d18527765aac6eea637a8647767cfe0164ec15b9bc15abfb9a2a",
+    "results_phase5\\scan_diagnostics\\TS2b-scan_dC3-H_\\003.json": "979248b69b7f5ccb2934dc2f6e8195ac5f68b55189fca623db02d6380025b6c0"
+  },
+  "pid": 31128,
+  "commands": [
+    {
+      "stage": "figures",
+      "exit_code": 0
+    },
+    {
+      "stage": "reports",
+      "exit_code": 0
+    }
+  ],
+  "figures": {
+    "fig1_reaction_network_topology.png": {
+      "size": [
+        4011,
+        2411
+      ],
+      "sha256": "a8b031328d88c3430bfc465fb98ea04be20e1112c585251bf38027290b78c46e"
+    },
+    "fig2_stiff_microkinetics_profile.png": {
+      "size": [
+        4001,
+        1955
+      ],
+      "sha256": "a3c2322927745fda3d45802ce5eb9c938cce56c2c3692862a388530b1b5d6ba2"
+    },
+    "fig3_ts_stabilization_dock.png": {
+      "size": [
+        3859,
+        2721
+      ],
+      "sha256": "a35d631e5ba81a2f00ddb4313ffbfd6b80aca2f1a4ddc8dd1c90ec9b9771fc6f"
+    }
+  },
+  "scientific_acceptance": "not established: transition-state and kinetic-model limitations remain"
+}
