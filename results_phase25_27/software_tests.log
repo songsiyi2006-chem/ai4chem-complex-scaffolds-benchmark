@@ -16,8 +16,14 @@ test_component_maps_are_disjoint (phase25_27.test_analysis.InputTests.test_compo
 test_mirror_preserves_distances_and_inverts_axis (phase25_27.test_analysis.InputTests.test_mirror_preserves_distances_and_inverts_axis) ... ok
 test_no_enantiomer_or_family_leak (phase25_27.test_analysis.InputTests.test_no_enantiomer_or_family_leak) ... ok
 test_production_values_remain_unfilled (phase25_27.test_analysis.InputTests.test_production_values_remain_unfilled) ... ok
+test_alignment_does_not_superimpose_a_mirror (phase25_27.test_pilot.PilotTests.test_alignment_does_not_superimpose_a_mirror) ... ok
+test_negative_mode_rejected_despite_engine_zero_imaginaries (phase25_27.test_pilot.PilotTests.test_negative_mode_rejected_despite_engine_zero_imaginaries) ... ok
+test_repeated_modes_not_double_counted (phase25_27.test_pilot.PilotTests.test_repeated_modes_not_double_counted) ... ok
+test_ternary_atom_maps_and_both_faces (phase25_27.test_pilot.PilotTests.test_ternary_atom_maps_and_both_faces) ... ok
+test_thermochemistry_rejects_imaginary_modes (phase25_27.test_pilot.PilotTests.test_thermochemistry_rejects_imaginary_modes) ... ok
+test_wrong_mode_count_and_disagreement_rejected (phase25_27.test_pilot.PilotTests.test_wrong_mode_count_and_disagreement_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 18 tests in 0.159s
+Ran 24 tests in 0.198s
 
 OK

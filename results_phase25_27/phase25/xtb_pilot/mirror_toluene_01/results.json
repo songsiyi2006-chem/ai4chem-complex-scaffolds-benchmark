@@ -1,0 +1,49 @@
+[
+  {
+    "name": "C01_ternary_mirror",
+    "method": "GFN2-xTB",
+    "solvation": "ALPB(toluene)",
+    "charge": 0,
+    "unpaired_electrons": 0,
+    "threads": 1,
+    "optimization": "extreme",
+    "input_sha256": "802c574692e3a47c618273d3899f3f80d16f0a96b854273a33b7fb5885adecc6",
+    "status": "OPTIMIZED_FREQUENCY_PENDING",
+    "started_utc": "2026-09-10T15:09:11.449204+00:00",
+    "production_catalysis_usable": false,
+    "stationary_point_validated": false,
+    "optimization_command": [
+      "xtb",
+      "input.xyz",
+      "--gfn",
+      "2",
+      "--chrg",
+      "0",
+      "--uhf",
+      "0",
+      "--alpb",
+      "toluene",
+      "--acc",
+      "0.2",
+      "--opt",
+      "extreme"
+    ],
+    "optimization_exit_code": 0,
+    "optimization_converged": true,
+    "total_energy_hartree": -188.258157678733,
+    "wall_seconds": 1.911736799999744,
+    "finished_utc": "2026-09-10T15:09:13.361872+00:00",
+    "allocated_core_seconds": 1.911736799999744,
+    "files": {
+      ".xtboptok": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "charges": "917e34d343e0c33ed825c5dd52565c5963d699421700ed0df152718d594b1a91",
+      "input.xyz": "802c574692e3a47c618273d3899f3f80d16f0a96b854273a33b7fb5885adecc6",
+      "opt.out": "4519a52d640a23a54e17f1a5c4ef958b23939f6d1d255ca1b19c5b8e3aff458c",
+      "wbo": "7b64a571e2b6427b2e54940e8e30945738767dd188d522860aa7604632fc32b9",
+      "xtbopt.log": "1370e7c22306aec25b9c9248738a8e76b77a34f1034862d167cccfaa907c5868",
+      "xtbopt.xyz": "09997f919d543eafeae66af9e8a93316e618a826407c5f251df9799fb6e4ffdb",
+      "xtbrestart": "30ba552de612258a0406f48a8279882b42b7c9c99da3bd0c52f1a54b1b1e794b",
+      "xtbtopo.mol": "501945ad80d4ae7b5cb420724a817d1493c7d11fae8fd9347bdd4ed8458b6233"
+    }
+  }
+]

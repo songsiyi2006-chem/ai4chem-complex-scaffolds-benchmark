@@ -1,0 +1,162 @@
+{
+  "candidates": [
+    {
+      "name": "C01_I01_E_face-1_start0",
+      "initial_imine_E_Z": "E",
+      "final_imine_E_Z": "E",
+      "proton_location": "N_bound_candidate",
+      "relative_local_G50_kcal_mol": 0.0,
+      "minimum_frequency_cm1": 12.14,
+      "rotor_cutoff_G_shift_kcal_mol": 3.372799142273688,
+      "physical_degeneracy": null,
+      "ensemble_weight": null,
+      "product_R_S": null
+    },
+    {
+      "name": "C01_I01_E_face-1_start1",
+      "initial_imine_E_Z": "E",
+      "final_imine_E_Z": "E",
+      "proton_location": "N_bound_candidate",
+      "relative_local_G50_kcal_mol": 2.189440227398962,
+      "minimum_frequency_cm1": 6.64,
+      "rotor_cutoff_G_shift_kcal_mol": 3.393414123048685,
+      "physical_degeneracy": null,
+      "ensemble_weight": null,
+      "product_R_S": null
+    },
+    {
+      "name": "C01_I01_E_face+1_start0",
+      "initial_imine_E_Z": "E",
+      "final_imine_E_Z": "E",
+      "proton_location": "O_bound_candidate",
+      "relative_local_G50_kcal_mol": 6.231486967468227,
+      "minimum_frequency_cm1": 6.27,
+      "rotor_cutoff_G_shift_kcal_mol": 3.314705550731052,
+      "physical_degeneracy": null,
+      "ensemble_weight": null,
+      "product_R_S": null
+    },
+    {
+      "name": "C01_I01_E_face+1_start1",
+      "initial_imine_E_Z": "E",
+      "final_imine_E_Z": "E",
+      "proton_location": "N_bound_candidate",
+      "relative_local_G50_kcal_mol": 4.28677468384374,
+      "minimum_frequency_cm1": 5.41,
+      "rotor_cutoff_G_shift_kcal_mol": 3.6301113222922345,
+      "physical_degeneracy": null,
+      "ensemble_weight": null,
+      "product_R_S": null
+    },
+    {
+      "name": "C01_I01_Z_face-1_start0",
+      "initial_imine_E_Z": "Z",
+      "final_imine_E_Z": "Z",
+      "proton_location": "O_bound_candidate",
+      "relative_local_G50_kcal_mol": 7.082812979703033,
+      "minimum_frequency_cm1": 7.65,
+      "rotor_cutoff_G_shift_kcal_mol": 3.478212987939349,
+      "physical_degeneracy": null,
+      "ensemble_weight": null,
+      "product_R_S": null
+    },
+    {
+      "name": "C01_I01_Z_face-1_start1",
+      "initial_imine_E_Z": "Z",
+      "final_imine_E_Z": "Z",
+      "proton_location": "N_bound_candidate",
+      "relative_local_G50_kcal_mol": 4.035179605833742,
+      "minimum_frequency_cm1": 8.78,
+      "rotor_cutoff_G_shift_kcal_mol": 3.7672940035049614,
+      "physical_degeneracy": null,
+      "ensemble_weight": null,
+      "product_R_S": null
+    },
+    {
+      "name": "C01_I01_Z_face+1_start1",
+      "initial_imine_E_Z": "Z",
+      "final_imine_E_Z": "Z",
+      "proton_location": "O_bound_candidate",
+      "relative_local_G50_kcal_mol": 19.963355318703456,
+      "minimum_frequency_cm1": 7.46,
+      "rotor_cutoff_G_shift_kcal_mol": 3.297102606646428,
+      "physical_degeneracy": null,
+      "ensemble_weight": null,
+      "product_R_S": null
+    }
+  ],
+  "heavy_atom_fixed_mapping_RMSD_A": [
+    [
+      1.7509206369587185e-15,
+      1.940901119326369,
+      3.101615273427573,
+      3.8885413657701546,
+      3.162869087781901,
+      4.216327274267755,
+      4.386708937260117
+    ],
+    [
+      1.9409011193263683,
+      2.0371944246748787e-15,
+      2.934765775128613,
+      3.760545661250226,
+      3.013031692909308,
+      4.072817948021554,
+      3.4646535164275947
+    ],
+    [
+      3.101615273427571,
+      2.934765775128614,
+      1.3794773260992824e-15,
+      4.740200081121666,
+      1.4213125439716634,
+      4.683866940282343,
+      3.8036200000904006
+    ],
+    [
+      3.8885413657701573,
+      3.7605456612502253,
+      4.7402000811216665,
+      1.8684682800564928e-15,
+      5.006497841970283,
+      1.6630519169444948,
+      3.5686368321254465
+    ],
+    [
+      3.162869087781902,
+      3.0130316929093035,
+      1.4213125439716627,
+      5.006497841970285,
+      2.6166260928552193e-15,
+      4.732917230681119,
+      3.6151761983364237
+    ],
+    [
+      4.216327274267755,
+      4.072817948021553,
+      4.683866940282343,
+      1.6630519169444944,
+      4.732917230681119,
+      1.0212926592865903e-15,
+      3.3013733480270724
+    ],
+    [
+      4.386708937260116,
+      3.4646535164275947,
+      3.8036200000903984,
+      3.5686368321254456,
+      3.615176198336423,
+      3.3013733480270724,
+      2.64527835064274e-15
+    ]
+  ],
+  "rmsd_note": "Proper-rotation alignment only, no reflection or atom permutation; this diagnostic does not establish physical basin degeneracy.",
+  "mirror_control": {
+    "delta_energy_kcal_mol": 0.0,
+    "interpretation": "Parity/energy implementation check for an exactly reflected full complex. Does not validate sign inversion of product ee."
+  },
+  "signed_ee": null,
+  "activation_free_energy": null,
+  "conformer_search_converged": false,
+  "warning": "Local-minimum ordering must not be inserted into an R/S Eyring selectivity formula."
+}

@@ -1,5 +1,7 @@
 # Phase 25 — Conformer ensembles and blind selectivity prediction
 
+**Later calculations:** [current progress report](PHASE25_PROGRESS_EN.md). The body below preserves the initial `93b9ab1` release snapshot; it is not the latest completed-job count. Overall scientific acceptance remains incomplete.
+
 **Status: preliminary implementation and local pilot; scientific acceptance NOT achieved.** No catalytic rate, conversion, absolute product configuration or signed ee is currently established. All 96 proposed conditions remain **selectivity undetermined**. The local single-point ledger records actual successes, failures and interruptions separately.
 
 ## Evidence produced in this run

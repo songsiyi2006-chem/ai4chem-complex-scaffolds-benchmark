@@ -2,6 +2,8 @@
 
 **阶段性成果；三项科学任务均尚未完成验收。 / Preliminary release; none of the three scientific tasks has passed acceptance.**
 
+**新增真实计算 / New actual calculations:** [中文进展报告](../PHASE25_PROGRESS_ZH.md) · [English progress report](../PHASE25_PROGRESS_EN.md). These supersede the initial Phase25 job counts below: complete 117-atom ternary optimizations/Hessians, audited isolated-imine results in two solvents, a converged DFT geometry and frozen completed gradients from an ongoing native DFT Hessian. [Current frozen counters](phase25/pilot_progress.json) · [Ternary diagnostics](phase25/ternary_diagnostics.json) · [Local execution snapshot](phase25/local_execution_snapshot.json). Running/queued calculations are not accepted results.
+
 | Task | Verified deliverables in this release | Scientific outputs |
 |---|---|---|
 |25, asymmetric catalysis|6 complete catalyst connectivities with coordinate mirrors; 8 E/Z imine structures; 144 force-field starts; 96-condition grouped split; 10 seeds; isolated-imine DFT single points|Rates/conversion/signed ee unestablished; **选择性未判定**|

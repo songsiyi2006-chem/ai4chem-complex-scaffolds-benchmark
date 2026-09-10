@@ -10,26 +10,26 @@
     {
       "phase": 25,
       "criterion": "25.2",
-      "status": "NOT_RUN",
-      "evidence": "19-species/26-edge proposed topology; no computed complete R/S pathway network or validated exchange timescales"
+      "status": "PARTIAL",
+      "evidence": "Complete ternary xTB local minima include neutral/proton-transferred contact states; no DFT R/S path network or exchange-time validation"
     },
     {
       "phase": 25,
       "criterion": "25.3",
       "status": "PARTIAL",
-      "evidence": "144 MMFF starting conformers; no complex/TS DFT ensemble or correlated-wavefunction reference"
+      "evidence": "144 MMFF starts plus 8 full 117-atom ternary starts; 25 audited preliminary xTB minima across pilot jobs; no DFT TS ensemble or correlated reference"
     },
     {
       "phase": 25,
       "criterion": "25.4",
-      "status": "NOT_RUN",
-      "evidence": "No accepted TS, frequencies, IRC, standard-state solution free energies, or explicit-solvent PMFs"
+      "status": "PARTIAL",
+      "evidence": "Isolated-imine DFT optimization and checkpointed native DFT Hessian work; xTB frequency and native rotor-cutoff audits; no accepted DFT TS/IRC or explicit-solvent PMF"
     },
     {
       "phase": 25,
       "criterion": "25.5",
       "status": "NOT_RUN",
-      "evidence": "Kinetic and uncertainty kernels tested; no physical rates, conversion or signed ee"
+      "evidence": "Energy parity verified for an exact complete-system mirror; physical rates, conversion, signed ee and kinetic mirror/achiral/uncatalyzed controls remain unestablished"
     },
     {
       "phase": 25,

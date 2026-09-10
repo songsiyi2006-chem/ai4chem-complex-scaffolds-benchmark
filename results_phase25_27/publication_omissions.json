@@ -1,0 +1,10 @@
+{
+  "reason": "Live or queued quantum outputs remain local until a separate completion review. Successful native gradient checkpoints are published as an immutable snapshot; no Hessian completion is inferred.",
+  "prefixes": [
+    "results_phase25_27/phase25/stationary_pilot/pbe_E_freq_02/",
+    "results_phase25_27/phase25/stationary_pilot/pbe_Z_freq_01/",
+    "results_phase25_27/phase25/stationary_pilot/wb97xd_E_sp_01/",
+    "results_phase25_27/phase25/stationary_pilot/wb97xd_Z_sp_01/"
+  ],
+  "next_review": "Inspect local_queue status, completed result hashes, native Hessian output and modes; remove an omission only after review, then regenerate the manifest. Queue never pushes to GitHub automatically."
+}

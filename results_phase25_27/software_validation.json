@@ -1,6 +1,6 @@
 {
-  "timestamp_utc": "2026-09-10T14:08:13.063058+00:00",
-  "tests_run": 18,
+  "timestamp_utc": "2026-09-10T16:10:37.764686+00:00",
+  "tests_run": 24,
   "failures": 0,
   "errors": 0,
   "test_scope": "analytic software fixtures + structural/split checks, not scientific validation",
@@ -22,5 +22,10 @@
   "scipy": "1.18.1",
   "rdkit": "2026.03.5",
   "platform": "Windows-11-10.0.22631-SP0",
-  "scientific_acceptance": "NOT_PASSED"
+  "scientific_acceptance": "NOT_PASSED",
+  "execution_file_hashes_verified": 426,
+  "xtb_audited_pilot_jobs": 33,
+  "xtb_preliminary_minima": 25,
+  "new_DFT_optimizations": 2,
+  "native_Hessian_snapshot_jobs": 41
 }

@@ -1,0 +1,387 @@
+{
+  "snapshot_utc": "2026-09-10T16:10:30.622155+00:00",
+  "completed_native_gradient_jobs": 41,
+  "expected_native_jobs": 163,
+  "full_hessian_complete": false,
+  "frequencies": null,
+  "scientific_minimum_acceptance": false,
+  "records": [
+    {
+      "input_sha256": "0401c6e7beb975e94ba86536bb10ed5b95eb8abb8c17c7e39e9cec9c4027efe4",
+      "result_sha256": "3643ba6b53c6715d2a2b32c937e5e87a71d01e07be97b2ce7cbc04b2f09e1a84",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "063d9ea28de29d32a20446f2dd8a51ddf1ea4e3a5d3572744f555a941ecfb6f4",
+      "result_sha256": "5aef96aa9b1377f0d54f19d0994d213c4e6184f5a8cb767411e1849afb355f3e",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "06bef291c755483984fa148d76745f62ad332f9ba0825117c58a3b1632674dd5",
+      "result_sha256": "199627f9635c71a240d3ca0b6afd6cc4e39ac15f790c0501e29f96378a7bed33",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "11680d031f29aafe167711d783f14304a086519b7919689c06a59114f4ad8b01",
+      "result_sha256": "65f5a422b1e00ded3a58c08738f320b4798ec5841c90709b1da5bd758a70c76a",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "26e65e72a576b3acca5586da097bd7f41274c3fc9ffc8e9dd3be77302544c5f2",
+      "result_sha256": "a770ab99e2823d765c679234516b33cee8d8644ece38a6e7de6c81c95d42a090",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "2e012b849750b42d61cbd7f2e380023161c421fdb5a09dcf899bab34a49db9c7",
+      "result_sha256": "5bf0675520e4edd8c4fc85822c4d0df0d3ca73c75824ea65c8bec87c6d63a6aa",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "3152a4abd575cf02362e96ae13e0386837feccbb1623221ee02c10e5ede5eafc",
+      "result_sha256": "a1673b2977939ab45293f9405b4e9133f61b73fdc902c1f00e5b4c040559e2e2",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "34790df43600e959fd64522239bbf0db1e70f53bbe8d97176bf2553bbb9345b2",
+      "result_sha256": "04ab66578cd50a6e43ebd80df9fe0bbb4f2a148f15c80502aa93dfb656b08ea1",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "34c44182eb1bbf0cac0dfa358f7b9b8fac02887e5287ef73e59f97f1e1194697",
+      "result_sha256": "6b7aa5dad20e476ad9c767d904f94e3f756829da2109f905b80213210966ff5f",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "358c06d75e0b4a391a3c3c43b532d1f3a881022b43a42d2a3b7482f8de87bbc2",
+      "result_sha256": "52ae95e30395dca2769b95f20fb3e7cb6287d477c8382cb1223d778b122106e7",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "3606c382f4d6104fbac9d0ec429cf12026ea463dfcc4619b4b81fb952140f64c",
+      "result_sha256": "0c7d7d29e7bc5780d7d547c55765076a0379d764a2efba88df34687d893e4f96",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "3a315214f27ed3055adf8076afa6922f486734e9d42cada88891ec1780e17a59",
+      "result_sha256": "46f94354f3df09d71d4159ba45281c27e81f7002340dd41259bd10c28914b612",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "3c45cf5af7d03c042ace624a1026fdae58cd87eca707885cfda34ac0cfd66b48",
+      "result_sha256": "b939a9ad1a13746574caa9a83ea8179ce55cfc5adc58fafcd0a1534f2a1225f3",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "3e8d6ba588060df0fe185f721c1138cec2d1bfa3549f34a79b4d8d0a22461bac",
+      "result_sha256": "d0c03abd82737310329bce33fc2ceac12f456109338c2a162ec48b15e91004d1",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "47390d9eab7d9fd400998da569974e7075d6bec7efed5d39c1e747c0da1a5145",
+      "result_sha256": "d83a1b8bc6f1c74beb2cea200b0d05acafd3139bbb401c48026eb14b494e1cc2",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "4a854dac6762aa50f9528bd137526554b0c7814e053653e75207f5da407f50e2",
+      "result_sha256": "673c2c76f8d13e433379e444c8634703a8b2ad5a8a934c652b06a14a9524040f",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "53fc031751579abf5d77c15bae4ed57931aadba2a0cd90350a4040cc11fee092",
+      "result_sha256": "94bf276d692738cceafd10114211ed66e78b50e39e99c3ab3b2d3eaa27f44a9a",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "546bff0eedde563bad5aace0d7eb935a8582d7be6724bd7ebc216783fb129dd6",
+      "result_sha256": "c9543f7aca4f88344d0d9c7eeba27dbb6ab125d423b847f75c059714a70b99b3",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "5d8507f79c15f5b675bd024b3b07dea1a6ef9f7aa78bdde537a224dcf94498f8",
+      "result_sha256": "4a6c2cc38e062ba733e55012bc18b6f77dfe8ed2ff357bd9afe50875bb1631cf",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "60fe6ee0929580411c8eb71c36e01cb74b3ede2905ec33ade0294b7a0d550587",
+      "result_sha256": "55f6714b4f1cf1182de9b928f25a8c6ed4fdd7ce4528b0d12fcf59914ff6b5d5",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "74757929cff0021eb5230ac1f0e5e348353235d33cfc0e9a8d7c8f20b91157cf",
+      "result_sha256": "781e69f5315880dd857946583d1d94e4fe5744bb954e703eba435bf5b3297b14",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "761a5c9294bd8d825290386d33bf42a15e88813a80ad62b49e9712b2bb120809",
+      "result_sha256": "acdaca01f0b85855c34c516b705e16ebd5f39f28d069e4fb0f3f9d31a18d2965",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "7e4db39200abb00ff7fbbab582b263bc0a5d292ab4116b34d1d7a315657e1c5a",
+      "result_sha256": "8a3c7cb4522c5e919ce3120e6135a42ccc77eaa32bd46a5d8241b581093d9d25",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "827c51494881383fe817d93d26fe001f8ac4e6a422425aff3f64702aec247e8e",
+      "result_sha256": "ab1a862ec4b0c13e77b24ea34cec84a947f4f5cb2a38092b89c2cc02025aeef1",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "8642e7cf29d6cb9e632b2bbd38b85437c8f199c06dceaf23e65befa7b981cd15",
+      "result_sha256": "2e9b389fc57edafedf0428006b7b8bb4ffc3e7f088a9577b9867906d16f66a05",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "86e7fa552b9f6653ce07ff89752083bdd87abfbe7641532f863858aa20f155ee",
+      "result_sha256": "cf6fdfe79ec18f31b82cd19a78e808fc2e53728f152945d290599a5c8387556e",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "8b3bf2db82fb5a9c1114f333971e5273bede9a81e7883681f1b52d2410c6b243",
+      "result_sha256": "4ac28b3369d0621c164ea10d68e0d25cd693532b5b0c1764c8ed87c181eb5207",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "952b2548fa5790188d94d60279b47cd996ea85e507b9c1fd0e9da32366386208",
+      "result_sha256": "6562a4f8861175364ff98e3df64b83965882359b2711bb27a3fe80581a554b73",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "a4c40e86486b2585d92b8c70bbc05488d65fda3a9276e475d7cbb64bf6761c58",
+      "result_sha256": "45edfed2a1835c82f74166e0996e262df09030b9f8edf8ee958b44b2b5c8f99b",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "a88390f21311cb82c7f5e58d921209726388d796871dba6e78aef38ecda93316",
+      "result_sha256": "176590b8a23e0f025775a93114df83b6151699e25aa4fc226cb22e0fec285430",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "ad5f7aaa64c4bc10a3cddfe2c963f448e992f0451295a6eb5ec4fee292fdf176",
+      "result_sha256": "f4eb9a1ffa42bee5060565943ceea3a88ccfdde1d89ab7628f8edccd5636e6f5",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "af8e831ccbd49dfd0f6ba30ca41e206e2219c88ca6d5054f1b7440f1f6a048c7",
+      "result_sha256": "6aacd7518e5be8c7eaa9345feabd93d582addf48d4a80b411d1a792aab5a2e67",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "b259b7e8df7f92e93c487b6b9273aabb0b5981861099a8a98aa32f76dd149d85",
+      "result_sha256": "9e7c533cdfd5578eccbfb78b455e03d168a7b00a8aa95f7a9e8eb60fe956506e",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "c0cf3c0d6fa11ae95023621b724539b2ef2299f912ea7d39ddf62ab225f1ad10",
+      "result_sha256": "34c48f256c9e1751556af4faabf96e2916cb31da6f83a52405883100384e4070",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "c10ed23b1a4672b4e6a547b73f217357565c9f48fccbc80e3cb437f3bd125dac",
+      "result_sha256": "acbd4cf6dda8bc3d83d1aeef8e3539e260503271c407d15d833e7917d9cf321e",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "d18ed35655a97bbf5cb104e695874dec8e1ac381ca2b46d12d58d2bef2aaf64f",
+      "result_sha256": "71aa1de0d9543724b5155df872e121ad85dd2feec38c7f443ddeed4150ee440e",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "e7b956fa50db8d68a1807d7e016550aa0763b47be8f83f050dd8125e164f6282",
+      "result_sha256": "cb18ce2eb6a6d72f5050f21fe74b9aa8b164b9a9c19eea49610e6fd49b13976f",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "f559d750ce56a1b00a685ebbd00a2103d4bb38efe51f02cc7992575d479e62ec",
+      "result_sha256": "a59014fb2d8a5b31b0a97eafb17245123a2e1f4d6a21c7dbe266ab81e6201876",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "fa908f13c2e0b6230e7e2e83a5720621a990a74043395cb318514262f48017ec",
+      "result_sha256": "79c0a78733e7755075dabe70a41dca87ff9e26e3dde86449ef6a7ae93eb0a393",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "fc4133994715e217eda2cd69ab1592afde6c417218fd31c6e92a080d24a11371",
+      "result_sha256": "072547f0c2e22927b3fa608965e098ce44c4c3f7a55048e4ac5bd31940214309",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    },
+    {
+      "input_sha256": "ff83aae14b1e131586c7ef29b07d93951b7d16daf4df65ccf6721c8695311e09",
+      "result_sha256": "0fe1208cc372e09ae08507cd857334841a20e4279fa65c7ed5c63fef5d350763",
+      "success": true,
+      "gradient_shape": [
+        28,
+        3
+      ]
+    }
+  ],
+  "units": "QCSchema: geometry bohr; gradient Hartree/bohr",
+  "method": "PBE-D3BJ/def2-SVP",
+  "grid": [
+    75,
+    302
+  ],
+  "source_geometry_sha256": "bf8e91913ea24d092d3ec7072fe207809ee979bb43b767593368316e7740dec6",
+  "note": "Frozen completed gradients from a still-running native finite-difference Hessian. Partial gradients are not a frequency result."
+}

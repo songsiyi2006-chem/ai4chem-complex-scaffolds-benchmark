@@ -1,17 +1,19 @@
 <!-- phase25-27-evidence-start -->
 ## Phase 25–27 · Verified preliminary work / 可核验的阶段性成果
 
-**三项任务均未完成科学验收。** 已完成6份中英技术报告、144个力场结构起点、4条真实孤立亚胺DFT单点及18项软件/结构检查。未获得完整催化势垒、恒电位界面自由能或Ni非绝热轨迹；ee、FE和分支量子产率保持未判定。
+**新增本地实算：** 完整 117 原子催化三组分复合物的 xTB 优化/频率、两种溶剂中的亚胺计算、DFT 驻点优化，以及可恢复的 DFT Hessian 梯度检查点。[中文进展报告](PHASE25_PROGRESS_ZH.md) · [English progress report](PHASE25_PROGRESS_EN.md) · [本轮数据快照](results_phase25_27/phase25/pilot_progress.json)。仍在运行和排队的项目不计作完成。
 
-**Scientific acceptance remains incomplete.** This release distinguishes actual isolated-molecule single points, original literature coordinates, prospective inputs and unexecuted production calculations. Software tests do not establish chemical predictions.
+**三项任务均未完成科学验收。** 原有6份中英技术报告及初始结构保留，新增2份计算进展报告。未获得完整催化势垒、恒电位界面自由能或Ni非绝热轨迹；ee、FE和分支量子产率保持未判定。
+
+**Scientific acceptance remains incomplete.** The new report separates completed xTB calculations and DFT optimization from an unfinished native DFT Hessian and prospective production work. Software tests do not establish chemical predictions.
 
 | Task | 中文报告 | English report | Current evidence |
 |---|---|---|---|
-|25 · 不对称催化|[中文](PHASE25_REPORT_ZH.md)|[English](PHASE25_REPORT_EN.md)|96-condition family holdout; two DFT approximations; **选择性未判定**|
+|25 · 不对称催化|[最新中文](PHASE25_PROGRESS_ZH.md)|[Latest English](PHASE25_PROGRESS_EN.md)|Complete ternary xTB minima; DFT optimization and ongoing Hessian; **选择性未判定**|
 |26 · 恒电位Cu界面|[中文](PHASE26_REPORT_ZH.md)|[English](PHASE26_REPORT_EN.md)|48-condition design; 3 dry slab seeds; no sampled interfaces|
 |27 · Ni光动力学|[中文](PHASE27_REPORT_ZH.md)|[English](PHASE27_REPORT_EN.md)|6-member design; original full Ni coordinates; no new trajectories|
 
-[Results and provenance / 结果与来源](results_phase25_27/README.md) · [Acceptance ledger / 逐条验收](results_phase25_27/acceptance.json) · [Reproduce / 复现](phase25_27/README.md) · [18 checks / 检查记录](results_phase25_27/software_validation.json) · [Raw DFT ledger / 原始计算清单](results_phase25_27/phase25/local_qm_pilot/results.json)
+[Results and provenance / 结果与来源](results_phase25_27/README.md) · [Acceptance ledger / 逐条验收](results_phase25_27/acceptance.json) · [Reproduce / 复现](phase25_27/README.md) · [24 checks / 检查记录](results_phase25_27/software_validation.json) · [Frozen DFT gradient evidence / 梯度证据快照](results_phase25_27/phase25/hessian_checkpoint_snapshot/manifest.json)
 
 <!-- phase25-27-evidence-end -->
 

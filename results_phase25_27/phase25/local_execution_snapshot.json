@@ -1,0 +1,51 @@
+{
+  "snapshot_utc": "2026-09-10T16:10:30.622155+00:00",
+  "worker_state": "RUNNING",
+  "current_jobs": [
+    {
+      "tag": "pbe_E_freq_02",
+      "started_utc": "2026-09-10T15:22:21.656180+00:00",
+      "state": "ADOPTED_EXISTING_PROCESS",
+      "pids": [
+        11164
+      ]
+    }
+  ],
+  "threads": 3,
+  "memory_MB": 500,
+  "queue": [
+    {
+      "tag": "pbe_E_freq_02",
+      "stage": "freq",
+      "method": "pbe-d3bj",
+      "input": "results_phase25_27/phase25/stationary_pilot/pbe_E_opt_01/optimized.xyz"
+    },
+    {
+      "tag": "pbe_Z_opt_01",
+      "stage": "opt",
+      "method": "pbe-d3bj",
+      "input": "results_phase25_27/phase25/starting_structures/I01_Z.xyz"
+    },
+    {
+      "tag": "pbe_Z_freq_01",
+      "stage": "freq",
+      "method": "pbe-d3bj",
+      "input": "results_phase25_27/phase25/stationary_pilot/pbe_Z_opt_01/optimized.xyz"
+    },
+    {
+      "tag": "wb97xd_E_sp_01",
+      "stage": "sp",
+      "method": "wb97x-d",
+      "input": "results_phase25_27/phase25/stationary_pilot/pbe_E_opt_01/optimized.xyz"
+    },
+    {
+      "tag": "wb97xd_Z_sp_01",
+      "stage": "sp",
+      "method": "wb97x-d",
+      "input": "results_phase25_27/phase25/stationary_pilot/pbe_Z_opt_01/optimized.xyz"
+    }
+  ],
+  "auto_publish": false,
+  "requires_local_computer_running": true,
+  "note": "Process status at the snapshot time only; future success is not guaranteed. The finite queue stops after these jobs."
+}

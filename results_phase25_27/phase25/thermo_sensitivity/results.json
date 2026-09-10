@@ -1,0 +1,577 @@
+[
+  {
+    "campaign": "components_toluene_01",
+    "name": "C01",
+    "geometry_sha256": "1d42b3ca49791fae517ad1043f612141f18c160de057181001f40543fde4acc1",
+    "hessian_sha256": "14f716d7466fb467e630f22d34e317b3455bb2c6a5a55fe6705ba4a6eb1e6b41",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.37159495782,
+        "output_sha256": "6c5a13577bae10a5bb97f59c5c9406beb817ad258cbfaa7b1cf485352a7c1f46"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.373714054483,
+        "output_sha256": "2bf628f42efb8df105652b15fddd526b20754335e6c679100851090db2802ec5"
+      }
+    ],
+    "replay50_difference_hartree": -5.9909299743310385e-12,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 1.3297532324879848
+  },
+  {
+    "campaign": "components_toluene_01",
+    "name": "HE_dimethyl",
+    "geometry_sha256": "e263f435892c08a4a91b2e8f9de008ca407235a9f46acc45f3f108ab4346fd24",
+    "hessian_sha256": "b558e1f82dc4f31f11db9957deb1c764eeabe5a2887f9f12db9c592bf6ee8e2a",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.198190697196,
+        "output_sha256": "1c052231b6fa075c53742be8432c7eddecf49192444a180b7cd8aa3b4b6f558c"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.199575882204,
+        "output_sha256": "43888feb77944f4e4b425d299ff54433e33bff13fd173a02f673c414679c63da"
+      }
+    ],
+    "replay50_difference_hartree": -1.719983322434615e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.8692167158501714
+  },
+  {
+    "campaign": "imine_dcm_repair_01",
+    "name": "I02_E_dcm_minus",
+    "geometry_sha256": "22e38760edbfb3e614ac52f3d3e4c3328c247c2456e6a5744778ca1cbe17e81e",
+    "hessian_sha256": "2501e19da0c3e87a4a285b4d2409ce99a90fecbb0ba46d82a01e1dff15604d49",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.208724308341,
+        "output_sha256": "8fcd6b146b30f69d9f0cab1228a6f36c9bda9bd31eb8db6d81facac1902e2e8d"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.209798839939,
+        "output_sha256": "34fdf9f52431ea2ae6bdb524196b497a603a73879cc4e71392b8778a91471977"
+      }
+    ],
+    "replay50_difference_hartree": 4.699798883400774e-11,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.6742787579251626
+  },
+  {
+    "campaign": "imine_repair_01",
+    "name": "I02_E_minus",
+    "geometry_sha256": "c3362e75e66c0580cf6a844a2112f39cc68be1a2c5cfe123b177eeb8d8b6a753",
+    "hessian_sha256": "b0251db8537979998e496cb2081c36511f24274f40694cc89aba48bec4c97d6e",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.208773348013,
+        "output_sha256": "1459bfe653b02eb3a2772c671b1724503b86c1ec2beb25b5cde81c3cb4916faf"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.2097291678,
+        "output_sha256": "cb0df721daee375a8a49cd67ba67a9174fe6f874c24f917120868531d525a8fb"
+      }
+    ],
+    "replay50_difference_hartree": -4.029954980833139e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.5997859718394851
+  },
+  {
+    "campaign": "imines_dcm_01",
+    "name": "I01_E",
+    "geometry_sha256": "eb4a39872de1f8d2b9084c3195228bef44cb52145d148c21cbd8409c63f131fe",
+    "hessian_sha256": "362ecf544149cb04b649f9a7bbb9013a1ec3d63508745990ea32eef5d8fc1b19",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.183841324973,
+        "output_sha256": "82ddbb338d017ba84afb94040d435828efb2b1f442314c6a9cd0da903096cae9"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.184605815098,
+        "output_sha256": "1308130e2ee1e561d5ec33f3b4b4cc99a7931d616d93305e5f7f2861b7aa10c2"
+      }
+    ],
+    "replay50_difference_hartree": 6.001643626518671e-12,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.4797247962651942
+  },
+  {
+    "campaign": "imines_dcm_01",
+    "name": "I01_Z",
+    "geometry_sha256": "a3e8b0d3535c715575c41f244cdb5478c2509d241e75b3fd2e04c62fcb5b82b8",
+    "hessian_sha256": "1caf82f41d9c7d8075c7649a11d6fcb5fadb0faf7faee92b6ad44fa75c972376",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.183792994891,
+        "output_sha256": "834f09f0285a98eb40476a1d964d01797fede3a33d07f6836fe0d76e95fc3f1f"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.184668214387,
+        "output_sha256": "a45203c42e9593df0cd4680a6904bdb24006f72a0220814029dda9de080911aa"
+      }
+    ],
+    "replay50_difference_hartree": -4.4998865744716454e-11,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.5492085256247324
+  },
+  {
+    "campaign": "imines_dcm_01",
+    "name": "I02_Z",
+    "geometry_sha256": "cb64c34b41cd7f32ea66bd10d1e611ef9119336e3489a1b81707e3d337a4eb31",
+    "hessian_sha256": "6bc7d13781b9cf0ad12aec2d1346a7baa06edf5fddbf8427d01993d0b17193af",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.208588880004,
+        "output_sha256": "1262ef4ede3d722201ffd39575ea32943513ed993f3dda527bb1b0870e205cad"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.20970586443,
+        "output_sha256": "0f241ad9fbbfe85794ac5a53e2717b4eb408febc530a6f8e3678cbcbe7327c81"
+      }
+    ],
+    "replay50_difference_hartree": 1.6699785998497418e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.700918309695934
+  },
+  {
+    "campaign": "imines_dcm_01",
+    "name": "I03_E",
+    "geometry_sha256": "7d6fde6f7e515cda607bb114944c6c6f869dedf21ce1efb0be8ddab206fcd38a",
+    "hessian_sha256": "57f7d1be1c53a5d9cbfe1256edcb2a18867b9f7b804168d2450564b0cef131a4",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.224824105963,
+        "output_sha256": "c1ad49c8d291e9412edaaf2958b3fc48511e190b4fe99d65755e9b6bb711da87"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.225627006777,
+        "output_sha256": "03395fa21492989e7cd0066b570f63c41049cf1ebfec70be89a57e07a695e5bc"
+      }
+    ],
+    "replay50_difference_hartree": -2.7400132163180047e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.5038278675179759
+  },
+  {
+    "campaign": "imines_dcm_01",
+    "name": "I03_Z",
+    "geometry_sha256": "3f838286bbfb19a9412d6ad40b64d4a98e72be8155907dedb4a2ec2c7d3a6df9",
+    "hessian_sha256": "77a98521a90471c340a8670e00f6a541b2ddc3b5eb2812d7de67824f0978a01d",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.225804890179,
+        "output_sha256": "3b90246c75cdb2e38f4813e6a45a4da0c2fd8ce9554371750f67d13933f4f2b2"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.226434517963,
+        "output_sha256": "b97dc29fd37970e46d8102faff670510001ebd2625507aacbd0d3d688de384e7"
+      }
+    ],
+    "replay50_difference_hartree": 2.659996944931464e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.3950973995933536
+  },
+  {
+    "campaign": "imines_dcm_01",
+    "name": "I04_E",
+    "geometry_sha256": "ee1f611c5438f65ca920254cd788f49cb9370fad748f47c5b3f906e2048f64a9",
+    "hessian_sha256": "2a690d21e6e098c1ab8b5c7ac5bfe0d6d63d44b9d7b6a0a526b1499040ffc1eb",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.225891272258,
+        "output_sha256": "5104d26d75b8c0ee84f0e46ac7f832d2296c56ec923e86a786f19a59f960c4d6"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.22670746873,
+        "output_sha256": "23f46916b5ff0cb7ada4324101c55330e807135baa18cb9d39f68400a7b4f215"
+      }
+    ],
+    "replay50_difference_hartree": 1.5700507560723054e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.5121710188768863
+  },
+  {
+    "campaign": "imines_dcm_01",
+    "name": "I04_Z",
+    "geometry_sha256": "a49acc01e1ce55f285aafd088e3b331b21411ae8a6c918773a79a267c8c9abf7",
+    "hessian_sha256": "15a88f3f9d523dd85b41d4f5612a4911c61fe57570ca96d48b20e8ace33299e0",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.225771831129,
+        "output_sha256": "c44d05be177d4e3e45ff22bafc38bc5c7448388e0f478c95c54cb9d291775b12"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.226558624459,
+        "output_sha256": "41521d6a6cd29064742c13e405260abb42bbe9b71a5a76bd53f3825747e73701"
+      }
+    ],
+    "replay50_difference_hartree": -4.700440037197495e-11,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.4937202687046423
+  },
+  {
+    "campaign": "imines_toluene_01",
+    "name": "I01_E",
+    "geometry_sha256": "c9a2705acc81ad4a473ec1e99de5ce2952474060e943756fba22b1f23425ff51",
+    "hessian_sha256": "5772c3654c16168ce6c54c1a6dccc0b353d5452fa035e9bcf6b5156ef7eaaf80",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.183985883976,
+        "output_sha256": "6919d5d3a36d44eed4cef2d959dd1092b1ac3981c73bea3320e07256d49842e6"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.18481824795,
+        "output_sha256": "ecf7058b321bacfabc9292bb0c136f76a51ad18e2f61ca2d307c401ea492e7bd"
+      }
+    ],
+    "replay50_difference_hartree": 1.1600340132922327e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.5223162795538083
+  },
+  {
+    "campaign": "imines_toluene_01",
+    "name": "I01_Z",
+    "geometry_sha256": "7815aecd3293ca2d7706e37f20df526bbb305e763c4b4a63ab37adfad9aa82d3",
+    "hessian_sha256": "3954b73c691abedcdacd2394d2885ccc4487367827006af6966550d0aba7d316",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.183814155541,
+        "output_sha256": "571f80066cd5f732ae7f2c7475bb05677aba146d5b66b117b4c4d0c626e7b9f1"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.18474677834,
+        "output_sha256": "4486833925717699ce63a86b300546835e4908df44ad1c3b852de9abbce5d43f"
+      }
+    ],
+    "replay50_difference_hartree": 5.5002669085979505e-11,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.5852296420997457
+  },
+  {
+    "campaign": "imines_toluene_01",
+    "name": "I02_Z",
+    "geometry_sha256": "f4b63e77ec94553c56260514e7e3563ae3edf3bce8144d0ef63669cc1b3d6c7c",
+    "hessian_sha256": "c55183a4f2d61e65ce84c355d17cc5fb33b9717f431a2976125f23e73ab3c3c1",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.208805256418,
+        "output_sha256": "faa3078d9c1b4a2173f9411768039d4834736aa7d6fe4ebe561f4e2d067d3f36"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.209901971125,
+        "output_sha256": "bf85a8ac9e65d55a7d4682e0d9494485a94998eb8a24659c1d22118f2063585c"
+      }
+    ],
+    "replay50_difference_hartree": 7.99751931346293e-12,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.6881988689868448
+  },
+  {
+    "campaign": "imines_toluene_01",
+    "name": "I03_E",
+    "geometry_sha256": "9af0ea4b5a3d8d86d7ef98eb1afea48aab823d68617d1e70245e329b6dfc3bcd",
+    "hessian_sha256": "c80413fcc8f935cdf553458d798f6dd96344eb2a5b7089d562f04f40aacc94f0",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.224940444057,
+        "output_sha256": "b52410b2726c51846fb4cf1230ff7a7bb9c72fbe72d7a9f998f9bcdd0689a60e"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.225836612917,
+        "output_sha256": "4db1ca6cb780abcff3a286ac21999e0e0517b5599065088588b4d566bb2bf61b"
+      }
+    ],
+    "replay50_difference_hartree": 3.7899886007330963e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.562354450010322
+  },
+  {
+    "campaign": "imines_toluene_01",
+    "name": "I03_Z",
+    "geometry_sha256": "2c1cdf59d56a1ec756e18b231b2a6f74b41e4df013e0736d00a6fe4853a8c0b3",
+    "hessian_sha256": "2a402cdaa28928488ac4f5e044d9a5bdc650bfb7fbbde5c7825d18e4140b2924",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.225989948524,
+        "output_sha256": "d213b1843a6dc196fb701f7549c657900218beee6a5dd15ad3899d93b5fa2540"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.226732937041,
+        "output_sha256": "f341f0e97bbe4d8f5e06ffc76fbdb692e49e9c08a3ab4b7a6ab66f8081077d33"
+      }
+    ],
+    "replay50_difference_hartree": -4.6997961078432127e-11,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.46623233353759164
+  },
+  {
+    "campaign": "imines_toluene_01",
+    "name": "I04_E",
+    "geometry_sha256": "2baae4d22bf523fc982e061f9e36ca06cd2222cd2a50db2732db9b160973d375",
+    "hessian_sha256": "32bcdb536906bed82196b7e93eecd0402d7d075411ae64445ed682aaac1f7119",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.226026487702,
+        "output_sha256": "aa937c83f16af5abe1a2a1053dbd9906efce8325beb451a00fbca7ac7c2e636b"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.226884329736,
+        "output_sha256": "8f1bdba9ac43784318cd75bdcfadb7844c1237f036debec0113d773d6860357f"
+      }
+    ],
+    "replay50_difference_hartree": -7.899875198447148e-11,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.5383040035845567
+  },
+  {
+    "campaign": "imines_toluene_01",
+    "name": "I04_Z",
+    "geometry_sha256": "817f799c95d15a0f570bb08810f74289e72eb4cbcd9a9aab5d313f93273342dd",
+    "hessian_sha256": "8711d3cea39b28580372c518f4cd515399a612d744bba99828966636daa8a85a",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.226174657208,
+        "output_sha256": "a0bcc04481ae59bbfad6f07cb70d44619f1b9f3fa1d07888dba8849ea1f0e0b2"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.22695103073,
+        "output_sha256": "4076c7afc515670a4bd3e89874960101a02651d4ca1e883a282fa8c25b33ad63"
+      }
+    ],
+    "replay50_difference_hartree": -3.6996516961096404e-11,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 0.4871817404667339
+  },
+  {
+    "campaign": "ternary_toluene_01",
+    "name": "C01_I01_E_face-1_start0",
+    "geometry_sha256": "e727cb7ef5a33248f6b2c21267c62956c9bf2f7b2c87d6a8af2b2bc9904b3bcd",
+    "hessian_sha256": "38b55aee6a435631681e4eedb7d11e4d15c361465d3bc2d340e822252b9437e4",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.811375148306,
+        "output_sha256": "e36b6ddaf729a768205e8a5e752fc13543836449f4a6c36f08e9cf7c9a43767e"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.816750045868,
+        "output_sha256": "28902767a3f5f9eaec93831d81662837d4b029a77b2ea96352552ddf1d065960"
+      }
+    ],
+    "replay50_difference_hartree": -5.459938057228442e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 3.372799142273688
+  },
+  {
+    "campaign": "ternary_toluene_01",
+    "name": "C01_I01_E_face-1_start1",
+    "geometry_sha256": "210b86021fe69435c64d789fc8622d9af0460506b8daad40e617c325c361b51f",
+    "hessian_sha256": "88fe1d65b1aa75acc3ba83fa6765f002bcc0d63a7ac5a3f29d203549ef3e9834",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.810110973875,
+        "output_sha256": "390028d83c4447a9e4501ad9a05f10aa47e25bf715946d5def627df7ac493c54"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.8155187235,
+        "output_sha256": "74f06d5b89794ec3fa03105b8b959ac81f6c578008869b6ebf6f2ab2585608d6"
+      }
+    ],
+    "replay50_difference_hartree": -1.0540174288919957e-09,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 3.393414123048685
+  },
+  {
+    "campaign": "ternary_toluene_01",
+    "name": "C01_I01_E_face+1_start0",
+    "geometry_sha256": "bbe560184e53f2745aede7c9a2f5cc1eef6d7dbb80215bc6452d5165c9174483",
+    "hessian_sha256": "998f2012995d04d0fbbe6ff7c0ab5141ed663b595811f45b779dfb01d230ef74",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.807041909958,
+        "output_sha256": "f845524efb479a9f54c9fdb50172f2cd77bf16e1e35a62d5a30d625461c81554"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.812324229489,
+        "output_sha256": "9aadca7184d64b6c85531f39914828b2afb03771cf79747143e990fac82833d1"
+      }
+    ],
+    "replay50_difference_hartree": -1.2449867803354664e-09,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 3.314705550731052
+  },
+  {
+    "campaign": "ternary_toluene_01",
+    "name": "C01_I01_E_face+1_start1",
+    "geometry_sha256": "d48beebc0f394d0ac19c5bb04f8af35ad49fd08f96321b523a59414c3c43d352",
+    "hessian_sha256": "68975ef138b7573563fe8180f28ce40d9c456821339624d1d1784579a69a5fd4",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.80741920947,
+        "output_sha256": "d2b7861fcb520b2adf0418bf51d1b4411e0701525693c461bf68e6e48df05bae"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.813204160092,
+        "output_sha256": "b1382023cc2c9ca40c2156d3cf82f3f7c8ae057468b84d8ae60b9c3cda88faff"
+      }
+    ],
+    "replay50_difference_hartree": 1.1710047376212174e-09,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 3.6301113222922345
+  },
+  {
+    "campaign": "ternary_toluene_01",
+    "name": "C01_I01_Z_face-1_start0",
+    "geometry_sha256": "57996e0cbccf312b6d44b14e5cbdb2b081e9eb3902609e563c73a9485a13ebcc",
+    "hessian_sha256": "ff70bfde4bf5656aba31f727d732d061ce8d5418fc84d053b5da997741fdf490",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.805428656062,
+        "output_sha256": "00823e6a27a0b587cee099d621aeb271cbea99b3d3c3ce5fc64ddcfb5a0d0558"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.81097154128,
+        "output_sha256": "3d274c932c8f862e4af43d4930036f8c56afe1e1d246420205da9697fddd26db"
+      }
+    ],
+    "replay50_difference_hartree": -7.397316093005202e-11,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 3.478212987939349
+  },
+  {
+    "campaign": "ternary_toluene_01",
+    "name": "C01_I01_Z_face-1_start1",
+    "geometry_sha256": "f388e55e1e4dd31ff2238eeec8312043facb2ca739c29ba38d439b61e6313ee4",
+    "hessian_sha256": "c2f3ce59f56ea7948e5dc1742f12a02a3ccf1882a5d0455b585f1de82702fd83",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.806888539462,
+        "output_sha256": "3b8401330c5e61c1b4a87c2787f56bb41dacf2910bf9e83a3de900f7cdcf30e1"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.812892104602,
+        "output_sha256": "e3cf88e40b3501c522576fd39a23d266fccb67971a86a26d87f4073c9f08059c"
+      }
+    ],
+    "replay50_difference_hartree": -9.719880456060537e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 3.7672940035049614
+  },
+  {
+    "campaign": "ternary_toluene_01",
+    "name": "C01_I01_Z_face+1_start1",
+    "geometry_sha256": "e9c616d28465ee0a655b67d3787ac24984faa12367eb5936634ddf97790336e6",
+    "hessian_sha256": "96132bed144e04d43809143c5b4bf9ffd239d0820aaea98d85b9716540ecff4b",
+    "temperature_K": 298.15,
+    "algorithm": "native xtb thermo; engine geometry-dependent rotational inertia retained",
+    "values": [
+      {
+        "cutoff_cm1": 50,
+        "G_correction_hartree": 0.807685056427,
+        "output_sha256": "f275523e460d7a6d81ec83bb86dc9ebceaddb65e1c3801f2860dfd0b314f0bd9"
+      },
+      {
+        "cutoff_cm1": 100,
+        "G_correction_hartree": 0.812939323881,
+        "output_sha256": "7684b12ab89aa79be7409b88f76dc8280178e93b8a7dc49045a5a22fdab47a31"
+      }
+    ],
+    "replay50_difference_hartree": -3.990170416301453e-10,
+    "replay50_pass": true,
+    "G_shift_50_to100_kcal_mol": 3.297102606646428
+  }
+]

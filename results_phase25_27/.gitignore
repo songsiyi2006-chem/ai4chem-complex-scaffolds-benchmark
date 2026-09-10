@@ -1,0 +1,6 @@
+# In-flight/local-queue output is reviewed before publication.
+# Completed native gradient evidence is frozen in hessian_checkpoint_snapshot/.
+/phase25/stationary_pilot/pbe_E_freq_02/
+/phase25/stationary_pilot/pbe_Z_freq_01/
+/phase25/stationary_pilot/wb97xd_E_sp_01/
+/phase25/stationary_pilot/wb97xd_Z_sp_01/
