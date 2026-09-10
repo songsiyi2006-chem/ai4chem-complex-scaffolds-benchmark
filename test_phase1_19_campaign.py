@@ -11,6 +11,30 @@ from unittest.mock import patch
 ROOT=Path(__file__).resolve().parent
 
 class CampaignTests(unittest.TestCase):
+    def test_interruption_is_not_success_even_when_exit_code_zero(self):
+        import json
+        import record_interrupted_campaign as interrupted
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'rerun_status.json'
+            path.write_text(json.dumps(dict(pid=4321,status='running')),encoding='utf-8')
+            with patch.object(interrupted,'process_state',return_value=(False,0)):
+                interrupted.record(folder,4321,'Incomplete artifact; observed exited process')
+            saved=json.loads(path.read_text(encoding='utf-8'))
+            self.assertEqual(saved['status'],'process_interrupted')
+            self.assertEqual(saved['exit_code'],0)
+            self.assertTrue(saved['scientific_acceptance'].startswith('not accepted:'))
+
+    def test_interruption_refuses_active_process_without_mutation(self):
+        import json
+        import record_interrupted_campaign as interrupted
+        with tempfile.TemporaryDirectory() as folder:
+            path=Path(folder)/'rerun_status.json'
+            path.write_text(json.dumps(dict(pid=4321,status='running')),encoding='utf-8')
+            before=path.read_bytes()
+            with patch.object(interrupted,'process_state',return_value=(True,None)):
+                with self.assertRaises(RuntimeError): interrupted.record(folder,4321,'test')
+            self.assertEqual(path.read_bytes(),before)
+
     def test_public_evidence_redacts_paths_and_marks_unavailable(self):
         import publish_phase1_19_evidence as pub
         result=pub.portable({'path':str(pub.CAMPAIGN/'phase01'), 'nan':float('nan'), 'finite':1.25})

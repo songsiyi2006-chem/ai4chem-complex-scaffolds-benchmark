@@ -1328,7 +1328,9 @@ def build_rate_system(G, dg, T, corr=None):
     # 1  R + Cat -> RC
     rxns.append(({("R", -1), ("Cat", -1), ("RC", +1)}, K_ON, "assigned"))
     # 2  RC -> R + Cat
-    kd = K_ON * math.exp(max(dg["dG_bind_RC"], -20.0) / (R_GAS * T))
+    standard_concentration_M = 1.0  # converts bimolecular k_on to unimolecular k_off
+    kd = K_ON * standard_concentration_M * math.exp(
+        max(dg["dG_bind_RC"], -20.0) / (R_GAS * T))
     rxns.append(({("R", +1), ("Cat", +1), ("RC", -1)}, kd, "derived_with_assigned_floors"))
     # 3  RC -> I1Cat  (folded proton transfer + cleavage)
     k3 = eyring(max(dg["dG_TS1_vs_RC"] - d1, 2.0), T)
@@ -1399,7 +1401,7 @@ def rhs_factory(nu, ks):
 
 def jac_factory(nu, ks):
     def jac(t, y):
-        ysafe = np.maximum(y, 1e-30)
+        ysafe = np.maximum(y, 0.0)
         J = np.zeros((len(SPECIES), len(SPECIES)))
         rr = np.zeros((12, len(SPECIES)))
         rr[0, SI["R"]] = ysafe[SI["Cat"]]; rr[0, SI["Cat"]] = ysafe[SI["R"]]
@@ -1412,6 +1414,9 @@ def jac_factory(nu, ks):
         rr[10, SI["P_elim"]] = 1; rr[11, SI["R"]] = 1
         for r in range(12):
             J += ks[r] * np.outer(nu[r], rr[r])
+        # Match rhs_factory's clipping during implicit Newton trial steps.
+        # At zero use the right-sided derivative of the physical domain.
+        J *= (np.asarray(y) >= 0.0)[None, :]
         return J
     return jac
 
@@ -1419,6 +1424,8 @@ def jac_factory(nu, ks):
 def integrate(T, G, dg, y0=None, dense=False, corr=None):
     from scipy.integrate import solve_ivp
     nu, ks, kinds = build_rate_system(G, dg, T, corr=corr)
+    if not np.isfinite(ks).all() or (ks < 0).any():
+        raise RuntimeError(f'Nonfinite or negative rate constant at T={T}; no rate clipping applied')
     if y0 is None:
         y0 = np.zeros(len(SPECIES))
         y0[SI["R"]] = CONC_R0
@@ -1427,14 +1434,22 @@ def integrate(T, G, dg, y0=None, dense=False, corr=None):
     jac = jac_factory(nu, ks)
     t_eval = np.logspace(math.log10(T_HORIZON[0]),
                          math.log10(T_HORIZON[1]), 160)
+    t_eval[0], t_eval[-1] = T_HORIZON
+    # The autonomous system is invariant to a time-origin translation. A
+    # nonzero origin prevents adaptive solvers taking an initial step smaller
+    # than its floating-point spacing (fresh250K case: 1/k_d ~1e-98s).
+    # Preserve the original elapsed interval, output grid, rates and tolerances.
+    time_origin = float(T_HORIZON[0])
+    local_span = (0.0, float(T_HORIZON[1] - time_origin))
+    local_eval = t_eval - time_origin
     sol = None
     # BDF primary: Radau's internal FD-Newton diverges on this system
     # (zero initial product components against ~1e9 s^-1 association
     # rates); BDF integrates it in sub-second with identical results.
     for method in ("BDF", "Radau", "LSODA"):
         try:
-            sol = solve_ivp(rhs, T_HORIZON, y0, method=method, jac=jac,
-                            t_eval=t_eval, rtol=1e-6, atol=1e-14,
+            sol = solve_ivp(rhs, local_span, y0, method=method, jac=jac,
+                            t_eval=local_eval, rtol=1e-6, atol=1e-14,
                             max_step=T_HORIZON[1] / 4,
                             dense_output=dense)
             if sol.success:
@@ -1447,6 +1462,12 @@ def integrate(T, G, dg, y0=None, dense=False, corr=None):
             _warn(f"ODE {method} at {T} K raised {exc}")
     if sol is None or not sol.success:
         raise RuntimeError(f"all stiff solvers failed at T={T}")
+    sol.t = sol.t + time_origin
+    sol.integration_method = method
+    sol.internal_time_origin = time_origin
+    if sol.sol is not None:
+        local_dense = sol.sol
+        sol.sol = lambda t: local_dense(np.asarray(t) - time_origin)
     return sol, nu, ks, kinds
 
 
@@ -1478,8 +1499,11 @@ def module_B():
         "selectivity_Pt_Pside": sel,
         "conversion_R": 1 - prof["R"][-1] / CONC_R0,
         "poly_decomp": (prof["P_poly"][-1] * 2) / CONC_R0,
-        "rate_constants_s": {f"r{i + 1}": float(ks[i])
+        "rate_constants": {f"r{i + 1}": float(ks[i])
                              for i in range(len(ks))},
+        "rate_constant_units": {f'r{i + 1}': ('M^-1 s^-1' if i in (0, 8, 9) else 's^-1')
+                                for i in range(len(ks))},
+        "internal_time_origin_shift_s": sol.internal_time_origin,
         "rate_kinds": kinds,
         "nfev": sol.nfev, "njev": sol.njev, "nlu": sol.nlu,
     }
@@ -1497,10 +1521,10 @@ def module_B():
         "stiffness_ratio_t0": float(lam.max() / max(lam.min(), 1e-30)),
         "eig_max_real_end": float(np.real(eve).max()),
         "njev": sol.njev, "nlu": sol.nlu, "nfev": sol.nfev,
-        "solver": "BDF (implicit multistep, stiffly stable; Radau/LSODA "
-                  "fallbacks; analytic Jacobian)",
-        "note": "all eigenvalues Re<0 at end state — asymptotically stable "
-                "equilibrium (mass-conserved closed system)",
+        "solver": sol.integration_method + " (analytic Jacobian; shifted internal time origin)",
+        "note": "Numerical eigenvalue diagnostic only; conservation produces zero modes. "
+                "Extreme scale separation limits eigenvalue accuracy; no stability proof "
+                "or physical validation of the exploratory rates is implied.",
     }
     _log(f"298 K: yield={XB['reference_298K']['yield_target'] * 100:.1f}%  "
          f"ee={ee:.1f}%  selectivity={sel:.1f}  "

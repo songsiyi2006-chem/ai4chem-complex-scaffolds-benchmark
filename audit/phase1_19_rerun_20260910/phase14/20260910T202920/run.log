@@ -1,0 +1,77 @@
+[phase14] Module 14A: amino-acid contact grammar, Debye-Huckel screening, chi(phi,T)
+[phase14]   sequence (165 aa): QQGQGQGYGGGYYDGRGGGTGGGYYSYGSGTGGGYGEGYGEGSYGQGRGGGGTGGEGQSY...
+[phase14]   chi0(310K) = 1.703  [chi_crit = 0.992]  -> LLPS: True
+[phase14]   kappa_D = 1.265 nm^-1 (I = 0.154 M), screening factor 0.642
+[phase14] E1: passive (k_ATP=0) vs active (k_ATP=0.02 s^-1) condensate dynamics
+[phase14]   passive: N=160, dt=0.25, T_end=1000.0
+[phase14]   t=    0.2s  <phi>=0.271 <psi>=0.079  R=0.00um N=  0  dissipation_proxy=8.168e-02
+[phase14]   t=   26.0s  <phi>=0.335 <psi>=0.015  R=0.54um N= 76  dissipation_proxy=8.898e-03
+[phase14]   t=   34.1s  <phi>=0.339 <psi>=0.010  R=0.56um N=110  dissipation_proxy=5.016e-04
+[phase14]   t=   41.4s  <phi>=0.343 <psi>=0.007  R=0.57um N=127  dissipation_proxy=2.584e-02
+[phase14]   t=   48.2s  <phi>=0.345 <psi>=0.005  R=0.58um N=139  dissipation_proxy=2.424e-02
+[phase14]   t=   55.4s  <phi>=0.346 <psi>=0.004  R=0.60um N=141  dissipation_proxy=5.955e-02
+[phase14]   t=   61.5s  <phi>=0.347 <psi>=0.003  R=0.61um N=140  dissipation_proxy=1.088e-01
+[phase14]   t=   67.9s  <phi>=0.348 <psi>=0.002  R=0.62um N=142  dissipation_proxy=7.430e-02
+[phase14]   t=   74.3s  <phi>=0.348 <psi>=0.002  R=0.63um N=139  dissipation_proxy=3.144e-02
+[phase14]   t=   80.8s  <phi>=0.349 <psi>=0.001  R=0.64um N=137  dissipation_proxy=8.113e-02
+[phase14]   t=   86.6s  <phi>=0.349 <psi>=0.001  R=0.64um N=137  dissipation_proxy=7.314e-02
+[phase14]   t=   92.7s  <phi>=0.349 <psi>=0.001  R=0.65um N=135  dissipation_proxy=3.766e-02
+[phase14]   t=   98.5s  <phi>=0.349 <psi>=0.001  R=0.65um N=134  dissipation_proxy=4.507e-01
+[phase14]   t=  104.2s  <phi>=0.349 <psi>=0.000  R=0.66um N=134  dissipation_proxy=3.561e-03
+[phase14]   t=  110.1s  <phi>=0.350 <psi>=0.000  R=0.66um N=132  dissipation_proxy=5.784e-02
+[phase14]   t=  115.7s  <phi>=0.350 <psi>=0.000  R=0.67um N=131  dissipation_proxy=5.809e-02
+[phase14]   t=  121.5s  <phi>=0.350 <psi>=0.000  R=0.67um N=129  dissipation_proxy=2.275e-01
+[phase14]   t=  127.3s  <phi>=0.350 <psi>=0.000  R=0.68um N=126  dissipation_proxy=4.280e-02
+[phase14]   t=  133.1s  <phi>=0.350 <psi>=0.000  R=0.68um N=126  dissipation_proxy=2.164e-01
+[phase14]   t=  139.1s  <phi>=0.350 <psi>=0.000  R=0.69um N=126  dissipation_proxy=1.444e-01
+[phase14]   t=  144.5s  <phi>=0.350 <psi>=0.000  R=0.69um N=126  dissipation_proxy=6.693e-02
+[phase14]   t=  150.0s  <phi>=0.350 <psi>=0.000  R=0.69um N=124  dissipation_proxy=6.685e-02
+[phase14]   t=  155.6s  <phi>=0.350 <psi>=0.000  R=0.70um N=121  dissipation_proxy=2.244e-02
+[phase14]   t=  161.0s  <phi>=0.350 <psi>=0.000  R=0.70um N=121  dissipation_proxy=4.066e-01
+[phase14]   t=  166.8s  <phi>=0.350 <psi>=0.000  R=0.71um N=120  dissipation_proxy=5.142e-01
+[phase14]   t=  172.0s  <phi>=0.350 <psi>=0.000  R=0.71um N=119  dissipation_proxy=2.694e-01
+[phase14]   t=  177.2s  <phi>=0.350 <psi>=0.000  R=0.71um N=118  dissipation_proxy=1.792e-01
+[phase14]   t=  182.1s  <phi>=0.350 <psi>=0.000  R=0.71um N=117  dissipation_proxy=4.612e-01
+[phase14]   t=  187.2s  <phi>=0.350 <psi>=0.000  R=0.71um N=117  dissipation_proxy=4.545e-02
+[phase14]   t=  191.9s  <phi>=0.350 <psi>=0.000  R=0.72um N=115  dissipation_proxy=2.365e-02
+[phase14]   t=  196.8s  <phi>=0.350 <psi>=0.000  R=0.72um N=115  dissipation_proxy=8.462e-02
+[phase14]   t=  202.1s  <phi>=0.350 <psi>=0.000  R=0.72um N=114  dissipation_proxy=3.594e-01
+[phase14]   t=  207.2s  <phi>=0.350 <psi>=0.000  R=0.73um N=111  dissipation_proxy=9.719e-03
+[phase14]   t=  211.9s  <phi>=0.350 <psi>=0.000  R=0.73um N=110  dissipation_proxy=2.089e-01
+[phase14]   t=  217.6s  <phi>=0.350 <psi>=0.000  R=0.73um N=110  dissipation_proxy=2.183e-01
+[phase14]   t=  222.6s  <phi>=0.350 <psi>=0.000  R=0.74um N=110  dissipation_proxy=8.066e-01
+[phase14]   t=  227.7s  <phi>=0.350 <psi>=0.000  R=0.75um N=106  dissipation_proxy=1.866e-01
+[phase14]   t=  232.7s  <phi>=0.350 <psi>=0.000  R=0.75um N=106  dissipation_proxy=4.454e-01
+[phase14]   t=  237.5s  <phi>=0.350 <psi>=0.000  R=0.75um N=106  dissipation_proxy=1.139e-02
+[phase14]   t=  242.6s  <phi>=0.350 <psi>=0.000  R=0.75um N=105  dissipation_proxy=1.844e-01
+[phase14]   t=  247.8s  <phi>=0.350 <psi>=0.000  R=0.75um N=105  dissipation_proxy=2.864e-02
+[phase14]   t=  253.2s  <phi>=0.350 <psi>=0.000  R=0.75um N=104  dissipation_proxy=2.005e-01
+[phase14]   t=  258.4s  <phi>=0.350 <psi>=0.000  R=0.75um N=104  dissipation_proxy=4.531e-01
+[phase14]   t=  263.3s  <phi>=0.350 <psi>=0.000  R=0.75um N=104  dissipation_proxy=8.203e-01
+[phase14]   t=  268.4s  <phi>=0.350 <psi>=0.000  R=0.75um N=104  dissipation_proxy=2.573e-01
+[phase14]   t=  273.4s  <phi>=0.350 <psi>=0.000  R=0.76um N=101  dissipation_proxy=5.101e-01
+[phase14]   t=  278.4s  <phi>=0.350 <psi>=0.000  R=0.76um N=101  dissipation_proxy=2.991e-01
+[phase14]   t=  283.3s  <phi>=0.350 <psi>=0.000  R=0.76um N=101  dissipation_proxy=9.596e-05
+[phase14]   t=  289.0s  <phi>=0.350 <psi>=0.000  R=0.77um N=100  dissipation_proxy=2.606e-01
+[phase14]   t=  294.1s  <phi>=0.350 <psi>=0.000  R=0.77um N= 98  dissipation_proxy=3.422e-01
+[phase14]   t=  299.4s  <phi>=0.350 <psi>=0.000  R=0.77um N= 98  dissipation_proxy=1.566e-04
+[phase14]   t=  304.7s  <phi>=0.350 <psi>=0.000  R=0.78um N= 97  dissipation_proxy=8.580e-02
+[phase14]   t=  309.4s  <phi>=0.350 <psi>=0.000  R=0.78um N= 96  dissipation_proxy=1.474e-01
+[phase14]   t=  314.3s  <phi>=0.350 <psi>=0.000  R=0.78um N= 96  dissipation_proxy=1.945e-01
+[phase14]   t=  319.0s  <phi>=0.350 <psi>=0.000  R=0.79um N= 94  dissipation_proxy=5.885e-01
+[phase14]   t=  323.9s  <phi>=0.350 <psi>=0.000  R=0.79um N= 92  dissipation_proxy=2.664e-01
+[phase14]   t=  328.7s  <phi>=0.350 <psi>=0.000  R=0.80um N= 91  dissipation_proxy=4.139e-01
+[phase14]   t=  333.9s  <phi>=0.350 <psi>=0.000  R=0.80um N= 91  dissipation_proxy=5.725e-01
+[phase14]   t=  339.0s  <phi>=0.350 <psi>=0.000  R=0.80um N= 91  dissipation_proxy=7.499e-02
+[phase14]   t=  343.8s  <phi>=0.350 <psi>=0.000  R=0.80um N= 90  dissipation_proxy=3.290e-01
+[phase14]   t=  348.6s  <phi>=0.350 <psi>=0.000  R=0.80um N= 90  dissipation_proxy=1.511e-01
+[phase14]   t=  353.3s  <phi>=0.350 <psi>=0.000  R=0.81um N= 89  dissipation_proxy=2.103e-02
+[phase14]   t=  358.7s  <phi>=0.350 <psi>=0.000  R=0.81um N= 88  dissipation_proxy=3.065e-01
+[phase14]   t=  363.7s  <phi>=0.350 <psi>=0.000  R=0.81um N= 88  dissipation_proxy=6.014e-01
+[phase14]   t=  368.7s  <phi>=0.350 <psi>=0.000  R=0.81um N= 88  dissipation_proxy=2.754e-01
+[phase14]   t=  373.4s  <phi>=0.350 <psi>=0.000  R=0.81um N= 88  dissipation_proxy=3.975e-01
+[phase14]   t=  378.2s  <phi>=0.350 <psi>=0.000  R=0.82um N= 88  dissipation_proxy=8.399e-01
+[phase14]   t=  382.9s  <phi>=0.350 <psi>=0.000  R=0.82um N= 86  dissipation_proxy=2.255e-01
+[phase14]   t=  387.7s  <phi>=0.350 <psi>=0.000  R=0.82um N= 86  dissipation_proxy=1.225e+00
+[phase14]   t=  392.7s  <phi>=0.350 <psi>=0.000  R=0.83um N= 84  dissipation_proxy=4.285e-01
+[phase14]   t=  397.5s  <phi>=0.350 <psi>=0.000  R=0.84um N= 82  dissipation_proxy=2.973e-01

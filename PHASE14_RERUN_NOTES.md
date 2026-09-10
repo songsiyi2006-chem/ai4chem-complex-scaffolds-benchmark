@@ -31,3 +31,19 @@ and resource availability permits it. Do not shorten the grids or 1000 s windows
 Earlier corrections to snapshot timing, endpoint integration and finite-state
 checks are covered by the same tests. The running snapshot predates some of them;
 an exit code of zero would not alone certify the latest root source.
+
+## Checkpoint recovery (2026-09-10)
+
+The checkpoint store commits each completed E1 state, E2 parameter point,
+and E3 equilibration/FRAP unit using an atomic directory rename. Source and
+scientific configuration hashes must match on explicit `--resume`; changed or
+incomplete stores fail closed. Arrays are loaded without pickle. Time histories,
+fields and snapshots are retained, including corrected time-weighted means.
+An interrupted subexperiment must restart: this is not an integrator-step
+checkpoint. Resume to a fresh output directory with the byte-identical script
+and an absolute `--checkpoint-dir`. Existing final outputs are not overwritten.
+
+Thirteen Phase14 tests passed in the molecular environment. This does not
+replace the pending default-grid, full-duration scientific rerun. The old
+complete run retains its statistical limitations; the later 20:29 attempt was
+interrupted and had no checkpoints from this new implementation.

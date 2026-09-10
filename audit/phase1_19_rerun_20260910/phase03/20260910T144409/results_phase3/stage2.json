@@ -1,0 +1,50 @@
+{
+  "engine": "AutoDock Vina CLI executable $WORK_ROOT\\phase3-deps\\vina-1.2.7\\vina.exe (Python API unavailable) + meeko PDBQT",
+  "center_A": [
+    1.7136136363636363,
+    4.92690909090909,
+    -23.163636363636364
+  ],
+  "box_A": [
+    22.0,
+    22.0,
+    22.0
+  ],
+  "exhaustiveness": 16,
+  "n_poses_requested": 9,
+  "top3_delta_g_kcal_mol": [
+    -7.954,
+    -7.469,
+    -7.344
+  ],
+  "top3_full_energies": [
+    [
+      -7.954,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      -7.469,
+      1.685,
+      2.079,
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      -7.344,
+      4.121,
+      7.387,
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "dock_seconds": 161.73289680480957,
+  "pose1_pdb": "results_phase3\\T04_pose1.pdb",
+  "pose1_sdf": "results_phase3\\T04_pose1.sdf",
+  "poses_pdbqt": "results_phase3\\T04_docked_poses.pdbqt"
+}

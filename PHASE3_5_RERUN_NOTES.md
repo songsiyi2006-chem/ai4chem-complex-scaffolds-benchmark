@@ -4,12 +4,12 @@
 
 | Phase / attempt | Scope | Outcome |
 | --- | --- | --- |
-| 3 / 20260910T144409 | Default full attempt | **Running**, original PID14832; production began18:57:05; 6 complete frames /3000 of100000 production steps observed at19:15:20; average2.74steps/s |
+| 3 / 20260910T144409 | Default full attempt | **Running**, original PID14832; production began18:57:05;26 complete frames /13000 of100000 production steps at20:34:26 |
 | 4 / 20260910T141256 | Default full attempt, 500 CI steps | Exit1 after774.5s; best force0.152173 >0.05 eV/A; **not accepted** |
 | 4 / 20260910T181601 | Bounded continuation, 150 steps | Exit1 after219.1s; best force0.150663 >0.05 eV/A; **not accepted** |
 | 5 / 20260910T142809 | Default full attempt before energy correction | Exit1 after917.6s; TS2b only2 converged frames; ModuleA incomplete |
 | 5 / 20260910T182103 | Fresh default full attempt with physical-SP correction | Exit1 after846.4s; TS2b still only2 converged frames; **not accepted** |
-| 5 / 20260910T201431 | Fresh default full attempt with physical-SP and TS2b pose correction | **Running**, molecular PID28064; acceptance pending |
+| 5 / 20260910T201431 | Fresh default full attempt with physical-SP and TS2b pose correction | Exit1 after805.375s; TS2b4/4 converged; ModuleB250K ODE failure; stereo invalidated by Windows cache collision |
 
 No further Phase4/5 retries unless new causal evidence appears. Existing failures
 remain failures; no convergence thresholds were relaxed, no rates invented, no
@@ -254,6 +254,68 @@ case-only literals/hydration keys. Future sourceSHA256:
 `F41697E98B2CA9996A581ACE2E329C8E9C6F5E079674958D1EDF1860B8021B90`.
 This differs from the immutable201431 v3 snapshot. No v4 full run has started;
 one will require main coordination. No gates, modules or sampling were reduced.
+
+###201431 final outcome and source-only ODE repair
+
+The retained process exited1 after805.375s (session83162 completed). TS2b now
+converged at all four original targets1.60/1.40/1.25/1.10A, directly resolving
+the previous2-frame blocker with unchanged convergence gates. Selected maximum
+is the endpoint1.10A, n_imag=2: NOT a stationary first-order TS or an established
+barrier maximum. TS1 has4/6 scan frames and n_imag=1; TS2a3/5 and n_imag=3.
+ModuleA completed its calculations but remains exploratory/stereo-invalid.
+At298.15K BDF failed and Radau completed; at250K all three solvers failed.
+ModuleC was not run, ModuleD remained disabled. No full Phase5 acceptance.
+
+Preserved artifacts under `phase05/20260910T201431/` (SHA256):
+- `results_phase5/phase5_results.json`:
+  `95aa3cc1eaec309695e3cb4db15fafce3ed7fd0b11d371710d4105c1005017d8`
+- `run.log`: `3b2b9e5eab00cb48a9a2bc1ecd40f3475f15d6973e774bc5efdb03d4e93a614c`
+- `results_phase5/cache_phase1-5-validation-v1-physical-sp-ts2b-pose-v3/cx_TS2b.json`:
+  `dba7869e5a678dc4e1567ece2ac58b15574780236616df118aa0eff8dd08b5c5`
+- All four TS2b input/output geometries, constraints and physical-SP energies
+  are in `results_phase5/scan_diagnostics/TS2b-scan_dC3-H_/000.json` through003.
+
+ODE diagnosis uses ONLY this saved G/dG; no molecular rerun. The physical RC
+electronic binding difference is+94.144024886kcal/mol and binding free energy
+is+101.669457836kcal/mol. The existing expression gives finite
+k_off=7.544031540045538e97s^-1 at250K and fastest time1.325551192e-98s.
+At initial time1e-9s the floating-point spacing is2.067951531e-25s: BDF fails
+after6 RHS calls because it cannot represent the initial step. Starting the
+same autonomous equations at an internal zero time permits those tiny initial
+steps and subsequent adaptive growth. A diagnostic with no RHS-call bound was
+stopped after becoming unresponsive; only its verified probePID22684 was stopped,
+never P3. Bounded replays then established the time-origin cause reproducibly.
+
+Source fix translates internal time by1e-9s, preserving the original elapsed
+duration,160 output times, dense-output coordinates, rate constants and
+rtol1e-6/atol1e-14. No rate cap, timescale deletion or looser tolerance. BDF250K
+now succeeds with382 RHS calls; independent Radau agrees. The analytic Jacobian
+matched finite differences at positive concentrations (maxerror2.48e-10 in a
+scaled-rate diagnostic) but not negative Newton trial RC (maxerror5), because
+RHS clipped atzero while Jacobian did not. Jacobian now differentiates that same
+clip, using the physical right derivative atzero.
+
+Finite/nonnegative-rate validation is explicit. The bimolecular association,
+reassociation and dimerization constants have units M^-1s^-1 (r1/r9/r10); other
+constants are s^-1. The k_off expression explicitly multiplies the1M standard
+concentration, numerically unchanged. JSON now uses `rate_constants` plus
+`rate_constant_units`, replacing misleading `rate_constants_s`; no internal
+consumer referenced the old field. Eigenvalue diagnostics no longer claim all
+modes negative or prove stability: conservation imposes zero modes, and extreme
+scale separation compromises numerical eigenvalues.
+
+**30 tests passed in4.633s**, including actual SciPy replay at250..350K (11points)
+plus298.15K, unchanged250K k_off,160times, dense output, finite/nonnegative
+concentrations, catalyst/substrate conservation, and independent250K Radau/BDF
+agreement. Scoped `git diff --check` passed. This is a targeted numerical replay,
+not a new full Phase5 run or validation of gas-phase binding/TS proxies. Current
+sourceSHA256 `CE58E232E29AF8324A6289890346C0E2F2587933157CCE448C71F2FF59144DA9`.
+Main reported cachev4 committed/pushed as e4c3031; the subsequent ODE patch/tests
+are source-only and await main review. No second full run was launched.
+
+P3 latest read-only observation: original PID14832 alive, DCD26 complete frames,
+869820bytes, last frame20:34:26.840047;13000/100000 production steps. The previous
+19:15 ETA is load-dependent, not a deadline; prior sleep remains excluded.
 
 ## Commands, dependencies and verification
 

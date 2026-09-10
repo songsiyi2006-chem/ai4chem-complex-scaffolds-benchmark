@@ -1191,89 +1191,7 @@ def build_construct(state, path_pdb):
     return Path(path_pdb)
 
 
-def checkpoint_identity(sim, state, config, source_path):
-    """Strict identity: no portable-State fallback for incompatible checkpoints."""
-    import hashlib
-    import platform
-    import openmm as mm
-    digest = lambda b: hashlib.sha256(b).hexdigest()
-    plat = sim.context.getPlatform()
-    version = dict(openmm=mm.version.full_version, python=sys.version,
-                   machine=platform.machine(), platform=platform.platform(),
-                   processor=platform.processor(), engine=plat.getName(),
-                   properties={k: plat.getPropertyValue(sim.context, k)
-                               for k in plat.getPropertyNames()})
-    return dict(schema=1, state=state,
-                source_hash=digest(Path(source_path).read_bytes()),
-                config_hash=digest(json.dumps(config, sort_keys=True, allow_nan=False).encode()),
-                system_hash=digest(mm.XmlSerializer.serialize(sim.system).encode()),
-                integrator_hash=digest(mm.XmlSerializer.serialize(sim.integrator).encode()),
-                version_hash=digest(json.dumps(version, sort_keys=True).encode()),
-                version=version)
-
-
-def save_window_checkpoint(path, sim, identity, progress):
-    """One atomic commit pairs binary state, raw samples and completion marker."""
-    import hashlib
-    import tempfile
-    import zipfile
-    path = Path(path)
-    if path.exists():
-        with zipfile.ZipFile(path) as previous:
-            if json.loads(previous.read("manifest.json"))["identity"] != identity:
-                raise ValueError("Refusing to overwrite incompatible checkpoint")
-    binary = sim.context.createCheckpoint()
-    if sim.currentStep != progress["executed_steps"]:
-        raise ValueError("Checkpoint step count does not match sampling state")
-    payload = json.dumps(progress, sort_keys=True, allow_nan=False).encode()
-    manifest = dict(identity=identity, checkpoint_sha256=hashlib.sha256(binary).hexdigest(),
-                    samples_sha256=hashlib.sha256(payload).hexdigest(),
-                    complete=progress["phase"] == "complete")
-    if manifest["complete"] and progress["executed_steps"] != progress["requested_steps"]:
-        raise ValueError("Cannot mark incomplete sampling complete")
-    # Only the final replace publishes a generation; a killed writer leaves the
-    # preceding generation usable. Temporary files are never treated as commits.
-    fd, name = tempfile.mkstemp(prefix=path.name + ".", suffix=".tmp", dir=path.parent)
-    try:
-        with os.fdopen(fd, "w+b") as handle:
-            with zipfile.ZipFile(handle, "w", compression=zipfile.ZIP_DEFLATED) as archive:
-                archive.writestr("checkpoint.bin", binary)
-                archive.writestr("samples.json", payload)
-                archive.writestr("manifest.json", json.dumps(manifest, sort_keys=True))
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(name, path)
-    finally:
-        if os.path.exists(name):
-            os.unlink(name)
-
-
-def load_window_checkpoint(path, sim, identity, *, resume=False):
-    import hashlib
-    import zipfile
-    if not resume:
-        raise ValueError("Checkpoint recovery requires explicit --resume-allostery")
-    with zipfile.ZipFile(path) as archive:
-        manifest = json.loads(archive.read("manifest.json"))
-        if manifest["identity"] != identity:
-            raise ValueError("Incompatible checkpoint identity (source/config/system/integrator/version/state)")
-        binary = archive.read("checkpoint.bin")
-        payload = archive.read("samples.json")
-    if (hashlib.sha256(binary).hexdigest() != manifest["checkpoint_sha256"] or
-            hashlib.sha256(payload).hexdigest() != manifest["samples_sha256"]):
-        raise ValueError("Checkpoint/sample hash mismatch")
-    progress = json.loads(payload)
-    if (manifest["complete"] != (progress["phase"] == "complete") or
-            not 0 <= progress["executed_steps"] <= progress["requested_steps"] or
-            (manifest["complete"] and progress["executed_steps"] != progress["requested_steps"])):
-        raise ValueError("Invalid checkpoint completion/step metadata")
-    sim.context.loadCheckpoint(binary)
-    if sim.currentStep != progress["executed_steps"]:
-        raise ValueError("Loaded OpenMM step count disagrees with samples")
-    return progress
-
-
-def run_openmm_allostery(resume=False):
+def run_openmm_allostery():
     """Umbrella-sampling PMF of the CCT release in both FAD charge states."""
     import openmm as mm
     import openmm.app as app
@@ -1283,27 +1201,13 @@ def run_openmm_allostery(resume=False):
     out = {"engine": f"OpenMM {mm.__version__} / amber14SB + GBn2 (implicit)"}
     ff = app.ForceField("amber14-all.xml", "implicit/gbn2.xml")
     dt_ps = CONFIG["MD_DT_FS"] / 1000.0
-    # Reject legacy/progress-only runs and accidental reuse before writing inputs.
-    for state in ("FAD_oxid", "FAD_radan"):
-        directory = RES / f"md_{state}"
-        if directory.exists() and any(directory.iterdir()):
-            if not resume or not (directory / "window_checkpoint.zip").is_file():
-                raise FileExistsError(f"Existing state {directory}: explicit resume and a real checkpoint required")
-    if resume and not any((RES / f"md_{s}" / "window_checkpoint.zip").exists()
-                          for s in ("FAD_oxid", "FAD_radan")):
-        raise FileNotFoundError("No real allostery checkpoint to resume; log means cannot restore samples")
+    budget_s = CONFIG["OPENMM_BUDGET_MIN"] * 60.0
 
     def build_system(state):
         workdir = RES / f"md_{state}"
         workdir.mkdir(exist_ok=True)
-        # Rebuild for independent System validation without overwriting saved inputs.
-        import tempfile
-        with tempfile.TemporaryDirectory() as scratch:
-            pdb_path = build_construct(state, Path(scratch) / f"construct_{state}.pdb")
-            pdb = app.PDBFile(str(pdb_path))
-            construct_bytes = Path(pdb_path).read_bytes()
-        if not (workdir / "window_checkpoint.zip").exists():
-            (workdir / f"construct_{state}.pdb").write_bytes(construct_bytes)
+        pdb_path = build_construct(state, workdir / f"construct_{state}.pdb")
+        pdb = app.PDBFile(str(pdb_path))
         mod = app.Modeller(pdb.topology, pdb.positions)
         mod.addHydrogens(ff)
         system = ff.createSystem(
@@ -1373,34 +1277,6 @@ def run_openmm_allostery(resume=False):
         f_bias = add_bias(system, groups)
         f_latch = add_latch(system, nz, cg)
         sim = new_sim(mod, system)
-        checkpoint_path = workdir / "window_checkpoint.zip"
-        identity = checkpoint_identity(sim, state, CONFIG, __file__)
-        saved = (load_window_checkpoint(checkpoint_path, sim, identity, resume=resume)
-                 if checkpoint_path.exists() else None)
-        if saved:
-            executed_steps = saved["executed_steps"]
-            if saved["requested_steps"] != requested_steps:
-                raise ValueError("Checkpoint sampling schedule mismatch")
-            completed = len(saved["windows"])
-            expected_steps = (int(20. / dt_ps) + int(50. / dt_ps) + int(prod_ps / dt_ps)
-                              + completed * (int(settle_ps / dt_ps) + int(win_ps / dt_ps)))
-            expected_samples = len(range(0, int(win_ps / dt_ps), max(250, int(win_ps / dt_ps) // 80)))
-            expected_latch = len(range(0, int(prod_ps / dt_ps), max(250, int(prod_ps / dt_ps) // 100)))
-            if (saved["phase"] not in ("windows", "complete") or
-                    not 0 <= completed <= n_win or saved["next_window"] != completed or
-                    executed_steps != expected_steps or
-                    len(saved["result"]["latch_dist_nm"]) != expected_latch or
-                    any(len(w["samples_nm"]) != expected_samples or
-                        not np.isfinite(w["samples_nm"]).all() for w in saved["windows"]) or
-                    not np.isfinite(saved["result"]["latch_dist_nm"]).all() or
-                    (saved["phase"] == "complete" and completed != n_win)):
-                raise ValueError("Checkpoint window schedule/raw samples mismatch")
-        def persist(phase, result, windows):
-            save_window_checkpoint(checkpoint_path, sim, identity, dict(
-                phase=phase, executed_steps=executed_steps, requested_steps=requested_steps,
-                result=result, windows=windows, next_window=len(windows),
-                wall_elapsed_s=(saved["wall_elapsed_s"] if saved else 0.) + time.time() - state_wall_start,
-                process_cpu_s=(saved["process_cpu_s"] if saved else 0.) + time.process_time() - state_cpu_start))
         def advance(steps):
             nonlocal executed_steps
             sim.step(steps)
@@ -1411,60 +1287,50 @@ def run_openmm_allostery(resume=False):
                 wall_elapsed_s=time.time() - state_wall_start,
                 process_cpu_s=time.process_time() - state_cpu_start,
                 wall_time_includes_interruptions=True)), encoding="utf-8")
-        if saved is None:
-            sim.context.setParameter("k_u", 0.0)
-            sim.context.setParameter("k_l", 1500.0)      # latch pull during relax
-            sim.minimizeEnergy(maxIterations=2500)
-            # throughput probe: 20 ps
-            t0 = time.time()
-            n_probe = int(20.0 / dt_ps)
-            advance(n_probe)
-            rate = n_probe * dt_ps / (time.time() - t0)  # ps per second
-            ns_per_day = rate * 86.4
-            log(f"    wall throughput {ns_per_day:.1f} ns/day (interruptions included; sampling unchanged)")
-            advance(int(50.0 / dt_ps))                  # latch closes (70 ps total)
-            sim.context.setParameter("k_l", 0.0)
-            sim.minimizeEnergy(maxIterations=200)
+        sim.context.setParameter("k_u", 0.0)
+        sim.context.setParameter("k_l", 1500.0)      # latch pull during relax
+        sim.minimizeEnergy(maxIterations=2500)
+        # throughput probe: 20 ps
+        t0 = time.time()
+        n_probe = int(20.0 / dt_ps)
+        advance(n_probe)
+        rate = n_probe * dt_ps / (time.time() - t0)  # ps per second
+        ns_per_day = rate * 86.4
+        log(f"    wall throughput {ns_per_day:.1f} ns/day (interruptions included; sampling unchanged)")
+        advance(int(50.0 / dt_ps))                  # latch closes (70 ps total)
+        sim.context.setParameter("k_l", 0.0)
+        sim.minimizeEnergy(maxIterations=200)
 
-            log(f"    [fixed sampling] {prod_ps:g} ps production + {win_ps:g} ps/window "
-                f"x {n_win}; requested_steps={requested_steps} per state")
+        log(f"    [fixed sampling] {prod_ps:g} ps production + {win_ps:g} ps/window "
+            f"x {n_win}; requested_steps={requested_steps} per state")
 
-            # ---- unrestrained production: latch statistics -----------------------
-            nst = int(prod_ps / dt_ps)
-            latch_d = []
-            ch = max(250, nst // 100)
-            for s in range(0, nst, ch):
-                advance(min(ch, nst - s))
-                pos = get_positions(sim)
-                latch_d.append(float(np.linalg.norm(
-                    pos[nz].mean(0) - pos[cg].mean(0))))
-            latch_d = np.array(latch_d)
+        # ---- unrestrained production: latch statistics -----------------------
+        nst = int(prod_ps / dt_ps)
+        latch_d = []
+        ch = max(250, nst // 100)
+        for s in range(0, nst, ch):
+            advance(min(ch, nst - s))
             pos = get_positions(sim)
-            r_contact = float(np.linalg.norm(pos[groups[0]].mean(0)
-                                             - pos[groups[1]].mean(0)))
-            occ = float((latch_d < 0.45).mean())
-            state_results[state] = dict(
-                ns_per_day=float(ns_per_day), prod_ps=float(prod_ps),
-                latch_dist_nm=latch_d.tolist(), latch_occupied_frac=occ,
-                mean_latch_nm=float(latch_d.mean()), r_contact_nm=r_contact)
-            log(f"    latch occupancy = {occ:.2f} (d < 0.45 nm), "
-                f"mean d = {latch_d.mean():.3f} nm; contact CV = "
-                f"{r_contact:.2f} nm")
-            persist("windows", state_results[state], [])
-        else:
-            state_results[state] = saved["result"]
-            latch_d = np.asarray(state_results[state]["latch_dist_nm"])
-            r_contact = state_results[state]["r_contact_nm"]
+            latch_d.append(float(np.linalg.norm(
+                pos[nz].mean(0) - pos[cg].mean(0))))
+        latch_d = np.array(latch_d)
+        pos = get_positions(sim)
+        r_contact = float(np.linalg.norm(pos[groups[0]].mean(0)
+                                         - pos[groups[1]].mean(0)))
+        occ = float((latch_d < 0.45).mean())
+        state_results[state] = dict(
+            ns_per_day=float(ns_per_day), prod_ps=float(prod_ps),
+            latch_dist_nm=latch_d.tolist(), latch_occupied_frac=occ,
+            mean_latch_nm=float(latch_d.mean()), r_contact_nm=r_contact)
+        log(f"    latch occupancy = {occ:.2f} (d < 0.45 nm), "
+            f"mean d = {latch_d.mean():.3f} nm; contact CV = "
+            f"{r_contact:.2f} nm")
 
         # ---- umbrella windows -------------------------------------------------
         r_targets = np.linspace(max(r_contact, 0.95),
                                 CONFIG["UMB_R_RELEASE_NM"], n_win)
-        windows = saved["windows"] if saved else []
-        if saved and saved["next_window"] != len(windows):
-            raise ValueError("Checkpoint window/sample count mismatch")
+        windows = []
         for wi, r0 in enumerate(r_targets):
-            if wi < len(windows):
-                continue
             sim.context.setParameter("k_u", CONFIG["UMB_K_KJ"])
             sim.context.setParameter("r0_u", float(r0))
             advance(int(settle_ps / dt_ps))
@@ -1478,19 +1344,17 @@ def run_openmm_allostery(resume=False):
                     pos[groups[0]].mean(0) - pos[groups[1]].mean(0))))
             windows.append(dict(r0_nm=float(r0), k=CONFIG["UMB_K_KJ"],
                                 samples_nm=samples))
-            persist("windows", state_results[state], windows)
             log(f"    window {wi + 1}/{n_win} r0 = {r0:.2f} nm, "
                 f"<r> = {np.mean(samples):.2f} nm")
         state_results[state]["windows"] = windows
         state_results[state].update(requested_steps=requested_steps,
                                     executed_steps=executed_steps,
                                     simulated_ps=executed_steps * dt_ps,
-                                    wall_elapsed_s=(saved["wall_elapsed_s"] if saved else 0.) + time.time() - state_wall_start,
-                                    process_cpu_s=(saved["process_cpu_s"] if saved else 0.) + time.process_time() - state_cpu_start,
+                                    wall_elapsed_s=time.time() - state_wall_start,
+                                    process_cpu_s=time.process_time() - state_cpu_start,
                                     wall_time_includes_interruptions=True)
         if executed_steps != requested_steps:
             raise RuntimeError("Incomplete fixed allostery sampling")
-        persist("complete", state_results[state], windows)
         np.savez(workdir / "umbrella.npz",
                  r0=np.array([w["r0_nm"] for w in windows]),
                  k=np.array([w["k"] for w in windows]),
@@ -2093,11 +1957,7 @@ def main():
                     choices=["all", "hfcc", "spin", "allostery", "figures", "yield-audit", "assemble"])
     ap.add_argument("--audit-input", type=Path, default=RES / "phase15_results.json")
     ap.add_argument("--allostery-input", type=Path)
-    ap.add_argument("--resume-allostery", action="store_true",
-                    help="Explicitly restore compatible binary checkpoints and raw window samples")
     args = ap.parse_args()
-    if args.resume_allostery and args.stage != "allostery":
-        ap.error("--resume-allostery requires --stage allostery (does not rerun spin)")
 
     if args.stage == "assemble":
         if args.allostery_input is None:
@@ -2153,7 +2013,7 @@ def main():
 
     if args.stage in ("all", "allostery"):
         log("[MODULE 15C] OpenMM allosteric amplification")
-        results["allostery"] = run_openmm_allostery(resume=args.resume_allostery)
+        results["allostery"] = run_openmm_allostery()
         (RES / "allostery_results.json").write_text(
             json.dumps(results["allostery"], indent=2, default=float),
             encoding="utf-8")

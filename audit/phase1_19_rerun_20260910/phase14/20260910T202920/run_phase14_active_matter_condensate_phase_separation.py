@@ -86,17 +86,11 @@ Key references
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
-import os
-import platform
-import tempfile
 import time
-import uuid
 from pathlib import Path
 
 import numpy as np
-import scipy
 from scipy import ndimage
 from scipy.sparse import csr_matrix
 from scipy.sparse.linalg import cg, LinearOperator
@@ -812,184 +806,18 @@ def saxs_intensity(phi: np.ndarray, dx: float) -> dict:
 # ============================================================================
 # EXPERIMENTS
 # ============================================================================
-def _json_bytes(value):
-    return json.dumps(value, sort_keys=True, separators=(",", ":"),
-                      allow_nan=False).encode("utf-8")
-
-
-def _sha(data):
-    return hashlib.sha256(data).hexdigest()
-
-
-class ExperimentCheckpoints:
-    """Immutable completed units. JSON commits reference hashed, pickle-free NPZ.
-
-    One writer per round directory. Interrupted temporary directories are never
-    accepted as commits; completed directories are never replaced or repaired.
-    SHA detects accidental corruption, not authenticity against malicious edits.
-    """
-
-    def __init__(self, root, config, resume=False):
-        self.root = Path(root)
-        self.source_sha = _sha(Path(__file__).read_bytes())
-        self.config_sha = _sha(_json_bytes(config))
-        identity = dict(schema=1, source_sha256=self.source_sha,
-                        config_sha256=self.config_sha, config=config)
-        self.resume = resume
-        if resume:
-            manifest = json.loads((self.root / "round.json").read_text("utf-8"))
-            if any(manifest.get(k) != v for k, v in identity.items()):
-                raise ValueError("checkpoint source/config/schema mismatch")
-            self.round_id = manifest["round_id"]
-        else:
-            self.root.mkdir(parents=True, exist_ok=False)
-            self.round_id = uuid.uuid4().hex
-            self._write(self.root / "round.json", _json_bytes(
-                dict(identity, round_id=self.round_id)))
-
-    @staticmethod
-    def _write(path, data):
-        with open(path, "xb") as stream:
-            stream.write(data)
-            stream.flush()
-            os.fsync(stream.fileno())
-
-    def _identity(self, key, config):
-        if not key or any(c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-" for c in key):
-            raise ValueError("invalid checkpoint key")
-        return dict(schema=1, round_id=self.round_id, key=key,
-                    source_sha256=self.source_sha, config_sha256=self.config_sha,
-                    unit_config=config, unit_config_sha256=_sha(_json_bytes(config)))
-
-    def save(self, key, config, value):
-        identity = self._identity(key, config)
-        if _sha(Path(__file__).read_bytes()) != self.source_sha:
-            raise ValueError("source changed during run")
-        target = self.root / key
-        if target.exists():
-            raise FileExistsError(target)
-        arrays = {}
-
-        def pack(v):
-            if isinstance(v, np.ndarray):
-                if v.dtype.hasobject:
-                    raise ValueError("object arrays forbidden")
-                name = f"a{len(arrays)}"
-                arrays[name] = v
-                return {"array": name}
-            if isinstance(v, dict):
-                return {"dict": [[pack(k), pack(x)] for k, x in v.items()]}
-            if isinstance(v, (list, tuple)):
-                return {"tuple" if isinstance(v, tuple) else "list": [pack(x) for x in v]}
-            if isinstance(v, np.generic):
-                v = v.item()
-            if isinstance(v, float) and not np.isfinite(v):
-                return {"float": str(v)}
-            return v
-
-        tree = pack(value)
-        # Same-volume rename is the commit point. Leave failed staging files
-        # intact for audit; a retry creates a different staging directory.
-        stage = Path(tempfile.mkdtemp(prefix=f".{key}-", dir=self.root))
-        with open(stage / "arrays.npz", "xb") as stream:
-            np.savez_compressed(stream, **arrays)
-            stream.flush()
-            os.fsync(stream.fileno())
-        payload = _json_bytes(tree)
-        self._write(stage / "payload.json", payload)
-        self._write(stage / "commit.json", _json_bytes(dict(
-            identity, payload_sha256=_sha(payload),
-            npz_sha256=_sha((stage / "arrays.npz").read_bytes()))))
-        os.rename(stage, target)
-        log(f"checkpoint committed: {key}")
-
-    def load(self, key, config):
-        identity = self._identity(key, config)
-        if _sha(Path(__file__).read_bytes()) != self.source_sha:
-            raise ValueError("source changed during run")
-        target = self.root / key
-        if not target.exists():
-            return None
-        if not self.resume:
-            raise ValueError("checkpoint reuse requires explicit --resume")
-        manifest = json.loads((target / "commit.json").read_text("utf-8"))
-        if any(manifest.get(k) != v for k, v in identity.items()):
-            raise ValueError("checkpoint unit identity mismatch")
-        payload = (target / "payload.json").read_bytes()
-        if (_sha(payload) != manifest["payload_sha256"] or
-                _sha((target / "arrays.npz").read_bytes()) != manifest["npz_sha256"]):
-            raise ValueError("checkpoint checksum mismatch")
-        with np.load(target / "arrays.npz", allow_pickle=False) as arrays:
-            def unpack(v):
-                if not isinstance(v, dict):
-                    return v
-                if "array" in v:
-                    return arrays[v["array"]].copy()
-                if "dict" in v:
-                    return {unpack(k): unpack(x) for k, x in v["dict"]}
-                if "float" in v:
-                    return float(v["float"])
-                if "tuple" in v:
-                    return tuple(unpack(x) for x in v["tuple"])
-                return [unpack(x) for x in v["list"]]
-            value = unpack(json.loads(payload))
-        log(f"checkpoint verified and reused: {key}")
-        return value
-
-
-def checkpoint_config(s_quick):
-    # Hash all scientific constants plus execution mode and numerical versions.
-    constants = {k: v for k, v in globals().items() if k.isupper()
-                 and k != "RESULTS" and isinstance(v, (int, float, str, tuple, dict))}
-    return json.loads(_json_bytes(dict(constants=constants, s_quick=s_quick,
-        numpy=np.__version__, scipy=scipy.__version__, python=platform.python_version(),
-        machine=platform.machine(), system=platform.system())))
-
-
-def completed_sim(checkpoints, key, kwargs, snapshot_times):
-    config = dict(kwargs=kwargs, snapshot_times=list(snapshot_times))
-    state = checkpoints.load(key, config) if checkpoints else None
-    sim = ActiveCondensateSim(**kwargs)
-    sim._runtime_s = 0.0
-    if state is None:
-        started = time.perf_counter()
-        sim.run(snapshot_times=snapshot_times)
-        sim._runtime_s = time.perf_counter() - started
-    else:
-        state = dict(state)
-        columns = state.pop("frame_columns")
-        if not columns or len({len(v) for v in columns.values()}) != 1:
-            raise ValueError("invalid checkpoint frame columns")
-        state["frames"] = [dict(zip(columns, row)) for row in zip(
-            *(v.tolist() for v in columns.values()))]
-        if set(state) != set(vars(sim)):
-            raise ValueError("invalid checkpoint simulation state")
-        sim.__dict__.update(state)
-    if (not np.isfinite(sim.t) or abs(sim.t - sim.t_end) > 1e-9
-            or not sim.frames or abs(sim.frames[-1]["t"] - sim.t) > 1e-9):
-        raise ValueError("checkpoint requires a completed trajectory and all frames")
-    for field in (sim.phi, sim.psi, *sim.snapshots.values()):
-        if field.shape != (sim.n, sim.n) or not np.isfinite(field).all():
-            raise ValueError("invalid checkpoint concentration field")
-    sim.ness_stats()  # also validate monotonically increasing physical times
-    if state is None and checkpoints:
-        saved = dict(vars(sim))
-        frames = saved.pop("frames")
-        saved["frame_columns"] = {k: np.asarray([f[k] for f in frames]) for k in frames[0]}
-        checkpoints.save(key, config, saved)
-    return sim
-
-
-def experiment_main(s_quick: float, checkpoints=None) -> dict:
+def experiment_main(s_quick: float) -> dict:
     """E1 — passive vs active LLPS, t in [0, 1000 s] (fig 1)."""
     log("E1: passive (k_ATP=0) vs active (k_ATP=0.02 s^-1) condensate dynamics")
     t_end = 300.0 if s_quick < 1 else T_END
     runs = {}
     for tag, k_atp in (("passive", 0.0), ("active", K_ATP_NOMINAL)):
+        sim = ActiveCondensateSim(k_atp=k_atp, t_end=t_end,
+                                  dt=max(0.25, DT * s_quick),
+                                  n=N_GRID if s_quick == 1 else 112)
+        log(f"  {tag}: N={sim.n}, dt={sim.dt}, T_end={t_end}")
         t0 = time.perf_counter()
-        sim = completed_sim(checkpoints, f"E1_{tag}", dict(
-            k_atp=k_atp, t_end=t_end, dt=max(0.25, DT * s_quick),
-            n=N_GRID if s_quick == 1 else 112), SNAP_TIMES)
+        sim.run(SNAP_TIMES)
         runs[tag] = sim
         log(f"  {tag}: done in {time.perf_counter()-t0:.1f}s, "
             f"mass drift {sim.max_mass_drift:.2e}, rejections {sim.n_rejections}, "
@@ -997,7 +825,7 @@ def experiment_main(s_quick: float, checkpoints=None) -> dict:
     return runs
 
 
-def experiment_phase_diagram(s_quick: float, checkpoints=None) -> dict:
+def experiment_phase_diagram(s_quick: float) -> dict:
     """E2 — condensate stability vs ATP rate at several chi (fig 2)."""
     log("E2: phase diagram scan over (k_ATP, chi-scale)")
     if s_quick < 1:
@@ -1009,16 +837,17 @@ def experiment_phase_diagram(s_quick: float, checkpoints=None) -> dict:
     grid = {}
     for s_chi in s_list:
         for k_atp in k_list:
-            t0 = time.perf_counter()
-            sim = completed_sim(checkpoints, f"E2_s{s_chi:.2f}_k{k_atp:.3f}", dict(k_atp=k_atp, s_chi=s_chi,
+            sim = ActiveCondensateSim(k_atp=k_atp, s_chi=s_chi,
                                       n=112 if s_quick == 1 else 96,
                                       dt=0.5,
-                                      t_end=T_END if s_quick == 1 else 400.0), (T_END,))
+                                      t_end=T_END if s_quick == 1 else 400.0)
+            t0 = time.perf_counter()
+            sim.run(snapshot_times=(T_END,))
             st = sim.ness_stats()
             grid[f"s{s_chi:.2f}_k{k_atp:.3f}"] = {
                 "s_chi": s_chi, "k_atp": k_atp, "chi0": sim.chi0, **st,
                 "mass_drift": sim.max_mass_drift,
-                "runtime_s": sim._runtime_s}
+                "runtime_s": time.perf_counter() - t0}
             log(f"  chi-scale {s_chi:.2f} (chi0={sim.chi0:.3f}), "
                 f"k_ATP={k_atp:.3f}: R={st['R_mean_um']:.2f}um, "
                 f"A={st['area_fraction']:.3f}, S_proxy={st['S_total_reduced']:.3e}, "
@@ -1026,21 +855,16 @@ def experiment_phase_diagram(s_quick: float, checkpoints=None) -> dict:
     return grid
 
 
-def experiment_fingerprints(main_runs: dict, s_quick: float, checkpoints=None) -> dict:
+def experiment_fingerprints(main_runs: dict, s_quick: float) -> dict:
     """E3 — FRAP + SAXS twins at three ATP levels (fig 3)."""
     log("E3: FRAP & SAXS fingerprints at k_ATP in {0, 0.02, 0.08}")
     out = {}
     for k_atp in (0.0, K_ATP_NOMINAL, 0.08):
-        key = f"E3_k{k_atp:.3f}"
-        config = dict(k_atp=k_atp, s_quick=s_quick)
-        cached = checkpoints.load(key, config) if checkpoints else None
-        if cached is not None:
-            out[f"k{k_atp:.3f}"] = cached
-            continue
-        sim = completed_sim(checkpoints, key + "_equilibrated", dict(k_atp=k_atp,
+        sim = ActiveCondensateSim(k_atp=k_atp,
                                   n=128 if s_quick == 1 else 96,
                                   dt=0.5,
-                                  t_end=T_END if s_quick == 1 else 400.0), (T_END,))
+                                  t_end=T_END if s_quick == 1 else 400.0)
+        sim.run(snapshot_times=(T_END,))
         frap = simulate_frap(sim, k_atp,
                              t_sim=150.0 if s_quick < 1 else 300.0)
         saxs = saxs_intensity(sim.phi, sim.dx)
@@ -1059,8 +883,6 @@ def experiment_fingerprints(main_runs: dict, s_quick: float, checkpoints=None) -
             "_saxs_curve": (saxs["q"], saxs["S_q"]),
             "_saxs": saxs,
         }
-        if checkpoints:
-            checkpoints.save(key, config, out[f"k{k_atp:.3f}"])
         log(f"  k_ATP={k_atp}: tau_1/2={frap['tau_half_s']:.2f}s, "
             f"D_app={frap['D_app_um2_s']:.4f} um^2/s, "
             f"eta={frap['viscosity_Pa_s']:.3f} Pa.s, q*={saxs['q_star']:.2f}, "
@@ -1243,24 +1065,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[1])
     ap.add_argument("--quick", action="store_true",
                     help="reduced grid/time smoke run for CI")
-    ap.add_argument("--checkpoint-dir", type=Path,
-                    help="new round directory; required with --resume")
-    ap.add_argument("--resume", action="store_true",
-                    help="explicitly reuse verified completed units in this round")
     args = ap.parse_args()
     s_quick = 0.35 if args.quick else 1.0
-    if args.resume and args.checkpoint_dir is None:
-        ap.error("--resume requires --checkpoint-dir")
-    output_files = [RES_DIR / "phase14_results.json"] + [FIG_DIR / name for name in (
-        "fig1_active_droplet_spatiotemporal.png",
-        "fig2_thermodynamic_entropy_dissipation.png",
-        "fig3_analytical_frap_saxs_twin.png")]
-    if any(p.exists() for p in output_files):
-        ap.error("output already exists; use a fresh working directory (and an absolute --checkpoint-dir to resume)")
-    checkpoint_dir = args.checkpoint_dir or (RES_DIR / "checkpoints" / (
-        time.strftime("%Y%m%dT%H%M%S") + "-" + uuid.uuid4().hex[:12]))
-    checkpoints = ExperimentCheckpoints(checkpoint_dir, checkpoint_config(s_quick), args.resume)
-    log(f"checkpoint round: {checkpoint_dir.resolve()}")
 
     FIG_DIR.mkdir(exist_ok=True)
     RES_DIR.mkdir(exist_ok=True)
@@ -1300,9 +1106,9 @@ def main() -> None:
         f"screening factor {ion_meta['screening_factor_at_0.35nm']:.3f}")
 
     # ---------------- Experiments ------------------------------------------
-    main_runs = experiment_main(s_quick, checkpoints)
-    scan = experiment_phase_diagram(s_quick, checkpoints)
-    fp = experiment_fingerprints(main_runs, s_quick, checkpoints)
+    main_runs = experiment_main(s_quick)
+    scan = experiment_phase_diagram(s_quick)
+    fp = experiment_fingerprints(main_runs, s_quick)
 
     # ---------------- figures ----------------------------------------------
     log("rendering 300-DPI figures")
@@ -1342,11 +1148,6 @@ def main() -> None:
         "k_deph": K_DEPH, "KM": KM_MM, "DG_ATP_kBT": DG_ATP_KBT, "T_K": T_K,
         "wall_time_s": round(time.perf_counter() - t_wall, 1),
         "numpy": np.__version__,
-        "checkpoint_round": checkpoints.round_id,
-        "checkpoint_dir": str(checkpoint_dir.resolve()),
-        "source_sha256": checkpoints.source_sha,
-        "config_sha256": checkpoints.config_sha,
-        "resumed": args.resume,
     }
     with open(RES_DIR / "phase14_results.json", "w", encoding="utf-8") as fh:
         json.dump(RESULTS, fh, indent=1)

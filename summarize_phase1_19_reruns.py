@@ -91,6 +91,7 @@ def main():
             continue
         r=a[-1]
         state={'running':'运行中','process_completed':'进程完成','process_failed':'失败或主动中止'}.get(r['status'],r['status'])
+        if r['status'].startswith('process_interrupted'): state='计算中断，未完成'
         if r.get('memory_hold_reported'): state='等待内存余量'
         scope='默认完整参数' if r['scope'].startswith('default/full') else '自定义启动参数，见命令'
         if r.get('fresh_atomic_parent'): scope='本轮原子检查点＋后续重算'

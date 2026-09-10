@@ -69,11 +69,11 @@
     "--force_rerun"
   ],
   "cwd": "$CAMPAIGN\\phase03\\20260910T144409",
-  "status": "running",
+  "status": "process_interrupted",
   "scope": "default/full attempt",
   "prerequisite_artifacts": [],
   "historical_cache_copied": false,
-  "scientific_acceptance": "pending output review",
+  "scientific_acceptance": "not accepted: computation interrupted before required completion artifacts",
   "runtime": {
     "python": "3.12.14 | packaged by conda-forge | (main, Sep  2 2026, 23:18:20) [MSC v.1944 64 bit (AMD64)]",
     "executable": "$USER_PROFILE\\miniconda3\\envs\\phase2ff\\python.exe",
@@ -91,5 +91,9 @@
       "pyscf": null
     }
   },
-  "pid": 14832
+  "pid": 14832,
+  "exit_code": 0,
+  "interruption_observed_at": "2026-09-10 20:43:57",
+  "interruption_evidence": "2026-09-10 20:40-20:43 no Python processes in Win32_Process/Get-Process, incomplete logs and required final artifacts; process handles report exit0 but calculation completion is not established, cause unknown.",
+  "exit_evidence": "GetExitCodeProcess on recorded PID; null means unavailable; an exit code does not establish full calculation completion"
 }

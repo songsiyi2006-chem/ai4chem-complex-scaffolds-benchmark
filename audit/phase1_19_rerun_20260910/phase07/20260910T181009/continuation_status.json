@@ -1,0 +1,215 @@
+{
+  "tool": "resume_phase7_rerun",
+  "phase": 7,
+  "cwd": "$CAMPAIGN\\phase07\\20260910T181009",
+  "status": "running",
+  "started": 1789048371.4140828,
+  "pid": 25768,
+  "source_sha256": {
+    "C:\\Users\\HUIWEI\\Documents\\Codex\\2026-09-08\\https-github-com-songsiyi2006-chem-ai4chem-2\\work\\phase1-5-fixes\\resume_phase7_rerun.py": "f6426bb6acaab81b12a7830e8b421b682265d27bea1dd153603fce70fd121d3a"
+  },
+  "input_sha256": {
+    "run_phase7_strong_correlation_wall.py": "1141e04dc50ecdc55580416f11630187c85d09263d450570091e98bef8494e0d",
+    "results_phase4/reactant_3d.mol": "e52cd7fbc8028bfbdf97841b04c1c87ec83b56c75097a894ec82e046e0db8c78",
+    "rerun_status.json": "85f5c91323e06ea18155d3c0d9b82c7de4a8ec038e5af5209b06650854348820",
+    "results_phase7/checkpoints/G/scan.json": "0041b1a366948d1ee2fa6aa4fda01b14df2fd4245a4b206b10d9ad7a28b057de",
+    "results_phase7/checkpoints/G/R1.40.json": "52027f2382508514c2929f1416e8943a673efbc099494cd4bbee34962eeae344",
+    "results_phase7/checkpoints/AI/R1.40.json": "229783a7e8d88dc6c3a2a53ed175bddd32c266d38e198b255aec7b416f35c9c4",
+    "results_phase7\\scan_geometries\\R1.40.xyz": "bf1619eb7c6ffd66545c7b35a4aea0b5cae9355e698a567864153706510ac813",
+    "results_phase7/checkpoints/G/R1.50.json": "9e2340cf2bc0aaa529c89f7f15d6b333e990fe73e23e0be6e5f1c1d89d903b73",
+    "results_phase7/checkpoints/AI/R1.50.json": "bde93f86620ff8df318b4a5a7d99b7e2407aab5df4ef6f7e38395798c6037bef",
+    "results_phase7\\scan_geometries\\R1.50.xyz": "999e775679b397fe1ada1518913b128d271e296824a48858f7ddda85475c53b5",
+    "results_phase7/checkpoints/G/R1.60.json": "c3127508a24775195c86bb630d8be42a5577d7e5aeecb84f2d02c44c83745895",
+    "results_phase7/checkpoints/AI/R1.60.json": "0027949f1aee300164e3bce8db0693c42ea21c1c93f964c8d1507f650e840768",
+    "results_phase7\\scan_geometries\\R1.60.xyz": "41bbcdbe252ad8c8f29f6eb22c6da4e703c7719fcda6ec722d7d9366050de052",
+    "results_phase7/checkpoints/G/R1.75.json": "173a49198a534c2010f25976b1142a82e8a5125eb3d7ffe322a55b426a022a5b",
+    "results_phase7/checkpoints/AI/R1.75.json": "c97825cf511aa26a406ee7d37a6ae1f0be864de2221f3f837a58418c25ce3535",
+    "results_phase7\\scan_geometries\\R1.75.xyz": "e227b0303c9e1ad0d6db60203bab9e7eb790a0b5b56c72dca41e39b392e5742e",
+    "results_phase7/checkpoints/G/R1.90.json": "7feab3c07507e96d49b7d0d9202ef637b24914a06dc60b288bc0678b35ee2fae",
+    "results_phase7/checkpoints/AI/R1.90.json": "dd71d605d3230f6fd4cc879c021ee53affbf99a7e1d8095229d8fa6e19f02574",
+    "results_phase7\\scan_geometries\\R1.90.xyz": "846caea2a6022182d32174ff227008999beb894c427a35d27dd010d1d1ee9b30",
+    "results_phase7/checkpoints/G/R2.05.json": "4227c61e3ae16c5949579416ade529128678ca5d64cb005264ba7f54121c5cc5",
+    "results_phase7/checkpoints/AI/R2.05.json": "9264c58ebf21df62934d046398f064e00b6146395e240442297e7c004dc90c2c",
+    "results_phase7\\scan_geometries\\R2.05.xyz": "696b7e202faaa7e29f91b847ab33ae84a8716a7d2288777b948f0b6462ef8360",
+    "results_phase7/checkpoints/G/R2.20.json": "c2a5745664481b5ff58450c1246e6867b0a49b13e0cec851b3e6569d6ebc403c",
+    "results_phase7/checkpoints/AI/R2.20.json": "b4199d8e3e4c45970f4f24008301336bb44350280fd25efdc5ee9aa3d81b72ec",
+    "results_phase7\\scan_geometries\\R2.20.xyz": "8ac961e2ba71787b4ef6324636ddd9089cd2d54c76664dee3c42b435498afc10",
+    "results_phase7/checkpoints/G/R2.40.json": "5be6b8219f032d556b7b917a4f7e5f7ddf3746a30b9f2970f767cd39726dc72e",
+    "results_phase7/checkpoints/AI/R2.40.json": "cf89f38048d50d91c815a6f030ef4613e3bc7d712c7bdf39d2e7feaeb8eb28fc",
+    "results_phase7\\scan_geometries\\R2.40.xyz": "871708ad34e3a0bef19e7ce28751750f1b25211ebe2cab7bf357a4a8ed392222",
+    "results_phase7/checkpoints/G/R2.60.json": "e9c69d9b544700b401eb3f0edbd99773d949d92cb67530b08f28241c5dde4311",
+    "results_phase7/checkpoints/AI/R2.60.json": "17bf3c045b204065441bd766e7fba4e6ba31d766cdd18e131ac9b5835592cbd6",
+    "results_phase7\\scan_geometries\\R2.60.xyz": "3afe717587e01f48bc14907afdd08358fdf5223a832a94f99406670d12772fe9",
+    "results_phase7/checkpoints/G/R2.90.json": "9fa020691a2b50d07bbec0b8e84f818fbff8ebeae3d62413024a25fb30798e2e",
+    "results_phase7/checkpoints/AI/R2.90.json": "349830be16cc03d51f3be8fc25068a66a1ca9d14cfac774764a71fbbd1394c78",
+    "results_phase7\\scan_geometries\\R2.90.xyz": "ca2cd3f53a3103001444a4e8799bd43541b41ee5a4417b434193f266527be798",
+    "results_phase7/checkpoints/G/R3.20.json": "f94029e572412230f68f9f241eaf91844f4161d973ae1a4a431303d53b1c13fc",
+    "results_phase7/checkpoints/AI/R3.20.json": "870a1f9f771fe76f81a95e6d6dc7017383ac1baf386d2d9efd2533976703e4fd",
+    "results_phase7\\scan_geometries\\R3.20.xyz": "33cdda51045618d3105fe3e611b0c805e9d6776a63f21dfd2a8988bced3f0655"
+  },
+  "accepted": {
+    "results_phase7/checkpoints/7A/R1.40.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R1.40.json": "1b6d6ad0b2a028ae954116d96678a394825fbebaa92af7a0d89aac50b713a0d5"
+      }
+    },
+    "results_phase7/checkpoints/7A/R1.50.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R1.50.json": "04fd7d66fad33a2ef9c3dcd1c63d6032f37a333dbd4a08767af60901f45eba37"
+      }
+    },
+    "results_phase7/checkpoints/7A/R1.60.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7A/R1.60.json": "40882c5690183ebb6b4d1e869a51bc1515ef5889df6eda59058100e2b9cb9d12"
+      }
+    }
+  },
+  "commands": [
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "3",
+        "--basis",
+        "def2-svp",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789048371.44936,
+      "status": "exited",
+      "pid": 27604,
+      "exit_code": 3221225786,
+      "finished": 1789048471.8671668
+    },
+    {
+      "command": [
+        "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+        "-X",
+        "faulthandler",
+        "-u",
+        "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+        "--worker",
+        "7A",
+        "--point",
+        "3",
+        "--basis",
+        "6-31g",
+        "--mem",
+        "2 GB",
+        "--threads",
+        "2"
+      ],
+      "started": 1789048471.9679172,
+      "status": "running",
+      "pid": 21760
+    }
+  ],
+  "pending": [
+    [
+      "7A",
+      3
+    ],
+    [
+      "7A",
+      4
+    ],
+    [
+      "7A",
+      5
+    ],
+    [
+      "7A",
+      6
+    ],
+    [
+      "7A",
+      7
+    ],
+    [
+      "7A",
+      8
+    ],
+    [
+      "7A",
+      9
+    ],
+    [
+      "7A",
+      10
+    ],
+    [
+      "7B",
+      0
+    ],
+    [
+      "7B",
+      1
+    ],
+    [
+      "7B",
+      2
+    ],
+    [
+      "7B",
+      3
+    ],
+    [
+      "7B",
+      4
+    ],
+    [
+      "7B",
+      5
+    ],
+    [
+      "7B",
+      6
+    ],
+    [
+      "7B",
+      7
+    ],
+    [
+      "7B",
+      8
+    ],
+    [
+      "7B",
+      9
+    ],
+    [
+      "7B",
+      10
+    ]
+  ],
+  "log_directory": "phase7_continuations\\20260910T215251_25768",
+  "launch_command": [
+    "$USER_PROFILE\\miniconda3\\envs\\phase2ff\\pythonw.exe",
+    "$SOURCE_ROOT\\resume_phase7_rerun.py",
+    "--job",
+    "$SOURCE_ROOT\\results_rerun_audit\\os_jobs\\20260910T215250_resume7_0\\job.json"
+  ],
+  "protocol": {
+    "threads": 2,
+    "mem": "2 GB",
+    "minimum_free_gib": 2.5,
+    "basis_chain": [
+      "def2-svp",
+      "6-31g",
+      "sto-3g"
+    ]
+  },
+  "scientific_acceptance": "pending output review",
+  "scope": "same-campaign continuation"
+}

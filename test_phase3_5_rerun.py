@@ -80,6 +80,53 @@ def probe_phase5_restraint(cache_path):
 
 
 class RerunTests(unittest.TestCase):
+    def test_mass_action_jacobian_matches_clipped_rhs(self):
+        species = ['R', 'Cat', 'RC', 'I1Cat', 'I1', 'P_R', 'P_S', 'P_elim', 'Q', 'H2', 'P_poly']
+        ns = functions(5, ['rhs_factory', 'jac_factory'], SPECIES=species,
+                       SI={s: i for i, s in enumerate(species)})
+        nu = np.random.default_rng(11).normal(size=(12, 11))
+        ks = np.arange(1, 13, dtype=float)
+        rhs, jac = ns['rhs_factory'](nu, ks), ns['jac_factory'](nu, ks)
+        for sign in (1., -1.):
+            y = np.ones(11)*.1
+            y[[0, 2, 4]] *= sign
+            step = np.eye(11)*1e-6
+            fd = np.column_stack([(rhs(0, y+d)-rhs(0, y-d))/2e-6 for d in step])
+            np.testing.assert_allclose(jac(0, y), fd, atol=1e-8, rtol=1e-7)
+
+    def test_ode_fresh_rate_replay_uses_zero_internal_origin(self):
+        species = ['R', 'Cat', 'RC', 'I1Cat', 'I1', 'P_R', 'P_S', 'P_elim', 'Q', 'H2', 'P_poly']
+        ns = functions(5, ['integrate', 'build_rate_system', 'eyring', 'rhs_factory', 'jac_factory'],
+                       SPECIES=species, SI={s: i for i, s in enumerate(species)},
+                       R_GAS=.0019872041, K_ON=1e9, K_DIMER=500., BARRIER_AROM_SINK=52.,
+                       CONC_R0=.1, CONC_CAT0=.01, T_HORIZON=(1e-9, 1e5),
+                       _warn=lambda *a: None, _fallback=lambda *a: None)
+        # Fresh201431 G/dG fixture: regression of numerical integration only,
+        # NOT endorsement of the invalid stereoface cache or physical rates.
+        dg = dict(dG_bind_RC=101.66945783554547, dG_TS1_vs_RC=-81.00345225347701,
+                  dG_I1_vs_RC=-93.24140267781331, dG_TS2aM_vs_I1=8.,
+                  dG_TS2am_vs_I1=8., dG_TS2b_vs_I1=6., dG_TS1_thermal=42.95409357144672)
+        for temperature in (*range(250, 351, 10), 298.15):
+            sol, nu, ks, _ = ns['integrate'](temperature, {}, dg, dense=True)
+            self.assertTrue(sol.success)
+            self.assertEqual(len(sol.t), 160)
+            np.testing.assert_allclose(sol.t[[0, -1]], [1e-9, 1e5], rtol=0, atol=0)
+            self.assertTrue(np.isfinite(sol.y).all())
+            self.assertGreaterEqual(float(sol.y.min()), -1e-14)
+            cat = np.array([0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0])
+            sub = np.array([1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 2])
+            np.testing.assert_allclose(cat@sol.y, .01, atol=1e-12, rtol=0)
+            np.testing.assert_allclose(sub@sol.y, .1, atol=1e-12, rtol=0)
+            np.testing.assert_allclose(sol.sol(sol.t), sol.y, atol=1e-14)
+            if temperature == 250:
+                self.assertAlmostEqual(ks[1]/7.544031540045538e97, 1.)
+                from scipy.integrate import solve_ivp
+                independent = solve_ivp(ns['rhs_factory'](nu, ks), (0., 1e5-1e-9),
+                                        sol.y[:, 0], method='Radau', jac=ns['jac_factory'](nu, ks),
+                                        t_eval=sol.t-1e-9, rtol=1e-6, atol=1e-14)
+                self.assertTrue(independent.success)
+                np.testing.assert_allclose(independent.y, sol.y, rtol=1e-6, atol=1e-14)
+
     def test_phase5_cache_keys_distinguish_faces_and_unlocked_state(self):
         tree = ast.parse((ROOT/'run_phase5_chemical_world_model.py').read_text(encoding='utf-8'))
         constants = {n.targets[0].id: ast.literal_eval(n.value) for n in tree.body

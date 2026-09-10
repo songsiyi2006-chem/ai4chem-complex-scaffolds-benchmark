@@ -1,0 +1,12 @@
+[phase15 18:12:46] ==============================================================================
+[phase15 18:12:46] PHASE 15 - QUANTUM BIOLOGY: RADICAL-PAIR ENGINE & ALLOSTERIC MAGNETORECEPTION
+[phase15 18:12:46] ==============================================================================
+[phase15 18:12:46] [MODULE 15C] OpenMM allosteric amplification
+[phase15 18:12:46]   15C state FAD_oxid: build, minimize, thermalize ...
+[phase15 18:15:49]     wall throughput 11.0 ns/day (interruptions included; sampling unchanged)
+[phase15 18:22:55]     [fixed sampling] 300 ps production + 150 ps/window x 8; requested_steps=833000 per state
+[phase15 19:00:24]     latch occupancy = 0.12 (d < 0.45 nm), mean d = 1.487 nm; contact CV = 0.97 nm
+[phase15 19:22:51]     window 1/8 r0 = 0.97 nm, <r> = 0.97 nm
+[phase15 19:39:34]     window 2/8 r0 = 1.40 nm, <r> = 1.40 nm
+[phase15 20:15:21]     window 3/8 r0 = 1.83 nm, <r> = 1.84 nm
+[phase15 20:28:34]     window 4/8 r0 = 2.27 nm, <r> = 2.27 nm

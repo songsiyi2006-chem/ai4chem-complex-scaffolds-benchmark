@@ -1,0 +1,55 @@
+========================================================================
+PHASE 3 COMPLEX DYNAMICS — 2026-09-10T14:44:11
+========================================================================
+[14:44:11] [main] python 3.12.14 | target 7RPZ (ref ligand 6IC) | ligand T04
+========================================================================
+STAGE 1A  ingestion & curation
+========================================================================
+[14:44:12] [1A] downloading 7RPZ from files.rcsb.org ...
+[14:44:15] [1A] pocket centroid A = [1.714, 4.927, -23.164] | residues within 10 A: 28
+[14:44:35] [1A] curation complete -> 7RPZ_fixed_protein.pdb
+[14:44:35] [stage] 1A  ingestion & curation: OK
+========================================================================
+STAGE 2   docking
+========================================================================
+[14:44:39] [2] receptor pdbqt ready (135732 B)
+[14:47:21] [2] top poses (kcal/mol): #1 -7.95, #2 -7.47, #3 -7.34 | 162 s, exhaustiveness 16
+[14:47:21] [stage] 2   docking: OK
+========================================================================
+STAGE 3   FF duality (ML vs classical)
+========================================================================
+[14:47:21] [warn] H-relax failed for T04 pose: cannot import name 'LocalEnergyMinimization' from 'openmm' ($USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\openmm\__init__.py)
+[14:47:41] [fallback] GAFF2 (openmmforcefields) unavailable in this environment without downgrading the working OpenFF stack; classical reference uses Sage 2.1 valence+vdW with AM1-BCC charges
+[14:47:41] [3] GAFF2 single point: E = -193.90 kcal/mol, |F|max = 74.03 kcal/mol/A
+[14:47:41] [3] MMFF94 single point: E = 37.52 kcal/mol, |F|max = 34.69 kcal/mol/A
+$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\e3nn\o3\_wigner.py:10: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  _Jd, _W3j_flat, _W3j_indices = torch.load(os.path.join(os.path.dirname(__file__), 'constants.pt'))
+$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\torch\jit\_script.py:1480: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+cuequivariance or cuequivariance_torch is not available. Cuequivariance acceleration will be disabled.
+Using MACE-OFF23 MODEL for MACECalculator with $USER_PROFILE\.cache\mace/MACE-OFF23_small.model
+Using float64 for MACECalculator, which is slower but more accurate. Recommended for geometry optimization.
+$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\mace\calculators\mace.py:226: UserWarning: Environment variable TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD detected, since the`weights_only` argument was not explicitly passed to `torch.load`, forcing weights_only=False.
+  torch.load(f=model_path, map_location=device)
+$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\torch\jit\_serialization.py:176: DeprecationWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\torch\jit\_serialization.py:176: DeprecationWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\torch\jit\_serialization.py:176: DeprecationWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+[14:47:44] [3] MACE-OFF23-small (mace-torch 0.3.x, ASE interface): E = -1284067.44 kcal/mol, |F|max = 50.80 kcal/mol/A
+[14:47:44] [stage] 3   FF duality (ML vs classical): OK
+========================================================================
+STAGE 4   complex MD (OBC2, 310 K)
+========================================================================
+[RDKit] WARNING:[14:47:44] WARNING: More than one matching pattern found - picking one
+[RDKit] WARNING:
+[14:47:44] [4] complex: 170 residues, 2785 atoms
+[RDKit] WARNING:[14:47:45] WARNING: More than one matching pattern found - picking one
+[RDKit] WARNING:
+[14:47:52] [4] system built: 2681 protein atoms | small molecules: GDP (AM1-BCC (NAGL openff-gnn-am1bcc-1.0.0)), T04 (AM1-BCC (NAGL openff-gnn-am1bcc-1.0.0))
+[14:47:52] [4] C-alpha restraints on 168 atoms (k = 5 kcal/mol/A^2)
+[14:47:52] [4] free energy minimization (L-BFGS) ...
+[14:58:59] [4] heating ramp 10 -> 50 K @0.5 fs -> 150 K @1 fs -> 310 K ...
+[18:25:52] [4] equilibration 5000 steps @ 310 K, dt = 1 fs ...
+[18:57:05] [4] production 100000 steps (100 ps @ 1 fs) ...
