@@ -1,3 +1,28 @@
+## Phase 24 · GXNU AI-assisted high-throughput catalysis pilot
+
+Based on the supplied GXNU platform proposal, this phase implements a **simulation-only software/data pilot**, not an experimentally commissioned laboratory. 基于广西师范大学平台论证材料完成的软件原型，全部反应响应为模拟，OT-2 默认仅作水替代调试。
+
+- [Complete standalone Python script](run_ai_hts_platform_pilot.py): 48 chiral structures, 9,216 conditions, 24 MaxMin seeds and three 96-well GP/qEI batches; calibrated synthetic HPLC integration and SQLite ingestion.
+- [中文综合技术报告](PHASE24_GXNU_AI_HTS_REPORT_ZH.md) · [中文两页式决策摘要](GXNU_AI_HTS_PLATFORM_PROPOSAL_ZH.md) · [English executive brief](GXNU_AI_HTS_PLATFORM_PROPOSAL_EN.md).
+- [Metrics](results_phase24/metrics.json) · [plate map](results_phase24/plate_round3.csv) · [OT-2 API 2.15 protocol](output_hts_96well_screening.py) · [artifact audit](results_phase24/artifact_validation.json) · [official simulator validation](results_phase24/opentrons_validation.json).
+- 48 structures comprise 24 connectivities and their enantiomers. Steric and dipole descriptors are proxies, orbital gaps are extended-Huckel estimates. The initial batch already contains target hits; the three-round simulation does not establish chemical discovery or real-world superiority.
+- OT-2 multi-channel operation requires three externally pre-arrayed source plates. No source-plate preparation, inert handling, gas pressure, sealing, vendor HTTP/MQTT service or real LC interface has been commissioned.
+
+```sh
+python -m pip install -r requirements_phase24.txt
+python run_ai_hts_platform_pilot.py --self-test
+# Choose a NEW output directory on each run; existing measurements are protected.
+python run_ai_hts_platform_pilot.py --out phase24_runs/seed24
+python validate_phase24_outputs.py
+# Optional: isolated official OT-2 software simulation
+python -m venv .phase24-ot2env
+# Activate that environment, then:
+python -m pip install -r requirements_phase24_ot2.txt
+python validate_phase24_outputs.py --opentrons
+```
+
+![Phase 24 simulated plate forecasts and measurements](figures_hts_pilot/fig2_96well_plate_heatmap_yield_ee.png)
+
 > **Phase 18–19 audit / 审计更正 (2026-09-10):** Phase 18 fully recalculated; Phase 19 isolated QM scans recalculated only, NOT full enzyme evolution. Phase 18 已全流程重算；Phase 19 仅重算孤立片段，不支持历史催化速率或五代进化结论。 [Fixes, current results and limitations / 修复、重算结果与限制](PHASE18_19_AUDIT_FIXES.md).
 
 > **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).

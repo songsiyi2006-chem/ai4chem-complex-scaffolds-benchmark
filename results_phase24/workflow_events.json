@@ -1,0 +1,26 @@
+[
+  {
+    "task_id": "phase24-seed24-round1",
+    "event": "analysis.completed",
+    "transport": "local JSON; HTTP/MQTT adapter contract only",
+    "provenance": "simulated",
+    "n_conditions": 96,
+    "n_qc_pass": 96
+  },
+  {
+    "task_id": "phase24-seed24-round2",
+    "event": "analysis.completed",
+    "transport": "local JSON; HTTP/MQTT adapter contract only",
+    "provenance": "simulated",
+    "n_conditions": 96,
+    "n_qc_pass": 96
+  },
+  {
+    "task_id": "phase24-seed24-round3",
+    "event": "analysis.completed",
+    "transport": "local JSON; HTTP/MQTT adapter contract only",
+    "provenance": "simulated",
+    "n_conditions": 96,
+    "n_qc_pass": 96
+  }
+]

@@ -1,0 +1,2 @@
+# Install separately from the scientific Python environment (NumPy requirements differ).
+opentrons==8.8.2

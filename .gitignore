@@ -53,6 +53,8 @@ results_phase6/*.chk
 
 # Phase 9 isolated Opentrons simulator venv
 .ot2env/
+.phase24-ot2env/
+phase24_runs/
 
 # Phase 8 heavy intermediates (science lands in JSON/figures; cubes are 48 MB)
 results_phase8/nto_cubes/

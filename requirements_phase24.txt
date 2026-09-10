@@ -1,0 +1,6 @@
+numpy>=1.26,<3
+scipy>=1.12,<2
+matplotlib>=3.8,<4
+scikit-learn>=1.5,<2
+rdkit>=2024.3
+# Optional, in a SEPARATE environment: opentrons==8.8.2 (OT-2 API 2.15).

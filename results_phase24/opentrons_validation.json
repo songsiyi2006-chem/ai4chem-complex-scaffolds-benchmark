@@ -1,0 +1,61 @@
+{
+  "simulator_version": "8.8.2",
+  "api_level": "2.15",
+  "results": [
+    {
+      "protocol": "results_phase24\\ot2_round1.py",
+      "sha256": "c96c5345665c53556023d4912384dde48a8e964b6eaca8d0ce6485f3ce4f8a86",
+      "commands": 676,
+      "tip_column_pickups": {
+        "P20": 36,
+        "P300": 12
+      },
+      "physical_tip_count": {
+        "P20": 288,
+        "P300": 96
+      },
+      "temperatures_C": [
+        25
+      ],
+      "completed": true
+    },
+    {
+      "protocol": "results_phase24\\ot2_round2.py",
+      "sha256": "c6dfca866492af9dd62d52668d3d2cd453ea00509adb22f5f63d342acdb7f258",
+      "commands": 676,
+      "tip_column_pickups": {
+        "P20": 36,
+        "P300": 12
+      },
+      "physical_tip_count": {
+        "P20": 288,
+        "P300": 96
+      },
+      "temperatures_C": [
+        25
+      ],
+      "completed": true
+    },
+    {
+      "protocol": "results_phase24\\ot2_round3.py",
+      "sha256": "77607547e9f7079cbc32cdb16af465164e39e1a2a4d087f1b1717900c8a0b845",
+      "commands": 676,
+      "tip_column_pickups": {
+        "P20": 36,
+        "P300": 12
+      },
+      "physical_tip_count": {
+        "P20": 288,
+        "P300": 96
+      },
+      "temperatures_C": [
+        25
+      ],
+      "completed": true
+    }
+  ],
+  "final_protocol_sha256": "77607547e9f7079cbc32cdb16af465164e39e1a2a4d087f1b1717900c8a0b845",
+  "chemistry_branch_simulated": false,
+  "physical_hardware_tested": false,
+  "note": "Official software simulation; default calibration only; WATER branch."
+}

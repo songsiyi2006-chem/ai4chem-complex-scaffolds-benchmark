@@ -1,0 +1,13 @@
+# Keep Phase 24 provenance hashes stable across Windows/Linux checkouts.
+/run_ai_hts_platform_pilot.py text eol=lf
+/output_hts_96well_screening.py text eol=lf
+/validate_phase24_outputs.py text eol=lf
+/GXNU_AI_HTS_PLATFORM_PROPOSAL_*.md text eol=lf
+/PHASE24_*.md text eol=lf
+/results_phase24/*.json text eol=lf
+/results_phase24/*.py text eol=lf
+/results_phase24/*.csv -text whitespace=cr-at-eol
+/results_phase24/chromatograms/*.csv -text whitespace=cr-at-eol
+/results_phase24/*.sqlite binary
+/results_phase24/*.npz binary
+/figures_hts_pilot/*.png binary

@@ -1,0 +1,10 @@
+{
+  "artifacts_passed": true,
+  "measurements": 312,
+  "unique_conditions": 312,
+  "raw_hashes_verified": 312,
+  "manifest_hashes_verified": 342,
+  "no_future_labels_in_training_ids": true,
+  "sqlite_integrity": "ok",
+  "physical_chemistry_validated": false
+}
