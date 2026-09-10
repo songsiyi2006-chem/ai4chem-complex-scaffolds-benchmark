@@ -36,6 +36,12 @@ def summarize(campaign):
                 if rec['acceptance_review'].get('status')=='specified_checks_passed_with_limitations':
                     rec['scientific_acceptance']='specified numerical/software checks passed; see limitations'
             if phase==19:
+                probe_path=status.parent/'results_phase19/geometry_probe.json'
+                if probe_path.exists() and rec['status']!='running':
+                    probe=json.loads(probe_path.read_text(encoding='utf-8'))
+                    rec['geometry_probe']=probe
+                    rec['scientific_acceptance']=('geometry_probe_only_passed_not_full_evolution'
+                        if probe.get('geometry_gate_passed') is True else 'geometry_probe_failed_not_full_evolution')
                 audit_path=status.parent/'results_phase19/phase19_acceptance_audit.json'
                 raw_path=status.parent/'results_phase19/phase19_results.json'
                 if audit_path.exists() and raw_path.exists():
@@ -100,6 +106,10 @@ def main():
             elapsed+=cont.get('elapsed_s',0)
         if verdict=='sampling_incomplete_for_reaction_barriers': verdict='默认轨迹完成，产物采样不足，势垒未验收'
         if verdict=='no_accepted_design_under_audited_gates': verdict='完整流程结束，候选全部拒绝，无合格设计'
+        if r.get('geometry_probe'):
+            scope='单构型几何探针，非完整训练/演化'
+            verdict=('仅几何门槛通过，完整流程未验证' if r['geometry_probe'].get('geometry_gate_passed') is True
+                     else '几何门槛未通过；未重跑完整训练/演化')
         if any(a['record'].get('status')=='running' for a in r.get('post_audits',[])):
             state='后处理复核中'
             verdict='审计进行中，尚未完成验收'

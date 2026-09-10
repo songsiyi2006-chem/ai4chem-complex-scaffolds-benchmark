@@ -1,10 +1,10 @@
-# Phase 3–5 campaign status — 2026-09-10, updated 18:38
+# Phase 3–5 campaign status — 2026-09-10, updated 19:16
 
 ## Current outcome
 
 | Phase / attempt | Scope | Outcome |
 | --- | --- | --- |
-| 3 / 20260910T144409 | Default full attempt | **Running**, original PID14832; heating completed18:25:52; 5000-step equilibration active; production not yet observed |
+| 3 / 20260910T144409 | Default full attempt | **Running**, original PID14832; production began18:57:05; 6 complete frames /3000 of100000 production steps observed at19:15:20; average2.74steps/s |
 | 4 / 20260910T141256 | Default full attempt, 500 CI steps | Exit1 after774.5s; best force0.152173 >0.05 eV/A; **not accepted** |
 | 4 / 20260910T181601 | Bounded continuation, 150 steps | Exit1 after219.1s; best force0.150663 >0.05 eV/A; **not accepted** |
 | 5 / 20260910T142809 | Default full attempt before energy correction | Exit1 after917.6s; TS2b only2 converged frames; ModuleA incomplete |
@@ -28,9 +28,22 @@ production runtime. Do not silently shorten5000 equilibration or100000 productio
 steps. Actual production timestep is1fs, so default production is100ps, despite
 the legacy header's200ps wording. Target analysis is40 MMGBSA frames.
 
-Latest known stage: heating completed18:25:52, equilibration5000steps underway.
-ProductionDCD had no frames at the last review. Measure steps/sec from production
-progress once it begins and exclude sleep from elapsed-time estimates.
+Heating completed18:25:52; full5000-step equilibration completed before production
+began18:57:05. At19:15:20.659271, DCD contains6 complete frames (500steps/frame),
+3000 of100000 production steps. Frame5 completed19:12:14.126007; the next500steps
+took186.533264s, or2.680487steps/s. Average from production start is2.738078steps/s.
+Estimated total production duration10.145h, remaining9.841h as of19:15:20;
+projected production finish approximately2026-09-11 05:06 China time, **assuming
+continued awake operation and similar load**. MMGBSA/figure analysis is additional.
+Only the production interval is used; earlier heating and approximately3h sleep
+are excluded. No timestep or step-count reduction was made.
+
+Measurement method: count complete DCD Fortran records/header frames and use
+the last completed-frame file timestamp, checking a stable file size/read.
+Direct MDTraj access to the live writer's file raised a read error; an untouched
+temporary snapshot read successfully (5frames/2785atoms, all coordinates finite),
+and byte-level records were complete. No evidence of trajectory corruption was
+found by that check. Do not confuse a live-file sharing/read issue with MD failure.
 
 Fresh7RPZ download/curation, Vina docking and MACE force comparison completed.
 Top docking scores: -7.95, -7.47, -7.34 kcal/mol. MD system:2785atoms/170residues,

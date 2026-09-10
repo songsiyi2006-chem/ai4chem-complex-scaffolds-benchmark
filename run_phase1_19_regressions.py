@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import time
@@ -12,7 +13,8 @@ GROUPS={
     'primary': ['test_phase1_19_campaign','test_phase1_5_audit','test_phase6_10_audit',
                 'test_phase11_13_audit','test_phase14_17_audit','test_phase18_19_audit',
                 'test_phase3_5_rerun','test_phase6_8_rerun','test_phase15_16_19_rerun','test_phase17_rerun','test_phase14_rerun'],
-    'molecular': ['test_phase10_13_rerun'],
+    'molecular': ['test_phase10_13_rerun',
+                  'test_phase15_16_19_rerun.RerunTests.test_real_torch_training_checkpoint_roundtrip_and_no_overwrite'],
 }
 
 def main():
@@ -33,6 +35,13 @@ def main():
         with (out/f'{profile}.log').open('w',encoding='utf-8') as log:
             proc=subprocess.run(cmd,cwd=ROOT,env=env,stdout=log,stderr=subprocess.STDOUT)
         rec=dict(profile=profile,command=cmd,exit_code=proc.returncode,elapsed_s=time.monotonic()-started)
+        log_text=(out/f'{profile}.log').read_text(encoding='utf-8',errors='replace')
+        count=re.search(r'Ran (\d+) tests? in',log_text)
+        skipped=re.search(r'OK \(skipped=(\d+)\)',log_text)
+        rec['tests_run']=int(count.group(1)) if count else None
+        rec['skipped']=int(skipped.group(1)) if skipped else 0
+        rec['passing_non_skipped']=(rec['tests_run']-rec['skipped']
+            if proc.returncode==0 and count else None)
         records.append(rec)
         print(json.dumps(rec),flush=True)
     after={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in ROOT.glob('*.py')}

@@ -394,3 +394,95 @@ requested campaign `continuation_status.json`. No staging, commit or push.
 - Main's background-work approval question is pending user response. Existing
  15 remains running by explicit instruction; this note is a handoff, not new
   unattended-launch authorization. Do not create an automation or hardware action.
+
+## Post-main-unfreeze updates (after main batch1dd9768; new edits uncommitted here)
+
+Only owned19source/test/notes changed after the explicit unfreeze. Main owns
+all staging/commits/pushes. Existing15 remains running;16 remains unallocated.
+
+- Fixed Trp indole attachment axis: use the inward bisector of both CG ring
+  bonds, not CG->NE1. The old mapping made NE1 collinear with the CB-CG
+  torsion axis (cosine0.99999999999); chi2 sweep0..180deg moved NE1 only2e-5A,
+  incorrectly eliminating a placement degree of freedom. Regression checks
+  chi2 moves NE1>0.5A and inverse fitting to a known attainable target reaches
+  <1e-6A. Named ring connectivity/planarity/bond checks remain passing.
+- Fresh single geometry probe `phase19/20260910T191530` completed35.2s,
+  scope **probe only**, no training/MD/QM. RMSD2.8434739A still FAILS0.30A.
+  Per-anchor attribution: GLU CA/OE1/OE2=0,TRP CA=0,ASN N~8e-17A,
+  **TRP NE1=6.9650602A**. Thus the systematic offset is confined to Trp
+  placement, but axis repair alone is insufficient. No gate relaxed.
+- Then fixed stale canonical CB/CG aiming and chirality-reference builders
+  still attaching CB to C while actual packing attaches CB to CA. New
+  regression equates canonical world-space CB/CG directions to actual atoms.
+  Removed fictitious terminal O-O/O-N branch extension steps before replacing
+  branch positions; this avoids invalid temporary NeRF geometry.
+  These latter fixes are unit-tested but the next fresh geometry probe is
+  **pending RAM**: blocked twice at1,004,012/1,014,740KiB available against a
+  conservative1.2GiB probe launch floor. No automatic heavy-training request.
+- Added `save_training_checkpoint` immediately after completed training and
+  equivariance audit, before generation1. Files: `trained_flow.pt` (weights
+  and Torch RNG), `training_folds.npz` (x,R,mask,fullrodN/CA/C/O arrays), and
+  completion marker `training_checkpoint.json` with model/data SHA256,
+  source SHA256/config/architecture/completedsteps/foldcount/versions,
+  generator RNG, globalNumPy RNG and Python RNG. Marker written last;
+  existing files cannot be overwritten. This is for FUTURE runs, not a
+  recovered181030 model. A generation-only load/resume CLI is not implemented.
+- Real molecular Torch checkpoint roundtrip test passed1test3.055s: weights,
+  Torch RNG, dataset shape/data, file hashes and no-overwrite checked.
+  Latest primary combined command
+  `-m unittest -q test_phase15_16_19_rerun test_phase14_17_audit test_phase18_19_audit`
+  ran40tests5.551s:39passed,1Torch-dependent test skipped in primary (passed
+  separately in molecular). Owned-file diff check clean.
+- Next: after safe RAM headroom, run the corrected single geometry probe,
+  investigate residuals if any; do not start training until actual geometry
+  meets unchanged criteria. Then request MAIN ACK and >2GiB live available
+  RAM for a new full attempt with changed targets and durable checkpointing.
+
+## SECOND-BATCH SOURCE FREEZE READY — 2026-09-10 19:24
+
+- Latest corrected-source single geometry probe:
+  `phase19/20260910T192253`, command
+  `PRIMARY_PYTHON -u rerun_phase1_19_campaign.py --phases 19 --stage geometry-probe`.
+  LaunchRAM1,600,148KiB; exited0 in28.3s. SourceSHA256
+  `423e30eb7ff6c09c714021f77452ecdc449598d41020d2773d8a806bf773b847`.
+- **Geometry gate FAILED**: RMSD1.013322739A>0.30A. NE1error2.482123656A;
+  GLU CA4.44e-16A, GLU OE1/OE2=0, TRP CA=0, ASN N8.39e-17A.
+  No division warning in this probe log. Staticclashes569,
+  Ramachandranfraction0.8563. These static diagnostics do not establish MD
+  stability, acceptable chemistry, or a validated enzyme design.
+- Per-anchor attribution is exact for the two NEW probes: all nonzero
+  deviation resides in Trp NE1. Axis-only probe191530 gave2.84347A overall /
+  6.96506A NE1; consistent canonicalCB/CG directions reduce this to1.01332A /
+  2.48212A. This demonstrates definite contributions from the axis/reference
+  bugs, **not complete resolution of the old~3.10A systematic offset**.
+  The original181030 full attempt did not save per-anchor errors/candidate
+  coordinates or model/library checkpoints; its exact per-anchor attribution
+  cannot be retroactively claimed from these changed-source probes.
+- Remaining investigation: actual Trp CA/backbone orientation and target
+  reachability under physical chi1/chi2 geometry; do not translate/graft a
+  strained ring merely to satisfy the target, and do not relax0.30A.
+- Latest combined regression40tests6.691s:39pass/1primaryTorchskip.
+  Latest REAL molecular Torch checkpoint roundtrip separately passed1test
+  in3.845s at19:24; verifies weights,RNG,dataset,hashes,no-overwrite.
+  TestfileSHA256
+  `d712ae127eb159e3a4dd9bd6f8046da0f85fa47627222865c6d5ebae2dbf927d`.
+- New edits are unit/probe-tested, **NO new full training/evolution validates
+  this source**. No request for a costly training allocation while geometry
+  fails. Main owns secondcommit/push; source/test freeze-ready now.
+- P15PID41388 remains running: latest272,000steps/544ps in firststate,
+  requested833,000steps/state. P16 still unstarted and unallocated.
+
+### Final acknowledged probe / updated freeze — 19:26
+
+Main explicitly authorized one corrected geometry probe with live>=1.2GiB.
+Fresh snapshot `phase19/20260910T192525` launched at1,544,276KiB available,
+completed30.8s with **exit2**. Geometry JSON is preserved despite scientific
+failure: RMSD1.013322739A, Trp NE1error2.482123656A, otheranchors~0.
+Root CLI now exits2 after saving any false geometry gate; prior probe exit0
+statuses remain unchanged historical process records, never relabeled passes.
+SourceSHA256 `7ca9987f8f2085582d47b3535bbd1a096998176b8c6e55a3e2bb4b0b0e73286d`.
+Header now describes fixed declared MD production steps, not wall budgeting.
+Latest combined41tests9.018s:40passed/1primaryTorchskip; real molecular
+Torch roundtrip independently passed3.845s before this CLI/header-only edit.
+No new full training or evolution validated these fixes; geometry still fails,
+so no training allocation requested. SOURCE freeze-ready again after this note.

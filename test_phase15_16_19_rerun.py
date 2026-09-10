@@ -26,6 +26,65 @@ def functions(phase, names, **extra):
 
 
 class RerunTests(unittest.TestCase):
+    def test_geometry_probe_cli_rejects_failed_gate_after_saving(self):
+        main = next(n for n in tree(19).body if isinstance(n, ast.FunctionDef) and n.name == "main")
+        branch = next(n for n in main.body if isinstance(n, ast.If)
+                      and ast.unparse(n.test) == "args.stage == 'geometry-probe'")
+        called = []
+        ns = dict(geometry_probe=lambda: called.append("saved") or dict(geometry_gate_passed=False))
+        wrapper = ast.parse("def probe_cli():\n    pass\n")
+        wrapper.body[0].body = branch.body
+        exec(compile(ast.fix_missing_locations(wrapper), "<probe-cli>", "exec"), ns)
+        with self.assertRaises(SystemExit) as caught:
+            ns["probe_cli"]()
+        self.assertEqual(caught.exception.code, 2)
+        self.assertEqual(called, ["saved"])
+
+    def test_phase19_canonical_aiming_uses_actual_ca_attached_cb(self):
+        ns = functions(19, ["place_atom", "build_canonical_helix", "canon_helix",
+                            "residue_frames_from_atoms", "_canon_cbhat", "_canon_cghat",
+                            "place_cb", "_l_cb_reference_sign"],
+                       _CANON_HELIX=None, _L_CB_SIGN=None, HELIX_PHI=-57., HELIX_PSI=-47.)
+        helix = ns["canon_helix"]()
+        r = helix[20]
+        frame = ns["residue_frames_from_atoms"](helix)[20]
+        cb = ns["place_cb"](r)
+        self.assertAlmostEqual(np.linalg.norm(cb-r["CA"]), 1.53)
+        np.testing.assert_allclose(frame @ ns["_canon_cbhat"](),
+                                   (cb-r["CA"])/np.linalg.norm(cb-r["CA"]), atol=1e-12)
+        cg = ns["place_atom"](r["N"], r["CA"], cb, 1.52, 114., -62.)
+        np.testing.assert_allclose(frame @ ns["_canon_cghat"](),
+                                   (cg-cb)/np.linalg.norm(cg-cb), atol=1e-12)
+
+    def test_real_torch_training_checkpoint_roundtrip_and_no_overwrite(self):
+        try:
+            import torch
+        except ImportError:
+            self.skipTest("Real checkpoint test requires molecular Torch environment")
+        import hashlib
+        ns = functions(19, ["save_training_checkpoint"], torch=torch, Path=Path,
+                       json=json, CONFIG=dict(SEED=17), __file__=str(ROOT / "run_phase19_active_inference_denovo_enzyme.py"))
+        flow = torch.nn.Linear(3, 2)
+        r = {k: np.arange(3, dtype=float) for k in ("N", "CA", "C", "O")}
+        data = [dict(x=np.zeros((1,3)), R=np.eye(3)[None], mask=np.ones(1), rods=[[r]])]
+        rng = np.random.default_rng(17)
+        expected_rng = json.loads(json.dumps(rng.bit_generator.state))
+        with tempfile.TemporaryDirectory() as folder:
+            p = Path(folder)
+            meta = ns["save_training_checkpoint"](flow, data, rng, 1400, dict(passed=True), p)
+            self.assertEqual(meta["generator_rng_state"], expected_rng)
+            self.assertEqual(meta["completed_training_steps"], 1400)
+            for name, digest in meta["files"].items():
+                self.assertEqual(hashlib.sha256((p/name).read_bytes()).hexdigest(), digest)
+            payload = torch.load(p/"trained_flow.pt", weights_only=True)
+            torch.testing.assert_close(payload["state_dict"]["weight"], flow.weight)
+            torch.testing.assert_close(payload["torch_rng_state"], torch.get_rng_state())
+            with np.load(p/"training_folds.npz", allow_pickle=False) as folds:
+                np.testing.assert_array_equal(folds["x"][0], data[0]["x"])
+                self.assertEqual(folds["rods"].shape, (1,1,1,4,3))
+            with self.assertRaises(FileExistsError):
+                ns["save_training_checkpoint"](flow, data, rng, 1400, {}, p)
+
     def test_phase19_branch_angles_planarity_and_bond_lengths(self):
         f = functions(19, ["_trigonal_third"])["_trigonal_third"]
         c = np.zeros(3)
@@ -60,6 +119,14 @@ class RerunTests(unittest.TestCase):
                        _cached_geom=lambda *a: (xyz, symbols))
         r = dict(N=np.array([0.,0.,0.]), CA=np.array([1.458,0.,0.]), C=np.array([2.,1.42,0.]))
         out = ns["build_sidechain"]("TRP", r, [60., 90.], 1.)
+        rotated = ns["build_sidechain"]("TRP", r, [60., 0.], 1.)
+        self.assertGreater(np.linalg.norm(out["NE1"]-rotated["NE1"]), .5)
+        self.assertAlmostEqual(np.linalg.norm(out["CG"]-rotated["CG"]), 0.)
+        from scipy.optimize import least_squares
+        target = out["NE1"].copy()
+        fit = least_squares(lambda chi: ns["build_sidechain"]("TRP", r, chi, 1.)["NE1"]-target,
+                            [45., 65.], xtol=1e-12, ftol=1e-12, gtol=1e-12)
+        self.assertLess(np.linalg.norm(fit.fun), 1e-6)
         bonds = [("CG","CD1"),("CD1","NE1"),("NE1","CE2"),("CE2","CD2"),
                  ("CD2","CG"),("CD2","CE3"),("CE3","CZ3"),("CZ3","CH2"),
                  ("CH2","CZ2"),("CZ2","CE2")]
