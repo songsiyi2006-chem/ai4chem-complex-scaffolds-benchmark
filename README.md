@@ -3,6 +3,8 @@
 
 **新增本地实算：** 完整 117 原子催化三组分复合物的 xTB 优化/频率、两种溶剂中的亚胺计算、DFT 驻点优化，以及可恢复的 DFT Hessian 梯度检查点。[中文进展报告](PHASE25_PROGRESS_ZH.md) · [English progress report](PHASE25_PROGRESS_EN.md) · [本轮数据快照](results_phase25_27/phase25/pilot_progress.json)。仍在运行和排队的项目不计作完成。
 
+**新增工具已实测：** [中文适用性核查](results_phase25_27/tool_capability_audit/REPORT_ZH.md) · [English resource audit](results_phase25_27/tool_capability_audit/REPORT_EN.md)：铜模型能量/力一致性、PubChem 供氢体身份、铜晶体来源、Ni 基组及 750 条 ORD 记录范围；这些检查不替代科学验收。
+
 **三项任务均未完成科学验收。** 原有6份中英技术报告及初始结构保留，新增2份计算进展报告。未获得完整催化势垒、恒电位界面自由能或Ni非绝热轨迹；ee、FE和分支量子产率保持未判定。
 
 **Scientific acceptance remains incomplete.** The new report separates completed xTB calculations and DFT optimization from an unfinished native DFT Hessian and prospective production work. Software tests do not establish chemical predictions.

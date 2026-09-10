@@ -1,0 +1,21 @@
+{
+  "source_url": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/COC%28%3DO%29C1%3DC%28C%29NC%28C%29%3DC%28C%28%3DO%29OC%29C1/property/MolecularFormula,MolecularWeight,CanonicalSMILES,IsomericSMILES,InChIKey,XLogP,TPSA/JSON",
+  "retrieved_utc": "2026-09-10T16:21:38.920855+00:00",
+  "cache_hit": false,
+  "data": {
+    "PropertyTable": {
+      "Properties": [
+        {
+          "CID": 87116,
+          "MolecularFormula": "C11H15NO4",
+          "MolecularWeight": "225.24",
+          "SMILES": "CC1=C(CC(=C(N1)C)C(=O)OC)C(=O)OC",
+          "ConnectivitySMILES": "CC1=C(CC(=C(N1)C)C(=O)OC)C(=O)OC",
+          "InChIKey": "FKDYIXOYTANTSV-UHFFFAOYSA-N",
+          "XLogP": 1.1,
+          "TPSA": 64.6
+        }
+      ]
+    }
+  }
+}

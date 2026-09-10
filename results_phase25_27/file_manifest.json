@@ -3639,17 +3639,82 @@
     {
       "path": "results_phase25_27/software_tests.log",
       "bytes": 3212,
-      "sha256": "04de0ee1293988236cf81ea857fd3385c5c0d3f4cad52d84a00c98bc3c76c0a3"
+      "sha256": "8e73c66042333b24d18f4c9c7384458039d0e972e1b80ffd6c87c49492ef3430"
     },
     {
       "path": "results_phase25_27/software_validation.json",
       "bytes": 1030,
-      "sha256": "1b9d968a47122b48149d83797dc4f34c87c8edf4c1b5086337e67c84599051c1"
+      "sha256": "53ef78a4fe382f6fa7f821a9fb2a5f65e0dcda68c209824ac937c0c51a1064a2"
     },
     {
       "path": "results_phase25_27/source_downloads.json",
       "bytes": 1235,
       "sha256": "3ee4b09725f1e4c5087f91e2daf06379a39227486837f241c798403f7112e9a2"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/basis_Ni.json",
+      "bytes": 37354,
+      "sha256": "712ee4f4fdb2ebd38a19b231d4228de1998c97c5fc5eb507370a9abcfb3fefce"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/copper_model.json",
+      "bytes": 1323,
+      "sha256": "401cbed721b7002f52935392dd174f2347244d36cfe846e5cac7ec411a509f35"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/copper_mp30.json",
+      "bytes": 3928,
+      "sha256": "905824494e548e0b0a4a12ec0a9197e62b8d6c08499dc5ad422249fbe338d729"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/force_check.json",
+      "bytes": 4277,
+      "sha256": "d19d04e7d7f4c4c26c11aabc9f577f71ea81b2a91f763c774fc97b68cea3d5d4"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/jarvis_failure.json",
+      "bytes": 130,
+      "sha256": "0eea5b9cd3496d6e4d9d0fa70b9b8356bdf19074967943f68b374dd4abf9d5cf"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/ord_audit.json",
+      "bytes": 1132,
+      "sha256": "dd02fc87868841d1109e49ade174a6579e50cd618f0c6c5267b89d0558526d23"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/ord_interface_failure.json",
+      "bytes": 126,
+      "sha256": "2ff12c756aaa872ccdf57c08cdfcc68ec9af4a4678ccde6683bf52342115a2c3"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/pubchem_name_failure.json",
+      "bytes": 128,
+      "sha256": "92d3657a69d0293470a74932e4c7ab0328dcdfbccd8eded90dd2ae3a99627fa1"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/pubchem_structure.json",
+      "bytes": 742,
+      "sha256": "708d4d7f0fc52e898e0829b4ad85eee580f4b2a62b84aef88bfde970e391a8f7"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/REPORT_EN.md",
+      "bytes": 3585,
+      "sha256": "3fd5541f257fa8215430002dfe39d1683193ed08db335f2fe846c941cc756fed"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/REPORT_ZH.md",
+      "bytes": 3265,
+      "sha256": "92ad0ba388311980cf081853931878d788d52e4b2b21ba4cc4544f1d14bc0ca6"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/status.json",
+      "bytes": 9622,
+      "sha256": "7db54bfd20494c430b00a228cc81d257772ac38d13d58924afdb3153fe675d75"
+    },
+    {
+      "path": "results_phase25_27/tool_capability_audit/summary.json",
+      "bytes": 2429,
+      "sha256": "9f64f160a8f81ea1651d2ef5d7de41bd766a26cb3ae010c41eb8aa5b3828c6f7"
     },
     {
       "path": "phase25_27/__init__.py",
@@ -3665,6 +3730,11 @@
       "path": "phase25_27/atomic_checkpoints.py",
       "bytes": 3353,
       "sha256": "c36168b2cc36a032ac381b448ce7ca1e74bc671af14a66b1d8ee5d9037b02dfa"
+    },
+    {
+      "path": "phase25_27/audit_new_tools.py",
+      "bytes": 11782,
+      "sha256": "e5560a4d6ddc54da3a0978d98bd7027387d24c31b0f2b3c0a3d1c1737e712591"
     },
     {
       "path": "phase25_27/build_inputs.py",

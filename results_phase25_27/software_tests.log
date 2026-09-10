@@ -24,6 +24,6 @@ test_thermochemistry_rejects_imaginary_modes (phase25_27.test_pilot.PilotTests.t
 test_wrong_mode_count_and_disagreement_rejected (phase25_27.test_pilot.PilotTests.test_wrong_mode_count_and_disagreement_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 0.198s
+Ran 24 tests in 0.217s
 
 OK
