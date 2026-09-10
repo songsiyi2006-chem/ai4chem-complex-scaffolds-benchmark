@@ -911,6 +911,21 @@ def interp_crossing(xs, ys, thr):
     return None, None
 
 
+def consistent_basis_records(records, tags, reference_tag):
+    """Keep one basis per scan curve; never turn basis offsets into barriers."""
+    basis_by_tag = {tag: ((records.get(tag) or {}).get('basis') or '').lower()
+                    for tag in tags}
+    reference_basis = basis_by_tag.get(reference_tag, '')
+    if not reference_basis:
+        reference_basis = next((basis_by_tag[t] for t in tags if basis_by_tag[t]), '')
+    kept = {tag: (records.get(tag) if reference_basis and basis_by_tag[tag] == reference_basis else None)
+            for tag in tags}
+    return kept, dict(reference_basis=reference_basis or None,
+                      basis_by_tag=basis_by_tag,
+                      excluded_tags=[t for t in tags if records.get(t) and kept[t] is None],
+                      policy='different or missing basis is unavailable, never interpolated across')
+
+
 def merge_and_analyze():
     scan = read_json(ckpt_dir("G") / "scan.json")["points"]
     Rs = [p["R"] for p in scan]
@@ -925,6 +940,9 @@ def merge_and_analyze():
     ai = {t: (read_json(ckpt_dir("AI") / f"{t}.json")
               if (ckpt_dir("AI") / f"{t}.json").exists() else None)
           for t in tags}
+
+    a7, basis_audit_a = consistent_basis_records(a7, tags, f'R{R_EQ:.2f}')
+    b7, basis_audit_b = consistent_basis_records(b7, tags, f'R{R_EQ:.2f}')
 
     def series(src, pick):
         out = []
@@ -1011,6 +1029,7 @@ def merge_and_analyze():
 
     analysis = {
         "R": Rs,
+        "basis_consistency": {"7A": basis_audit_a, "7B": basis_audit_b},
         "E_rhf_eh": e_rhf, "E_uhf_eh": e_uhf, "E_rks_eh": e_rks,
         "E_uks_eh": e_uks,
         "E_uhf_triplet_eh": e_uhf_t, "E_uks_triplet_eh": e_uks_t,

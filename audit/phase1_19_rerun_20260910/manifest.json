@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-10 23:26:39",
+  "generated": "2026-09-10 23:36:16",
   "campaign": "$CAMPAIGN",
   "phases": [
     {
@@ -1986,6 +1986,14 @@
                 "files": {
                   "results_phase7/checkpoints/7B/R1.40.json": "9e0dd1e2eb531c7874e0bf9e2148ab0417a009b8441b0ce17a7d0122e6ed082f"
                 }
+              },
+              "results_phase7/checkpoints/7B/R1.50.json": {
+                "basis": "def2-svp",
+                "files": {
+                  "results_phase7/checkpoints/7B/R1.50.json": "8384ae5653de457af7bec67d839e87da2b6d0dfb99087dd8ffec42d60b61e991",
+                  "results_phase7/cubes/R1.50/Psi_a_35_35-A.cube": "af1059b69c1f80dd06710b043d11422fac639fd2aeea88872e895edf7c944c33",
+                  "results_phase7/cubes/R1.50/Psi_a_36_36-A.cube": "4c5fc2d563acecc66cb59921eaff2422f020de3be41723949700141fe0f25eb5"
+                }
               }
             },
             "commands": [
@@ -2256,8 +2264,36 @@
                   "1.5"
                 ],
                 "started": 1789053823.0975192,
+                "status": "exited",
+                "pid": 13744,
+                "exit_code": 0,
+                "finished": 1789054338.1132963
+              },
+              {
+                "command": [
+                  "$USER_PROFILE\\miniconda3\\envs\\phase7\\python.exe",
+                  "-X",
+                  "faulthandler",
+                  "-u",
+                  "$CAMPAIGN\\phase07\\20260910T181009\\run_phase7_strong_correlation_wall.py",
+                  "--worker",
+                  "7B",
+                  "--point",
+                  "2",
+                  "--basis",
+                  "def2-svp",
+                  "--mem",
+                  "2 GB",
+                  "--threads",
+                  "2",
+                  "--skip-tiers",
+                  "0",
+                  "--cube-r",
+                  "-1.0"
+                ],
+                "started": 1789054398.3225126,
                 "status": "running",
-                "pid": 13744
+                "pid": 16296
               }
             ],
             "pending": [
@@ -3285,11 +3321,11 @@
             "OPENMM_CPU_THREADS": "2"
           },
           "pid": 23956,
-          "elapsed_s": 5494.450294017792,
+          "elapsed_s": 6071.276356458664,
           "attempt_path": "$CAMPAIGN\\phase14\\20260910T215505",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
-          "log_sha256": "ce5a53b02462d3d0a108592bf6e30eaf482524b2a413cf5b959bf05352a53239",
+          "log_sha256": "b67656cd8ed5a63463cf3fa1273fe38a57d83bb5a010983c0318f2b9d2b544a3",
           "memory_hold_reported": false,
           "result_files": []
         }
@@ -3759,11 +3795,11 @@
             "OPENMM_CPU_THREADS": "2"
           },
           "pid": 30040,
-          "elapsed_s": 1005.5140280723572,
+          "elapsed_s": 1582.346698999405,
           "attempt_path": "$CAMPAIGN\\phase16\\20260910T230954",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
-          "log_sha256": "25e00ea76b02823c19310a43a8e6a64f25b14591c92d7e647d5758a7bd3b41f7",
+          "log_sha256": "0304454dfd8629a379181fbac202225dccf0fdf4f40b81cb6bde7466f0853b8c",
           "memory_hold_reported": false,
           "result_files": []
         }
@@ -5926,6 +5962,191 @@
             "source_sha256": "7ca9987f8f2085582d47b3535bbd1a096998176b8c6e55a3e2bb4b0b0e73286d",
             "geometry_gate_passed": false
           }
+        },
+        {
+          "phase": 19,
+          "started": "20260910T233318",
+          "source_sha256": {
+            "aqsol_model.py": "89485db4b60a346e7092d0f7ff7b8bda2bb2d85f6fec54ce8b4b3f1250977ada",
+            "audit_phase17_kb.py": "6227571c474c5a73700ea1bd57c1dab2e914fd394a522cce3d47134ac1b7ce79",
+            "audit_phase17_qtaim_figure3.py": "6b45d7c0b4fd374cc781939f5f22bed3c5390c685157b33234bb4619d9c7d85f",
+            "audit_phase17_scaled_hydrogenic.py": "51ea7cb3bce3356a13080a4c876d765ea87203f720a2aec4cd44b405af39d537",
+            "build_docx.py": "feebc3e2ec494f66a4aa5eeb31cfee903757eacdafd58a31e51ff0f2953648cd",
+            "esol_model.py": "a1b8bf4e858c5d6a92adbac0cfc19b69cdf3ff5b8867774439141655a29bb796",
+            "export_openff_system.py": "2efe0349d906b5cbe8a55ee37b96c53f1984bbf0e14b37ecec0b63264d1e37c7",
+            "generate_assets.py": "788deb94749b67b0fed71e39d43e7f8f8a891f3442f82fdbb4fe7b5c3d4c3ed1",
+            "molecules.py": "6b367b068d685980a14b0a0d9f49f25eb9928c8249a50361fe359b55b9743583",
+            "molecule_benchmark.py": "4280cc7c1bb150f8d29f466199bc19a40af5b9f47f6f7f7e5eb2c82511b90757",
+            "paclitaxel.py": "a04302865152d2dea77e1e737d4468d33747247f82c80b545e415d9439f247bb",
+            "phase8_figures.py": "fc7d648a277d8e69b2ee83db1aced27e66351eeee8016360e30a5cf034fb6547",
+            "phase_audit.py": "30850a3309de7ee5290ed156e7df52b9b7dc0c4338dfe9e64115318e0b425754",
+            "predict_solubility.py": "f87447c3c744f99cb66fe5eb9ec48dbade903c38e2e1ab46f18b67a61d919ce3",
+            "prepare_phase3_restart.py": "1927a6e7f9d38148f7567acdd943fa0610029e5887306d194beb6c718d2be937",
+            "publish_phase1_19_evidence.py": "f9ecf7f62a4363ed3b1e613284892e98c6311365c7c5e9f17fb4d0fbf52adca7",
+            "record_interrupted_campaign.py": "3892b5ea69036fda429ddf6f1830dbf0c73caf0338a1c25adde389b1d6df4c8e",
+            "recover_phase5_figures.py": "b6b32536d229959fd825c9f0349e5e87e6cae5e5f944839f302333cc7005fd8f",
+            "repair_8b_extras.py": "7d49df48954454e0648a341d343cb1ec35f7b8bf3b22ee63704945a5b6bcd82f",
+            "repair_scan_8b.py": "bdfad539affbbc610254b78ccb14b85076c396fffc0b44aa3c7d3064d5ab1ebf",
+            "rerun_phase1_19_campaign.py": "06620a6fd7ef2fa5b03cd11531cc4bd65ef8f37ab67438e10b6977a579ec6c13",
+            "resume_phase17_rerun.py": "3c80164f927a2a59b11405a99d763aebe450d812047ebaedcbfb16e6e9457c05",
+            "resume_phase7_rerun.py": "f6426bb6acaab81b12a7830e8b421b682265d27bea1dd153603fce70fd121d3a",
+            "run_ai_hts_platform_pilot.py": "a4614329a157ea0bc384e5f2caff82fd74461b04d984a00b10a2033ee569363e",
+            "run_continuous_pending.py": "3bd8c2726ef4b920519c56c944c9d2540744906feaf4290c42ecacc83109d865",
+            "run_heavy_dynamics_benchmark.py": "9f1495066a436360ce5a5f7742c8a300f2c40b7c3b4c41822b3c41971affb3db",
+            "run_phase10_cyberphysical_flow_twin.py": "3f62b937c6046aa8280e14010bda7509adb643ce093c642ddd1b1fab84172111",
+            "run_phase11_neural_wavefunction_vmc.py": "23b8e2671faba953015c2ead761a18c07b0fff0c8267a98c0adbac6330771300",
+            "run_phase12_hamiltonian_law_discovery.py": "7008f766515eb6d74dc5cbb89e2c3f29742b08b974470e761eec56071215fa87",
+            "run_phase13_metalloenzyme_pcet_engine.py": "490bd09b9bda0dd0bf9314a51e40d7af69ad99ebf5cdc695e1cd6c5981faa9bd",
+            "run_phase14_active_matter_condensate_phase_separation.py": "397e8b1f0cb0bd64e95595c0393f818deffe931450ff30e02bd09b28a4248994",
+            "run_phase15_quantum_biology_spin_allostery.py": "c4ca2a54be652c7153cc5ad629460be99df4e1322a7af8d854751348093f455f",
+            "run_phase16_megamachine_cryoem_transport.py": "2cf8f08d5bca5d47689fe6d0e4fc313e9e66612906026cd329661477be9d5425",
+            "run_phase17_relativistic_actinide_quantum.py": "d828beb1875239adc5f15e25dd9c92d535fe35bcb20ae9e92fd49b6abe5d43d1",
+            "run_phase18_wholecell_metabolic_thermodynamics.py": "b521c6b402ddd04060acd138c359e4c6cd54cfacb4fdff3576c3aed90f8501dc",
+            "run_phase19_active_inference_denovo_enzyme.py": "15aaffc5af5876a4492ad42fda54afc417fb180ad87665bd07819cd8ddf5d91c",
+            "run_phase1_19_regressions.py": "5b02376f06d2803b1ee36e6156f77401913c2e7d15023c95e783af9baa0bbb8f",
+            "run_phase20_ciss_quantum_spintronics.py": "27d09c37b30feea0bf863a81e4032937321c9b93674e9e4661d8489a61a8e82f",
+            "run_phase21_cavity_qed_polaritonic_chemistry.py": "47a4f18a1c60f510ec6e85b0cd2fb841d851ac7dc47dea2e94b2debfb0d9503a",
+            "run_phase22_molecular_spin_qubits.py": "a02ad15a91367a75e0396779085ce3fdc892139c750402a2fd155a9f6ffe01c3",
+            "run_phase23_in_materio_neuromorphic_computing.py": "65bd4fa78eeec54d41cad9190e9e1a55766a7e615ed8bbe3f03c6bde894ac5f5",
+            "run_phase3_complex_dynamics.py": "cd6f76afe09e4b03a9d8a165c5ecef9abe6340ab4c962a1e530669ac154b194c",
+            "run_phase4_reaction_mechanism.py": "5df76dc703f16232b9a12ab32bccf7e4bcf6bfac07ff536fe1bf1a32d48ed463",
+            "run_phase5_chemical_world_model.py": "2efe1c57ac87cc46ea59856a7156ca298857563cf4908dd08bbae31d033c7892",
+            "run_phase6_explicit_metadynamics.py": "7eecaa4b8397e22c8070a31df8baf4e783bd1dd4eed1b7318f9b37f092d7a50a",
+            "run_phase7_strong_correlation_wall.py": "6a51c8ba86fb706329eb12dcbdefe4bde952be5c06803b4d4491b2f02ad9cafa",
+            "run_phase8_photochemical_dynamics.py": "d20cdd04722c4ed43976d8c5bc5134a7ed335163a12aa0b018d6d502afe4c42b",
+            "run_phase9_self_driving_lab_compiler.py": "e2af7b5ae61a46fafa250001aa62ec865bfb9fb2476354b2b98ab9ff53a71139",
+            "scheduled_campaign_job.py": "15510bfdd1b3dd4a1ec37d59deb8092d71f4b924ce7a5464b55381fc1fdd6476",
+            "setup_and_download.py": "896dbe7aca6f9e942b5335e76869166f8d3a2939df2f7eb7d790ef5aeddf8ac8",
+            "summarize_phase1_19_reruns.py": "fc83abb98f0d56cfe47ec0981c65c46fb9596a0a08f5db9e8b57408d0f2a719b",
+            "test_continuous_pending.py": "35dee353b9f3f0fe4fbbbf030d2af9ee7cb0f3ebae55f0565b99701fde3b2946",
+            "test_phase10_13_rerun.py": "4691776d0c9c571d90db25cf076b80de5624971e3bd52396c8c55b20a30c3330",
+            "test_phase11_13_audit.py": "36c2d42ec3c9d86cdac003da511373f6d12f0be64566b547cb7d7976eb513dbf",
+            "test_phase12_checkpoint.py": "d702dcbcd2f207b318cf61cb332e295542f93a1bab5757cdba93b627af89b925",
+            "test_phase14_17_audit.py": "09f80dda7e89c1d73270ee6364304a7f9f07fd29a5f6e26e3d9701ec2969b02c",
+            "test_phase14_rerun.py": "6db594f6519dbf88a253bb61c4a33ed11ca741d85d3fdfa7e16c19f2292833fb",
+            "test_phase15_16_19_rerun.py": "739cbfadc4b12dd6ab0e2598261bb789679b44228c2d6102f02d1aaadedaa87c",
+            "test_phase15_checkpoint.py": "781b4ee839489cd36efc73552fa50128712655012d48d78e4c61fea0240b4ebf",
+            "test_phase16_field.py": "b8efbbb56fd9cbac2e4323817dbca33bd5404e24dae97ba956c653d8229ec5d0",
+            "test_phase17_rerun.py": "5d0fdb732effb91b5f3586f7de6ea1b68c70f8942498a5991a14f387b892bd74",
+            "test_phase18_19_audit.py": "4e0e0ed1e4510fc354ad25e668bcf9ff921e7b9ea8eac75d31d5a481795ce1be",
+            "test_phase19_orientation.py": "4ecc148846193b24ceb3a31aec8703591b4916bf673add63013060d722814bc6",
+            "test_phase1_19_campaign.py": "07534ba3b7011b21743fb02606063b952e6cb0da577daf20a20094cdaa3fd4aa",
+            "test_phase1_5_audit.py": "9d89b73bfc5fb5861ddc3d03115e9ac95d70a81f457d7da356f6190f59e6b5da",
+            "test_phase3_5_rerun.py": "f6e7dc031ea5a0b2f75fc5c090ab167f13508ce9e154f628f3e1cd65fcfcce99",
+            "test_phase3_completion.py": "9eab500329dd093f08d7ea7b9a9bec19265812d557057d9652329f6eb994c02d",
+            "test_phase5_plot.py": "fd0e0cd3399996fb9df9bebbd0c9248a4b24326e020991c7b2575ac037afebe4",
+            "test_phase6_10_audit.py": "bba24b5b7197eba5b217fdbbbd552113b480d5e5915c702e38d21d02070f35d4",
+            "test_phase6_8_rerun.py": "854b022f779e5916ea513289ef543b00e07381e1599ca9829e2b4305dde6cacc",
+            "test_phase7_basis.py": "b1d8828a9954fdd39ceca959af49a3f7edf2a108875dc15405abc517a28be4d2",
+            "test_phase7_resume.py": "4acf63d0e865a5a93b02d37d6b0d4e097c17602ce45bff439851b1feb9cc7da4",
+            "validate_completed_reruns.py": "2a08581a08295f07210381024ef96903893ef2a1413625fed8ada6a96e2d371d",
+            "validate_phase24_outputs.py": "43a333a6e2b058ec338838085319ddf359385fa72358452939ae97554bf80e08",
+            "_p15_fill_reports.py": "d5cceb823f6bc1cbaf5358f8ea4afdf5303a0723f04ccd1a00760ed2ba6db2e6",
+            "_p16_fill_reports.py": "692b373651551adc40e67ae6eb2f4f717eb715740af26b882210a5d7e7af1ec4",
+            "_p19_champion.py": "95dbfbc5b6cd6bac9f544e7dc8c6a75203e343b195b44c0f3c338e9023a7fd22",
+            "_p19_fill_reports.py": "ebcd08644c9edb9e0ff152ff0823f0ebc056c416e7145e43e940690a402bcf7f"
+          },
+          "command": [
+            "$USER_PROFILE\\miniconda3\\envs\\phase2ff\\python.exe",
+            "-X",
+            "faulthandler",
+            "-u",
+            "run_phase19_active_inference_denovo_enzyme.py",
+            "--stage",
+            "geometry-probe"
+          ],
+          "cwd": "$CAMPAIGN\\phase19\\20260910T233318",
+          "status": "process_completed",
+          "scope": "custom-arguments attempt",
+          "prerequisite_artifacts": [],
+          "historical_cache_copied": false,
+          "scientific_acceptance": "geometry_probe_only_passed_not_full_evolution",
+          "runtime": {
+            "python": "3.12.14 | packaged by conda-forge | (main, Sep  2 2026, 23:18:20) [MSC v.1944 64 bit (AMD64)]",
+            "executable": "$USER_PROFILE\\miniconda3\\envs\\phase2ff\\python.exe",
+            "platform": "Windows-11-10.0.22631-SP0",
+            "distributions": {
+              "numpy": "2.4.6",
+              "scipy": "1.18.0",
+              "matplotlib": "3.11.1",
+              "rdkit": "2026.3.5",
+              "torch": "2.10.0",
+              "openmm": "8.6.0",
+              "scikit-learn": "1.9.0",
+              "ase": "3.29.0",
+              "psi4": null,
+              "pyscf": null
+            }
+          },
+          "thread_limits": {
+            "OMP_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "NUMEXPR_NUM_THREADS": "2",
+            "OPENMM_CPU_THREADS": "2"
+          },
+          "pid": 20540,
+          "exit_code": 0,
+          "elapsed_s": 18.938000000000102,
+          "attempt_path": "$CAMPAIGN\\phase19\\20260910T233318",
+          "regenerated_python_artifacts": [],
+          "snapshot_hash_mismatches": [],
+          "log_sha256": "6d5847d0e79d8106b14500d431d93ed9b23fbfcab33660cc7a02fb35a04d2282",
+          "result_files": [],
+          "geometry_probe": {
+            "scope": "single_geometry_probe_not_full_evolution",
+            "constellation_rmsd_A": 0.1910461949933137,
+            "trp_reachability": {
+              "method": "exact_fixed_backbone_chi1_chi2_spherical_band",
+              "minimum_NE1_error_A": 0.4679656840828009,
+              "target_CB_distance_A": 4.127924545988936,
+              "reachable_CB_distance_A": 3.6752702915816053,
+              "projection_limits_A": [
+                0.8156177800910246,
+                2.064648564625487
+              ],
+              "target_CA_distance_A": 5.176079565876266,
+              "maximum_CA_reach_A": 4.708113881793465,
+              "coordinates_modified": false,
+              "target_modified": false
+            },
+            "placement": {
+              "inverse_placement_errs": {
+                "GLU": 0.0,
+                "TRP": 0.46796569503387686,
+                "ASN": 0.0,
+                "SER": 0.0
+              },
+              "anchor_errors_A": {
+                "GLU:CA": 4.440892098500626e-16,
+                "GLU:OE1": 0.0,
+                "GLU:OE2": 0.0,
+                "TRP:CA": 0.0,
+                "TRP:NE1": 0.46796569503387686,
+                "ASN:N": 8.386854961476664e-17
+              },
+              "constellation_rmsd": 0.1910461949933137,
+              "carboxylate_deviation_A": 0.0,
+              "stack_deviation_A": 0.46796569503387686,
+              "n_chirality_violations": 0
+            },
+            "static": {
+              "n_heavy": 1477,
+              "n_clashes": 661,
+              "radius_gyration": 17.12445516091316,
+              "frac_ramachandran": 0.8245614035087719,
+              "n_res": 172,
+              "composition": {
+                "H": 169,
+                "P": 2,
+                "+": 0,
+                "-": 1,
+                "G": 0
+              }
+            },
+            "source_sha256": "15aaffc5af5876a4492ad42fda54afc417fb180ad87665bd07819cd8ddf5d91c",
+            "geometry_gate_passed": true
+          }
         }
       ]
     }
@@ -6466,9 +6687,9 @@
       "path": "phase07/20260910T181009/continuation_status.json",
       "role": "continuation provenance",
       "source": "$CAMPAIGN\\phase07\\20260910T181009\\continuation_status.json",
-      "source_sha256": "9adfa31bea50635e15a3d8a83e3b73ca113260c44fdc2c5313a82f717863cef6",
-      "published_sha256": "665f212a00f3b4487271b9ba6ab6a6a7714d3dc96f95d54c1aa095148dc602b2",
-      "bytes": 14858,
+      "source_sha256": "4a794bd45f6100eabb2d637eee8c7d0d403d1b1e8a0a81debfa6ea6ed09e04ae",
+      "published_sha256": "88cd39a95eb9363699fc1322888eb312d8d1cff9a856bda254aea71bd49f9ca2",
+      "bytes": 15964,
       "text_normalized_or_redacted": true
     },
     {
@@ -7120,13 +7341,77 @@
       "text_normalized_or_redacted": false
     },
     {
+      "path": "phase19/20260910T233318/run_status.json",
+      "role": "process snapshot",
+      "source": "$CAMPAIGN\\phase19\\20260910T233318\\rerun_status.json",
+      "source_sha256": "eb5b31b303026c6d817f508a2816b62a855ed1e58c5a8d8651d2fcdc443b5dde",
+      "published_sha256": "46114c51fcca663d23126ef65aa1acade409ba33131dc78b26782728695667a2",
+      "bytes": 9368,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase19/20260910T233318/results_phase19/geometry_probe.json",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase19\\20260910T233318\\results_phase19\\geometry_probe.json",
+      "source_sha256": "ca67ba7bef62ff60296c931b90a8d94cefef197908ce52e40902cf59774876f7",
+      "published_sha256": "71bc94078b23780650539dbd56f2e311a9eb6cfba94ccefa38e4a9e0dd43680c",
+      "bytes": 1486,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase19/20260910T233318/run.log",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase19\\20260910T233318\\run.log",
+      "source_sha256": "6d5847d0e79d8106b14500d431d93ed9b23fbfcab33660cc7a02fb35a04d2282",
+      "published_sha256": "6d5847d0e79d8106b14500d431d93ed9b23fbfcab33660cc7a02fb35a04d2282",
+      "bytes": 1368,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase19/20260910T233318/run_phase19_active_inference_denovo_enzyme.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase19\\20260910T233318\\run_phase19_active_inference_denovo_enzyme.py",
+      "source_sha256": "15aaffc5af5876a4492ad42fda54afc417fb180ad87665bd07819cd8ddf5d91c",
+      "published_sha256": "15aaffc5af5876a4492ad42fda54afc417fb180ad87665bd07819cd8ddf5d91c",
+      "bytes": 192335,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "regressions/20260910T233507/molecular.log",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T233507\\molecular.log",
+      "source_sha256": "83ef457488e55cbe06d343d62d21ff81c4c6511bb0e8e6f76354f00677047a3f",
+      "published_sha256": "83ef457488e55cbe06d343d62d21ff81c4c6511bb0e8e6f76354f00677047a3f",
+      "bytes": 8537,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "regressions/20260910T233507/primary.log",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T233507\\primary.log",
+      "source_sha256": "49d8fb9e3f1bce70e38cc80be13059f350c2caa23e72bcd98c35e1bfd8caf788",
+      "published_sha256": "7248749d4b6dd2c024e8bd782b4c2b14a1918b41d04bebf4610958a50ef7a3c7",
+      "bytes": 20077,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "regressions/20260910T233507/regression_status.json",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T233507\\regression_status.json",
+      "source_sha256": "e2237ebb32beb318448bd7698a48a94f5dcce68ad92659394c32d2ef420ad379",
+      "published_sha256": "0e6696ada226628d5183a0085260d5fc553f1e8497695b50606b5e183bfe4b19",
+      "bytes": 18292,
+      "text_normalized_or_redacted": true
+    },
+    {
       "path": "phase19/20260910T192525/run_status.json",
       "role": "process snapshot",
       "source": "$CAMPAIGN\\phase19\\20260910T192525\\rerun_status.json",
       "source_sha256": "2c18a1e41439f22925d8238c0531a81bb713baf4a1effabf6f04c26e0061cfc3",
       "published_sha256": "35d7ee2f5ae83a2809e0e99662b108730f3d151dd5cc78da8ab043f85dc9c994",
       "bytes": 7862,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "phase19/20260910T192525/results_phase19/geometry_probe.json",
@@ -7135,7 +7420,8 @@
       "source_sha256": "d6d94bf249ce328af72578d3bd6086c2702583ad8d12fa5c8e96597539ebc51e",
       "published_sha256": "ce772d252e94948ee2ac4931235e97e5b6abe7520568cfe4a1f4f13547777fe7",
       "bytes": 1005,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "phase19/20260910T192525/run.log",
@@ -7144,7 +7430,8 @@
       "source_sha256": "6c4ab94399652fbedcbb2bf1b5ed670cd6bb6d28537676a3e620dc9812fabe3b",
       "published_sha256": "6c4ab94399652fbedcbb2bf1b5ed670cd6bb6d28537676a3e620dc9812fabe3b",
       "bytes": 947,
-      "text_normalized_or_redacted": false
+      "text_normalized_or_redacted": false,
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "phase19/20260910T192525/run_phase19_active_inference_denovo_enzyme.py",
@@ -7153,7 +7440,8 @@
       "source_sha256": "7ca9987f8f2085582d47b3535bbd1a096998176b8c6e55a3e2bb4b0b0e73286d",
       "published_sha256": "7ca9987f8f2085582d47b3535bbd1a096998176b8c6e55a3e2bb4b0b0e73286d",
       "bytes": 189047,
-      "text_normalized_or_redacted": false
+      "text_normalized_or_redacted": false,
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T232530/molecular.log",
@@ -7162,7 +7450,8 @@
       "source_sha256": "31f06d32061fe440b054c87344b9d002a27a569200f01b78dfe1256b499a4d34",
       "published_sha256": "31f06d32061fe440b054c87344b9d002a27a569200f01b78dfe1256b499a4d34",
       "bytes": 5976,
-      "text_normalized_or_redacted": false
+      "text_normalized_or_redacted": false,
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T232530/primary.log",
@@ -7171,7 +7460,8 @@
       "source_sha256": "3d90f3c9b32a30b733124b249cf6e9d6e2673bb816996b5769c264ad60261d14",
       "published_sha256": "ea910bbe4b16d9d4a5c4afff309803168517acba0df772dc453c9c83c19c2cdf",
       "bytes": 20077,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T232530/regression_status.json",
@@ -7180,7 +7470,8 @@
       "source_sha256": "ed6156f8290658d26fdf427c21723e6a91741d780722229e86b264671cc59818",
       "published_sha256": "9cd49bf762a607e14681e36df2c3bf875348a27b60c8a7749ea45d2cc02aaf48",
       "bytes": 17388,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T231307/molecular.log",
@@ -7190,7 +7481,7 @@
       "published_sha256": "33b4933b26147a787f927db4881ab32235dbb93176a4d89545165fb369f9957e",
       "bytes": 5728,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 23:14:44"
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T231307/primary.log",
@@ -7200,7 +7491,7 @@
       "published_sha256": "8424d83073212a4b73b109de36266ad3e1f94680ffa81f4ad34f78bd14b71093",
       "bytes": 20077,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:14:44"
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T231307/regression_status.json",
@@ -7210,7 +7501,7 @@
       "published_sha256": "f36ce4a17dc942c68108a24d3282c2433bb006f339c327e520ccbcf45ff31c75",
       "bytes": 17164,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:14:44"
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T225819/molecular.log",
@@ -7220,7 +7511,7 @@
       "published_sha256": "ef021d542514531583fd00ce13c5406ed417868530d7188cf124fcf852f41531",
       "bytes": 3617,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 23:14:44"
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T225819/primary.log",
@@ -7230,7 +7521,7 @@
       "published_sha256": "526c3fb1e80ec982bab9e6a193494119ee50296f297989d5dd3095955c4a6eaf",
       "bytes": 20077,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:14:44"
+      "retained_from_publication": "2026-09-10 23:26:39"
     },
     {
       "path": "regressions/20260910T225819/regression_status.json",
@@ -7240,7 +7531,7 @@
       "published_sha256": "fbe8652dbe019b76d0890231daa1f02536d8bf19128cb18e929639b398943b6b",
       "bytes": 16473,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 23:14:44"
+      "retained_from_publication": "2026-09-10 23:26:39"
     }
   ],
   "omitted_large_files": [

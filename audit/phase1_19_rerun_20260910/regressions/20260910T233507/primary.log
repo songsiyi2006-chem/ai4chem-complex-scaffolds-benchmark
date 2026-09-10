@@ -1,0 +1,173 @@
+test_all_sources_compile (test_phase1_19_campaign.CampaignTests.test_all_sources_compile) ... ok
+test_interruption_is_not_success_even_when_exit_code_zero (test_phase1_19_campaign.CampaignTests.test_interruption_is_not_success_even_when_exit_code_zero) ... ok
+test_interruption_refuses_active_process_without_mutation (test_phase1_19_campaign.CampaignTests.test_interruption_refuses_active_process_without_mutation) ... ok
+test_phase9_mass_and_price_units (test_phase1_19_campaign.CampaignTests.test_phase9_mass_and_price_units) ... ok
+test_phase9_real_failure_not_overwritten_by_mock (test_phase1_19_campaign.CampaignTests.test_phase9_real_failure_not_overwritten_by_mock) ... ok
+test_public_evidence_excludes_mutable_running_results (test_phase1_19_campaign.CampaignTests.test_public_evidence_excludes_mutable_running_results) ... ok
+test_public_evidence_redacts_paths_and_marks_unavailable (test_phase1_19_campaign.CampaignTests.test_public_evidence_redacts_paths_and_marks_unavailable) ... ok
+test_all_sources_parse (test_phase1_5_audit.AuditTests.test_all_sources_parse) ... ok
+test_circular_angles (test_phase1_5_audit.AuditTests.test_circular_angles) ... ok
+test_conformer_filter (test_phase1_5_audit.AuditTests.test_conformer_filter) ... ok
+test_module_d_requires_optin (test_phase1_5_audit.AuditTests.test_module_d_requires_optin) ... ok
+test_old_phase5_cache_rejected (test_phase1_5_audit.AuditTests.test_old_phase5_cache_rejected) ... ok
+test_openmm_cross_lj_and_coulomb (test_phase1_5_audit.AuditTests.test_openmm_cross_lj_and_coulomb) ... ok
+test_phase2_minimum_saved_and_unbiased (test_phase1_5_audit.AuditTests.test_phase2_minimum_saved_and_unbiased) ... ok
+test_phase4_failed_stationarity_withholds_rate (test_phase1_5_audit.AuditTests.test_phase4_failed_stationarity_withholds_rate) ... ok
+test_phase4_invalid_ts_blocks_figures (test_phase1_5_audit.AuditTests.test_phase4_invalid_ts_blocks_figures) ... ok
+test_phase5_report_no_proven_claim (test_phase1_5_audit.AuditTests.test_phase5_report_no_proven_claim) ... ok
+test_real_phase1_function_rejects_nonconverged (test_phase1_5_audit.AuditTests.test_real_phase1_function_rejects_nonconverged) ... ok
+test_rrho_entropy_units (test_phase1_5_audit.AuditTests.test_rrho_entropy_units) ... ok
+test_scenario_signs_and_invalid (test_phase1_5_audit.AuditTests.test_scenario_signs_and_invalid) ... ok
+test_ts_gate (test_phase1_5_audit.AuditTests.test_ts_gate) ... ok
+test_phase10_carbon_units (test_phase6_10_audit.AuditTests.test_phase10_carbon_units) ... ok
+test_phase10_observation_preserves_sensor_sample (test_phase6_10_audit.AuditTests.test_phase10_observation_preserves_sensor_sample) ... ok
+test_phase6_bias_conversion (test_phase6_10_audit.AuditTests.test_phase6_bias_conversion) ... ok
+test_phase7_uhf_uses_unrestricted_data (test_phase6_10_audit.AuditTests.test_phase7_uhf_uses_unrestricted_data) ... ok
+test_phase8_force_matches_energy_gradient (test_phase6_10_audit.AuditTests.test_phase8_force_matches_energy_gradient) ... ok
+test_phase9_generated_tip_isolation (test_phase6_10_audit.AuditTests.test_phase9_generated_tip_isolation) ... ok
+test_sources_compile (test_phase6_10_audit.AuditTests.test_sources_compile) ... ok
+test_compile (test_phase11_13_audit.Tests.test_compile) ... ok
+test_hamiltonian_transverse_constraint (test_phase11_13_audit.Tests.test_hamiltonian_transverse_constraint) ... ok
+test_identical_state_overlap (test_phase11_13_audit.Tests.test_identical_state_overlap) ... ok
+test_logabs_has_no_floor (test_phase11_13_audit.Tests.test_logabs_has_no_floor) ... ok
+test_pcet_rate_grid_convergence (test_phase11_13_audit.Tests.test_pcet_rate_grid_convergence) ... ok
+test_pes_direction (test_phase11_13_audit.Tests.test_pes_direction) ... ok
+test_scalar_audit (test_phase11_13_audit.Tests.test_scalar_audit) ... ok
+test_compile (test_phase14_17_audit.Tests.test_compile) ... ok
+test_exchange_derivative_and_double_counting (test_phase14_17_audit.Tests.test_exchange_derivative_and_double_counting) ... ok
+test_reduced_entropy_units (test_phase14_17_audit.Tests.test_reduced_entropy_units) ... ok
+test_singlet_trace_and_nonnegative_populations (test_phase14_17_audit.Tests.test_singlet_trace_and_nonnegative_populations) ... ok
+test_three_lj_force_paths (test_phase14_17_audit.Tests.test_three_lj_force_paths) ... ok
+test_transport_sign_bulk_reference_and_si_units (test_phase14_17_audit.Tests.test_transport_sign_bulk_reference_and_si_units) ... ok
+test_wham_known_harmonic_pmf_and_latch_units (test_phase14_17_audit.Tests.test_wham_known_harmonic_pmf_and_latch_units) ... ok
+test_compile (test_phase18_19_audit.Tests.test_compile) ... ok
+test_dynamic_conserved_moieties (test_phase18_19_audit.Tests.test_dynamic_conserved_moieties) ... ok
+test_embedding_gradient (test_phase18_19_audit.Tests.test_embedding_gradient) ... ok
+test_gated_thermodynamics_excludes_boundary_and_uses_effective_eps (test_phase18_19_audit.Tests.test_gated_thermodynamics_excludes_boundary_and_uses_effective_eps) ... ok
+test_lp_only_relaxes_binary_bounds (test_phase18_19_audit.Tests.test_lp_only_relaxes_binary_bounds) ... ok
+test_qm_complete_fragment_embedding_and_peak_geometry (test_phase18_19_audit.Tests.test_qm_complete_fragment_embedding_and_peak_geometry) ... ok
+test_ani_hessian_keeps_imaginary_mode_and_separates_cache (test_phase3_5_rerun.RerunTests.test_ani_hessian_keeps_imaginary_mode_and_separates_cache) ... ok
+test_constrained_optimization_returns_unrestrained_energy (test_phase3_5_rerun.RerunTests.test_constrained_optimization_returns_unrestrained_energy) ... ok
+test_deprotonation_pose_uses_global_oxygen_preserves_fragments (test_phase3_5_rerun.RerunTests.test_deprotonation_pose_uses_global_oxygen_preserves_fragments) ... ok
+test_esp_requires_real_charges (test_phase3_5_rerun.RerunTests.test_esp_requires_real_charges) ... ok
+test_failed_xtb_not_overridden_by_normal_text (test_phase3_5_rerun.RerunTests.test_failed_xtb_not_overridden_by_normal_text) ... ok
+test_g98_missing_modes_rejected (test_phase3_5_rerun.RerunTests.test_g98_missing_modes_rejected) ... ok
+test_g98_partial_mode_block (test_phase3_5_rerun.RerunTests.test_g98_partial_mode_block) ... ok
+test_hessian_requires_spectrum (test_phase3_5_rerun.RerunTests.test_hessian_requires_spectrum) ... ok
+test_image_cache_invalidates_and_returns_force_copy (test_phase3_5_rerun.RerunTests.test_image_cache_invalidates_and_returns_force_copy) ... ok
+test_mass_action_jacobian_matches_clipped_rhs (test_phase3_5_rerun.RerunTests.test_mass_action_jacobian_matches_clipped_rhs) ... ok
+test_ode_fresh_rate_replay_uses_zero_internal_origin (test_phase3_5_rerun.RerunTests.test_ode_fresh_rate_replay_uses_zero_internal_origin) ... ok
+test_optimization_requires_convergence (test_phase3_5_rerun.RerunTests.test_optimization_requires_convergence) ... ok
+test_phase5_cache_keys_distinguish_faces_and_unlocked_state (test_phase3_5_rerun.RerunTests.test_phase5_cache_keys_distinguish_faces_and_unlocked_state) ... ok
+test_scan_failure_retains_engine_evidence_without_weakening_gate (test_phase3_5_rerun.RerunTests.test_scan_failure_retains_engine_evidence_without_weakening_gate) ... ok
+test_spliced_hydrogen_constraint_uses_length_not_spring (test_phase3_5_rerun.RerunTests.test_spliced_hydrogen_constraint_uses_length_not_spring) ... ok
+test_warm_start_still_runs_requested_ci_steps (test_phase3_5_rerun.RerunTests.test_warm_start_still_runs_requested_ci_steps) ... ok
+test_dcd_copy_corrects_timestamps_without_changing_coordinates (test_phase6_8_rerun.RerunTests.test_dcd_copy_corrects_timestamps_without_changing_coordinates) ... ok
+test_future_dcd_writer_records_actual_stride (test_phase6_8_rerun.RerunTests.test_future_dcd_writer_records_actual_stride) ... ok
+test_implicit_resume_requires_completed_leg_and_fingerprints_artifacts (test_phase6_8_rerun.RerunTests.test_implicit_resume_requires_completed_leg_and_fingerprints_artifacts) ... ok
+test_inverse_bfgs_satisfies_secant_and_positive_curvature (test_phase6_8_rerun.RerunTests.test_inverse_bfgs_satisfies_secant_and_positive_curvature) ... ok
+test_meci_requires_finite_gap_and_gradient_with_original_gates (test_phase6_8_rerun.RerunTests.test_meci_requires_finite_gap_and_gradient_with_original_gates) ... ok
+test_memory_gate_precedes_psi4_process_creation (test_phase6_8_rerun.RerunTests.test_memory_gate_precedes_psi4_process_creation) ... ok
+test_morse_diagnostics_separate_trimmed_tail (test_phase6_8_rerun.RerunTests.test_morse_diagnostics_separate_trimmed_tail) ... ok
+test_phase6_keeps_small_hills_and_rejects_silent_saturation (test_phase6_8_rerun.RerunTests.test_phase6_keeps_small_hills_and_rejects_silent_saturation) ... ok
+test_phase6_reports_all_missing_prerequisites_before_qm (test_phase6_8_rerun.RerunTests.test_phase6_reports_all_missing_prerequisites_before_qm) ... ok
+test_phase7_child_uses_own_dlls_and_no_parent_pythonpath (test_phase6_8_rerun.RerunTests.test_phase7_child_uses_own_dlls_and_no_parent_pythonpath) ... ok
+test_phase7_triplet_contamination_uses_spin_offset (test_phase6_8_rerun.RerunTests.test_phase7_triplet_contamination_uses_spin_offset) ... ok
+test_phase8_dispatch_passes_threads_to_every_worker (test_phase6_8_rerun.RerunTests.test_phase8_dispatch_passes_threads_to_every_worker) ... ok
+test_phase8_worker_failure_preserves_diagnostics (test_phase6_8_rerun.RerunTests.test_phase8_worker_failure_preserves_diagnostics) ... ok
+test_phase8_workers_keep_thread_budget_and_logs (test_phase6_8_rerun.RerunTests.test_phase8_workers_keep_thread_budget_and_logs) ... ok
+test_spin_square_pure_singlet_doublet_and_triplet (test_phase6_8_rerun.RerunTests.test_spin_square_pure_singlet_doublet_and_triplet) ... ok
+test_acetate_alignment_preserves_distances_and_faces_away (test_phase15_16_19_rerun.RerunTests.test_acetate_alignment_preserves_distances_and_faces_away) ... ok
+test_compile_owned_phases (test_phase15_16_19_rerun.RerunTests.test_compile_owned_phases) ... ok
+test_dihedral_ignores_bond_parallel_components (test_phase15_16_19_rerun.RerunTests.test_dihedral_ignores_bond_parallel_components) ... ok
+test_fresh_stage_assembly_keeps_input_hashes_and_does_not_overwrite (test_phase15_16_19_rerun.RerunTests.test_fresh_stage_assembly_keeps_input_hashes_and_does_not_overwrite) ... ok
+test_geometry_probe_cli_rejects_failed_gate_after_saving (test_phase15_16_19_rerun.RerunTests.test_geometry_probe_cli_rejects_failed_gate_after_saving) ... ok
+test_glu_clearance_uses_placed_stems_and_rejects_all_clashing (test_phase15_16_19_rerun.RerunTests.test_glu_clearance_uses_placed_stems_and_rejects_all_clashing) ... ok
+test_glu_rigid_transform_matches_direct_nerf (test_phase15_16_19_rerun.RerunTests.test_glu_rigid_transform_matches_direct_nerf) ... ok
+test_hfcc_cli_dispatch (test_phase15_16_19_rerun.RerunTests.test_hfcc_cli_dispatch) ... ok
+test_md_reference_uses_original_pdb_atom_indices (test_phase15_16_19_rerun.RerunTests.test_md_reference_uses_original_pdb_atom_indices) ... ok
+test_phase15_allostery_summary_uses_current_schema (test_phase15_16_19_rerun.RerunTests.test_phase15_allostery_summary_uses_current_schema) ... ok
+test_phase15_bias_matches_unweighted_sampled_centroids (test_phase15_16_19_rerun.RerunTests.test_phase15_bias_matches_unweighted_sampled_centroids) ... ok
+test_phase15_sampling_is_fixed_and_accounted (test_phase15_16_19_rerun.RerunTests.test_phase15_sampling_is_fixed_and_accounted) ... ok
+test_phase15_sidechains_bond_to_correct_centers_and_keep_chirality (test_phase15_16_19_rerun.RerunTests.test_phase15_sidechains_bond_to_correct_centers_and_keep_chirality) ... ok
+test_phase15_terminal_carboxylate_oxygens_are_separate (test_phase15_16_19_rerun.RerunTests.test_phase15_terminal_carboxylate_oxygens_are_separate) ... ok
+test_phase19_branch_angles_planarity_and_bond_lengths (test_phase15_16_19_rerun.RerunTests.test_phase19_branch_angles_planarity_and_bond_lengths) ... ok
+test_phase19_canonical_aiming_uses_actual_ca_attached_cb (test_phase15_16_19_rerun.RerunTests.test_phase19_canonical_aiming_uses_actual_ca_attached_cb) ... ok
+test_phase19_trp_named_ring_bonds_close_without_duplicate_atoms (test_phase15_16_19_rerun.RerunTests.test_phase19_trp_named_ring_bonds_close_without_duplicate_atoms) ... ok
+test_pyscf_bohr_input_is_explicit (test_phase15_16_19_rerun.RerunTests.test_pyscf_bohr_input_is_explicit) ... ok
+test_real_torch_training_checkpoint_roundtrip_and_no_overwrite (test_phase15_16_19_rerun.RerunTests.test_real_torch_training_checkpoint_roundtrip_and_no_overwrite) ... ok
+test_rmsf_is_root_mean_square_not_mean_distance (test_phase15_16_19_rerun.RerunTests.test_rmsf_is_root_mean_square_not_mean_distance) ... ok
+test_rot_between_nonunit_and_antiparallel_vectors (test_phase15_16_19_rerun.RerunTests.test_rot_between_nonunit_and_antiparallel_vectors) ... ok
+test_saved_acceptance_audit_withdraws_12_point_4_without_mutating_source (test_phase15_16_19_rerun.RerunTests.test_saved_acceptance_audit_withdraws_12_point_4_without_mutating_source) ... ok
+test_simpson_does_not_renormalize_bad_data (test_phase15_16_19_rerun.RerunTests.test_simpson_does_not_renormalize_bad_data) ... ok
+test_simpson_yields_against_equal_rate_analytic_trace (test_phase15_16_19_rerun.RerunTests.test_simpson_yields_against_equal_rate_analytic_trace) ... ok
+test_so3_log_float32_near_pi_roundtrip_and_random_batches (test_phase15_16_19_rerun.RerunTests.test_so3_log_float32_near_pi_roundtrip_and_random_batches) ... ok
+test_so3_log_rejects_bad_rotations_instead_of_hiding_them (test_phase15_16_19_rerun.RerunTests.test_so3_log_rejects_bad_rotations_instead_of_hiding_them) ... ok
+test_strict_candidate_acceptance_rejects_missing_failed_and_bad_measurements (test_phase15_16_19_rerun.RerunTests.test_strict_candidate_acceptance_rejects_missing_failed_and_bad_measurements) ... ok
+test_transport_rejects_short_unsorted_and_nonfinite_inputs (test_phase15_16_19_rerun.RerunTests.test_transport_rejects_short_unsorted_and_nonfinite_inputs) ... ok
+test_anchor_implementation_verification (test_phase17_rerun.PostauditSafetyTests.test_anchor_implementation_verification) ... ok
+test_axisymmetric_laplacian_and_axis_descriptor (test_phase17_rerun.PostauditSafetyTests.test_axisymmetric_laplacian_and_axis_descriptor) ... ok
+test_completion_gate (test_phase17_rerun.PostauditSafetyTests.test_completion_gate) ... ok
+test_immutable_prior (test_phase17_rerun.PostauditSafetyTests.test_immutable_prior) ... ok
+test_kb_positive_branch_and_basis_refinement (test_phase17_rerun.PostauditSafetyTests.test_kb_positive_branch_and_basis_refinement) ... ok
+test_merge_rejects_unrelated_change (test_phase17_rerun.PostauditSafetyTests.test_merge_rejects_unrelated_change) ... ok
+test_scaled_coulomb_retains_measured_error (test_phase17_rerun.PostauditSafetyTests.test_scaled_coulomb_retains_measured_error) ... ok
+test_constant_energy_does_not_hide_density_cycle (test_phase17_rerun.SCFTests.test_constant_energy_does_not_hide_density_cycle) ... ok
+test_failed_candidate_can_continue_to_convergence (test_phase17_rerun.SCFTests.test_failed_candidate_can_continue_to_convergence) ... ok
+test_final_solve_must_also_converge (test_phase17_rerun.SCFTests.test_final_solve_must_also_converge) ... ok
+test_fixed_point_passes_and_initial_delta_is_unknown (test_phase17_rerun.SCFTests.test_fixed_point_passes_and_initial_delta_is_unknown) ... ok
+test_grouped_radial_matches_dense_reference (test_phase17_rerun.SCFTests.test_grouped_radial_matches_dense_reference) ... ok
+test_hydrogenic_grid_scaling_and_refinement (test_phase17_rerun.SCFTests.test_hydrogenic_grid_scaling_and_refinement) ... ok
+test_invalid_iteration_budget (test_phase17_rerun.SCFTests.test_invalid_iteration_budget) ... ok
+test_orbital_failure_is_not_accepted (test_phase17_rerun.SCFTests.test_orbital_failure_is_not_accepted) ... ok
+test_orbital_quadrature_normalization (test_phase17_rerun.SCFTests.test_orbital_quadrature_normalization) ... ok
+test_radial_ratio_and_chunk_independence (test_phase17_rerun.SCFTests.test_radial_ratio_and_chunk_independence) ... ok
+test_scf_final_density_independent_of_eigenvector_scale (test_phase17_rerun.SCFTests.test_scf_final_density_independent_of_eigenvector_scale) ... ok
+test_sparse_angular_matches_dense_kernels (test_phase17_rerun.SCFTests.test_sparse_angular_matches_dense_kernels) ... ok
+test_unnormalized_density_is_rejected_not_rescaled (test_phase17_rerun.SCFTests.test_unnormalized_density_is_rejected_not_rescaled) ... ok
+test_completed_sim_roundtrip_all_frames_and_arrays (test_phase14_rerun.Phase14Tests.test_completed_sim_roundtrip_all_frames_and_arrays) ... Recorded interruption, not completion: $USER_PROFILE\AppData\Local\Temp\tmppb2k19pp
+[phase14]   t=    0.0s  <phi>=0.277 <psi>=0.082  R=0.00um N=  0  dissipation_proxy=1.073e-01
+[phase14] checkpoint committed: E1_active
+[phase14] checkpoint verified and reused: E1_active
+ok
+test_corruption_missing_commit_and_object_arrays_fail_closed (test_phase14_rerun.Phase14Tests.test_corruption_missing_commit_and_object_arrays_fail_closed) ... [phase14] checkpoint committed: E2_test
+[phase14] checkpoint committed: E2_test
+[phase14] checkpoint committed: E2_test
+[phase14] checkpoint committed: safe
+ok
+test_curvature_matches_derivative (test_phase14_rerun.Phase14Tests.test_curvature_matches_derivative) ... ok
+test_e1_e2_default_plan_and_reuse (test_phase14_rerun.Phase14Tests.test_e1_e2_default_plan_and_reuse) ... ok
+test_e3_resume_skips_completed_fingerprints_after_interruption (test_phase14_rerun.Phase14Tests.test_e3_resume_skips_completed_fingerprints_after_interruption) ... [phase14] E3: FRAP & SAXS fingerprints at k_ATP in {0, 0.02, 0.08}
+[phase14]   t=    0.0s  <phi>=0.271 <psi>=0.080  R=0.00um N=  0  dissipation_proxy=4.244e-06
+[phase14] checkpoint committed: E3_k0.000_equilibrated
+[phase14] checkpoint committed: E3_k0.000
+[phase14]   k_ATP=0.0: tau_1/2=0.22s, D_app=0.2355 um^2/s, eta=0.386 Pa.s, q*=nan, d_f=nan
+[phase14]   t=    0.0s  <phi>=0.277 <psi>=0.082  R=0.00um N=  0  dissipation_proxy=1.073e-01
+[phase14] checkpoint committed: E3_k0.020_equilibrated
+[phase14] checkpoint verified and reused: E3_k0.000
+[phase14] E3: FRAP & SAXS fingerprints at k_ATP in {0, 0.02, 0.08}
+[phase14] checkpoint verified and reused: E3_k0.000
+[phase14] checkpoint verified and reused: E3_k0.020_equilibrated
+[phase14] checkpoint committed: E3_k0.020
+[phase14]   k_ATP=0.02: tau_1/2=0.22s, D_app=0.2339 um^2/s, eta=0.388 Pa.s, q*=nan, d_f=nan
+[phase14]   t=    0.0s  <phi>=0.268 <psi>=0.081  R=0.00um N=  0  dissipation_proxy=4.162e-01
+[phase14] checkpoint committed: E3_k0.080_equilibrated
+[phase14] checkpoint committed: E3_k0.080
+[phase14]   k_ATP=0.08: tau_1/2=0.22s, D_app=0.2389 um^2/s, eta=0.380 Pa.s, q*=nan, d_f=nan
+ok
+test_frames_describe_reached_concentrations (test_phase14_rerun.Phase14Tests.test_frames_describe_reached_concentrations) ... ok
+test_frap_failure_never_drops_diffusion (test_phase14_rerun.Phase14Tests.test_frap_failure_never_drops_diffusion) ... ok
+test_identity_explicit_resume_and_immutable_commits (test_phase14_rerun.Phase14Tests.test_identity_explicit_resume_and_immutable_commits) ... [phase14] checkpoint committed: E2_test
+ok
+test_interrupted_commit_can_retry_without_overwriting (test_phase14_rerun.Phase14Tests.test_interrupted_commit_can_retry_without_overwriting) ... [phase14] checkpoint committed: E1_active
+[phase14] checkpoint verified and reused: E1_active
+ok
+test_invalid_state_and_step_fail (test_phase14_rerun.Phase14Tests.test_invalid_state_and_step_fail) ... ok
+test_ness_weights_physical_time_not_frame_count (test_phase14_rerun.Phase14Tests.test_ness_weights_physical_time_not_frame_count) ... ok
+test_reaction_and_step_conserve_total (test_phase14_rerun.Phase14Tests.test_reaction_and_step_conserve_total) ... ok
+test_time_boundary_and_post_step_snapshots (test_phase14_rerun.Phase14Tests.test_time_boundary_and_post_step_snapshots) ... ok
+
+----------------------------------------------------------------------
+Ran 140 tests in 21.259s
+
+OK

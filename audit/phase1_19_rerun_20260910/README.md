@@ -1,6 +1,6 @@
 # Phase 1–19 fresh rerun evidence
 
-Snapshot: 2026-09-10 23:26:39
+Snapshot: 2026-09-10 23:36:16
 
 This is an ongoing computational audit, not an all-phases-pass or experimental-validation claim.
 本目录是持续重算的阶段性证据，不能解读为 19 个阶段全部通过。历史根目录结果没有被自动覆盖。
@@ -29,4 +29,4 @@ Text paths are redacted. JSON null may denote an originally nonfinite/unavailabl
 - [Phase 16](phase16/20260910T230954/run_status.json): running; pending output review
 - [Phase 17](phase17/20260910T180947/run_status.json): process_completed; specified numerical/software checks passed; see limitations
 - [Phase 18](phase18/20260910T135210/run_status.json): process_completed; specified numerical/software checks passed; see limitations
-- [Phase 19](phase19/20260910T192525/run_status.json): process_failed; geometry_probe_failed_not_full_evolution
+- [Phase 19](phase19/20260910T233318/run_status.json): process_completed; geometry_probe_only_passed_not_full_evolution

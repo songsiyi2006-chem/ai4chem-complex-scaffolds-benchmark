@@ -67,8 +67,11 @@ estimator).
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
+import platform
+import random
 import shutil
 import subprocess
 import time
@@ -87,6 +90,7 @@ from matplotlib.colors import TwoSlopeNorm
 #  global configuration
 # --------------------------------------------------------------------------- #
 ROOT = Path(__file__).resolve().parent
+SOURCE_SHA256 = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
 RES = ROOT / "results_phase12"
 FIG = ROOT / "figures_phase12"
 RES.mkdir(exist_ok=True)
@@ -823,9 +827,69 @@ def onsager_analysis(J):
 # --------------------------------------------------------------------------- #
 #  MODULE 12C — Hamiltonian core & Lyapunov functional (continuous NN)
 # --------------------------------------------------------------------------- #
+def _atomic_checkpoint_write(path, writer):
+    """Publish on the same filesystem; a failed save leaves the old file intact."""
+    path = Path(path)
+    # One writer per attempt. Reuse the reserved staging name so a hard-killed
+    # process cannot accumulate unbounded orphan files across repeated resumes.
+    temporary = path.with_name(path.name + ".tmp")
+    try:
+        with temporary.open("wb") as stream:
+            writer(stream)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def _checkpoint_runtime():
+    import scipy
+    import torch
+    return {"python": platform.python_version(), "platform": platform.platform(),
+            "numpy": np.__version__, "scipy": scipy.__version__,
+            "sympy": sympy.__version__, "torch": str(torch.__version__),
+            "threads": max(1, int(os.environ.get("OMP_NUM_THREADS", "2"))),
+            "interop_threads": torch.get_num_interop_threads(),
+            "deterministic": torch.are_deterministic_algorithms_enabled(),
+            "environment": {k: os.environ.get(k) for k in
+                            ("MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                             "MKL_CBWR", "OMP_NUM_THREADS")}}
+
+
+def _array_identity(value):
+    if value is None:
+        return None
+    a = np.ascontiguousarray(value)
+    return {"shape": list(a.shape), "dtype": a.dtype.str,
+            "sha256": hashlib.sha256(memoryview(a).cast("B")).hexdigest()}
+
+
+def _prepare_checkpoint_dir(path, resume, quick):
+    """Fresh attempts require a new directory; old uncheckpointed runs stay untouched."""
+    path = Path(path)
+    identity = {"schema": 1, "source_sha256": SOURCE_SHA256,
+                "quick": quick, "runtime": _checkpoint_runtime()}
+    manifest = path / "manifest.json"
+    if resume:
+        if not manifest.is_file():
+            raise ValueError("No checkpoint manifest; an attempt without weights cannot resume")
+        if json.loads(manifest.read_text(encoding="utf-8")) != identity:
+            raise ValueError("Checkpoint source/config/runtime mismatch")
+        if not (path / "hamiltonian.pt").is_file():
+            raise ValueError("No Hamiltonian checkpoint weights; cannot resume training")
+    else:
+        path.mkdir(parents=True, exist_ok=False)
+        _atomic_checkpoint_write(manifest, lambda f: f.write(
+            json.dumps(identity, sort_keys=True).encode("utf-8")))
+    return path
+
+
 def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
                             n_steps=2500, lr=2e-3, seed=0, pairs=None,
-                            transverse_samples=None):
+                            transverse_samples=None, *, checkpoint_path=None,
+                            resume=False, checkpoint_every=100, rhs_identity=None):
     """Learn a scalar functional on phase space with a continuous MLP.
 
     mode='hamiltonian': dH/dt = gradH . f ~ 0 on the attractor band
@@ -834,8 +898,46 @@ def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
                         (entropy-dissipation funnel); V -> 0 and dV/dt -> 0
                         on the attractor (non-equilibrium steady balance).
     Input scaling is folded into the network (buffer 'scale').
+
+    Opt-in CPU checkpoints store the last completed optimizer step, including
+    Adam, cosine schedule and Python/NumPy/Torch RNG states. At most one published
+    checkpoint and one transient save exist per functional. An interrupted step
+    is replayed from the last checkpoint, never saved with partly updated state.
+    rhs_identity must describe the complete discovered law (including coefficients).
     """
     import torch
+    if checkpoint_every < 1:
+        raise ValueError("checkpoint_every must be positive")
+    if resume and checkpoint_path is None:
+        raise ValueError("resume requires a checkpoint path with weights")
+    metadata = None
+    saved = None
+    if checkpoint_path is not None:
+        checkpoint_path = Path(checkpoint_path)
+        if rhs_identity is None:
+            raise ValueError("checkpoint requires an explicit RHS identity")
+        metadata = {"schema": 1, "source_sha256": SOURCE_SHA256,
+                    "runtime": _checkpoint_runtime(), "mode": mode,
+                    "n_steps": n_steps, "lr": lr, "seed": seed,
+                    "rhs": rhs_identity,
+                    "data": [_array_identity(a) for a in
+                             (main_samples, attractor_samples, transverse_samples,
+                              pairs[0] if pairs is not None else None,
+                              pairs[1] if pairs is not None else None)]}
+        if resume:
+            if not checkpoint_path.is_file():
+                raise ValueError("No checkpoint weights; cannot resume training")
+            saved = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
+            if saved.get("metadata") != metadata:
+                raise ValueError("Checkpoint source/data/config/runtime/RHS mismatch")
+            if type(saved.get("step")) is not int or not 0 <= saved["step"] <= n_steps:
+                raise ValueError("Invalid checkpoint step")
+            required = {"model", "optimizer", "scheduler", "python_rng",
+                        "numpy_rng", "torch_rng"}
+            if not required.issubset(saved):
+                raise ValueError("Incomplete checkpoint; weights and training states required")
+        elif checkpoint_path.exists():
+            raise FileExistsError("Checkpoint exists; use explicit resume or a new path")
     torch.manual_seed(seed)
     torch.set_num_threads(max(1, int(os.environ.get("OMP_NUM_THREADS", "2"))))
     dt64 = torch.float64
@@ -867,10 +969,35 @@ def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, n_steps)
     bs = min(4096, len(Xm), len(Xa))
 
+    def save_checkpoint(step):
+        if checkpoint_path is None:
+            return
+        ns = np.random.get_state()
+        payload = {"metadata": metadata, "step": step,
+                   "model": net.state_dict(), "optimizer": opt.state_dict(),
+                   "scheduler": sched.state_dict(), "python_rng": random.getstate(),
+                   "numpy_rng": (ns[0], ns[1].tolist(), ns[2], ns[3], ns[4]),
+                   "torch_rng": torch.get_rng_state()}
+        _atomic_checkpoint_write(checkpoint_path, lambda f: torch.save(payload, f))
+
+    start_step = 0
+    if saved is not None:
+        net.load_state_dict(saved["model"], strict=True)
+        opt.load_state_dict(saved["optimizer"])
+        sched.load_state_dict(saved["scheduler"])
+        random.setstate(saved["python_rng"])
+        ns = saved["numpy_rng"]
+        np.random.set_state((ns[0], np.asarray(ns[1], dtype=np.uint32), *ns[2:]))
+        torch.set_rng_state(saved["torch_rng"])
+        start_step = saved["step"]
+        print(f"   Resuming {mode}: {start_step}/{n_steps} completed steps", flush=True)
+    else:
+        save_checkpoint(0)
+
     def f_torch(Xb):
         return torch.tensor(np.asarray(f_rhs_vec(Xb.detach().numpy())), dtype=dt64)
 
-    for step in range(n_steps):
+    for step in range(start_step, n_steps):
         Xb = Xm[torch.randint(0, len(Xm), (bs,))].clone().requires_grad_(True)
         Hb = net(Xb)
         gH = torch.autograd.grad(Hb.sum(), Xb, create_graph=True)[0]
@@ -905,6 +1032,8 @@ def train_scalar_functional(f_rhs_vec, mode, main_samples, attractor_samples,
         loss.backward()
         opt.step()
         sched.step()
+        if (step + 1) % checkpoint_every == 0 or step + 1 == n_steps:
+            save_checkpoint(step + 1)
         if step % 500 == 0 or step == n_steps - 1:
             print(f"      {elapsed()} step {step:5d}  loss = {float(loss.detach()):.3e}",
                   flush=True)
@@ -1409,11 +1538,31 @@ def main():
     ap.add_argument("--quick", action="store_true", help="reduced-data smoke run")
     ap.add_argument("--fig_only", action="store_true",
                     help="re-render figures from the saved artefacts")
+    ap.add_argument("--checkpoint-dir", type=Path,
+                    help="NEW directory for H/V checkpoints; defaults to results_phase12/training_checkpoints")
+    ap.add_argument("--no-checkpoint", action="store_true",
+                    help="explicitly disable training checkpoints")
+    ap.add_argument("--resume", action="store_true",
+                    help="explicitly resume checkpoints; upstream discovery is recomputed")
+    ap.add_argument("--checkpoint-every", type=int, default=100,
+                    help="save every N completed training steps (default: 100)")
     args = ap.parse_args()
+    if args.checkpoint_every < 1:
+        ap.error("--checkpoint-every must be positive")
+    if args.no_checkpoint and (args.checkpoint_dir is not None or args.resume):
+        ap.error("--no-checkpoint conflicts with checkpoint directory/resume")
+    if args.resume and args.checkpoint_dir is None:
+        ap.error("--resume requires --checkpoint-dir with existing weights")
+    if args.fig_only and (args.checkpoint_dir is not None or args.resume):
+        ap.error("--fig_only cannot be combined with training checkpoints")
     QUICK = args.quick
     if args.fig_only:
         render_figures_only()
         return
+    if args.checkpoint_dir is None and not args.no_checkpoint:
+        args.checkpoint_dir = RES / 'training_checkpoints'
+    checkpoint_dir = (_prepare_checkpoint_dir(args.checkpoint_dir, args.resume, QUICK)
+                      if args.checkpoint_dir is not None else None)
     iht_restarts = 10 if QUICK else 28
     n_transient = 3 if QUICK else 8
     n_kick_rep = 1 if QUICK else 2
@@ -1823,13 +1972,25 @@ def main():
           f"gradH . f = 0 on the attractor band ...")
     gap = 25
     pairs = (long_traj[:-gap:7], long_traj[gap::7])
+    def checkpoint_options(mode):
+        if checkpoint_dir is None:
+            return {}
+        path = checkpoint_dir / (mode + ".pt")
+        # V may not have started when H was interrupted. H must already exist
+        # on resume (checked before the expensive upstream recomputation).
+        return {"checkpoint_path": path, "resume": args.resume and path.exists(),
+                "checkpoint_every": args.checkpoint_every,
+                "rhs_identity": [sympy.srepr(e) for e in expr_rows]}
+
     netH = train_scalar_functional(f_disc_vec, "hamiltonian", attr_samples,
                                    attr_samples, n_steps=net_steps, seed=1,
-                                   pairs=pairs, transverse_samples=off_samples)
+                                   pairs=pairs, transverse_samples=off_samples,
+                                   **checkpoint_options("hamiltonian"))
     print(f"   {elapsed()} training Lyapunov functional V(x): "
           f"V >= 0, dV/dt <= 0 off-attractor ...")
     netV = train_scalar_functional(f_disc_vec, "lyapunov", off_samples,
-                                   attr_samples, n_steps=net_steps, seed=2)
+                                   attr_samples, n_steps=net_steps, seed=2,
+                                   **checkpoint_options("lyapunov"))
 
     # New initial conditions, never used in fitting or model selection.
     audit_rng = np.random.default_rng(120023)

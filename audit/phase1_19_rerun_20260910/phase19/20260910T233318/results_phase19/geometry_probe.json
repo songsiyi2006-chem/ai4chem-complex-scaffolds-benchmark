@@ -1,0 +1,54 @@
+{
+  "scope": "single_geometry_probe_not_full_evolution",
+  "constellation_rmsd_A": 0.1910461949933137,
+  "trp_reachability": {
+    "method": "exact_fixed_backbone_chi1_chi2_spherical_band",
+    "minimum_NE1_error_A": 0.4679656840828009,
+    "target_CB_distance_A": 4.127924545988936,
+    "reachable_CB_distance_A": 3.6752702915816053,
+    "projection_limits_A": [
+      0.8156177800910246,
+      2.064648564625487
+    ],
+    "target_CA_distance_A": 5.176079565876266,
+    "maximum_CA_reach_A": 4.708113881793465,
+    "coordinates_modified": false,
+    "target_modified": false
+  },
+  "placement": {
+    "inverse_placement_errs": {
+      "GLU": 0.0,
+      "TRP": 0.46796569503387686,
+      "ASN": 0.0,
+      "SER": 0.0
+    },
+    "anchor_errors_A": {
+      "GLU:CA": 4.440892098500626e-16,
+      "GLU:OE1": 0.0,
+      "GLU:OE2": 0.0,
+      "TRP:CA": 0.0,
+      "TRP:NE1": 0.46796569503387686,
+      "ASN:N": 8.386854961476664e-17
+    },
+    "constellation_rmsd": 0.1910461949933137,
+    "carboxylate_deviation_A": 0.0,
+    "stack_deviation_A": 0.46796569503387686,
+    "n_chirality_violations": 0
+  },
+  "static": {
+    "n_heavy": 1477,
+    "n_clashes": 661,
+    "radius_gyration": 17.12445516091316,
+    "frac_ramachandran": 0.8245614035087719,
+    "n_res": 172,
+    "composition": {
+      "H": 169,
+      "P": 2,
+      "+": 0,
+      "-": 1,
+      "G": 0
+    }
+  },
+  "source_sha256": "15aaffc5af5876a4492ad42fda54afc417fb180ad87665bd07819cd8ddf5d91c",
+  "geometry_gate_passed": true
+}
