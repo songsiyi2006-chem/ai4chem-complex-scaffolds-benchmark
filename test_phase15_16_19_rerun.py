@@ -114,7 +114,7 @@ class RerunTests(unittest.TestCase):
         geom = next(n.value for n in tree(19).body if isinstance(n, ast.Assign)
                     and any(isinstance(t, ast.Name) and t.id == "SC_GEOM" for t in n.targets))
         ns = functions(19, ["build_sidechain", "place_atom", "place_cb", "_trigonal_third",
-                            "_indole_attach", "_pca_frame", "_rot_about_axis"],
+                            "_indole_attach", "_pca_frame", "_rot_about_axis", "trp_target_reachability"],
                        SC_GEOM=ast.literal_eval(geom), _l_cb_reference_sign=lambda: 1.,
                        _cached_geom=lambda *a: (xyz, symbols))
         r = dict(N=np.array([0.,0.,0.]), CA=np.array([1.458,0.,0.]), C=np.array([2.,1.42,0.]))
@@ -127,6 +127,17 @@ class RerunTests(unittest.TestCase):
         fit = least_squares(lambda chi: ns["build_sidechain"]("TRP", r, chi, 1.)["NE1"]-target,
                             [45., 65.], xtol=1e-12, ftol=1e-12, gtol=1e-12)
         self.assertLess(np.linalg.norm(fit.fun), 1e-6)
+        for chi in ([0.,0.], [60.,90.], [-120.,175.]):
+            point = ns["build_sidechain"]("TRP", r, chi, 1.)["NE1"]
+            diagnostic = ns["trp_target_reachability"](r, point)
+            self.assertLess(diagnostic["minimum_NE1_error_A"], 1e-9)
+        distant = r["CA"]+np.array([15.,0.,0.])
+        diagnostic = ns["trp_target_reachability"](r, distant)
+        self.assertGreater(diagnostic["minimum_NE1_error_A"], 9.)
+        best_error = min(np.linalg.norm(least_squares(
+            lambda chi: ns["build_sidechain"]("TRP", r, chi, 1.)["NE1"]-distant,
+            seed, max_nfev=200).fun) for seed in ([0.,0.],[90.,90.],[-90.,180.]))
+        self.assertAlmostEqual(diagnostic["minimum_NE1_error_A"], best_error, places=5)
         bonds = [("CG","CD1"),("CD1","NE1"),("NE1","CE2"),("CE2","CD2"),
                  ("CD2","CG"),("CD2","CE3"),("CE3","CZ3"),("CZ3","CH2"),
                  ("CH2","CZ2"),("CZ2","CE2")]

@@ -28,6 +28,20 @@ def function(phase, name, **namespace):
 
 
 class RerunTests(unittest.TestCase):
+    def test_morse_diagnostics_separate_trimmed_tail(self):
+        from scipy.optimize import least_squares
+        morse = function(6, "_morse", np=np)
+        fit = function(6, "_fit_morse", np=np, least_squares=least_squares,
+                       _morse=morse)
+        rr = np.linspace(1.4, 3.0, 9)
+        ee = morse(rr, 90., 1.4, 1.8, 90.)
+        ee[-1] = ee[-2] - 30.
+        result = fit(rr, ee)
+        self.assertEqual(result["fit_trimmed_tail_points"], 1)
+        self.assertEqual(result["fit_retained_points"], 8)
+        self.assertLess(result["fit_retained_rms_kcal"], 1e-4)
+        self.assertAlmostEqual(result["De_kcal"], 90., places=3)
+
     def test_future_dcd_writer_records_actual_stride(self):
         from openmm import app, unit
         tree = ast.parse(next(ROOT.glob("run_phase6_*.py")).read_text(encoding="utf-8"))

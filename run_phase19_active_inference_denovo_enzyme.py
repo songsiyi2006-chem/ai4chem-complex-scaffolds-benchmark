@@ -3448,6 +3448,43 @@ def save_training_checkpoint(flow, data, rng, steps, audit, directory):
     return metadata
 
 
+def trp_target_reachability(residue, target):
+    """Exact chi1/chi2 NE1 reachable-band distance for the fixed backbone.
+
+    CB is fixed. NE1 has fixed distance to CB and a bounded projection
+    onto CA->CB; the two full torsions sweep this spherical band. This
+    diagnostic never changes an atom, target or acceptance threshold.
+    """
+    sc = build_sidechain("TRP", residue, [0., 0.], 1.)
+    ca, cb, cg, ne1 = residue["CA"], sc["CB"], sc["CG"], sc["NE1"]
+    axis = (cb-ca) / np.linalg.norm(cb-ca)
+    stem = cg-cb
+    stem_length = np.linalg.norm(stem)
+    stem_axis = stem / stem_length
+    ring_vector = ne1-cg
+    axial = stem_length + float(ring_vector @ stem_axis)
+    radial = np.linalg.norm(ring_vector - stem_axis * (ring_vector @ stem_axis))
+    radius = float(np.hypot(axial, radial))
+    cosine = float(stem_axis @ axis)
+    center = axial * cosine
+    width = radial * math.sqrt(max(0., 1.-cosine*cosine))
+    zmin, zmax = float(center-width), float(center+width)
+    d = np.asarray(target)-cb
+    length = np.linalg.norm(d)
+    dz = float(d @ axis)
+    rho = np.linalg.norm(d-dz*axis)
+    z = float(np.clip(radius*dz/length if length else 0., zmin, zmax))
+    closest_rho = math.sqrt(max(0., radius*radius-z*z))
+    minimum = float(np.hypot(dz-z, rho-closest_rho))
+    ca_cb = np.linalg.norm(cb-ca)
+    return dict(method="exact_fixed_backbone_chi1_chi2_spherical_band",
+                minimum_NE1_error_A=minimum, target_CB_distance_A=float(length),
+                reachable_CB_distance_A=radius, projection_limits_A=[zmin,zmax],
+                target_CA_distance_A=float(np.linalg.norm(np.asarray(target)-ca)),
+                maximum_CA_reach_A=float(math.sqrt(radius*radius+ca_cb*ca_cb+2*ca_cb*zmax)),
+                coordinates_modified=False, target_modified=False)
+
+
 def geometry_probe():
     """One fresh construction diagnostic: no flow training, MD or QM scan."""
     import hashlib
@@ -3464,6 +3501,7 @@ def geometry_probe():
     rmsd, placement = pack_sidechains(atoms, seq, slots, tz)
     static = static_fold_audit(atoms, seq)
     result = dict(scope="single_geometry_probe_not_full_evolution", constellation_rmsd_A=rmsd,
+                  trp_reachability=trp_target_reachability(atoms[slots["TRP"]], tz.ne1),
                   placement=placement, static=static, source_sha256=hashlib.sha256(
                       Path(__file__).read_bytes()).hexdigest(),
                   geometry_gate_passed=bool(rmsd <= .30 and static["n_clashes"] <= 5000

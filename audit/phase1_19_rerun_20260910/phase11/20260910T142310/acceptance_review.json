@@ -1,0 +1,93 @@
+{
+  "status": "full_run_completed_partial_scientific_acceptance",
+  "all_scientific_targets_passed": false,
+  "process_exit_code": 0,
+  "scope": "Fresh default full run; no historical cache substituted; no production skipped",
+  "results_path": "results_phase11/phase11_results.json",
+  "results_sha256": "3f6dac6f7ae5fed2b26fed3e018ff510b07e73dd2694ae715e3b0571749a9aba",
+  "original_outputs_modified": false,
+  "checks": {
+    "completion": {
+      "status": "passed",
+      "walkers_per_system": 2048,
+      "production_blocks_per_system": 20,
+      "epochs_and_csv_rows": {
+        "H2_eq_R1.4011": 1200,
+        "H2_R2.5": 550,
+        "H2_R4.0": 550,
+        "H2_R6.0": 550,
+        "He": 1200
+      }
+    },
+    "finiteness": {
+      "status": "passed",
+      "numeric_json_values": 5961,
+      "nonfinite": 0
+    },
+    "antisymmetry": {
+      "status": "passed",
+      "max_deviation": 0.0
+    },
+    "autodiff_laplacian": {
+      "status": "passed",
+      "finite_difference_relative_error": 3.515304116655698e-07
+    },
+    "chemical_accuracy": {
+      "status": "partial_four_of_five",
+      "unchanged_absolute_error_threshold_mEh": 1.6,
+      "reference_scope": "Computed Psi4 FCI aug-cc-pV(T,Q)Z CBS extrapolations, not exact finite-error-free continuum energies",
+      "H2_eq_R1.4011": {
+        "error_mEh": 0.4628374139408198,
+        "pass": true
+      },
+      "H2_R2.5": {
+        "error_mEh": 0.3817464975239826,
+        "pass": true
+      },
+      "H2_R4.0": {
+        "error_mEh": 0.5011621988018078,
+        "pass": true
+      },
+      "H2_R6.0": {
+        "error_mEh": 1.4240713638113967,
+        "pass": true
+      },
+      "He": {
+        "error_mEh": 1.6608865319498456,
+        "pass": false,
+        "SE_mEh": 0.5642231941029101
+      },
+      "interpretation": "These are point-estimate gates. He uncertainty does not convert a failing point estimate into pass; H2_R6 point-estimate pass does not establish a confidence-bound pass."
+    },
+    "saved_block_uncertainty_reanalysis": {
+      "status": "reproduced_not_independent_new_sampling",
+      "method": "Recompute std(blocks,ddof=1)/sqrt20, adjacent-pair blocking and deterministic iid block bootstrap20000replicates, numpy default_rng seed110011 in system order",
+      "all_five_reported_SE_reproduced": true,
+      "He_pairblocked_SE_mEh": 0.5282079860156437,
+      "He_bootstrap95_signed_error_mEh": [
+        0.5951972564339769,
+        2.7467377543355376
+      ],
+      "H2_R6_bootstrap95_signed_error_mEh": [
+        0.6671658724133334,
+        2.165751600299859
+      ],
+      "limitation": "Only20stored block means. Bootstrap assumes independent blocks and does not certify autocorrelation removal or include reference extrapolation uncertainty. Not new independent VMC samples."
+    },
+    "cusp": {
+      "status": "not_certified_invalid_scope_for_existing_diagnostic",
+      "en_directional_slope": -2.430565397653277,
+      "ee_directional_slope": -1.862306078986815,
+      "method": "Single ray log-density least-squares slope at0.02-0.25a0, not spherical averaging followed by coalescence limit",
+      "actual_trained_network_angular_average_performed": false,
+      "new_diagnostic_test_scope": "New source angular-average routine tested only on analytic exp(-r+1.7z) wavefunction; angular averaging removes smooth directional background as radius shrinks. This does NOT validate the trained network.",
+      "limitation": "Trained state_dict not persisted; cannot repeat frozen-network sampling or actual cusp angular averaging from the saved result alone. Existing figure labels overstate cusp validation; corrected future-source labels do not retroactively change saved figures."
+    }
+  },
+  "next_steps": [
+    "Do not extend epochs repeatedly until He passes. Predeclare any independent-seed replication and production precision target before rerunning.",
+    "Persist frozen wavefunction and sampler state in any future authorized run, permitting independent sampling and angular/radial cusp checks without retraining.",
+    "Current failure/limitations remain visible while Phase12/13 await coordinated RAM allocation."
+  ],
+  "automation": "Main task owns the authorized20-minute heartbeat; worker created none"
+}

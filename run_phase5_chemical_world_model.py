@@ -80,7 +80,7 @@ EXPLORATORY_KINETICS = False
 ROOT = Path(__file__).resolve().parent
 RES = ROOT / "results_phase5"
 FIG = ROOT / "figures_phase5"
-ENERGY_CACHE_VERSION = AUDIT_VERSION + "-physical-sp-v2"
+ENERGY_CACHE_VERSION = AUDIT_VERSION + "-physical-sp-ts2b-pose-v3"
 CACHE = RES / ("cache_" + ENERGY_CACHE_VERSION)
 for d in (RES, FIG, CACHE):
     d.mkdir(parents=True, exist_ok=True)
@@ -195,6 +195,15 @@ def _parse_xyz(path: Path):
     return np.array(nums), np.array(pos)
 
 
+class XTBFailure(RuntimeError):
+    """Retain engine evidence beyond the temporary working directory lifetime."""
+    def __init__(self, message, stdout="", stderr="", files=None):
+        super().__init__(message)
+        self.stdout = stdout
+        self.stderr = stderr
+        self.files = files or {}
+
+
 def run_xtb(numbers, positions, args_list, chrg=0, timeout=600,
             want_files=(), workdir: Path | None = None):
     """Generic hardened xtb call. Returns (stdout, {filename: text})."""
@@ -216,10 +225,11 @@ def run_xtb(numbers, positions, args_list, chrg=0, timeout=600,
             if fp.exists():
                 files[f] = fp.read_text(errors="replace")
         if proc.returncode != 0:
-            raise RuntimeError(
+            raise XTBFailure(
                 f"xtb {' '.join(args_list)} failed rc={proc.returncode}; "
                 f"tail: {out[-400:]!r} / "
-                f"{(proc.stderr or b'')[-200:]!r}")
+                f"{(proc.stderr or b'')[-200:]!r}", stdout=out,
+                stderr=(proc.stderr or b'').decode('utf-8', errors='replace'), files=files)
         return out, files
     finally:
         if own:
@@ -245,7 +255,8 @@ def xtb_opt(numbers, positions, chrg=0, constraints: list[tuple] | None = None,
                              chrg=chrg, timeout=timeout,
                              want_files=("xtbopt.xyz",), workdir=Path(td))
         if "GEOMETRY OPTIMIZATION CONVERGED" not in out.upper():
-            raise RuntimeError("xtb geometry optimization did not converge: " + out[-300:])
+            raise XTBFailure("xtb geometry optimization did not converge: " + out[-300:],
+                             stdout=out, files=files)
         if "xtbopt.xyz" not in files:
             raise RuntimeError("xtb --opt produced no xtbopt.xyz; tail: "
                                + out[-300:])
@@ -356,18 +367,37 @@ def scan_1d(numbers, positions, constraints_fn, frames, chrg=0, fc=0.6,
     out = []
     for k, s in enumerate(frames):
         cons = constraints_fn(s)
+        record = dict(label=label, target=s, charge=chrg, gfn=2, solvent='none',
+                      force_constant=fc, constraints_1based=cons,
+                      numbers=np.asarray(numbers).tolist(),
+                      initial_positions_A=np.asarray(positions).tolist(),
+                      energy_scope='unrestrained single point; constrained geometry; not validated TS')
         try:
             pos, e = xtb_opt(numbers, positions, chrg=chrg, constraints=cons,
                              fc=fc)
         except Exception as exc:
+            record.update(converged=False, error=str(exc),
+                          stdout=getattr(exc, 'stdout', ''), stderr=getattr(exc, 'stderr', ''),
+                          engine_files=getattr(exc, 'files', {}))
+            _save_scan_record(label, k, record)
             _warn(f"{label} frame s={s:.3f} failed ({exc}); skipped")
             continue
+        record.update(converged=True, physical_E_eh=e, positions_A=pos.tolist())
+        _save_scan_record(label, k, record)
         out.append((s, e, pos))
         _log(f"    {label} frame {k + 1}/{len(frames)} s={s:.3f} "
              f"E={e * EH_KCAL:.3f} Eh-kcal")
     if len(out) < 3:
         raise RuntimeError(f"{label}: too few converged frames ({len(out)})")
     return out
+
+
+def _save_scan_record(label, index, record):
+    directory = RES / 'scan_diagnostics' / re.sub(r'[^A-Za-z0-9_-]', '_', label)
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / f'{index:03d}.json'
+    path.write_text(json.dumps(record, indent=2), encoding='utf-8')
+    RESULTS.setdefault('scan_diagnostics', []).append(str(path))
 
 
 # --------------------------------------------------------------------------- #
@@ -647,6 +677,34 @@ def merge_frags(fragments):
     return np.concatenate(nums), np.vstack(pos), labels
 
 
+def prepare_deprotonation_pose(numbers, positions, donor, hydrogen, oxygen,
+                                phosphorus, fragment_start, h_o_distance=1.65):
+    """Rigidly place phosphate at C-H, preserving the substrate and C-H bond.
+
+    All indices refer to the merged complex. This is an initial H-bond pose,
+    not an optimized intermediate or a transition-state claim.
+    """
+    nums = np.asarray(numbers)
+    pos = np.asarray(positions, dtype=float).copy()
+    if not (0 <= donor < fragment_start and 0 <= hydrogen < fragment_start
+            and fragment_start <= oxygen < len(nums)
+            and fragment_start <= phosphorus < len(nums)):
+        raise ValueError('Deprotonation atom indices cross the wrong fragments')
+    if (nums[donor], nums[hydrogen], nums[oxygen], nums[phosphorus]) != (6, 1, 8, 15):
+        raise ValueError('Deprotonation requires C-H donor and phosphate O/P')
+    axis = pos[hydrogen] - pos[donor]
+    length = np.linalg.norm(axis)
+    po = pos[oxygen] - pos[phosphorus]
+    if not (0.7 < length < 1.3) or np.linalg.norm(po) < 1e-8:
+        raise ValueError('Invalid initial C-H or P-O geometry')
+    axis /= length
+    po /= np.linalg.norm(po)
+    rotation = kabsch_rotate(np.array([po]), np.array([-axis]))
+    target = pos[hydrogen] + h_o_distance * axis
+    pos[fragment_start:] = ((pos[fragment_start:] - pos[oxygen]) @ rotation + target)
+    return pos
+
+
 # --------------------------------------------------------------------------- #
 # 3.  MODULE A — AUTOMATED REACTION NETWORK (ARN)
 # --------------------------------------------------------------------------- #
@@ -850,7 +908,7 @@ def module_A():
             (Rp_nums, Rp_pos, [a.GetProp("p5label") if a.HasProp("p5label")
                                else "H" for a in Rprot_mol.GetAtoms()]),
             (CPa_nums, cp_new, ["CPA"] * len(CPa_nums))])
-        return nums, pos, lab, iO
+        return nums, pos, lab, len(Rp_nums) + iO
 
     def ip_opt_hess(nums, pos, constraints=None, chrg=0, key="",
                     fc=0.5, do_hess=True):
@@ -991,7 +1049,7 @@ def module_A():
                   round(float(np.linalg.norm(pos[nR + iP] - pos[i_C3])), 3)),
                  (nR + iP + 1, i_C2n + 1,
                   round(float(np.linalg.norm(pos[nR + iP] - pos[i_C2n])), 3))]
-        return nums, pos, iO, iP, nR, locks, mirrored
+        return nums, pos, nR + iO, nR + iP, nR, locks, mirrored
 
     FLOOR = 1.5   # kcal/mol, early-TS resolution floor (documented)
     B2A_ASSIGNED = 8.0   # kcal/mol, ion-pair cation-trap scale (assigned)
@@ -1058,7 +1116,7 @@ def module_A():
         nums, pos, iO, iP, nR, locks, _ = assemble_face(+35.0)
         h3 = [i for i in range(nR) if nums[i] == 1 and np.linalg.norm(
             pos[i] - pos[i_C3]) < 1.15][0]
-        pos[h3] = 0.5 * (pos[i_C3] + pos[iO])
+        pos = prepare_deprotonation_pose(nums, pos, i_C3, h3, iO, iP, nR)
         frames = [1.60, 1.40, 1.25, 1.10]
         scan = scan_1d(nums, pos,
                        lambda d: [(i_C3 + 1, h3 + 1, d),

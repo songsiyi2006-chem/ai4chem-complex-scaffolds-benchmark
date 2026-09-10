@@ -476,7 +476,9 @@ class ActiveCondensateSim:
         j_cyc = self.cycle_flux()
         s_chem = j_cyc * DG_ATP_KBT
         self.frames.append({
-            "t": self.t, "phi_mean": float(phi.mean()), "psi_mean": float(psi.mean()),
+            "t": self.t, "dt": dt, "phi_mean": float(self.phi.mean()),
+            "psi_mean": float(self.psi.mean()),
+            "S_diff_evaluation": "left endpoint of accepted timestep",
             "S_diff": s_diff, "S_chem": s_chem,
             "S_total": s_diff + s_chem,  # reduced proxy, not absolute entropy/area
             "entropy_units": "reduced model proxy per second; area calibration absent",
@@ -532,16 +534,22 @@ class ActiveCondensateSim:
             t_next_snap += 1
 
     def ness_stats(self, last_frac: float = 0.2) -> dict:
-        tail = self.frames[int(len(self.frames) * (1.0 - last_frac)):]
-        return {
-            "S_diff_reduced": float(np.mean([f["S_diff"] for f in tail])),
-            "S_chem_reduced": float(np.mean([f["S_chem"] for f in tail])),
-            "S_total_reduced": float(np.mean([f["S_total"] for f in tail])),
-            "cycle_flux_M_s": float(np.mean([f["cycle_flux"] for f in tail])),
-            "R_mean_um": float(np.mean([f["R_mean_um"] for f in tail])),
-            "n_droplets": float(np.mean([f["n_droplets"] for f in tail])),
-            "area_fraction": float(np.mean([f["area_fraction"] for f in tail])),
-        }
+        # Adaptive timesteps are not uniformly spaced samples. Average over
+        # the final fraction of PHYSICAL TIME, weighting the clipped intervals.
+        if not self.frames or not 0 < last_frac <= 1:
+            raise ValueError("NESS statistics require frames and 0 < last_frac <= 1")
+        ends = np.array([f["t"] for f in self.frames], dtype=float)
+        starts = np.r_[0.0, ends[:-1]]
+        if not np.isfinite(ends).all() or np.any(ends <= starts):
+            raise ValueError("NESS frame times must be finite and strictly increasing")
+        cutoff = ends[-1] * (1.0 - last_frac)
+        weights = np.maximum(0.0, ends - np.maximum(starts, cutoff))
+        mapping = dict(S_diff_reduced="S_diff", S_chem_reduced="S_chem",
+                       S_total_reduced="S_total", cycle_flux_M_s="cycle_flux",
+                       R_mean_um="R_mean_um", n_droplets="n_droplets",
+                       area_fraction="area_fraction")
+        return {out: float(np.average([f[key] for f in self.frames], weights=weights))
+                for out, key in mapping.items()}
 
 
 # ============================================================================

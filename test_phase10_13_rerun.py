@@ -29,6 +29,29 @@ def definitions(phase, names, **extra):
 
 
 class RerunTests(unittest.TestCase):
+    def test_angular_cusp_removes_smooth_directional_background(self):
+        fn = definitions(11, {"cusp_angular_diagnostic"})["cusp_angular_diagnostic"]
+        class AnalyticNet:
+            device = "cpu"
+            def logabs(self, r):
+                x = r[:, 0]
+                return -torch.linalg.vector_norm(x, dim=1) + 1.7*x[:, 2]
+        result = fn(AnalyticNet(), [0, 0, 0])
+        errors = [abs(r["log_density_slope"]+2) for r in result["rows"]]
+        self.assertLess(errors[-1], .006)
+        self.assertLess(errors[-1], errors[0]/3)
+        self.assertFalse(result["certified"])
+
+    def test_phase12_selected_rows_own_storage(self):
+        fn = definitions(12, {"build_weak_dataset"}, NOISE=.01, STRIDE=3)["build_weak_dataset"]
+        class Kernels:
+            def features(self, values):
+                return values.copy(), np.column_stack([values, values**2])
+        values = np.arange(90, dtype=float).reshape(30, 3)
+        y, th = fn([values], Kernels())
+        np.testing.assert_array_equal(y, values[::3])
+        np.testing.assert_array_equal(th, np.column_stack([values, values**2])[::3])
+
     def test_plant_timestep_respects_short_remaining_interval(self):
         tree = ast.parse((ROOT / "run_phase10_cyberphysical_flow_twin.py").read_text(encoding="utf-8"))
         node = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name == "advance")

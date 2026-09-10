@@ -426,12 +426,13 @@ def _morse_calibration(rmol, pmol, ppos_r):
             fit = _fit_morse(rr, ee)
             if fit is None:
                 raise RuntimeError("robust Morse fit rejected "
-                                   "(rms > 5 kcal/mol)")
+                                   "(robust score > 5 kcal/mol or fit failure)")
             ee_rel = ee - ee.min()
             fit["residual_rms_kcal"] = float(np.sqrt(np.mean(
                 (ee_rel - _morse(rr, fit["De_kcal"], fit["Re_A"],
                                  fit["a_invA"],
                                  fit["offset_kcal"])) ** 2)))
+            fit["residual_rms_scope"] = "full scan, including trimmed tail"
             fit["scan_molecule"] = ("reactant" if mol is rmol
                                     else "product")
             fit["scan_r_A"] = [float(x) for x in rr]
@@ -462,6 +463,7 @@ def _fit_morse(rr, ee):
     drop (alternative relaxation channels opening) are trimmed."""
     rr = np.asarray(rr, float)
     ee = np.asarray(ee, float) - float(ee.min())
+    input_count = len(rr)
     while len(rr) > 6 and ee[-1] < ee[-2] - 2.0:
         rr, ee = rr[:-1], ee[:-1]
     best, best_cost = None, np.inf
@@ -480,11 +482,18 @@ def _fit_morse(rr, ee):
                 best, best_cost = sol, sol.cost
     if best is None:
         return None
-    rms = float(np.sqrt(2 * best_cost / len(rr)))
-    if rms > 5.0:
+    # soft-L1 objective is not ordinary residual RMSE. Preserve the
+    # established robust-score gate, and report both quantities explicitly.
+    robust_score = float(np.sqrt(2 * best_cost / len(rr)))
+    if robust_score > 5.0:
         return None
     De, Re, a, off = (float(x) for x in best.x)
-    return {"De_kcal": De, "Re_A": Re, "a_invA": a, "offset_kcal": off}
+    return {"De_kcal": De, "Re_A": Re, "a_invA": a, "offset_kcal": off,
+            "fit_robust_score_kcal": robust_score,
+            "fit_retained_rms_kcal": float(np.sqrt(np.mean(
+                (_morse(rr, De, Re, a, off) - ee) ** 2))),
+            "fit_retained_points": len(rr),
+            "fit_trimmed_tail_points": input_count - len(rr)}
 
 
 def _morse_fallback(rmol, ppos_r=None, fitted=None):

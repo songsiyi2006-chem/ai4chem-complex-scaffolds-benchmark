@@ -486,3 +486,48 @@ Latest combined41tests9.018s:40passed/1primaryTorchskip; real molecular
 Torch roundtrip independently passed3.845s before this CLI/header-only edit.
 No new full training or evolution validated these fixes; geometry still fails,
 so no training allocation requested. SOURCE freeze-ready again after this note.
+
+## After batch1127882: analytical reachability / next-probe HOLD
+
+Main authorized continued19diagnosis after1127882. Added
+`trp_target_reachability`: for a fixed backbone, chi1/chi2 sweep NE1 over a
+spherical band centered onCB. The helper computes fixedCB-NE1radius,
+allowed projection interval alongCA->CB, and exact nearest-band distance.
+No input atoms, targets, or gates are modified. `geometry-probe` now records
+this diagnostic alongside actual inverse-placement errors.
+
+The mathematical regression uses real-source sidechain geometry:
+three known reachable chi1/chi2 targets have analytic minimum<1e-9A;
+a distant target's analytic minimum matches multistart least-squares within
+1e-5A. Targeted test passed1test3.357s. The constructor/geometry fixture
+(in-memory RDKit indole, seed485, actual `_trp_ca_target` function) gives:
+
+- immutable constructor targetCA-NE1distance:5.176079566A;
+- maximumCA-NE1reach under current bond lengths/angles:4.708113882A;
+- irreducible radial gap about0.46797A even with optimal backbone orientation.
+
+This proves exact coincidence of both anchors is impossible for that fixture
+under this sidechain geometry. It does NOT prove the aggregate6-anchor0.30A
+RMSD gate impossible: its radial-gap lower bound is about0.191A. Nor does it
+prove a chemically valid full candidate passes. No target has been moved,
+no bond stretched, no gate relaxed, and no new accepted design exists.
+Exact values are from this cheap source-function/fixture check; the full
+current candidate diagnostic remains to be run and must not be invented.
+
+Potential next diagnostic: evaluate the actual fixed-backbone band minimum
+against the measured2.482A NE1error; then assess rigid scaffold orientation
+changes that preserve the SAME CA/NE1targets and all internal geometry.
+Existing heuristic perpendicular-axis/roll aiming may add avoidable error.
+No such new orientation optimizer is implemented yet, and the target's
+irreducible mismatch must remain explicit rather than hidden by aggregate RMSD.
+
+Fresh geometry probe launch was held at1,127,756KiB and again1,184,064KiB
+(below1.2GiB floor); **no new runtime snapshot/geometry result** was produced
+for this analytical-helper version. Current user/main instruction: freeRAM
+below1GiB, **STOP ALL NEW PROBE LAUNCHES** until main releases hold. Preserve
+existing15longrun. No full19training;16still no allocation. Main owns the
+20min heartbeat and all git actions; this agent creates no automation.
+New source/math test/notes are freeze-ready. Latest combined regression
+41tests10.108s:40passed/1primaryTorchskip; owned diff check clean.
+Real Torch roundtrip passed separately before this analytical-helper-only
+change; no checkpoint implementation has changed since that successful test.

@@ -1,0 +1,132 @@
+==============================================================================
+PHASE 11 — DEEP VARIATIONAL QUANTUM MONTE CARLO & CONTINUOUS NEURAL
+WAVEFUNCTIONS  (FermiNet/PauliNet-family ansatz, exact-cusp Jastrow)
+device = cpu  |  torch 2.10.0  |  dtype float64  |  seed 11
+==============================================================================
+[self-test] antisymmetry Psi(P12 r) = -Psi(r):  max|ratio+1| = 0.00e+00  -> PASS
+[self-test] AD Laplacian vs central differences: max rel err = 3.52e-07  -> PASS
+[refs] running Psi4 1.11 DETCI per-energy subprocesses (HF & FCI in aug-cc-pV{T,Q}Z, CCSD(T) in QZ -> CBS) ...
+[refs] H2_eq_R1.4011: HF=-1.133468 CCSD(T)=-1.173867 FCI/CBS=-1.174442
+[refs] H2_R2.5: HF=-1.038711 CCSD(T)=-1.093560 FCI/CBS=-1.093943
+[refs] H2_R4.0: HF=-0.911638 CCSD(T)=-1.016190 FCI/CBS=-1.016337
+[refs] H2_R6.0: HF=-0.824746 CCSD(T)=-1.000718 FCI/CBS=-1.000741
+[refs] He: HF=-2.861545 CCSD(T)=-2.902534 FCI/CBS=-2.903699
+[refs] Psi4 done in 167s (5/5 systems)
+
+--- system H2_eq_R1.4011  (Z=[1, 1], 2 e-, 8 determinants, 2048 walkers, 1200 epochs) ---
+  [H2_eq_R1.4011] epoch     1  E = -1.174574 +- 0.003271 Eh  Var(E_L) = 2.191e-02  acc =  50.6%  step = 0.463  |g| = 0.04
+  [H2_eq_R1.4011] epoch    50  E = -1.174043 +- 0.002095 Eh  Var(E_L) = 8.993e-03  acc =  50.3%  step = 0.463  |g| = 0.36
+  [H2_eq_R1.4011] epoch   100  E = -1.178257 +- 0.002015 Eh  Var(E_L) = 8.312e-03  acc =  50.4%  step = 0.463  |g| = 0.06
+  [H2_eq_R1.4011] epoch   150  E = -1.173206 +- 0.001596 Eh  Var(E_L) = 5.218e-03  acc =  49.9%  step = 0.463  |g| = 0.03
+  [H2_eq_R1.4011] epoch   200  E = -1.144037 +- 0.006705 Eh  Var(E_L) = 9.207e-02  acc =  51.0%  step = 0.463  |g| = 0.43
+  [H2_eq_R1.4011] epoch   250  E = -1.174202 +- 0.001187 Eh  Var(E_L) = 2.887e-03  acc =  51.9%  step = 0.463  |g| = 0.02
+  [H2_eq_R1.4011] epoch   300  E = -1.174445 +- 0.001186 Eh  Var(E_L) = 2.882e-03  acc =  50.2%  step = 0.463  |g| = 0.08
+  [H2_eq_R1.4011] epoch   350  E = -1.174945 +- 0.001876 Eh  Var(E_L) = 7.207e-03  acc =  50.0%  step = 0.463  |g| = 0.04
+  [H2_eq_R1.4011] epoch   400  E = -1.173955 +- 0.001278 Eh  Var(E_L) = 3.347e-03  acc =  50.6%  step = 0.463  |g| = 0.02
+  [H2_eq_R1.4011] epoch   450  E = -1.173237 +- 0.001399 Eh  Var(E_L) = 4.007e-03  acc =  50.6%  step = 0.463  |g| = 0.05
+  [H2_eq_R1.4011] epoch   500  E = -1.175641 +- 0.001410 Eh  Var(E_L) = 4.070e-03  acc =  50.8%  step = 0.463  |g| = 0.05
+  [H2_eq_R1.4011] epoch   550  E = -1.172253 +- 0.001222 Eh  Var(E_L) = 3.059e-03  acc =  50.6%  step = 0.463  |g| = 0.04
+  [H2_eq_R1.4011] epoch   600  E = -1.171216 +- 0.002156 Eh  Var(E_L) = 9.519e-03  acc =  51.2%  step = 0.463  |g| = 0.18
+  [H2_eq_R1.4011] epoch   650  E = -1.173533 +- 0.001117 Eh  Var(E_L) = 2.556e-03  acc =  51.0%  step = 0.463  |g| = 0.02
+  [H2_eq_R1.4011] epoch   700  E = -1.175033 +- 0.001083 Eh  Var(E_L) = 2.402e-03  acc =  50.3%  step = 0.463  |g| = 0.06
+  [H2_eq_R1.4011] epoch   750  E = -1.176917 +- 0.001440 Eh  Var(E_L) = 4.244e-03  acc =  50.6%  step = 0.463  |g| = 0.29
+  [H2_eq_R1.4011] epoch   800  E = -1.171891 +- 0.001469 Eh  Var(E_L) = 4.418e-03  acc =  51.1%  step = 0.463  |g| = 0.39
+  [H2_eq_R1.4011] epoch   850  E = -1.174357 +- 0.001042 Eh  Var(E_L) = 2.225e-03  acc =  51.0%  step = 0.463  |g| = 0.12
+  [H2_eq_R1.4011] epoch   900  E = -1.173275 +- 0.001017 Eh  Var(E_L) = 2.119e-03  acc =  51.2%  step = 0.463  |g| = 0.18
+  [H2_eq_R1.4011] epoch   950  E = -1.173072 +- 0.001125 Eh  Var(E_L) = 2.592e-03  acc =  50.6%  step = 0.463  |g| = 1.01
+  [H2_eq_R1.4011] epoch  1000  E = -1.174882 +- 0.001524 Eh  Var(E_L) = 4.756e-03  acc =  50.6%  step = 0.463  |g| = 1.17
+  [H2_eq_R1.4011] epoch  1050  E = -1.173622 +- 0.000979 Eh  Var(E_L) = 1.965e-03  acc =  51.0%  step = 0.463  |g| = 0.20
+  [H2_eq_R1.4011] epoch  1100  E = -1.177544 +- 0.001136 Eh  Var(E_L) = 2.645e-03  acc =  50.2%  step = 0.463  |g| = 0.76
+  [H2_eq_R1.4011] epoch  1150  E = -1.174544 +- 0.001161 Eh  Var(E_L) = 2.762e-03  acc =  49.8%  step = 0.463  |g| = 0.73
+  [H2_eq_R1.4011] epoch  1200  E = -1.175327 +- 0.001113 Eh  Var(E_L) = 2.537e-03  acc =  50.4%  step = 0.463  |g| = 0.87
+  => H2_eq_R1.4011: E = -1.173979 +- 0.000321 Eh   |E-FCI| = 0.463 mEh (CHEMICAL ACCURACY)   Var(E_L) = 3.15e-03   (12900s)
+
+--- system H2_R2.5  (Z=[1, 1], 2 e-, 8 determinants, 2048 walkers, 550 epochs) ---
+  [H2_R2.5] epoch     1  E = -1.090264 +- 0.002707 Eh  Var(E_L) = 1.501e-02  acc =  51.6%  step = 0.532  |g| = 0.06
+  [H2_R2.5] epoch    50  E = -1.094566 +- 0.001076 Eh  Var(E_L) = 2.369e-03  acc =  51.1%  step = 0.532  |g| = 0.04
+  [H2_R2.5] epoch   100  E = -1.087893 +- 0.002558 Eh  Var(E_L) = 1.340e-02  acc =  50.8%  step = 0.532  |g| = 0.05
+  [H2_R2.5] epoch   150  E = -1.088075 +- 0.001751 Eh  Var(E_L) = 6.279e-03  acc =  51.0%  step = 0.532  |g| = 0.01
+  [H2_R2.5] epoch   200  E = -1.089983 +- 0.001481 Eh  Var(E_L) = 4.494e-03  acc =  51.2%  step = 0.532  |g| = 0.02
+  [H2_R2.5] epoch   250  E = -1.092146 +- 0.001182 Eh  Var(E_L) = 2.860e-03  acc =  52.3%  step = 0.532  |g| = 0.02
+  [H2_R2.5] epoch   300  E = -1.093844 +- 0.001198 Eh  Var(E_L) = 2.939e-03  acc =  51.6%  step = 0.532  |g| = 0.02
+  [H2_R2.5] epoch   350  E = -1.092750 +- 0.000970 Eh  Var(E_L) = 1.926e-03  acc =  50.5%  step = 0.532  |g| = 0.02
+  [H2_R2.5] epoch   400  E = -1.092034 +- 0.000936 Eh  Var(E_L) = 1.794e-03  acc =  51.9%  step = 0.532  |g| = 0.02
+  [H2_R2.5] epoch   450  E = -1.092139 +- 0.001009 Eh  Var(E_L) = 2.084e-03  acc =  51.7%  step = 0.532  |g| = 0.02
+  [H2_R2.5] epoch   500  E = -1.094021 +- 0.001117 Eh  Var(E_L) = 2.557e-03  acc =  51.6%  step = 0.532  |g| = 0.02
+  [H2_R2.5] epoch   550  E = -1.094136 +- 0.000888 Eh  Var(E_L) = 1.615e-03  acc =  51.8%  step = 0.532  |g| = 0.01
+  => H2_R2.5: E = -1.093561 +- 0.000203 Eh   |E-FCI| = 0.382 mEh (CHEMICAL ACCURACY)   Var(E_L) = 2.44e-03   (1043s)
+
+--- system H2_R4.0  (Z=[1, 1], 2 e-, 8 determinants, 2048 walkers, 550 epochs) ---
+  [H2_R4.0] epoch     1  E = -1.000937 +- 0.002847 Eh  Var(E_L) = 1.660e-02  acc =  54.5%  step = 0.463  |g| = 0.07
+  [H2_R4.0] epoch    50  E = -1.010958 +- 0.002202 Eh  Var(E_L) = 9.930e-03  acc =  48.7%  step = 0.532  |g| = 0.09
+  [H2_R4.0] epoch   100  E = -1.016942 +- 0.001450 Eh  Var(E_L) = 4.304e-03  acc =  49.8%  step = 0.532  |g| = 0.06
+  [H2_R4.0] epoch   150  E = -1.014632 +- 0.000985 Eh  Var(E_L) = 1.987e-03  acc =  50.6%  step = 0.532  |g| = 0.06
+  [H2_R4.0] epoch   200  E = -1.013888 +- 0.002096 Eh  Var(E_L) = 8.997e-03  acc =  50.2%  step = 0.532  |g| = 0.13
+  [H2_R4.0] epoch   250  E = -1.012677 +- 0.001252 Eh  Var(E_L) = 3.210e-03  acc =  50.9%  step = 0.532  |g| = 0.14
+  [H2_R4.0] epoch   300  E = -1.014054 +- 0.001082 Eh  Var(E_L) = 2.395e-03  acc =  50.1%  step = 0.532  |g| = 0.09
+  [H2_R4.0] epoch   350  E = -1.017078 +- 0.001267 Eh  Var(E_L) = 3.285e-03  acc =  50.5%  step = 0.532  |g| = 0.08
+  [H2_R4.0] epoch   400  E = -1.015031 +- 0.002128 Eh  Var(E_L) = 9.271e-03  acc =  49.9%  step = 0.532  |g| = 0.08
+  [H2_R4.0] epoch   450  E = -1.016456 +- 0.000945 Eh  Var(E_L) = 1.830e-03  acc =  49.5%  step = 0.532  |g| = 0.03
+  [H2_R4.0] epoch   500  E = -1.015532 +- 0.000882 Eh  Var(E_L) = 1.595e-03  acc =  50.4%  step = 0.532  |g| = 0.03
+  [H2_R4.0] epoch   550  E = -1.014689 +- 0.000726 Eh  Var(E_L) = 1.080e-03  acc =  50.2%  step = 0.532  |g| = 0.03
+  => H2_R4.0: E = -1.015836 +- 0.000134 Eh   |E-FCI| = 0.501 mEh (CHEMICAL ACCURACY)   Var(E_L) = 2.28e-03   (983s)
+
+--- system H2_R6.0  (Z=[1, 1], 2 e-, 8 determinants, 2048 walkers, 550 epochs) ---
+  [H2_R6.0] epoch     1  E = -0.970905 +- 0.003673 Eh  Var(E_L) = 2.763e-02  acc =  51.9%  step = 0.463  |g| = 0.19
+  [H2_R6.0] epoch    50  E = -0.991048 +- 0.002774 Eh  Var(E_L) = 1.576e-02  acc =  51.8%  step = 0.463  |g| = 0.11
+  [H2_R6.0] epoch   100  E = -0.996909 +- 0.002417 Eh  Var(E_L) = 1.197e-02  acc =  53.0%  step = 0.463  |g| = 0.06
+  [H2_R6.0] epoch   150  E = -0.996025 +- 0.001909 Eh  Var(E_L) = 7.467e-03  acc =  54.1%  step = 0.463  |g| = 0.06
+  [H2_R6.0] epoch   200  E = -0.997820 +- 0.002312 Eh  Var(E_L) = 1.095e-02  acc =  53.6%  step = 0.463  |g| = 0.02
+  [H2_R6.0] epoch   250  E = -0.995222 +- 0.002466 Eh  Var(E_L) = 1.245e-02  acc =  55.1%  step = 0.532  |g| = 0.04
+  [H2_R6.0] epoch   300  E = -0.998976 +- 0.001868 Eh  Var(E_L) = 7.143e-03  acc =  47.8%  step = 0.532  |g| = 0.05
+  [H2_R6.0] epoch   350  E = -0.997068 +- 0.002284 Eh  Var(E_L) = 1.068e-02  acc =  47.8%  step = 0.532  |g| = 0.05
+  [H2_R6.0] epoch   400  E = -0.998048 +- 0.001751 Eh  Var(E_L) = 6.281e-03  acc =  48.6%  step = 0.532  |g| = 0.02
+  [H2_R6.0] epoch   450  E = -0.999158 +- 0.001502 Eh  Var(E_L) = 4.622e-03  acc =  47.9%  step = 0.532  |g| = 0.02
+  [H2_R6.0] epoch   500  E = -1.000571 +- 0.001576 Eh  Var(E_L) = 5.088e-03  acc =  48.5%  step = 0.532  |g| = 0.03
+  [H2_R6.0] epoch   550  E = -0.997482 +- 0.002659 Eh  Var(E_L) = 1.449e-02  acc =  47.8%  step = 0.532  |g| = 0.01
+  => H2_R6.0: E = -0.999317 +- 0.000391 Eh   |E-FCI| = 1.424 mEh (CHEMICAL ACCURACY)   Var(E_L) = 4.97e-03   (841s)
+
+--- system He  (Z=[2], 2 e-, 8 determinants, 2048 walkers, 1200 epochs) ---
+  [He] epoch     1  E = -2.894143 +- 0.005467 Eh  Var(E_L) = 6.122e-02  acc =  50.5%  step = 0.304  |g| = 0.05
+  [He] epoch    50  E = -2.903766 +- 0.002596 Eh  Var(E_L) = 1.380e-02  acc =  49.5%  step = 0.304  |g| = 0.10
+  [He] epoch   100  E = -2.902854 +- 0.002285 Eh  Var(E_L) = 1.069e-02  acc =  50.0%  step = 0.304  |g| = 0.22
+  [He] epoch   150  E = -2.904723 +- 0.002124 Eh  Var(E_L) = 9.239e-03  acc =  50.4%  step = 0.304  |g| = 0.19
+  [He] epoch   200  E = -2.903918 +- 0.002413 Eh  Var(E_L) = 1.193e-02  acc =  49.4%  step = 0.304  |g| = 0.22
+  [He] epoch   250  E = -2.901457 +- 0.002808 Eh  Var(E_L) = 1.615e-02  acc =  51.9%  step = 0.304  |g| = 0.35
+  [He] epoch   300  E = -2.901014 +- 0.003064 Eh  Var(E_L) = 1.923e-02  acc =  49.5%  step = 0.304  |g| = 0.08
+  [He] epoch   350  E = -2.902410 +- 0.002366 Eh  Var(E_L) = 1.147e-02  acc =  50.1%  step = 0.304  |g| = 0.15
+  [He] epoch   400  E = -2.901575 +- 0.002536 Eh  Var(E_L) = 1.317e-02  acc =  50.2%  step = 0.304  |g| = 1.05
+  [He] epoch   450  E = -2.902444 +- 0.002363 Eh  Var(E_L) = 1.144e-02  acc =  49.3%  step = 0.304  |g| = 2.12
+  [He] epoch   500  E = -2.905730 +- 0.002729 Eh  Var(E_L) = 1.525e-02  acc =  48.8%  step = 0.304  |g| = 3.57
+  [He] epoch   550  E = -2.901487 +- 0.002382 Eh  Var(E_L) = 1.162e-02  acc =  49.9%  step = 0.304  |g| = 0.49
+  [He] epoch   600  E = -2.900318 +- 0.002066 Eh  Var(E_L) = 8.744e-03  acc =  50.2%  step = 0.304  |g| = 0.53
+  [He] epoch   650  E = -2.907302 +- 0.004932 Eh  Var(E_L) = 4.983e-02  acc =  50.0%  step = 0.304  |g| = 9.20
+  [He] epoch   700  E = -2.901403 +- 0.002956 Eh  Var(E_L) = 1.789e-02  acc =  50.2%  step = 0.304  |g| = 0.94
+  [He] epoch   750  E = -2.904692 +- 0.002200 Eh  Var(E_L) = 9.913e-03  acc =  49.7%  step = 0.304  |g| = 1.60
+  [He] epoch   800  E = -2.893363 +- 0.005209 Eh  Var(E_L) = 5.558e-02  acc =  51.0%  step = 0.304  |g| = 14.46
+  [He] epoch   850  E = -2.898619 +- 0.003058 Eh  Var(E_L) = 1.915e-02  acc =  50.4%  step = 0.304  |g| = 10.55
+  [He] epoch   900  E = -2.901835 +- 0.002077 Eh  Var(E_L) = 8.834e-03  acc =  50.4%  step = 0.304  |g| = 6.64
+  [He] epoch   950  E = -2.915234 +- 0.003896 Eh  Var(E_L) = 3.109e-02  acc =  49.4%  step = 0.304  |g| = 14.97
+  [He] epoch  1000  E = -2.910542 +- 0.002971 Eh  Var(E_L) = 1.808e-02  acc =  50.2%  step = 0.304  |g| = 22.66
+  [He] epoch  1050  E = -2.899686 +- 0.001661 Eh  Var(E_L) = 5.651e-03  acc =  50.4%  step = 0.304  |g| = 2.62
+  [He] epoch  1100  E = -2.901437 +- 0.002846 Eh  Var(E_L) = 1.658e-02  acc =  49.6%  step = 0.304  |g| = 26.38
+  [He] epoch  1150  E = -2.901678 +- 0.001807 Eh  Var(E_L) = 6.689e-03  acc =  49.9%  step = 0.304  |g| = 18.51
+  [He] epoch  1200  E = -2.902811 +- 0.002240 Eh  Var(E_L) = 1.027e-02  acc =  50.5%  step = 0.304  |g| = 19.00
+  => He: E = -2.902038 +- 0.000564 Eh   |E-FCI| = 1.661 mEh (above chem-acc)   Var(E_L) = 9.00e-03   (1412s)
+
+[cusps] H2 e-n slope = -2.4306 (Kato exact -2Z = -2.000); e-e unlike-spin slope = -1.8623 (Kato +1.000)
+
+[figures] rendering 300-DPI deliverables ...
+[figures] saved to $CAMPAIGN\phase11\20260910T142310\figures_phase11
+
+==============================================================================
+PHASE 11 FINAL VERDICT — variational energies vs exact Full CI (CBS)
+==============================================================================
+system          E_VMC (Eh)            E_FCI (Eh)    |dE| (mEh)  chem-acc  Var(E_L)    
+H2_eq_R1.4011   -1.173979 ± 0.0003      -1.174442    0.463       PASS      3.152e-03   
+H2_R2.5         -1.093561 ± 0.0002      -1.093943    0.382       PASS      2.443e-03   
+H2_R4.0         -1.015836 ± 0.0001      -1.016337    0.501       PASS      2.283e-03   
+H2_R6.0         -0.999317 ± 0.0004      -1.000741    1.424       PASS      4.967e-03   
+He              -2.902038 ± 0.0006      -2.903699    1.661       no        8.997e-03   
+==============================================================================
+done.

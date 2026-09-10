@@ -1,4 +1,4 @@
-# Phase 3–5 campaign status — 2026-09-10, updated 19:16
+# Phase 3–5 campaign status — 2026-09-10, TS2b causal diagnosis update
 
 ## Current outcome
 
@@ -61,8 +61,10 @@ confirmation**. Main confirmed the pause through the app update and TOML readbac
 Its creation was not authorized; the earlier ACTIVE statement is superseded.
 Do not reactivate, duplicate or create another automation without new user approval.
 Pausing this monitor does not stop the existing Phase3 process, which is untouched.
-No automatic follow-up is currently authorized or promised, and Phase3 completion
-is not claimed.
+Subsequent user confirmation authorizes background continuation through the MAIN
+task's existing20-minute heartbeat, reported ACTIVE by main. This owner has not
+created, updated or reactivated any automation. The separate Phase3 monitor above
+remains paused; main owns coordination. Phase3 completion is not claimed.
 
 Source fixes after this snapshot: OpenMM H-relax API corrected to
 `LocalEnergyMinimizer.minimize`; success/plot labels corrected from GAFF2 to Sage;
@@ -150,6 +152,61 @@ Fixed scriptSHA256 `DBB02293C06A14746D5479CB7ED4D842D154EFFA0A9E58014E966CB565AD
 failure JSONSHA256 `5704BE044CB5F7A1670210D5D76DC53C316EB4589DC4CCECDFF713E32D8B788D`.
 This rerun demonstrates the physical-energy fix but does not cure geometry
 nonconvergence. No further Phase5 retry without new evidence.
+
+### New TS2b causal evidence and algorithm correction (freeze-ready)
+
+Read-only AST reconstruction of ModuleA using ONLY the fresh182103 cached
+intermediates identified a definite assembly defect. `assemble_face` returned
+catalyst-local O/P indices after merging substrate+catalyst. TS2b used local O=0
+as `pos[0]`, which is a substrate **carbon**, not the actual phosphate oxygen at
+global index23 (23 substrate atoms;60 atoms total). Migrating H is index15 and
+C3 is index2, all zero-based. The resulting midpoint H had a0.768139171A contact
+to another atom. The erroneous C3-to-selected-carbon distance was2.599352889A;
+actual C3-to-phosphate-O distance was6.313371135A. Merely adding the index offset
+would still put the proton halfway across an implausibly distant donor/acceptor.
+
+Implemented solution: return global catalyst indices from both ion-pair
+assemblers; for TS2b retain the substrate's actual C3-H bond and rigidly orient
+and translate the phosphate to the C-H donor, with initial H...O separation1.65A
+and P-O pointing toward H. This is an INITIAL pose choice, not a distance
+acceptance tolerance or stationary TS. The helper validates atom elements and
+fragment membership and preserves both fragment internal geometries. Read-only
+reconstruction of the corrected source yields C-H=1.091738656A, H...O=1.65A,
+minimum cross-fragment separation=1.65A (the intended H/O pair). No xTB, Hessian,
+optimization or ML import was used for these geometry checks.
+
+Both previous full attempts failed the1.60A and1.40A TS2b optimizations and kept
+only1.25A and1.10A, below the unchanged3-frame requirement. The index/pose defect
+is confirmed, but its quantitative contribution to optimizer nonconvergence is
+NOT yet isolated by an engine comparison. Earlier errors retained only a timing
+tail and deleted temporary directories, so the precise original stopping reason
+(iteration limit versus other numerical failure) cannot be reconstructed from
+those logs. New `XTBFailure` preserves full stdout/stderr and requested engine
+files; every scan frame now saves constraints, input coordinates, converged
+coordinates/physical-SP energy or failure evidence under
+`results_phase5/scan_diagnostics/`. This enables the next bounded attempt to
+diagnose residual failures instead of repeating an opaque error.
+
+New cache version `phase1-5-validation-v1-physical-sp-ts2b-pose-v3` prevents
+reusing old incorrectly assembled results. Physical unrestrained SP energy
+evaluation remains mandatory. The3-frame guard and all convergence/TS validation
+limitations are unchanged; no kinetic or saddle success is claimed.
+
+Evidence input hashes (SHA256), in
+`phase05/20260910T182103/results_phase5/cache_phase1-5-validation-v1-physical-sp-v2/`:
+`sp_Rprot.json`: `CA1407564B9E3D00244BC6FBFC3C0766643D211F1C0354CE498C428C278AAC7C`;
+`sp_CPAneg.json`: `46E41D15CDDD571B19B869BA01BADA1167AB616230C65C83A093AFAD81702262`.
+Corrected sourceSHA256:
+`79F67387E93D25604647B109EBA09202822B8AC91FB8DC293902BA462130EBED`.
+
+Current batch: **27 regression tests passed in2.194s**, including wrong-fragment
+index rejection, rigid-pose geometry preservation and full failure-evidence
+retention with the unchanged minimum3-frame gate. No new xTB was launched during
+this update (reported freeRAM below0.8GiB). New fullPhase5 remains pending main's
+memory/compute allocation; test success is NOT a molecular rerun. Phase4 still
+fails0.05eV/A and has no newly established cause or authorized retry. Original
+Phase3 PID14832 remains alive and untouched (last observed CPU2140.94s,
+working set745934848bytes). Main owns commit/push; this owner performs neither.
 
 ## Commands, dependencies and verification
 

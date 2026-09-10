@@ -1,5 +1,53 @@
 # Phase 6-8 fresh rerun preparation (2026-09-10)
 
+## Resource and sampling follow-up (20:08)
+
+P7 PID 38388 is still the original gated orchestrator (~196 MiB RSS,
+170 MiB private); no Psi4 child has launched. Available physical memory
+was 1.20 GiB on this check. P8 has not started and remains sequential after
+P7. No gate was lowered, process duplicated, or automation created.
+
+The 2.5 GiB launch threshold is a conservative campaign allowance, **not
+a measured minimum**. `QC_MEM="2 GB"` means 2,000,000,000 bytes (~1.863 GiB)
+for major Psi4 data structures, not a total-process cap. The remaining
+~0.637 GiB is overhead/headroom. Psi4 documents that this memory is per job,
+not per thread: reducing two threads to one does not halve the allocation.
+Sources: [memory specification](https://psicode.org/psi4manual/master/psithoninput.html),
+[SCF algorithms](https://github.com/psi4/psi4/blob/master/doc/sphinxman/source/scf.rst).
+Installed `psi4/driver/procrouting/scf_proc/scf_iterator.py` separately
+budgets JK and DFT collocation arrays from the configured memory.
+
+Candidate for a coordinated validation slot: lower **algorithm allocation**
+to 768 MiB or 1 GiB and disk-backed DF, keeping basis, functional, active
+space, scan points and convergence tolerances unchanged. This is not yet
+validated or applied. Disk-backed SCF does not bound CASSCF integral/CI
+memory, and lowering allocation is not proof of safe RSS. Measure whole
+worker peak private/RSS and compare converged energies, spin and NOON
+against the default configuration before proposing any revised safety gate.
+Changing to a smaller basis or replacing CASSCF is not an equivalent
+memory optimization. Main was asked to coordinate this validation; the
+existing parent remains on its original 2.5 GiB gate in the meantime.
+
+P6 cheap refit of **this campaign's** stored calibration scan explains the
+apparently large N-C RMS: its final descending point was intentionally
+trimmed by the unchanged fitter, while the reported 15.565 kcal/mol RMS
+included that point. Retained-point RMSE is 0.577 kcal/mol (7 retained,
+1 trimmed); C-C and forming N-C RMSE are 1.144 and 2.182 respectively.
+Future source now labels full-scan RMS and separately reports retained
+RMSE, soft-L1 score and trimmed count. The robust acceptance gate and
+optimizer are unchanged. No completed trajectory, calibration cache or
+historical result was rewritten. Regression suite: **22 tests passed**.
+
+This correction does not resolve sampling: the reactive model retains
+reactant valence angles/torsions and fixed nonbonded exclusions while only
+two bonds become dissociative Morse terms and a third Morse pair forms.
+Its two biased CVs do not directly bias all three changing distances.
+These are model/CV adequacy questions, not evidence of an implementation
+failure or a reason to remove forces to induce a reaction. Validating a
+different reactive Hamiltonian/CV set needs a separately identified protocol
+and fresh runs; the completed default still has no sampled product basin
+and no defensible reaction barrier.
+
 ## Latest status (18:18)
 
 Phase 6 **full default computation completed**, via the authorized same-campaign

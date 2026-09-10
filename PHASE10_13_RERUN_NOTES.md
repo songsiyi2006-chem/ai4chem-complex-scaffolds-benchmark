@@ -176,3 +176,70 @@ check preceding child real exit/status/output and freeRAM>=1.5GiB, molecular
 environment PATH prefix Library/bin+root andOMP/MKL/OPENBLAS threads2. Current
 user has not authorized new background automation; none was created. Main is
 preparing handoff, so reconcile its current allocation before a new heavy child.
+
+## Subsequent live check: Phase11 FULL completed;12/13 awaiting allocation
+
+Existing snapshot142310 now reports process_completed, actualexit0,
+elapsed18828.609s. Old child11196/runner16468 are absent; do not restart them.
+All five systems completed defaults:2048walkers; H2eq/He1200epochs,
+otherH2systems550epochs each. H2eq/R2.5/R4/R6 final errors relative to computed
+CBS-extrapolated references are.463/.382/.501/1.424mEh, passing original1.6mEh.
+He E=-2.902038+/-0.000564Eh,error1.661mEh: point-estimate gate FAILED.
+Statistical uncertainty does not authorize changing the threshold or calling
+this pass. Process completion is not wholePhase11 scientific acceptance.
+Antisymmetry0and AD-Laplacian3.5153e-7 selftests passed.
+
+Cusp outputs(-2.430565 versus-2, and-1.862306 versus+1) are not valid Kato
+certificates: cusp_slope fits one ray over r=.02to.25a0, not spherical averaging
+followed by r->0. Directional smooth background slopes need not vanish.
+This alone does not prove a trained-wavefunction cusp bug. Trained state_dict
+is not saved, so a corrected diagnostic cannot be rerun on the identical final
+wavefunction from this record. Preserve this limitation and existing output;
+do not silently reconstruct a different network and label it the original.
+
+New heavy starts remain subject to main coordination and Phase7 priority.
+Live availableRAM1444024KiB(~1.38GiB), insufficient for proposed starts.
+Phase12 planning allocation: >=2GiB free (not measured peak). Base reaction-
+diffusion fields:2IC*5001frames*192grid*3channels*8bytes, about44MiB per pair;
+four clean/noisy/replicate collections about176MiB, plus feature stacks,
+noise calibration, SciPy and Torch/autograd4096batch. Peak needs actualmonitoring.
+Phase13 planning allocation: >=3GiB free (not measured peak), because Psi4
+explicitly requests2GB in a subprocess, with parent/runtime and SCF workspace
+overhead. Do not use old1.5GiB minimum as sufficient for Phase13 production.
+Both stages remain unlaunched; no queues/automation/commit/push created here.
+
+## Current batch: Phase11 review and Phase12 exact memory-lifetime fix
+
+Formal Phase11 review written in142310/acceptance_review.json, status
+full_run_completed_partial_scientific_acceptance. Original resultSHA
+3f6dac6f7ae5fed2b26fed3e018ff510b07e73dd2694ae715e3b0571749a9aba unchanged.
+All5961numericJSON values finite; all5 CSV row counts match default epochs,
+each2048walkers/20productionblocks. Recomputed saved-block standard errors
+match all5 reported errors. Seed110011/20000iid block bootstrap givesHe95%
+signederror[.595197,2.746738]mEh; pairblockedSE.528208mEh versusoriginal.564223.
+This is reanalysis of20saved blocks, NOT independent new VMC sampling and NOT
+proof of block independence. He point-estimate fail remains; no threshold change.
+
+Phase11 source now labels finite-ray diagnostics scientifically, and adds
+cusp_angular_diagnostic with Gauss-Legendre/angular integration and shrinking
+shells. Analytic exp(-r+1.7z) test passes; this is NOT an actual trained-network
+angular cusp validation. Existing production never saved network state, so
+independent frozen-network sampling/revalidation cannot be reconstructed.
+Future repeat should predeclare seed/production precision and save frozen state;
+do not repeatedly addepochs untilHepasses. Original savedfigures not regenerated.
+
+Phase12 source copies already-selected feature rows before retaining them in
+lists (build_weak_dataset/noise_gram_mc/rd_features). Identical samples/values,
+no smaller defaults; this releases otherwise-retained full convolution buffers.
+RDfeature-list lifetime reduction about300MiB for full default2IC/192grid.
+However clean/noisy/replicate RD~176MiB plus runtime/feature/normalized matrices
+means peak<0.5GiB cannot responsibly be promised. Planning bound remains
+roughly0.8-1.5GiB process peak (unmeasured), request>=2GiBfree withmonitoring;
+minimum configuration is unchangeddefaults,CPU,twoOMP/MKL/OpenBLASthreads,
+no --quick. No immediate trial below0.8GiBavailable; mainPhase7priority.
+
+Current cheap validation: molecularPython -m unittest -q test_phase10_13_rerun
+passed9tests in4.932s, finalexit0; scoped gitdiffcheck clean. Separate new
+angular/selected-row tests passed2tests in.217s. No heavy program started.
+Freeze-ready for main merge/regression/push. Main owns authorized20minheartbeat;
+worker does not create automation or launch12/13 while allocation pending.

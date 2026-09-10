@@ -359,8 +359,9 @@ def build_weak_dataset(trajs_noisy, kernels, extra_fn=None, row_keep=1,
         else:
             Y, TH = kernels.features(S)
         Y, TH = Y[::STRIDE][::row_keep], TH[::STRIDE][::row_keep]
-        Ys.append(Y)
-        THs.append(TH)
+        # Retain selected rows, not their full convolution-array backing stores.
+        Ys.append(Y.copy())
+        THs.append(TH.copy())
     Y = np.vstack(Ys)
     TH = np.vstack(THs)
     if max_rows is not None and len(Y) > max_rows:
@@ -392,7 +393,7 @@ def noise_gram_mc(trajs_noisy, kernels, extra_fn=None, n_mc=4, seed0=9000,
                 dth = library_matrix(S[1::2] + eps[1::2]) - library_matrix(S[1::2])
             dTHw = np.column_stack([kernels.conv_valid(dth[:, j], kernels.ker_t)
                                     for j in range(dth.shape[1])])
-            chunks.append(dTHw[::STRIDE][::row_keep])
+            chunks.append(dTHw[::STRIDE][::row_keep].copy())
         Nc = np.vstack(chunks)
         Nl += Nc.T @ Nc
     return Nl / n_mc
@@ -1612,8 +1613,8 @@ def main():
                 extra = laps_odd[:, p, :]
                 Yp, THp = kernels.features(Fld[:, p, :], extra=extra)
                 Yp, THp = Yp[::STRIDE][::row_keep_rd], THp[::STRIDE][::row_keep_rd]
-                Ys.append(Yp)
-                THs.append(THp)
+                Ys.append(Yp.copy())
+                THs.append(THp.copy())
         return np.vstack(Ys), np.vstack(THs)
 
     def rd_noise_gram(rd_list, kernels, n_mc=3, seed0=7000, point_step=8,

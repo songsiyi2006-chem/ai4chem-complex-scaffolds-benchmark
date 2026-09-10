@@ -30,6 +30,24 @@ class Phase14Tests(unittest.TestCase):
             fd = (sim.fprime(np.array(p+h))-sim.fprime(np.array(p-h)))/(2*h)
             self.assertAlmostEqual(float(fd), sim.fpp(p), places=6)
 
+    def test_frames_describe_reached_concentrations(self):
+        sim = m.ActiveCondensateSim(k_atp=.02, n=8)
+        self.assertTrue(sim._attempt(.001))
+        self.assertAlmostEqual(sim.frames[-1]['phi_mean'], sim.phi.mean(), places=14)
+        self.assertAlmostEqual(sim.frames[-1]['psi_mean'], sim.psi.mean(), places=14)
+        self.assertEqual(sim.frames[-1]['dt'], .001)
+
+    def test_ness_weights_physical_time_not_frame_count(self):
+        sim = m.ActiveCondensateSim(k_atp=.02, n=8)
+        keys = ('S_diff', 'S_chem', 'S_total', 'cycle_flux', 'R_mean_um',
+                'n_droplets', 'area_fraction')
+        sim.frames = [dict(t=t, **dict.fromkeys(keys, val))
+                      for t, val in ((.1, 10.), (.2, 10.), (1., 2.))]
+        self.assertAlmostEqual(sim.ness_stats(1.)['R_mean_um'], 3.6)
+        self.assertAlmostEqual(sim.ness_stats(.5)['R_mean_um'], 2.)
+        for fraction in (0., 2., np.nan):
+            with self.assertRaises(ValueError): sim.ness_stats(fraction)
+
     def test_frap_failure_never_drops_diffusion(self):
         sim = m.ActiveCondensateSim(k_atp=.02, n=8)
         with patch.object(m, 'cg', return_value=(np.full(64, np.nan), 1)) as solver:

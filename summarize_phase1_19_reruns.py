@@ -35,6 +35,8 @@ def summarize(campaign):
                 rec['acceptance_review']=json.loads(review.read_text(encoding='utf-8'))
                 if rec['acceptance_review'].get('status')=='specified_checks_passed_with_limitations':
                     rec['scientific_acceptance']='specified numerical/software checks passed; see limitations'
+                elif rec['acceptance_review'].get('status')=='full_run_completed_partial_scientific_acceptance':
+                    rec['scientific_acceptance']='full_run_completed_partial_scientific_acceptance'
             if phase==19:
                 probe_path=status.parent/'results_phase19/geometry_probe.json'
                 if probe_path.exists() and rec['status']!='running':
@@ -97,6 +99,7 @@ def main():
         if verdict.startswith('specified numerical'): verdict='所列检查通过，见局限'
         elif verdict=='pending output review': verdict='待完成与复核'
         elif verdict=='acceptance checks FAILED': verdict='验收未通过'
+        elif verdict=='full_run_completed_partial_scientific_acceptance': verdict='完整计算结束，部分科学指标未通过，见验收'
         elif verdict.startswith('not accepted:'): verdict='未接受，见日志与修复记录'
         if 'continuation' in r:
             cont=r['continuation']

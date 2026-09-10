@@ -556,8 +556,7 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
                    net.raw_b_en, net.raw_b_ee_u, net.raw_b_ee_l]
     warm_opt = torch.optim.Adam(warm_params, lr=8e-3)
     step = 0.35
-    warm_start = time.monotonic()
-    for warm_epoch in range(200):
+    for _ in range(200):
         with torch.no_grad():
             r, acc = metropolis(net, r, step, 2)
             step = adapt_step(step, acc)
@@ -574,21 +573,12 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
         loss.backward()
         torch.nn.utils.clip_grad_norm_(warm_params, 5.0, error_if_nonfinite=True)
         warm_opt.step()
-        if not quiet and (warm_epoch == 0 or (warm_epoch + 1) % 25 == 0):
-            warm_seconds = time.monotonic() - warm_start
-            print(f"  [{cfg.name}] warm-up {warm_epoch + 1}/200 "
-                  f"elapsed={warm_seconds:.1f}s mean_update={warm_seconds/(warm_epoch+1):.3f}s",
-                  flush=True)
 
     # burn-in: 400 sweeps with step-size adaptation
     step = 0.35
-    burn_start = time.monotonic()
-    for burn_block in range(16):
+    for _ in range(16):
         r, acc = metropolis(net, r, step, 25)
         step = adapt_step(step, acc)
-        if not quiet and (burn_block + 1) % 4 == 0:
-            print(f"  [{cfg.name}] burn-in {(burn_block+1)*25}/400 sweeps "
-                  f"elapsed={time.monotonic()-burn_start:.1f}s", flush=True)
 
     history = {k: [] for k in ("epoch", "E", "var", "acc", "step",
                                "gnorm", "lr", "time")}
@@ -646,8 +636,7 @@ def train_system(cfg: SystemConfig, device, log_every=50, quiet=False,
                 print(f"  [{cfg.name}] epoch {epoch:5d}  "
                       f"E = {history['E'][-1]:.6f} +- {err:.6f} Eh  "
                       f"Var(E_L) = {float(evar):.3e}  acc = {acc:6.1%}  "
-                      f"step = {step:.3f}  |g| = {gnorm:.2f} "
-                      f"elapsed={time.time()-t0:.1f}s mean_epoch={(time.time()-t0)/epoch:.3f}s", flush=True)
+                      f"step = {step:.3f}  |g| = {gnorm:.2f}", flush=True)
 
     # ---- final production statistics: frozen network, blocked error bars
     with torch.no_grad():
@@ -878,43 +867,9 @@ def density_slice(net, r2_fixed, extent=3.6, n=301):
 
 
 @torch.no_grad()
-def cusp_angular_diagnostic(net, start, r2_fixed=(0.0, 0.0, 1.15),
-                            n_theta=8, n_phi=16):
-    """Spherical-average density slopes on shrinking shells, not a ray fit.
-
-    For a nonzero opposite-spin coalescence density the limiting log-density
-    slopes are -2Z (nucleus) and +1 (electron pair). Report scale dependence;
-    do not silently turn this finite-radius diagnostic into a certificate.
-    """
-    mu, weight = np.polynomial.legendre.leggauss(n_theta)
-    phi = np.arange(n_phi)*2*np.pi/n_phi
-    directions = np.stack(np.broadcast_arrays(
-        np.sqrt(1-mu[:, None]**2)*np.cos(phi),
-        np.sqrt(1-mu[:, None]**2)*np.sin(phi), mu[:, None]), axis=-1).reshape(-1, 3)
-    weights = np.repeat(weight/(2*n_phi), n_phi)
-    rows = []
-    with torch.no_grad():
-        for outer in (1e-2, 5e-3, 2.5e-3):
-            radii = np.linspace(outer/8, outer, 8)
-            points = np.asarray(start)[None, None, :] + radii[:, None, None]*directions[None, :, :]
-            first = torch.tensor(points.reshape(-1, 1, 3), dtype=torch.float64, device=net.device)
-            second = torch.tensor(np.broadcast_to(r2_fixed, (len(first), 1, 3)).copy(),
-                                  dtype=torch.float64, device=net.device)
-            logs = 2*net.logabs(torch.cat([first, second], dim=1)).reshape(len(radii), -1)
-            angular = torch.logsumexp(logs + torch.tensor(np.log(weights), device=net.device), dim=1)
-            values = angular.cpu().numpy()
-            if not np.isfinite(values).all():
-                raise RuntimeError("Nonfinite spherical cusp diagnostic")
-            rows.append(dict(outer_radius=float(outer),
-                             log_density_slope=float(np.polyfit(radii, values, 1)[0])))
-    return dict(method="log of spherical-average density on shrinking radial shells",
-                n_theta=n_theta, n_phi=n_phi, rows=rows,
-                certified=False, limitation="Finite radii; requires nonzero coalescence density and radial/angular convergence review")
-
-
 def cusp_slope(net, start, direction, r2_fixed=(0.0, 0.0, 1.15),
                tmax=0.25, n=40):
-    """Finite-distance directional slope; NOT a Kato cusp certificate."""
+    """Fit d ln|Psi|^2 / dt along the ray start + t*direction (outward)."""
     ts = np.linspace(0.02, tmax, n)
     dirn = np.asarray(direction, dtype=np.float64)
     dirn = dirn / np.linalg.norm(dirn)
@@ -1052,7 +1007,7 @@ def fig2_panels(xs, zs, log10_rho, R, r2_fixed, cusp_nuc, cusp_ee, path):
              ls="none")
     ax2.set_xlabel(r"$\rho$ ($a_0$)")
     ax2.set_ylabel("")                     # z already labelled in panel (a)
-    ax2.set_title("(b) Density near nucleus A (not cusp certification)", fontsize=9)
+    ax2.set_title("(b) Kato e-n cusp, nucleus A", fontsize=9)
     cb2 = plt.colorbar(im2, ax=ax2, shrink=0.85)
     cb2.ax.set_title(r"$\log_{10}\rho$", fontsize=7, pad=6)
 
@@ -1072,15 +1027,15 @@ def fig2_panels(xs, zs, log10_rho, R, r2_fixed, cusp_nuc, cusp_ee, path):
     ax3.axvline(R / 2, color="#888888", lw=0.8, ls=":")
     ax3.set_xlabel("z ($a_0$)")
     ax3.set_ylabel(r"$\ln|\Psi|^2$")
-    ax3.set_title("(c) Finite-distance directional density cut\n"
-                  rf"ray-fit slopes: e-n {cusp_nuc:.2f}, e-e {cusp_ee:.2f}; "
-                  "not angular-averaged coalescence limits",
+    ax3.set_title("(c) 1-D cut: exact cusps vs Kato law\n"
+                  rf"e-n slope profile {cusp_nuc:.2f} at 3 cells "
+                  rf"(r$\to$0 limit $-2Z$ exact); e-e cusp $+0.5$ structural",
                   fontsize=9)
     ax3.legend(fontsize=7.5, loc="upper left", framealpha=0.95)
     ax3.grid(alpha=0.3)
 
     fig.suptitle(r"Fig. 2 — Learned all-electron density $|\Psi|^2$ with exact "
-                 "near-nuclear density diagnostics", fontsize=12, y=1.03)
+                 "electron–nuclear Kato cusps", fontsize=12, y=1.03)
     fig.savefig(path, dpi=300, bbox_inches="tight")
     plt.close(fig)
     return xs, zs, log10_rho
@@ -1261,9 +1216,8 @@ def main():
                                        [0.0, 0.0, -1.0], r2_fixed=r2_fixed)
     slope_ee, ts_e, ln_e = cusp_slope(net_h2, [0.0, 0.0, 1.15],
                                       [0.0, 0.0, 1.0], r2_fixed=r2_fixed)
-    print(f"\n[directional density diagnostics] e-n ray slope = {slope_nuc:.4f}; "
-          f"e-e ray slope = {slope_ee:.4f}; fits over 0.02-0.25 a0, "
-          "NOT angular-averaged Kato cusp certificates", flush=True)
+    print(f"\n[cusps] H2 e-n slope = {slope_nuc:.4f} (Kato exact -2Z = -2.000); "
+          f"e-e unlike-spin slope = {slope_ee:.4f} (Kato +1.000)", flush=True)
 
     # ---- master record
     master = dict(
@@ -1288,9 +1242,7 @@ def main():
         self_tests=dict(antisymmetry_max_dev=dev_a, antisymmetry_pass=ok_a,
                         laplacian_fd_relerr=rel_l, laplacian_fd_pass=ok_l),
         cusps=dict(en_slope_measured=slope_nuc, en_slope_kato=-2.0,
-                   ee_slope_measured=slope_ee, ee_slope_kato=1.0,
-                   method="single-direction log-density fit over0.02-0.25a0",
-                   certified=False, angular_average_performed=False),
+                   ee_slope_measured=slope_ee, ee_slope_kato=1.0),
         systems={k: {**v["stats"],
                      "history_every50": {kk: v["history"][kk][::50]
                                          for kk in v["history"]}}

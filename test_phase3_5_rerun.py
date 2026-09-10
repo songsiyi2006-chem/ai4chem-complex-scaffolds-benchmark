@@ -20,6 +20,8 @@ ROOT = Path(__file__).resolve().parent
 
 
 def functions(phase, names, **extra):
+    if phase == 5 and any(n in names for n in ('run_xtb', 'xtb_opt')):
+        names = list(dict.fromkeys([*names, 'XTBFailure']))
     source = next(ROOT.glob(f'run_phase{phase}_*.py'))
     tree = ast.parse(source.read_text(encoding='utf-8'))
     nodes = [n for n in tree.body if isinstance(n, (ast.FunctionDef, ast.ClassDef)) and n.name in names]
@@ -78,6 +80,35 @@ def probe_phase5_restraint(cache_path):
 
 
 class RerunTests(unittest.TestCase):
+    def test_deprotonation_pose_uses_global_oxygen_preserves_fragments(self):
+        ns = functions(5, ['prepare_deprotonation_pose', 'kabsch_rotate'])
+        nums = np.array([6, 1, 6, 8, 15, 8])
+        pos = np.array([[0., 0, 0], [1.1, 0, 0], [0, 1.4, 0],
+                        [0, 8, 0], [0, 9.5, 0], [1, 9.5, 0]])
+        new = ns['prepare_deprotonation_pose'](nums, pos, 0, 1, 3, 4, 3)
+        np.testing.assert_array_equal(new[:3], pos[:3])
+        np.testing.assert_allclose(new[3], [2.75, 0, 0], atol=1e-12)
+        np.testing.assert_allclose(np.linalg.norm(new[3:, None]-new[None, 3:], axis=2),
+                                   np.linalg.norm(pos[3:, None]-pos[None, 3:], axis=2))
+        self.assertGreater(new[4, 0], new[3, 0])
+        with self.assertRaisesRegex(ValueError, 'wrong fragments'):
+            ns['prepare_deprotonation_pose'](nums, pos, 0, 1, 0, 4, 3)
+
+    def test_scan_failure_retains_engine_evidence_without_weakening_gate(self):
+        records = []
+        ns = functions(5, ['scan_1d', 'XTBFailure'],
+                       _save_scan_record=lambda label, index, record: records.append(record),
+                       _warn=lambda *a: None, _log=lambda *a: None, EH_KCAL=627.5)
+        ns['xtb_opt'] = Mock(side_effect=[
+            ns['XTBFailure']('not converged', stdout='full iteration history',
+                              files={'xtbopt.xyz': 'last geometry'}),
+            (np.zeros((2, 3)), -1.), (np.ones((2, 3)), -2.)])
+        with self.assertRaisesRegex(RuntimeError, 'too few converged frames \\(2\\)'):
+            ns['scan_1d']([6, 1], np.zeros((2, 3)), lambda s: [(1, 2, s)], [1.6, 1.4, 1.1])
+        self.assertEqual(records[0]['stdout'], 'full iteration history')
+        self.assertEqual(records[0]['engine_files']['xtbopt.xyz'], 'last geometry')
+        self.assertEqual([r['converged'] for r in records], [False, True, True])
+
     def test_spliced_hydrogen_constraint_uses_length_not_spring(self):
         from openmm import System, HarmonicBondForce, unit
         from rdkit import Chem
