@@ -113,6 +113,12 @@
       "files": {
         "results_phase7/checkpoints/7A/R3.20.json": "7c02860ff789036d3d9d37cf1a5ba6bfa1216a9f7a4440062f96d5dec8dc4282"
       }
+    },
+    "results_phase7/checkpoints/7B/R1.40.json": {
+      "basis": "def2-svp",
+      "files": {
+        "results_phase7/checkpoints/7B/R1.40.json": "9e0dd1e2eb531c7874e0bf9e2148ab0417a009b8441b0ce17a7d0122e6ed082f"
+      }
     }
   },
   "commands": [
@@ -355,8 +361,10 @@
         "-1.0"
       ],
       "started": 1789051887.4829936,
-      "status": "running",
-      "pid": 7120
+      "status": "exited",
+      "pid": 7120,
+      "exit_code": 0,
+      "finished": 1789052532.860118
     }
   ],
   "pending": [

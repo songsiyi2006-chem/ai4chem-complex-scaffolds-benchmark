@@ -319,6 +319,22 @@ P3 latest read-only observation: original PID14832 alive, DCD26 complete frames,
 
 ## Commands, dependencies and verification
 
+### Phase3 completion gate (continuous rerun update)
+
+Stage4 now requires the exact number of production reports implied by the
+requested step count, report interval and reporter alignment after heating and
+equilibration (200 frames for the defaults). The former fixed 100-frame cutoff
+could accept half a trajectory. Cached steps, duration, timestep, report interval
+and both frame counts must also agree. Unreadable or partial DCDs, orphaned
+metadata and existing artifacts with force-rerun are preserved and rejected;
+new MD requires a fresh directory. Thirteen focused tests cover these paths.
+The previously interrupted 27-frame trajectory is still not accepted or resumed.
+
+The periodic AI heartbeat was removed at the user's request. A single finite
+continuous queue now advances pending calculations on process completion and
+available memory, preserving failures for review. This does not imply automatic
+scientific acceptance, source repair or publication of unreviewed results.
+
 ### 2026-09-10: default Phase5 A/B/C completed; drawing repaired separately
 
 Fresh attempt 215504 finished Module A at 22:16:06, B at 22:16:10 and C at

@@ -1171,22 +1171,70 @@ def _replay_stage4_analysis(out: Path, args) -> dict:
     return {"analyzer": an, "n_frames": traj.xyz.shape[0]}
 
 
+def _stage4_expected_frames(args) -> int:
+    """Reporters use absolute steps after 4000 heating + equilibration steps."""
+    if args.md_steps <= 0 or args.report_interval <= 0 or args.equil_steps < 0:
+        raise ValueError("MD steps/report interval must be positive; equilibration nonnegative")
+    start = 4000 + args.equil_steps
+    frames = ((start + args.md_steps) // args.report_interval
+              - start // args.report_interval)
+    if frames == 0:
+        raise ValueError("Production must include at least one reporting step")
+    return frames
+
+
+def _stage4_validate_cache(rec: dict, args, n_frames: int) -> None:
+    """Do not trust completion metadata without matching trajectory and request."""
+    expected = {
+        "production_steps": args.md_steps,
+        "equil_steps": args.equil_steps,
+        "report_interval": args.report_interval,
+        "dt_fs": 1.0,
+        "production_ps": args.md_steps / 1000.0,
+        "n_frames": n_frames,
+    }
+    if not isinstance(rec, dict):
+        raise RuntimeError("Invalid stage4 metadata; artifacts preserved. Use a new output directory.")
+    for key, value in expected.items():
+        if rec.get(key) != value:
+            raise RuntimeError(
+                f"Stage4 metadata mismatch for {key}: {rec.get(key)!r} != {value!r}; "
+                "artifacts preserved. Use a new output directory.")
+    if not isinstance(rec.get("md"), dict) or rec["md"].get("n_frames") != n_frames:
+        raise RuntimeError("Stage4 MD frame metadata mismatch; artifacts preserved. "
+                           "Use a new output directory.")
+
+
 def stage4_complex_md(out: Path, args, force: bool = False) -> bool:
+    expected_frames = _stage4_expected_frames(args)
     ckpt = out / "stage4.json"
-    if ckpt.exists() and (out / "T04_complex_trajectory.dcd").exists()             and not force:
-        RESULTS["stage4_complex_md"] = json.loads(
-            ckpt.read_text(encoding="utf-8"))
-        _log("4", "checkpoint found (trajectory + metrics), skipping")
-        return True
     dcd = out / "T04_complex_trajectory.dcd"
-    if dcd.exists() and not force:
+    if force and (dcd.exists() or ckpt.exists()):
+        raise RuntimeError("Stage4 artifacts already exist; preserved even with --force_rerun. "
+                           "Use a new output directory for fresh MD.")
+    if ckpt.exists() and not dcd.exists():
+        raise RuntimeError("Stage4 checkpoint has no trajectory; artifacts preserved. "
+                           "Use a new output directory.")
+    if dcd.exists():
         import mdtraj as _md
         try:
             nfr = _md.load(str(dcd), top=str(out / "complex_start.pdb")
                            ).xyz.shape[0]
-        except Exception:
-            nfr = 0
-        if nfr >= 100:
+        except Exception as exc:
+            raise RuntimeError("Stage4 trajectory unreadable; artifacts preserved. "
+                               "Use a new output directory.") from exc
+        if nfr != expected_frames:
+            raise RuntimeError(
+                f"Stage4 trajectory has {nfr} frames; expected {expected_frames} "
+                f"for {args.md_steps} production steps/report {args.report_interval}; "
+                "artifacts preserved. Use a new output directory.")
+        if ckpt.exists():
+            rec = json.loads(ckpt.read_text(encoding="utf-8"))
+            _stage4_validate_cache(rec, args, nfr)
+            RESULTS["stage4_complex_md"] = rec
+            _log("4", "validated checkpoint (trajectory + metrics), skipping")
+            return True
+        if nfr == expected_frames:
             _log("4", f"recovery: replaying analysis from DCD ({nfr} frames)")
             rep = _replay_stage4_analysis(out, args)
             an = rep["analyzer"]
@@ -1203,6 +1251,7 @@ def stage4_complex_md(out: Path, args, force: bool = False) -> bool:
                 "ca_restraint_kcal_mol_A2": 5.0,
                 "equil_steps": args.equil_steps,
                 "production_steps": args.md_steps,
+                "report_interval": args.report_interval,
                 "production_ps": args.md_steps / 1000.0,
                 "n_atoms": 2785,
                 "n_frames": m["n_frames"],
@@ -1370,6 +1419,7 @@ def stage4_complex_md(out: Path, args, force: bool = False) -> bool:
         "ca_restraint_kcal_mol_A2": 5.0,
         "equil_steps": args.equil_steps,
         "production_steps": args.md_steps,
+        "report_interval": args.report_interval,
         "production_ps": args.md_steps * 1 / 1000.0,
         "n_atoms": system.getNumParticles(),
         "n_lig_atoms": len(lig_idx),

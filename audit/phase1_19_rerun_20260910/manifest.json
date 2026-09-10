@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-10 23:00:01",
+  "generated": "2026-09-10 23:14:44",
   "campaign": "$CAMPAIGN",
   "phases": [
     {
@@ -1980,6 +1980,12 @@
                 "files": {
                   "results_phase7/checkpoints/7A/R3.20.json": "7c02860ff789036d3d9d37cf1a5ba6bfa1216a9f7a4440062f96d5dec8dc4282"
                 }
+              },
+              "results_phase7/checkpoints/7B/R1.40.json": {
+                "basis": "def2-svp",
+                "files": {
+                  "results_phase7/checkpoints/7B/R1.40.json": "9e0dd1e2eb531c7874e0bf9e2148ab0417a009b8441b0ce17a7d0122e6ed082f"
+                }
               }
             },
             "commands": [
@@ -2222,8 +2228,10 @@
                   "-1.0"
                 ],
                 "started": 1789051887.4829936,
-                "status": "running",
-                "pid": 7120
+                "status": "exited",
+                "pid": 7120,
+                "exit_code": 0,
+                "finished": 1789052532.860118
               }
             ],
             "pending": [
@@ -3251,11 +3259,11 @@
             "OPENMM_CPU_THREADS": "2"
           },
           "pid": 23956,
-          "elapsed_s": 3895.730387210846,
+          "elapsed_s": 4778.867225885391,
           "attempt_path": "$CAMPAIGN\\phase14\\20260910T215505",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
-          "log_sha256": "d36496e2544956958bb32b2d5452891ee99f20dd1a125fb0363c706c5cceb7b5",
+          "log_sha256": "ad2ff3f543fb465a1223fe6ab30c0c2272943377e1c4431c9d1beb5828d6d1b3",
           "memory_hold_reported": false,
           "result_files": []
         }
@@ -3609,7 +3617,131 @@
     },
     {
       "phase": 16,
-      "attempts": []
+      "attempts": [
+        {
+          "phase": 16,
+          "started": "20260910T230954",
+          "source_sha256": {
+            "aqsol_model.py": "89485db4b60a346e7092d0f7ff7b8bda2bb2d85f6fec54ce8b4b3f1250977ada",
+            "audit_phase17_kb.py": "6227571c474c5a73700ea1bd57c1dab2e914fd394a522cce3d47134ac1b7ce79",
+            "audit_phase17_qtaim_figure3.py": "6b45d7c0b4fd374cc781939f5f22bed3c5390c685157b33234bb4619d9c7d85f",
+            "audit_phase17_scaled_hydrogenic.py": "51ea7cb3bce3356a13080a4c876d765ea87203f720a2aec4cd44b405af39d537",
+            "build_docx.py": "feebc3e2ec494f66a4aa5eeb31cfee903757eacdafd58a31e51ff0f2953648cd",
+            "esol_model.py": "a1b8bf4e858c5d6a92adbac0cfc19b69cdf3ff5b8867774439141655a29bb796",
+            "export_openff_system.py": "2efe0349d906b5cbe8a55ee37b96c53f1984bbf0e14b37ecec0b63264d1e37c7",
+            "generate_assets.py": "788deb94749b67b0fed71e39d43e7f8f8a891f3442f82fdbb4fe7b5c3d4c3ed1",
+            "molecules.py": "6b367b068d685980a14b0a0d9f49f25eb9928c8249a50361fe359b55b9743583",
+            "molecule_benchmark.py": "4280cc7c1bb150f8d29f466199bc19a40af5b9f47f6f7f7e5eb2c82511b90757",
+            "paclitaxel.py": "a04302865152d2dea77e1e737d4468d33747247f82c80b545e415d9439f247bb",
+            "phase8_figures.py": "fc7d648a277d8e69b2ee83db1aced27e66351eeee8016360e30a5cf034fb6547",
+            "phase_audit.py": "30850a3309de7ee5290ed156e7df52b9b7dc0c4338dfe9e64115318e0b425754",
+            "predict_solubility.py": "f87447c3c744f99cb66fe5eb9ec48dbade903c38e2e1ab46f18b67a61d919ce3",
+            "publish_phase1_19_evidence.py": "f9ecf7f62a4363ed3b1e613284892e98c6311365c7c5e9f17fb4d0fbf52adca7",
+            "record_interrupted_campaign.py": "3892b5ea69036fda429ddf6f1830dbf0c73caf0338a1c25adde389b1d6df4c8e",
+            "recover_phase5_figures.py": "b6b32536d229959fd825c9f0349e5e87e6cae5e5f944839f302333cc7005fd8f",
+            "repair_8b_extras.py": "7d49df48954454e0648a341d343cb1ec35f7b8bf3b22ee63704945a5b6bcd82f",
+            "repair_scan_8b.py": "bdfad539affbbc610254b78ccb14b85076c396fffc0b44aa3c7d3064d5ab1ebf",
+            "rerun_phase1_19_campaign.py": "06620a6fd7ef2fa5b03cd11531cc4bd65ef8f37ab67438e10b6977a579ec6c13",
+            "resume_phase17_rerun.py": "3c80164f927a2a59b11405a99d763aebe450d812047ebaedcbfb16e6e9457c05",
+            "resume_phase7_rerun.py": "f6426bb6acaab81b12a7830e8b421b682265d27bea1dd153603fce70fd121d3a",
+            "run_ai_hts_platform_pilot.py": "a4614329a157ea0bc384e5f2caff82fd74461b04d984a00b10a2033ee569363e",
+            "run_continuous_pending.py": "a496fe005497294b87776939690ee287f92abeaea7ed81d3b8eac8966cb02e2e",
+            "run_heavy_dynamics_benchmark.py": "9f1495066a436360ce5a5f7742c8a300f2c40b7c3b4c41822b3c41971affb3db",
+            "run_phase10_cyberphysical_flow_twin.py": "3f62b937c6046aa8280e14010bda7509adb643ce093c642ddd1b1fab84172111",
+            "run_phase11_neural_wavefunction_vmc.py": "23b8e2671faba953015c2ead761a18c07b0fff0c8267a98c0adbac6330771300",
+            "run_phase12_hamiltonian_law_discovery.py": "1974bb8ae23c000ae4367cbeb035555911462915730aceddbe4c119b20a07100",
+            "run_phase13_metalloenzyme_pcet_engine.py": "490bd09b9bda0dd0bf9314a51e40d7af69ad99ebf5cdc695e1cd6c5981faa9bd",
+            "run_phase14_active_matter_condensate_phase_separation.py": "397e8b1f0cb0bd64e95595c0393f818deffe931450ff30e02bd09b28a4248994",
+            "run_phase15_quantum_biology_spin_allostery.py": "c4ca2a54be652c7153cc5ad629460be99df4e1322a7af8d854751348093f455f",
+            "run_phase16_megamachine_cryoem_transport.py": "8cf493cedee590ebe97a0dfe9d3c3eb37af61db97f0494fa2a88b62e4b399ae3",
+            "run_phase17_relativistic_actinide_quantum.py": "d828beb1875239adc5f15e25dd9c92d535fe35bcb20ae9e92fd49b6abe5d43d1",
+            "run_phase18_wholecell_metabolic_thermodynamics.py": "b521c6b402ddd04060acd138c359e4c6cd54cfacb4fdff3576c3aed90f8501dc",
+            "run_phase19_active_inference_denovo_enzyme.py": "2f989aa216e74641c25014f88e3ccae81f4333ec7d4f432b141cd08cca5b4c1a",
+            "run_phase1_19_regressions.py": "64372f2aa4c1a358bc8dc8a9ce5e2cd4b0bebb1e40494047b96849e7fa56c25e",
+            "run_phase20_ciss_quantum_spintronics.py": "27d09c37b30feea0bf863a81e4032937321c9b93674e9e4661d8489a61a8e82f",
+            "run_phase21_cavity_qed_polaritonic_chemistry.py": "47a4f18a1c60f510ec6e85b0cd2fb841d851ac7dc47dea2e94b2debfb0d9503a",
+            "run_phase22_molecular_spin_qubits.py": "a02ad15a91367a75e0396779085ce3fdc892139c750402a2fd155a9f6ffe01c3",
+            "run_phase23_in_materio_neuromorphic_computing.py": "65bd4fa78eeec54d41cad9190e9e1a55766a7e615ed8bbe3f03c6bde894ac5f5",
+            "run_phase3_complex_dynamics.py": "cd6f76afe09e4b03a9d8a165c5ecef9abe6340ab4c962a1e530669ac154b194c",
+            "run_phase4_reaction_mechanism.py": "5df76dc703f16232b9a12ab32bccf7e4bcf6bfac07ff536fe1bf1a32d48ed463",
+            "run_phase5_chemical_world_model.py": "2efe1c57ac87cc46ea59856a7156ca298857563cf4908dd08bbae31d033c7892",
+            "run_phase6_explicit_metadynamics.py": "7eecaa4b8397e22c8070a31df8baf4e783bd1dd4eed1b7318f9b37f092d7a50a",
+            "run_phase7_strong_correlation_wall.py": "1141e04dc50ecdc55580416f11630187c85d09263d450570091e98bef8494e0d",
+            "run_phase8_photochemical_dynamics.py": "d20cdd04722c4ed43976d8c5bc5134a7ed335163a12aa0b018d6d502afe4c42b",
+            "run_phase9_self_driving_lab_compiler.py": "e2af7b5ae61a46fafa250001aa62ec865bfb9fb2476354b2b98ab9ff53a71139",
+            "scheduled_campaign_job.py": "15510bfdd1b3dd4a1ec37d59deb8092d71f4b924ce7a5464b55381fc1fdd6476",
+            "setup_and_download.py": "896dbe7aca6f9e942b5335e76869166f8d3a2939df2f7eb7d790ef5aeddf8ac8",
+            "summarize_phase1_19_reruns.py": "fc83abb98f0d56cfe47ec0981c65c46fb9596a0a08f5db9e8b57408d0f2a719b",
+            "test_phase10_13_rerun.py": "4691776d0c9c571d90db25cf076b80de5624971e3bd52396c8c55b20a30c3330",
+            "test_phase11_13_audit.py": "36c2d42ec3c9d86cdac003da511373f6d12f0be64566b547cb7d7976eb513dbf",
+            "test_phase14_17_audit.py": "09f80dda7e89c1d73270ee6364304a7f9f07fd29a5f6e26e3d9701ec2969b02c",
+            "test_phase14_rerun.py": "6db594f6519dbf88a253bb61c4a33ed11ca741d85d3fdfa7e16c19f2292833fb",
+            "test_phase15_16_19_rerun.py": "739cbfadc4b12dd6ab0e2598261bb789679b44228c2d6102f02d1aaadedaa87c",
+            "test_phase15_checkpoint.py": "781b4ee839489cd36efc73552fa50128712655012d48d78e4c61fea0240b4ebf",
+            "test_phase17_rerun.py": "5d0fdb732effb91b5f3586f7de6ea1b68c70f8942498a5991a14f387b892bd74",
+            "test_phase18_19_audit.py": "4e0e0ed1e4510fc354ad25e668bcf9ff921e7b9ea8eac75d31d5a481795ce1be",
+            "test_phase1_19_campaign.py": "07534ba3b7011b21743fb02606063b952e6cb0da577daf20a20094cdaa3fd4aa",
+            "test_phase1_5_audit.py": "9d89b73bfc5fb5861ddc3d03115e9ac95d70a81f457d7da356f6190f59e6b5da",
+            "test_phase3_5_rerun.py": "f6e7dc031ea5a0b2f75fc5c090ab167f13508ce9e154f628f3e1cd65fcfcce99",
+            "test_phase3_completion.py": "9eab500329dd093f08d7ea7b9a9bec19265812d557057d9652329f6eb994c02d",
+            "test_phase5_plot.py": "fd0e0cd3399996fb9df9bebbd0c9248a4b24326e020991c7b2575ac037afebe4",
+            "test_phase6_10_audit.py": "bba24b5b7197eba5b217fdbbbd552113b480d5e5915c702e38d21d02070f35d4",
+            "test_phase6_8_rerun.py": "854b022f779e5916ea513289ef543b00e07381e1599ca9829e2b4305dde6cacc",
+            "test_phase7_resume.py": "4acf63d0e865a5a93b02d37d6b0d4e097c17602ce45bff439851b1feb9cc7da4",
+            "validate_completed_reruns.py": "2a08581a08295f07210381024ef96903893ef2a1413625fed8ada6a96e2d371d",
+            "validate_phase24_outputs.py": "43a333a6e2b058ec338838085319ddf359385fa72358452939ae97554bf80e08",
+            "_p15_fill_reports.py": "d5cceb823f6bc1cbaf5358f8ea4afdf5303a0723f04ccd1a00760ed2ba6db2e6",
+            "_p16_fill_reports.py": "692b373651551adc40e67ae6eb2f4f717eb715740af26b882210a5d7e7af1ec4",
+            "_p19_champion.py": "95dbfbc5b6cd6bac9f544e7dc8c6a75203e343b195b44c0f3c338e9023a7fd22",
+            "_p19_fill_reports.py": "ebcd08644c9edb9e0ff152ff0823f0ebc056c416e7145e43e940690a402bcf7f"
+          },
+          "command": [
+            "$USER_PROFILE\\miniconda3\\envs\\phase2ff\\python.exe",
+            "-X",
+            "faulthandler",
+            "-u",
+            "run_phase16_megamachine_cryoem_transport.py"
+          ],
+          "cwd": "$CAMPAIGN\\phase16\\20260910T230954",
+          "status": "running",
+          "scope": "default/full attempt",
+          "prerequisite_artifacts": [],
+          "historical_cache_copied": false,
+          "scientific_acceptance": "pending output review",
+          "runtime": {
+            "python": "3.12.14 | packaged by conda-forge | (main, Sep  2 2026, 23:18:20) [MSC v.1944 64 bit (AMD64)]",
+            "executable": "$USER_PROFILE\\miniconda3\\envs\\phase2ff\\python.exe",
+            "platform": "Windows-11-10.0.22631-SP0",
+            "distributions": {
+              "numpy": "2.4.6",
+              "scipy": "1.18.0",
+              "matplotlib": "3.11.1",
+              "rdkit": "2026.3.5",
+              "torch": "2.10.0",
+              "openmm": "8.6.0",
+              "scikit-learn": "1.9.0",
+              "ase": "3.29.0",
+              "psi4": null,
+              "pyscf": null
+            }
+          },
+          "thread_limits": {
+            "OMP_NUM_THREADS": "2",
+            "MKL_NUM_THREADS": "2",
+            "OPENBLAS_NUM_THREADS": "2",
+            "NUMEXPR_NUM_THREADS": "2",
+            "OPENMM_CPU_THREADS": "2"
+          },
+          "pid": 30040,
+          "elapsed_s": 289.953914642334,
+          "attempt_path": "$CAMPAIGN\\phase16\\20260910T230954",
+          "regenerated_python_artifacts": [],
+          "snapshot_hash_mismatches": [],
+          "log_sha256": "928e3fdb38655daf17823fd18abcf4f55dfe9ef7ba79ddd4e6aa26bc3738f395",
+          "memory_hold_reported": false,
+          "result_files": []
+        }
+      ]
     },
     {
       "phase": 17,
@@ -6308,9 +6440,9 @@
       "path": "phase07/20260910T181009/continuation_status.json",
       "role": "continuation provenance",
       "source": "$CAMPAIGN\\phase07\\20260910T181009\\continuation_status.json",
-      "source_sha256": "0ec9a6df004d02db5b3f3a14108146f1d4a2526256b5a557ba94fc4fd42aba05",
-      "published_sha256": "d30ce148d09dc8ae2b0844f6361210f561fd5131820bb8bc57f8f082ea64ecd0",
-      "bytes": 14004,
+      "source_sha256": "98b3fb19cf0d07e8f488561e6ed5efbf9e4f535502d329a76ee7eef13e2ad62e",
+      "published_sha256": "38e852e50d0524c406fd8f72ab649931ff5cbd49ac4f331abd34ef535e4efe7e",
+      "bytes": 14290,
       "text_normalized_or_redacted": true
     },
     {
@@ -6627,6 +6759,15 @@
       "published_sha256": "453cb8ef86596889de09a29fae1a567d54e404411f02d5b51b3ba2fcd6f34bfd",
       "bytes": 93614,
       "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase16/20260910T230954/run_status.json",
+      "role": "process snapshot",
+      "source": "$CAMPAIGN\\phase16\\20260910T230954\\rerun_status.json",
+      "source_sha256": "1b4e54768a526bd72e9cf47403951f28e6c0e22caa480a13db228b522badb602",
+      "published_sha256": "03c067b095e56a630088babaa6a6b26bb6282cf02caac4286647780d1d837192",
+      "bytes": 8661,
+      "text_normalized_or_redacted": true
     },
     {
       "path": "phase17/20260910T180947/run_status.json",
@@ -6989,13 +7130,41 @@
       "text_normalized_or_redacted": false
     },
     {
+      "path": "regressions/20260910T231307/molecular.log",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T231307\\molecular.log",
+      "source_sha256": "33b4933b26147a787f927db4881ab32235dbb93176a4d89545165fb369f9957e",
+      "published_sha256": "33b4933b26147a787f927db4881ab32235dbb93176a4d89545165fb369f9957e",
+      "bytes": 5728,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "regressions/20260910T231307/primary.log",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T231307\\primary.log",
+      "source_sha256": "963f75ab59fec911e8c7d6cc3f8e750feab90db621eb2902d6a17195e351426e",
+      "published_sha256": "8424d83073212a4b73b109de36266ad3e1f94680ffa81f4ad34f78bd14b71093",
+      "bytes": 20077,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "regressions/20260910T231307/regression_status.json",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T231307\\regression_status.json",
+      "source_sha256": "d31e6a770e0958f0b46f8058699ce775b1a2be9c66c35ba3a60a3379d0af56c2",
+      "published_sha256": "f36ce4a17dc942c68108a24d3282c2433bb006f339c327e520ccbcf45ff31c75",
+      "bytes": 17164,
+      "text_normalized_or_redacted": true
+    },
+    {
       "path": "regressions/20260910T225819/molecular.log",
       "role": "regression evidence",
       "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T225819\\molecular.log",
       "source_sha256": "ef021d542514531583fd00ce13c5406ed417868530d7188cf124fcf852f41531",
       "published_sha256": "ef021d542514531583fd00ce13c5406ed417868530d7188cf124fcf852f41531",
       "bytes": 3617,
-      "text_normalized_or_redacted": false
+      "text_normalized_or_redacted": false,
+      "retained_from_publication": "2026-09-10 23:00:01"
     },
     {
       "path": "regressions/20260910T225819/primary.log",
@@ -7004,7 +7173,8 @@
       "source_sha256": "3d767e3647dcdede4abbb3a30755b6bebad14e2941daf191a7d88797b1ded1e1",
       "published_sha256": "526c3fb1e80ec982bab9e6a193494119ee50296f297989d5dd3095955c4a6eaf",
       "bytes": 20077,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-10 23:00:01"
     },
     {
       "path": "regressions/20260910T225819/regression_status.json",
@@ -7013,7 +7183,8 @@
       "source_sha256": "9e38f6cb248c982b8771e4def14d619358a6cf6e9072597ff7374adaf40adaee",
       "published_sha256": "fbe8652dbe019b76d0890231daa1f02536d8bf19128cb18e929639b398943b6b",
       "bytes": 16473,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-10 23:00:01"
     }
   ],
   "omitted_large_files": [
