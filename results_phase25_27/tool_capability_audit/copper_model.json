@@ -1,0 +1,38 @@
+{
+  "input_cif": "data_Cu_fcc_pilot\n_cell_length_a 3.61\n_cell_length_b 3.61\n_cell_length_c 3.61\n_cell_angle_alpha 90\n_cell_angle_beta 90\n_cell_angle_gamma 90\n_symmetry_space_group_name_H-M 'P 1'\nloop_\n_atom_site_label\n_atom_site_type_symbol\n_atom_site_fract_x\n_atom_site_fract_y\n_atom_site_fract_z\nCu1 Cu 0 0 0\nCu2 Cu 0 0.5 0.5\nCu3 Cu 0.5 0 0.5\nCu4 Cu 0.5 0.5 0\n",
+  "result": {
+    "model": "MACE-MH-1",
+    "mace_version": "0.3.16",
+    "head": "omat_pbe",
+    "formula": "Cu",
+    "atoms": 4,
+    "energy_eV": -14.96997026524796,
+    "forces_eV_per_angstrom": [
+      [
+        1.6074326199696076e-16,
+        -1.713039432527097e-16,
+        -9.996344030316351e-17
+      ],
+      [
+        -4.861216211993804e-17,
+        4.834427648686565e-17,
+        -2.587990585722899e-16
+      ],
+      [
+        -1.56178310733557e-17,
+        3.6080591493421013e-17,
+        -2.067166967115175e-16
+      ],
+      [
+        -9.760925404015261e-17,
+        6.277530578691071e-17,
+        5.891554605286231e-16
+      ]
+    ],
+    "device": "cpu",
+    "dtype": "float64",
+    "dispersion_correction": false,
+    "license": "ASL; academic/noncommercial terms",
+    "note": "Learned periodic energy and forces. Validate target-domain accuracy; do not combine energies from different heads or reference theories."
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "python": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\venv\\Scripts\\python.exe",
+  "root": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s",
+  "packages": {
+    "rdkit": "2026.3.5",
+    "torch": "2.10.0",
+    "mace-torch": "0.3.16",
+    "torchani": "2.8.4",
+    "OpenMM": "8.6.0",
+    "openff-toolkit": "0.19.0",
+    "pymatgen": "2026.5.4",
+    "pymatgen-core": "2026.8.30",
+    "matminer": "0.10.1",
+    "chemprop": "2.2.3",
+    "botorch": "0.18.1",
+    "gpytorch": "1.15.2",
+    "optuna": "5.0.0",
+    "pymoo": "0.6.2",
+    "MDAnalysis": "2.10.0",
+    "biopython": "1.88",
+    "cclib": "1.8.1",
+    "basis_set_exchange": "0.12",
+    "qcportal": "0.70",
+    "mp-api": "0.46.5",
+    "optimade": "1.5.0",
+    "ord-schema": "0.8.3",
+    "datamol": "0.13.0",
+    "selfies": "2.2.0",
+    "duckdb": "1.5.5"
+  },
+  "psi4_python": "C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\python.exe",
+  "base_python": "C:\\Users\\HUIWEI\\miniconda3\\python.exe",
+  "device": "CPU; Intel integrated GPU is not CUDA",
+  "datasets": [
+    {
+      "name": "esol",
+      "rows": 1128,
+      "status": "available",
+      "sha256": "8c06a76f0c6487d29ab0f903e6a7a7139f189ab3c1178f159c8be8964602f189",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\delaney-processed.csv"
+    },
+    {
+      "name": "freesolv",
+      "rows": 642,
+      "status": "available",
+      "sha256": "ab5895d914ee87cb563bd7b9611e869527bba45bec6b014d34dc495a0f9dcb72",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\SAMPL.csv"
+    },
+    {
+      "name": "lipophilicity",
+      "rows": 4200,
+      "status": "available",
+      "sha256": "aed41590cb30609d51d8e08ad3ff06495a76e80e211358801f596b10da69bacd",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\Lipophilicity.csv"
+    },
+    {
+      "name": "bbbp",
+      "rows": 2050,
+      "status": "available",
+      "sha256": "d07a38487aeac5cee5508413e468043ef3097451d2a112701c2d60be9ec6b662",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\BBBP.csv"
+    },
+    {
+      "name": "bace",
+      "rows": 1513,
+      "status": "available",
+      "sha256": "f3fb9ce90bada3e2bd6148b0df13f8f8145a357bf87df0dd5b391ede974fc737",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\bace.csv"
+    },
+    {
+      "name": "tox21",
+      "rows": 7831,
+      "status": "available",
+      "sha256": "45d09792492ce049039dd24aa27b07fc79ce20c573187d4d90bcd178c0c0d360",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\tox21.csv.gz"
+    },
+    {
+      "name": "clintox",
+      "rows": 1484,
+      "status": "available",
+      "sha256": "7324a84a180ad9068d3847677c85d58e8432e82b3ae6ac95cf0e98b3a58d9697",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\clintox.csv.gz"
+    },
+    {
+      "name": "sider",
+      "rows": 1427,
+      "status": "available",
+      "sha256": "4cc7ccb20dded475853c583596e227116c222c6ca7dbb40159bdbe9ee3f099b9",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\sider.csv.gz"
+    },
+    {
+      "name": "qm9",
+      "rows": 133885,
+      "status": "available",
+      "sha256": "3e668f8c34e4bc392a90d417a50a5eed3b64b842a817a633024bdc054c68ccb4",
+      "source": "https://deepchem.readthedocs.io/en/latest/api_reference/moleculenet.html",
+      "scope": "MoleculeNet distributed benchmark table; QM9 CSV does not include 3D coordinates",
+      "license_note": "Dataset-specific terms and original citations apply; see MoleculeNet source references.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\qm9.csv"
+    },
+    {
+      "name": "matbench_dielectric",
+      "rows": 4764,
+      "status": "available",
+      "sha256": "83befa09bc2ec2f4b6143afc413157827a90e5e2e42c1eb507ccfa01bf26a1d6",
+      "source": "Petousis, I., Mrdjenovich, D., Ballouz, E., Liu, M., Winston, D.,\nChen, W., Graf, T., Schladt, T. D., Persson, K. A. & Prinz, F. B.\nHigh-throughput screening of inorganic compounds for the discovery\nof novel dielectric and optical materials. Sci. Data 4, 160134 (2017).",
+      "scope": "Complete named Matbench task",
+      "license_note": "Preserve Matbench and original dataset attribution; see metadata.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\matbench_dielectric.json.gz"
+    },
+    {
+      "name": "matbench_expt_gap",
+      "rows": 4604,
+      "status": "available",
+      "sha256": "783e7d1461eb83b00b2f2942da4b95fda5e58a0d1ae26b581c24cf8a82ca75b2",
+      "source": "Y. Zhuo, A. Masouri Tehrani, J. Brgoch (2018) Predicting the Band Gaps of Inorganic Solids by Machine Learning J. Phys. Chem. Lett. 2018, 9, 7, 1668-1673 https:doi.org/10.1021/acs.jpclett.8b00124.",
+      "scope": "Complete named Matbench task",
+      "license_note": "Preserve Matbench and original dataset attribution; see metadata.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\matbench_expt_gap.json.gz"
+    },
+    {
+      "name": "matbench_steels",
+      "rows": 312,
+      "status": "available",
+      "sha256": "473bc4957b2ea5e6465aef84bc29bb48ac34db27d69ea4ec5f508745c6fae252",
+      "source": "https://citrination.com/datasets/153092/",
+      "scope": "Complete named Matbench task",
+      "license_note": "Preserve Matbench and original dataset attribution; see metadata.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\matbench_steels.json.gz"
+    },
+    {
+      "name": "matbench_glass",
+      "rows": 5680,
+      "status": "available",
+      "sha256": "36beb654e2a463ee2a6572105bea0ca2961eee7c7b26a25377bff2c3b338e53a",
+      "source": "Y. Kawazoe, T. Masumoto, A.-P. Tsai, J.-Z. Yu, T. Aihara Jr. (1997) Y. Kawazoe, J.-Z. Yu, A.-P. Tsai, T. Masumoto (ed.) SpringerMaterials\nNonequilibrium Phase Diagrams of Ternary Amorphous Alloys · 1 Introduction Landolt-Börnstein - Group III Condensed Matter 37A (Nonequilibrium Phase Diagrams of Ternary Amorphous Alloys) https://www.springer.com/gp/book/9783540605072 (Springer-Verlag Berlin Heidelberg © 1997) Accessed: 03-09-2019",
+      "scope": "Complete named Matbench task",
+      "license_note": "Preserve Matbench and original dataset attribution; see metadata.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\matbench_glass.json.gz"
+    },
+    {
+      "name": "pdb_1ubq",
+      "rows": 1,
+      "status": "available",
+      "sha256": "056f98710cb2b36f633c45e41902a02eb446e82871da21ff2dd44f74a56ca0f6",
+      "source": "https://www.rcsb.org/structure/1UBQ",
+      "scope": "One example experimental protein structure",
+      "license_note": "wwPDB archive data: CC0; cite the original structure.",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\1ubq.cif"
+    },
+    {
+      "name": "ord_example",
+      "rows": 750,
+      "status": "available",
+      "sha256": "bf1686ca6edac300a61acb5a5ee006ab5fd61007962ae19062b3d3c7879f84a9",
+      "source": "https://github.com/open-reaction-database/ord-data",
+      "scope": "One ORD submitted dataset, not the complete archive",
+      "license_note": "CC-BY-SA-4.0 data license; preserve dataset provenance and upstream attribution",
+      "path": "C:\\Users\\HUIWEI\\.codex\\tools\\chem-ai4s\\data\\ord-example.parquet"
+    }
+  ]
+}

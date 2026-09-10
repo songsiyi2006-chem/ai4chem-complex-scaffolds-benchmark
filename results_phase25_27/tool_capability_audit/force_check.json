@@ -1,0 +1,119 @@
+[
+  {
+    "dx_A": 0,
+    "cif": "data_Cu_fcc_pilot\n_cell_length_a 3.61\n_cell_length_b 3.61\n_cell_length_c 3.61\n_cell_angle_alpha 90\n_cell_angle_beta 90\n_cell_angle_gamma 90\n_symmetry_space_group_name_H-M 'P 1'\nloop_\n_atom_site_label\n_atom_site_type_symbol\n_atom_site_fract_x\n_atom_site_fract_y\n_atom_site_fract_z\nCu1 Cu 0.005 0 0\nCu2 Cu 0 0.5 0.5\nCu3 Cu 0.5 0 0.5\nCu4 Cu 0.5 0.5 0\n",
+    "response": {
+      "model": "MACE-MH-1",
+      "mace_version": "0.3.16",
+      "head": "omat_pbe",
+      "formula": "Cu",
+      "atoms": 4,
+      "energy_eV": -14.968823197612457,
+      "forces_eV_per_angstrom": [
+        [
+          -0.12711822882021234,
+          -1.5319776697220178e-16,
+          -2.5825695748604716e-16
+        ],
+        [
+          -0.0010442314140962357,
+          1.1888746284546582e-16,
+          -2.2238341810393303e-16
+        ],
+        [
+          0.06408123013701379,
+          -8.281271718715844e-17,
+          -8.569262920782306e-17
+        ],
+        [
+          0.06408123009729474,
+          1.1145598333150986e-16,
+          5.477389375396768e-16
+        ]
+      ],
+      "device": "cpu",
+      "dtype": "float64",
+      "dispersion_correction": false,
+      "license": "ASL; academic/noncommercial terms",
+      "note": "Learned periodic energy and forces. Validate target-domain accuracy; do not combine energies from different heads or reference theories."
+    }
+  },
+  {
+    "dx_A": -0.0001,
+    "cif": "data_Cu_fcc_pilot\n_cell_length_a 3.61\n_cell_length_b 3.61\n_cell_length_c 3.61\n_cell_angle_alpha 90\n_cell_angle_beta 90\n_cell_angle_gamma 90\n_symmetry_space_group_name_H-M 'P 1'\nloop_\n_atom_site_label\n_atom_site_type_symbol\n_atom_site_fract_x\n_atom_site_fract_y\n_atom_site_fract_z\nCu1 Cu 0.0049722991689750695 0 0\nCu2 Cu 0 0.5 0.5\nCu3 Cu 0.5 0 0.5\nCu4 Cu 0.5 0.5 0\n",
+    "response": {
+      "model": "MACE-MH-1",
+      "mace_version": "0.3.16",
+      "head": "omat_pbe",
+      "formula": "Cu",
+      "atoms": 4,
+      "energy_eV": -14.968835874201247,
+      "forces_eV_per_angstrom": [
+        [
+          -0.12641354814474218,
+          3.4271630672266795e-16,
+          7.134050294954619e-17
+        ],
+        [
+          -0.0010384646075198918,
+          5.014374716378177e-17,
+          -3.378780545279514e-16
+        ],
+        [
+          0.06372600639588086,
+          -7.610779048987488e-17,
+          -3.262228811737322e-16
+        ],
+        [
+          0.06372600635638123,
+          -3.3642793412225203e-16,
+          5.9761223747401e-16
+        ]
+      ],
+      "device": "cpu",
+      "dtype": "float64",
+      "dispersion_correction": false,
+      "license": "ASL; academic/noncommercial terms",
+      "note": "Learned periodic energy and forces. Validate target-domain accuracy; do not combine energies from different heads or reference theories."
+    }
+  },
+  {
+    "dx_A": 0.0001,
+    "cif": "data_Cu_fcc_pilot\n_cell_length_a 3.61\n_cell_length_b 3.61\n_cell_length_c 3.61\n_cell_angle_alpha 90\n_cell_angle_beta 90\n_cell_angle_gamma 90\n_symmetry_space_group_name_H-M 'P 1'\nloop_\n_atom_site_label\n_atom_site_type_symbol\n_atom_site_fract_x\n_atom_site_fract_y\n_atom_site_fract_z\nCu1 Cu 0.005027700831024931 0 0\nCu2 Cu 0 0.5 0.5\nCu3 Cu 0.5 0 0.5\nCu4 Cu 0.5 0.5 0\n",
+    "response": {
+      "model": "MACE-MH-1",
+      "mace_version": "0.3.16",
+      "head": "omat_pbe",
+      "formula": "Cu",
+      "atoms": 4,
+      "energy_eV": -14.968810450555242,
+      "forces_eV_per_angstrom": [
+        [
+          -0.12782291660860612,
+          -3.599551212651875e-17,
+          -8.391724815037804e-17
+        ],
+        [
+          -0.0010499979124971794,
+          5.557546441159677e-17,
+          -2.90918547932173e-16
+        ],
+        [
+          0.06443645728052129,
+          2.0274580625478933e-17,
+          -2.082752373344654e-16
+        ],
+        [
+          0.06443645724058207,
+          -2.2768245622195593e-17,
+          5.854691731421724e-16
+        ]
+      ],
+      "device": "cpu",
+      "dtype": "float64",
+      "dispersion_correction": false,
+      "license": "ASL; academic/noncommercial terms",
+      "note": "Learned periodic energy and forces. Validate target-domain accuracy; do not combine energies from different heads or reference theories."
+    }
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "campaign": "imines_toluene_01",
+    "corrected_records": [
+      "I01_E",
+      "I01_Z",
+      "I02_E",
+      "I02_Z",
+      "I03_E",
+      "I03_Z",
+      "I04_E",
+      "I04_Z"
+    ],
+    "original_ledger": "original_execution_ledger.json"
+  },
+  {
+    "campaign": "mirror_singlepoints_01",
+    "corrected_records": [
+      "xtbopt metadata",
+      "C01_ternary_mirror metadata"
+    ],
+    "original_ledger": "original_execution_ledger.json"
+  },
+  {
+    "campaign": "ternary_toluene_01",
+    "corrected_records": [
+      "C01_I01_E_face-1_start0",
+      "C01_I01_E_face-1_start1",
+      "C01_I01_E_face+1_start0",
+      "C01_I01_E_face+1_start1",
+      "C01_I01_Z_face-1_start0",
+      "C01_I01_Z_face-1_start1",
+      "C01_I01_Z_face+1_start0",
+      "C01_I01_Z_face+1_start1"
+    ],
+    "original_ledger": "original_execution_ledger.json"
+  }
+]

@@ -5,6 +5,7 @@ The software run has no authority to promote missing physical evidence to PASS.
 from .build_inputs import OUT,dump
 from .analysis import R_KCAL,KB_EV,wilson_interval,standard_state_correction
 import math
+import json
 
 
 def main():
@@ -35,6 +36,15 @@ def main():
       ('27.7','NOT_PASSED','0/3 independent trajectory batches; branch CI precision not evaluated')]}
     for phase,items in gates.items():
         for id,status,evidence in items:records.append(dict(phase=phase,criterion=id,status=status,evidence=evidence))
+    pilot=OUT/'phase25/xtb_pilot/validation.json'
+    if pilot.exists():
+        audit=json.loads(pilot.read_text(encoding='utf8'))
+        n=audit['accepted_preliminary_minima']
+        for row in records:
+            if row['criterion']=='25.2':row.update(status='PARTIAL',evidence='Complete ternary xTB local minima include neutral/proton-transferred contact states; no DFT R/S path network or exchange-time validation')
+            if row['criterion']=='25.3':row['evidence']=f'144 MMFF starts plus 8 full 117-atom ternary starts; {n} audited preliminary xTB minima across pilot jobs; no DFT TS ensemble or correlated reference'
+            if row['criterion']=='25.4':row.update(status='PARTIAL',evidence='Isolated-imine DFT optimization and checkpointed native DFT Hessian work; xTB frequency and native rotor-cutoff audits; no accepted DFT TS/IRC or explicit-solvent PMF')
+            if row['criterion']=='25.5':row['evidence']='Energy parity verified for an exact complete-system mirror; physical rates, conversion, signed ee and kinetic mirror/achiral/uncatalyzed controls remain unestablished'
     dump(OUT/'acceptance.json',dict(overall='NOT_SCIENTIFICALLY_COMPLETE',criteria=records,
       phase25_selectivity='选择性未判定 / selectivity undetermined',phase26_mechanism='UNDETERMINED',phase27_branch_quantum_yields=None))
     T=298.15

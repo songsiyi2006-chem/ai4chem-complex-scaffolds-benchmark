@@ -14,6 +14,7 @@
 
 # Keep Phase 25-27 source and report hashes stable across checkouts.
 /PHASE25_REPORT_*.md text eol=lf
+/PHASE25_PROGRESS_*.md text eol=lf
 /PHASE26_REPORT_*.md text eol=lf
 /PHASE27_REPORT_*.md text eol=lf
 /requirements_phase25_27.txt text eol=lf

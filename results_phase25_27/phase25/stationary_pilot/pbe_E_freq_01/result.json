@@ -1,0 +1,34 @@
+{
+  "tag": "pbe_E_freq_01",
+  "stage": "freq",
+  "method": "pbe-d3bj",
+  "basis": "def2-SVP",
+  "charge": 0,
+  "multiplicity": 1,
+  "solvent": "gas_phase",
+  "temperature_K": 298.15,
+  "pressure_Pa": 101325.0,
+  "grid": [
+    75,
+    302
+  ],
+  "psi4_version": "1.11",
+  "input_sha256": "bf8e91913ea24d092d3ec7072fe207809ee979bb43b767593368316e7740dec6",
+  "threads": 3,
+  "memory_MB": 500,
+  "geometry_convergence": "gau_tight",
+  "stationary_point_validated": false,
+  "production_catalysis_usable": false,
+  "status": "FAILED",
+  "started_utc": "2026-09-10T15:14:48.605870+00:00",
+  "error": "'gbk' codec can't decode byte 0x93 in position 13962: illegal multibyte sequence",
+  "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\psi4\\driver\\schema_wrapper.py\", line 570, in run_qcschema\n    atres = qcel.models.v2.AtomicResult(**ret_data, stdout=_read_output(outfile))\n                                                           ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\psi4\\driver\\schema_wrapper.py\", line 402, in _read_output\n    output = f.read()\n             ^^^^^^^^\nUnicodeDecodeError: 'gbk' codec can't decode byte 0x93 in position 13962: illegal multibyte sequence\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\HUIWEI\\Documents\\Codex\\2026-09-10\\25-ee-phase5-phase24-1-hantzsch-3\\work\\repo\\phase25_27\\stationary_pilot.py\", line 60, in main\n    energy,wfn=psi4.frequency(args.method,molecule=molecule,return_wfn=True,dertype=1)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\psi4\\driver\\driver.py\", line 1609, in frequency\n    H, wfn = hessian(name, return_wfn=True, molecule=molecule, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\psi4\\driver\\driver.py\", line 1446, in hessian\n    plan.compute()\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\psi4\\driver\\driver_findif.py\", line 1323, in compute\n    t.compute(client=client)\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\psi4\\driver\\task_base.py\", line 189, in compute\n    self.result = qcng.compute(\n                  ^^^^^^^^^^^^^\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\qcengine\\compute.py\", line 220, in compute\n    output_data = executor.compute(input_data, config)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\qcengine\\programs\\psi4.py\", line 256, in compute\n    output_data_v1or2 = psi4.schema_wrapper.run_qcschema(\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\psi4\\driver\\schema_wrapper.py\", line 579, in run_qcschema\n    input_data[\"stdout\"] = _read_output(outfile)\n                           ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\HUIWEI\\miniconda3\\envs\\phase7\\Lib\\site-packages\\psi4\\driver\\schema_wrapper.py\", line 402, in _read_output\n    output = f.read()\n             ^^^^^^^^\nUnicodeDecodeError: 'gbk' codec can't decode byte 0x93 in position 13962: illegal multibyte sequence\n",
+  "wall_seconds": 110.68700000000081,
+  "finished_utc": "2026-09-10T15:16:39.296407+00:00",
+  "allocated_core_seconds": 332.0610000000024,
+  "files": {
+    "input.xyz": "bf8e91913ea24d092d3ec7072fe207809ee979bb43b767593368316e7740dec6",
+    "last_geometry_NOT_CONVERGED.xyz": "bf8e91913ea24d092d3ec7072fe207809ee979bb43b767593368316e7740dec6",
+    "psi4.out": "7c2b0c84afe3cd24e7d9897e374a194a59aec1f90426bc87f652133d8837b0ea"
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "plus",
+    "source": "results_phase25_27\\phase25\\xtb_pilot\\imines_toluene_01\\I02_E\\xtbhess.xyz",
+    "source_sha256": "b22777c927794e4656582c4154bb5808e6f2f92805da1998a451b443fb589ecc",
+    "sign": 1
+  },
+  {
+    "name": "minus",
+    "source": "results_phase25_27\\phase25\\xtb_pilot\\imines_toluene_01\\I02_E\\xtbhess.xyz",
+    "source_sha256": "b22777c927794e4656582c4154bb5808e6f2f92805da1998a451b443fb589ecc",
+    "sign": -1
+  }
+]

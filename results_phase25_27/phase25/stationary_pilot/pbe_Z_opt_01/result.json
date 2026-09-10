@@ -1,0 +1,36 @@
+{
+  "tag": "pbe_Z_opt_01",
+  "stage": "opt",
+  "method": "pbe-d3bj",
+  "basis": "def2-SVP",
+  "charge": 0,
+  "multiplicity": 1,
+  "solvent": "gas_phase",
+  "temperature_K": 298.15,
+  "pressure_Pa": 101325.0,
+  "grid": [
+    75,
+    302
+  ],
+  "psi4_version": "1.11",
+  "input_sha256": "b733971f439de3b3c25f743cde7af9ec1f3cc76916ff153dc7e728f83bca91a9",
+  "threads": 2,
+  "memory_MB": 500,
+  "geometry_convergence": "gau_tight",
+  "stationary_point_validated": false,
+  "production_catalysis_usable": false,
+  "status": "OPTIMIZED_FREQUENCY_PENDING",
+  "started_utc": "2026-09-10T15:41:30.076473+00:00",
+  "max_abs_gradient_hartree_per_bohr": 3.6606635333456954e-06,
+  "rms_gradient_hartree_per_bohr": 1.4975809893198772e-06,
+  "electronic_energy_hartree": -594.9051029764886,
+  "wall_seconds": 1592.2340000000004,
+  "finished_utc": "2026-09-10T16:08:02.315368+00:00",
+  "allocated_core_seconds": 3184.4680000000008,
+  "files": {
+    "gradient_hartree_per_bohr.txt": "05a2486e0fc1b1c6a9695ae3a0da410b019cc473afee3ef2d14b457362c20a01",
+    "input.xyz": "b733971f439de3b3c25f743cde7af9ec1f3cc76916ff153dc7e728f83bca91a9",
+    "optimized.xyz": "8c846d2cf021235576ce38e344a417935894a24af0c7227d4b08993dcc57e542",
+    "psi4.out": "2996d2571fadd0e29d7cc21b5de8b8d9a04739d846dc132bcdc74d15adefa4db"
+  }
+}

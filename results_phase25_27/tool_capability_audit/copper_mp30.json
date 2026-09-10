@@ -1,0 +1,135 @@
+{
+  "source_url": "https://optimade.materialsproject.org/v1/structures?filter=id%3D%22mp-30%22&page_limit=1",
+  "retrieved_utc": "2026-09-10T16:21:42.202387+00:00",
+  "cache_hit": false,
+  "data": {
+    "data": [
+      {
+        "id": "mp-30",
+        "type": "structures",
+        "attributes": {
+          "immutable_id": "645d2cb3bcd30f748b47b31f",
+          "last_modified": "2023-03-11T15:47:52.005000",
+          "elements": [
+            "Cu"
+          ],
+          "nelements": 1,
+          "elements_ratios": [
+            1
+          ],
+          "chemical_formula_descriptive": "Cu",
+          "chemical_formula_reduced": "Cu",
+          "chemical_formula_hill": "Cu",
+          "chemical_formula_anonymous": "A",
+          "dimension_types": [
+            1,
+            1,
+            1
+          ],
+          "nperiodic_dimensions": 3,
+          "lattice_vectors": [
+            [
+              2.19071987,
+              0,
+              1.26481248
+            ],
+            [
+              0.73024029,
+              2.06543106,
+              1.26481248
+            ],
+            [
+              0,
+              0,
+              2.52962495
+            ]
+          ],
+          "space_group_symmetry_operations_xyz": null,
+          "space_group_symbol_hall": null,
+          "space_group_symbol_hermann_mauguin": null,
+          "space_group_symbol_hermann_mauguin_extended": null,
+          "space_group_it_number": null,
+          "cartesian_site_positions": [
+            [
+              0,
+              0,
+              0
+            ]
+          ],
+          "nsites": 1,
+          "species": [
+            {
+              "name": "Cu",
+              "chemical_symbols": [
+                "Cu"
+              ],
+              "concentration": [
+                1
+              ],
+              "mass": null,
+              "original_name": null,
+              "attached": null,
+              "nattached": null
+            }
+          ],
+          "species_at_sites": [
+            "Cu"
+          ],
+          "assemblies": null,
+          "structure_features": [],
+          "_mp_chemical_system": "Cu",
+          "_mp_stability": {
+            "r2scan": {
+              "thermo_id": "mp-30_R2SCAN",
+              "energy_above_hull": 0,
+              "formation_energy_per_atom": 0,
+              "last_updated_thermo": "2023-04-27T01:10:32.178000"
+            },
+            "gga_gga+u_r2scan": {
+              "thermo_id": "mp-30_GGA_GGA+U_R2SCAN",
+              "energy_above_hull": 0,
+              "formation_energy_per_atom": 0,
+              "last_updated_thermo": "2023-04-27T01:10:32.280000"
+            },
+            "gga_gga+u": {
+              "thermo_id": "mp-30_GGA_GGA+U",
+              "energy_above_hull": 0,
+              "formation_energy_per_atom": 0,
+              "last_updated_thermo": "2023-04-27T01:10:32.419000"
+            }
+          }
+        }
+      }
+    ],
+    "meta": {
+      "query": {
+        "representation": "/structures?filter=id%3D%22mp-30%22&page_limit=1"
+      },
+      "api_version": "1.2.0",
+      "more_data_available": false,
+      "schema": "https://schemas.optimade.org/openapi/v1.2.0/optimade.json",
+      "time_stamp": "2026-09-10T16:21:42.484707",
+      "data_returned": 1,
+      "provider": {
+        "name": "Materials Project - OPTIMADE",
+        "description": "The Materials Project OPTIMADE endpoint",
+        "prefix": "mp",
+        "homepage": "https://materialsproject.org/"
+      },
+      "data_available": 154387,
+      "implementation": {
+        "name": "OPTIMADE Python Tools",
+        "version": "1.5.0",
+        "source_url": "https://github.com/Materials-Consortia/optimade-python-tools",
+        "maintainer": {
+          "email": "dev@optimade.org"
+        },
+        "issue_tracker": "https://github.com/Materials-Consortia/optimade-python-tools/issues"
+      }
+    },
+    "included": [],
+    "links": {
+      "next": null
+    }
+  }
+}

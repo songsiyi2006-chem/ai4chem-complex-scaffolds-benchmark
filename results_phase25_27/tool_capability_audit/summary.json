@@ -1,0 +1,58 @@
+{
+  "timestamp_utc": "2026-09-10T16:25:07.663924+00:00",
+  "local_dataset_entries": 15,
+  "pubchem_CID": 87116,
+  "donor_connectivity_matches": true,
+  "Cu_database_id": "mp-30",
+  "Cu_space_group": "Fm-3m",
+  "symmetry_tolerance_A": 0.01,
+  "copper_model_energy_eV": -14.96997026524796,
+  "copper_model_atoms": 4,
+  "Cu_force_error_eV_A": 1.2019927830841937e-09,
+  "model_tests": "One fixed-cell bulk configuration and one displaced configuration, finite-difference h=1e-4 Angstrom; not DFT accuracy validation.",
+  "basis_elements": [
+    "1",
+    "6",
+    "7",
+    "17",
+    "28"
+  ],
+  "models": [
+    {
+      "name": "mace-mh-1.model",
+      "bytes": 59208139,
+      "sha256": "a522eb7f59c7879963d41586528f4980baf33e086c94aa92e3eafdeccad3be47",
+      "license": "ASL; academic/noncommercial terms, not OSI open source",
+      "source": "https://github.com/ACEsuit/mace-foundations/releases/download/mace_mh_1/mace-mh-1.model",
+      "target_test_this_audit": "Cu energy/force consistency"
+    },
+    {
+      "name": "MACE-POLAR-1-S.model",
+      "bytes": 33375439,
+      "sha256": "e4495612037b3b3312633182882a38a694ecac9ea0be2b9889ac0b2a84a99510",
+      "license": "ASL; academic/noncommercial terms, not OSI open source",
+      "source": "https://github.com/ACEsuit/mace-foundations/releases/download/mace_polar_1/MACE-POLAR-1-S.model",
+      "target_test_this_audit": "file integrity only; no target-domain validation"
+    },
+    {
+      "name": "MACE-OFF23_small.model",
+      "bytes": 7347350,
+      "sha256": "165cce4cfec5a34b9c64d4ebf95de15d71106bb584b7291c8470f0749977c46f",
+      "license": "ASL; academic/noncommercial terms",
+      "source": "https://github.com/ACEsuit/mace-off",
+      "target_test_this_audit": "file integrity only; no target-domain validation"
+    },
+    {
+      "name": "orbmol-v2-teqabfhg-20260523.ckpt",
+      "bytes": 103552643,
+      "sha256": "3dbef70b5fdc9124392181b0d8686c79f1c02bf5fefcb878a4eaa51d03e4f5e8",
+      "license": "Apache-2.0 according to official orb-models README",
+      "source": "https://orbitalmaterials-public-models.s3.us-west-1.amazonaws.com/forcefields/orbmol-v2-teqabfhg-20260523.ckpt",
+      "target_test_this_audit": "file integrity only; no target-domain validation"
+    }
+  ],
+  "ord_rows_parsed": 750,
+  "production_acceptance_changed": false,
+  "constant_potential_engine_newly_available": false,
+  "multireference_SOC_NAC_engine_newly_available": false
+}

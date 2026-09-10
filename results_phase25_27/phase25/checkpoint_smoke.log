@@ -1,0 +1,6 @@
+
+  Memory set to 286.102 MiB by Python driver.
+  Threads set to 1 by Python driver.
+Native Hessian atomic job 1 computed 6.2
+Native Hessian atomic job 2 cached 0.0
+PASS native gradient computation, identical replay, corrupt-checkpoint rejection

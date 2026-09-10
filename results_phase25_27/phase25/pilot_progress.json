@@ -1,0 +1,207 @@
+{
+  "snapshot_utc": "2026-09-10T16:10:28.987426+00:00",
+  "xTB_audited_jobs": 33,
+  "xTB_accepted_preliminary_minima": 25,
+  "E_Z_comparisons": [
+    {
+      "substrate": "I01",
+      "solvation": "ALPB(toluene)",
+      "E_source": "imines_toluene_01/I01_E",
+      "Z_source": "imines_toluene_01/I01_Z",
+      "Z_minus_E_energy_including_ALPB_kcal_mol": 0.2425717057406202,
+      "Z_minus_E_local_minimum_G_cutoff50_kcal_mol": 0.1348105240906344,
+      "Z_minus_E_local_minimum_G_cutoff100_kcal_mol": 0.19772388663657178,
+      "interpretation": "GFN2-xTB single-local-minimum E/Z difference; not activation energy, conformer ensemble, reaction ee, or validated experimental prediction",
+      "standard_state_note": "Equal-composition 1-to-1 comparison: common standard-state shifts cancel. Absolute solution G not certified.",
+      "statistical_uncertainty": null
+    },
+    {
+      "substrate": "I02",
+      "solvation": "ALPB(toluene)",
+      "E_source": "imine_repair_01/I02_E_minus",
+      "Z_source": "imines_toluene_01/I02_Z",
+      "Z_minus_E_energy_including_ALPB_kcal_mol": 0.3662726370665677,
+      "Z_minus_E_local_minimum_G_cutoff50_kcal_mol": 0.3862952056042997,
+      "Z_minus_E_local_minimum_G_cutoff100_kcal_mol": 0.47470810275165937,
+      "interpretation": "GFN2-xTB single-local-minimum E/Z difference; not activation energy, conformer ensemble, reaction ee, or validated experimental prediction",
+      "standard_state_note": "Equal-composition 1-to-1 comparison: common standard-state shifts cancel. Absolute solution G not certified.",
+      "statistical_uncertainty": null
+    },
+    {
+      "substrate": "I03",
+      "solvation": "ALPB(toluene)",
+      "E_source": "imines_toluene_01/I03_E",
+      "Z_source": "imines_toluene_01/I03_Z",
+      "Z_minus_E_energy_including_ALPB_kcal_mol": -1.4194837426500673,
+      "Z_minus_E_local_minimum_G_cutoff50_kcal_mol": -0.7609094792189814,
+      "Z_minus_E_local_minimum_G_cutoff100_kcal_mol": -0.8570315956917118,
+      "interpretation": "GFN2-xTB single-local-minimum E/Z difference; not activation energy, conformer ensemble, reaction ee, or validated experimental prediction",
+      "standard_state_note": "Equal-composition 1-to-1 comparison: common standard-state shifts cancel. Absolute solution G not certified.",
+      "statistical_uncertainty": null
+    },
+    {
+      "substrate": "I04",
+      "solvation": "ALPB(toluene)",
+      "E_source": "imines_toluene_01/I04_E",
+      "Z_source": "imines_toluene_01/I04_Z",
+      "Z_minus_E_energy_including_ALPB_kcal_mol": 0.39958534609624113,
+      "Z_minus_E_local_minimum_G_cutoff50_kcal_mol": 0.49256308852168723,
+      "Z_minus_E_local_minimum_G_cutoff100_kcal_mol": 0.4414408254038645,
+      "interpretation": "GFN2-xTB single-local-minimum E/Z difference; not activation energy, conformer ensemble, reaction ee, or validated experimental prediction",
+      "standard_state_note": "Equal-composition 1-to-1 comparison: common standard-state shifts cancel. Absolute solution G not certified.",
+      "statistical_uncertainty": null
+    },
+    {
+      "substrate": "I01",
+      "solvation": "ALPB(ch2cl2)",
+      "E_source": "imines_dcm_01/I01_E",
+      "Z_source": "imines_dcm_01/I01_Z",
+      "Z_minus_E_energy_including_ALPB_kcal_mol": 0.31546071817177296,
+      "Z_minus_E_local_minimum_G_cutoff50_kcal_mol": 0.2851331658378447,
+      "Z_minus_E_local_minimum_G_cutoff100_kcal_mol": 0.35461689519738293,
+      "interpretation": "GFN2-xTB single-local-minimum E/Z difference; not activation energy, conformer ensemble, reaction ee, or validated experimental prediction",
+      "standard_state_note": "Equal-composition 1-to-1 comparison: common standard-state shifts cancel. Absolute solution G not certified.",
+      "statistical_uncertainty": null
+    },
+    {
+      "substrate": "I02",
+      "solvation": "ALPB(ch2cl2)",
+      "E_source": "imine_dcm_repair_01/I02_E_dcm_minus",
+      "Z_source": "imines_dcm_01/I02_Z",
+      "Z_minus_E_energy_including_ALPB_kcal_mol": 0.47096565820634034,
+      "Z_minus_E_local_minimum_G_cutoff50_kcal_mol": 0.3859830183811714,
+      "Z_minus_E_local_minimum_G_cutoff100_kcal_mol": 0.41262257015194287,
+      "interpretation": "GFN2-xTB single-local-minimum E/Z difference; not activation energy, conformer ensemble, reaction ee, or validated experimental prediction",
+      "standard_state_note": "Equal-composition 1-to-1 comparison: common standard-state shifts cancel. Absolute solution G not certified.",
+      "statistical_uncertainty": null
+    },
+    {
+      "substrate": "I03",
+      "solvation": "ALPB(ch2cl2)",
+      "E_source": "imines_dcm_01/I03_E",
+      "Z_source": "imines_dcm_01/I03_Z",
+      "Z_minus_E_energy_including_ALPB_kcal_mol": -1.0814983535342177,
+      "Z_minus_E_local_minimum_G_cutoff50_kcal_mol": -0.466047304838434,
+      "Z_minus_E_local_minimum_G_cutoff100_kcal_mol": -0.5747777727630563,
+      "interpretation": "GFN2-xTB single-local-minimum E/Z difference; not activation energy, conformer ensemble, reaction ee, or validated experimental prediction",
+      "standard_state_note": "Equal-composition 1-to-1 comparison: common standard-state shifts cancel. Absolute solution G not certified.",
+      "statistical_uncertainty": null
+    },
+    {
+      "substrate": "I04",
+      "solvation": "ALPB(ch2cl2)",
+      "E_source": "imines_dcm_01/I04_E",
+      "Z_source": "imines_dcm_01/I04_Z",
+      "Z_minus_E_energy_including_ALPB_kcal_mol": 0.5033613223780494,
+      "Z_minus_E_local_minimum_G_cutoff50_kcal_mol": 0.428411010355651,
+      "Z_minus_E_local_minimum_G_cutoff100_kcal_mol": 0.409960260183407,
+      "interpretation": "GFN2-xTB single-local-minimum E/Z difference; not activation energy, conformer ensemble, reaction ee, or validated experimental prediction",
+      "standard_state_note": "Equal-composition 1-to-1 comparison: common standard-state shifts cancel. Absolute solution G not certified.",
+      "statistical_uncertainty": null
+    }
+  ],
+  "DFT_jobs": [
+    {
+      "tag": "pbe_E_freq_01",
+      "method": "pbe-d3bj",
+      "stage": "freq",
+      "status": "FAILED",
+      "electronic_energy_hartree": null,
+      "wall_seconds": 110.68700000000081,
+      "max_abs_gradient_hartree_per_bohr": null,
+      "rms_gradient_hartree_per_bohr": null
+    },
+    {
+      "tag": "pbe_E_freq_02",
+      "method": "pbe-d3bj",
+      "stage": "freq",
+      "status": "STARTED",
+      "electronic_energy_hartree": null,
+      "wall_seconds": null,
+      "max_abs_gradient_hartree_per_bohr": null,
+      "rms_gradient_hartree_per_bohr": null
+    },
+    {
+      "tag": "pbe_E_opt_01",
+      "method": "pbe-d3bj",
+      "stage": "opt",
+      "status": "OPTIMIZED_FREQUENCY_PENDING",
+      "electronic_energy_hartree": -594.9092686790914,
+      "wall_seconds": 1185.719,
+      "max_abs_gradient_hartree_per_bohr": 4.534453827511508e-06,
+      "rms_gradient_hartree_per_bohr": 1.4068627010148391e-06,
+      "optimized_aryl_C_N_aryl_dihedral_deg": 175.6419869917422,
+      "final_E_Z_geometry": "E"
+    },
+    {
+      "tag": "pbe_Z_opt_01",
+      "method": "pbe-d3bj",
+      "stage": "opt",
+      "status": "OPTIMIZED_FREQUENCY_PENDING",
+      "electronic_energy_hartree": -594.9051029764886,
+      "wall_seconds": 1592.2340000000004,
+      "max_abs_gradient_hartree_per_bohr": 3.6606635333456954e-06,
+      "rms_gradient_hartree_per_bohr": 1.4975809893198772e-06,
+      "optimized_aryl_C_N_aryl_dihedral_deg": -8.832493096740642,
+      "final_E_Z_geometry": "Z"
+    }
+  ],
+  "xTB_costs": [
+    {
+      "campaign": "components_toluene_01",
+      "completed_jobs": 2,
+      "pending_jobs": 0,
+      "finished_allocated_core_seconds": 56.843668500000604
+    },
+    {
+      "campaign": "imine_dcm_repair_01",
+      "completed_jobs": 2,
+      "pending_jobs": 0,
+      "finished_allocated_core_seconds": 11.167813700000806
+    },
+    {
+      "campaign": "imine_repair_01",
+      "completed_jobs": 2,
+      "pending_jobs": 0,
+      "finished_allocated_core_seconds": 13.04161749999912
+    },
+    {
+      "campaign": "imines_dcm_01",
+      "completed_jobs": 8,
+      "pending_jobs": 0,
+      "finished_allocated_core_seconds": 61.1230515999996
+    },
+    {
+      "campaign": "imines_toluene_01",
+      "completed_jobs": 8,
+      "pending_jobs": 0,
+      "finished_allocated_core_seconds": 57.256676799998786
+    },
+    {
+      "campaign": "mirror_singlepoints_01",
+      "completed_jobs": 2,
+      "pending_jobs": 0,
+      "finished_allocated_core_seconds": 1.8808703000004243
+    },
+    {
+      "campaign": "mirror_toluene_01",
+      "completed_jobs": 1,
+      "pending_jobs": 0,
+      "finished_allocated_core_seconds": 1.911736799999744
+    },
+    {
+      "campaign": "ternary_toluene_01",
+      "completed_jobs": 8,
+      "pending_jobs": 0,
+      "finished_allocated_core_seconds": 4115.697050399998
+    }
+  ],
+  "full_ternary_starts": 8,
+  "atoms_per_ternary": 117,
+  "scientific_acceptance": "NOT_PASSED",
+  "signed_ee": null,
+  "absolute_product": "selectivity_undetermined",
+  "complete_catalytic_R_S_paths": 0,
+  "explicit_solvent_free_energy_repeats": 0,
+  "caveat": "No reduction of model discrepancy to a statistical confidence interval. Search hits are not physical degeneracies."
+}
