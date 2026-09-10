@@ -1,3 +1,5 @@
+> **Phase 18–19 audit / 审计更正 (2026-09-10):** Phase 18 fully recalculated; Phase 19 isolated QM scans recalculated only, NOT full enzyme evolution. Phase 18 已全流程重算；Phase 19 仅重算孤立片段，不支持历史催化速率或五代进化结论。 [Fixes, current results and limitations / 修复、重算结果与限制](PHASE18_19_AUDIT_FIXES.md).
+
 > **Phase 1–5 audit correction / 审计更正：** Related historical numerical claims below are not post-fix validated results. Code defects have been corrected, but full scientific calculations have not been rerun. 相关历史数值未完成修复后重算，不应作为已验证结论。 See [audit, limitations and rerun instructions](PHASE1_5_AUDIT_FIXES.md).
 
 > **Phase 6–10 audit correction / 审计更正：** Six targeted code defects corrected; 7 new regression tests pass. Historical figures, cached results, robot protocols and trained policies have not been regenerated or revalidated. 六项代码问题已修复，历史结果尚未重算；真实设备使用前仍须验证。 See [fixes and validation scope](PHASE6_10_AUDIT_FIXES.md).

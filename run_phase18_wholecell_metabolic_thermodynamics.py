@@ -2212,8 +2212,8 @@ def solve_lp(model, parsimony=False, mu_min=None):
     lbv = model["lbv"].copy()
     ubv = model["ubv"].copy()
     if model["nZ"]:
-        lbv[model["nR"] + model["nD"]:] = 0.0
-        ubv[model["nR"] + model["nD"]:] = 1.0
+        lbv[model["zoff"]:model["doff"]] = 0.0
+        ubv[model["zoff"]:model["doff"]] = 1.0
     cons = [LinearConstraint(model["A_eq"], 0.0, 0.0),
             LinearConstraint(model["A_ub"], -np.inf, model["b_ub"])]
     if mu_min is not None:
@@ -2252,14 +2252,16 @@ def solve_tfba(net, g, time_limit=600.0, mip_gap=2e-3, u_glc=None):
         global EPS_T
         old = EPS_T
         EPS_T = 0.02
-        model = prep_model(net, g)
+        model = prep_model(net, g, u_glc=u_glc)
         cons = [LinearConstraint(model["A_eq"], 0.0, 0.0),
                 LinearConstraint(model["A_ub"], -np.inf, model["b_ub"])]
         res = milp(c=model["c"], constraints=cons, integrality=model["integ"],
                    bounds=Bounds(model["lbv"], model["ubv"]),
                    options=dict(presolve=True, time_limit=time_limit,
                                 mip_rel_gap=1e-2, disp=False))
+        effective_eps = EPS_T
         EPS_T = old
+        model["effective_eps"] = effective_eps
         ok = res.success or (res.x is not None and res.status == 1)
     if not ok:
         log("  MILP still failing - falling back to iterative loop-cut LP")
@@ -2288,8 +2290,9 @@ def extract(net, g, x, model, mu, mu_relax, method="MILP-HiGHS"):
                 dG[j] += cc * delta[model["unknown_mets"].index(m)]
     # thermodynamic sign consistency of the solution
     act = v > 1e-6
-    worst = float(np.max(dG[act])) if act.any() else float("nan")
-    viol = int(np.sum(act & (dG > -EPS_T + 1e-3)))
+    gated = act & np.array([r["kind"] in ("enz", "transport") for r in net.rxns])
+    worst = float(np.max(dG[gated])) if gated.any() else float("nan")
+    viol = int(np.sum(gated & (dG > -model.get("effective_eps", EPS_T) + 1e-3)))
     # ---- zero-loop certificate LP ----
     cert = zero_loop_certificate(net, model, v, dG)
     # parent-level net fluxes
@@ -2504,7 +2507,7 @@ def dyn_rhs(t, y, P):
     dy[PIDX["glc_x"]] = -v_pts * X
     dy[PIDX["g6p"]] = v_pts + v_glg - v_pfk - v_gsg - v_ppp
     dy[PIDX["f6p"]] = 0.0
-    dy[PIDX["fdp"]] = v_pfk - 2 * v_fba
+    dy[PIDX["fdp"]] = v_pfk - v_fba  # one C6 FBP yields two C3 trioses
     dy[PIDX["g3p"]] = 2 * v_fba + v_ppp - v_gap
     dy[PIDX["3pg"]] = v_gap - v_pgk
     dy[PIDX["pep"]] = v_pgk + v_pps - v_pts - v_pyk
@@ -2517,7 +2520,7 @@ def dyn_rhs(t, y, P):
     dy[PIDX["mal"]] = v_sucdh - v_mdh
     dy[PIDX["atp"]] = (v_pgk + v_pyk + v_atps + v_ack - v_pfk - v_pps -
                        v_gsg - v_acs - atp_load - va + vb)
-    dy[PIDX["adp"]] = (v_pfk + atp_load - v_pgk - v_pyk - v_atps - v_ack +
+    dy[PIDX["adp"]] = (v_pfk + v_gsg + atp_load - v_pgk - v_pyk - v_atps - v_ack +
                        2 * va - 2 * vb)
     dy[PIDX["amp"]] = v_pps + v_acs - va + vb
     dy[PIDX["nadh"]] = v_gap + v_pdh + v_akgdh + v_mdh - v_ndh - v_ldh
@@ -2526,7 +2529,8 @@ def dyn_rhs(t, y, P):
     dy[PIDX["nadp"]] = v_gpx + v_asim - 2 * v_ppp - v_idh
     dy[PIDX["qh2"]] = v_ndh + v_sucdh - v_bo3
     dy[PIDX["q"]] = v_bo3 - v_ndh - v_sucdh
-    dy[PIDX["coa"]] = v_cs + v_ack - v_pdh - v_acs - v_akgdh
+    # AKGDH+succinyl-CoA conversion is lumped into succinate: CoA returns.
+    dy[PIDX["coa"]] = v_cs + v_ack - v_pdh - v_acs
     dy[PIDX["glu"]] = 0.0
     dy[PIDX["gln"]] = 0.0
     dy[PIDX["aa"]] = v_asim - Y_AA * mu_of(y, P) * X
@@ -2962,7 +2966,7 @@ def fig2_thermo(net, g, tfba, cur):
         if j is None:
             continue
         idx.append(j); labs.append(rid)
-        dstar.append(dG_nodelta(j)); flux.append(v[j])
+        dstar.append(dG[j]); flux.append(v[j])
     x = np.arange(len(labs))
     cols = ["#c0392b" if f > 0.02 else "#95a5a6" for f in flux]
     ax.bar(x, dstar, color=cols, alpha=0.9)
@@ -2976,15 +2980,16 @@ def fig2_thermo(net, g, tfba, cur):
     ax.set_xticks(x); ax.set_xticklabels(labs, rotation=45, ha="right",
                                          fontsize=8)
     ax.set_ylabel("Δ$_r$G′ at solution (kJ/mol)")
-    ax.set_title("B   TCA + respiratory chain: downhill ladder\n"
-                 "(bar value = Δ$_r$G′; grey = zero flux; "
+    ax.set_title("B   TCA + respiratory chain: solved driving forces\n"
+                 "(δ-gauge included; grey = flux ≤ 0.02; "
                  "numbers = |v|)")
     # ---- C: no-loop wedge ----
     ax = axs[1, 0]
-    act = tfba["active"]
+    act = np.asarray(tfba["active"], dtype=bool) & np.array([
+        r["kind"] in ("enz", "transport") for r in net.rxns])
     idxs = np.where(act)[0]
     dga = dG[idxs]
-    strict = dga <= -EPS_T
+    strict = dga <= -EPS_T + 1e-3
     xs = np.clip(dga, -400, 400)
     ys = np.clip(v[idxs], 1e-4, None)
     colr = [PALETTE.get(net.rxns[j]["sub"], "#555") if s else "#b8b8b8"
@@ -3009,9 +3014,8 @@ def fig2_thermo(net, g, tfba, cur):
         except Exception:
             _loop = 0.0
     ax.set_title("C   Zero-loop certificate (loop flux = "
-                 f"{_loop:.1e}): {n_strict}/{n_all} active fluxes strictly "
-                 "downhill;\ngrey points sit inside the declared "
-                 "±2 MJ/mol δ-gauge envelope")
+                 f"{_loop:.1e}): {n_strict}/{n_all} gated active fluxes "
+                 "downhill;\n1e-3 kJ/mol tolerance; boundary fluxes excluded")
     # ---- D: solved concentration vector ----
     ax = axs[1, 1]
     d = tfba["d"]
@@ -3071,7 +3075,7 @@ def fig3_dynamics(dyn):
     fig.subplots_adjust(hspace=0.26, wspace=0.2, left=0.055, right=0.97,
                         top=0.92, bottom=0.06)
     t_exh = (dyn or {}).get("t_glc_exhaustion_s", 4831.0)
-    for ax in axs.ravel():
+    for ax in axs.ravel()[:3]:  # only these panels have time on the x axis
         ax.axvline(t_exh / 3600, color="#e67e22", ls="--", lw=1.1)
         ax.axvline(T_STRESS / 3600, color="#c0392b", ls="--", lw=1.1)
     # ---- A: flux rewiring stack ----
@@ -3156,8 +3160,8 @@ def fig3_dynamics(dyn):
     cb = fig.colorbar(sc, ax=ax, pad=0.015)
     cb.set_label("μ (h$^{-1}$)", fontsize=8)
     fig.suptitle("Phase 18 — dynamic metabolic rewiring: growth → survival → "
-                 "recovery (glucose exhaustion @ 0.5 h, H$_2$O$_2$ pulse "
-                 "@ 1.5 h)", fontsize=14.5, fontweight="bold", y=0.975)
+                 f"recovery (glucose exhaustion @ {t_exh/3600:.2f} h, H$_2$O$_2$ pulse "
+                 f"@ {T_STRESS/3600:.2f} h)", fontsize=14.5, fontweight="bold", y=0.975)
     fig.savefig(FIG / "fig3_dynamic_metabolic_rewiring.png", dpi=300)
     plt.close(fig)
 
@@ -3198,6 +3202,11 @@ def main():
                          "U_GLC": U_GLC, "U_O2": U_O2, "GAM": GAM,
                          "NGAM": NGAM}}
     net = build_all()
+    previous_path = RES / 'phase18_results.json'
+    if args.stage != 'all' and previous_path.exists():
+        previous = json.loads(previous_path.read_text(encoding='utf-8'))
+        previous.update(record)
+        record = previous  # stage reruns must not erase other validated sections
     record["network"] = net.summary
     if args.stage in ("all", "curate", "tfba", "sweep", "dynamics",
                       "figures") and not (RES / "phase18_network.npz").exists():

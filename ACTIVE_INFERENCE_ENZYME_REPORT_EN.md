@@ -1,3 +1,5 @@
+> **Phase 18–19 audit / 审计更正 (2026-09-10):** Phase 18 fully recalculated; Phase 19 isolated QM scans recalculated only, NOT full enzyme evolution. Phase 18 已全流程重算；Phase 19 仅重算孤立片段，不支持历史催化速率或五代进化结论。 [Fixes, current results and limitations / 修复、重算结果与限制](PHASE18_19_AUDIT_FIXES.md).
+
 # Phase 19 — Active Inference Directed De Novo Enzyme Evolution & Equivariant Flows
 
 **The Kemp Eliminase Engine: Cognitive AI Theory Meets Ab Initio Biocatalysis**

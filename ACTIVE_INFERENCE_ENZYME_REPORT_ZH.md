@@ -1,3 +1,5 @@
+> **Phase 18–19 audit / 审计更正 (2026-09-10):** Phase 18 fully recalculated; Phase 19 isolated QM scans recalculated only, NOT full enzyme evolution. Phase 18 已全流程重算；Phase 19 仅重算孤立片段，不支持历史催化速率或五代进化结论。 [Fixes, current results and limitations / 修复、重算结果与限制](PHASE18_19_AUDIT_FIXES.md).
+
 # 第十九阶段 — 主动推理驱动的从头酶进化与等变流生成
 
 **Kemp 消除酶引擎：认知 AI 理论与从头生物催化的合流**

@@ -305,7 +305,7 @@ class Theozyme:
                     and self._in_fused_ring(j)]
         cen, _, ez = _pca_frame(pos[ring_idx])
         zhat = ez if np.linalg.norm(ez) > 0.9 else np.array([0, 0, 1.0])
-        zhat = zhat - zhat * (zhat @ xhat)
+        zhat = zhat - xhat * (zhat @ xhat)
         zhat /= np.linalg.norm(zhat)
         yhat = np.cross(zhat, xhat)
         if yhat @ (pos[self.i_O7] - self.c3) < 0:
@@ -403,7 +403,7 @@ class Theozyme:
         #          emerges automatically from the N-cap geometry)
         fused_o7 = pos[6]           # fused carbon bonded to O7
         v0 = o7 - fused_o7
-        v0 = v0 - v0 * (v0 @ self.zhat)
+        v0 = v0 - self.zhat * (v0 @ self.zhat)
         v0 /= np.linalg.norm(v0)
         v1 = rotate_about(-v0, self.zhat, math.radians(56.0 + self.dev_don))
         v2 = rotate_about(-v0, self.zhat, -math.radians(50.0 + self.dev_don))
@@ -2924,9 +2924,11 @@ class XtbMMCalculator:
             xyz.write_text(nl.join(lines) + nl)
             extra = ["--alpb", self.solvent] if self.solvent else []
             cmd = [XTB_EXE, "m.xyz", "--gfn", "2", "--chrg", str(self.charge),
-                   "--mult", "1", "--grad"] + extra
+                   "--uhf", "0", "--grad"] + extra
             proc = subprocess.run(cmd, cwd=td, capture_output=True,
-                                  text=True, timeout=300)
+                                  text=True, encoding='utf-8', errors='replace', timeout=300)
+            if proc.returncode != 0:
+                raise RuntimeError('xTB gradient process failed: '+proc.stderr[-300:])
             gtxt = (Path(td) / "gradient").read_text()
             m = re.search(r"SCF energy =\s*(-?[\d.EeD+]+)", gtxt)
             if m is None:
@@ -2943,6 +2945,12 @@ class XtbMMCalculator:
                     except ValueError:
                         continue
             g_eh_bohr = np.array(gvals[:3 * len(self.numbers)]).reshape(-1, 3)
+            self.last_qm_charges = np.loadtxt(Path(td)/'charges').reshape(-1)
+            if (g_eh_bohr.shape != pos.shape or not np.isfinite(g_eh_bohr).all()
+                    or not np.isfinite(e_eh)
+                    or len(self.last_qm_charges) != len(self.numbers)
+                    or not np.isfinite(self.last_qm_charges).all()):
+                raise RuntimeError('Invalid xTB energy, gradient or atomic charges')
         g_kcal = g_eh_bohr * (627.5094740631 / 0.52917721092)
         e_qm = e_eh * 627.5094740631
         e_emb, g_emb = self._embedding(pos)
@@ -2997,8 +3005,8 @@ def fire_optimize(calc, pos0, constraint=None, max_steps=220, fmax=0.6,
     return pos, e_last
 
 
-def _xtb_constrained_opt(numbers, pos0, i, j, target, charge, solvent=None,
-                         maxcyc=150):
+def _xtb_native_constrained_opt(numbers, pos0, i, j, target, charge, solvent=None,
+                         maxcyc=150, return_charges=False):
     """Relaxed GFN2-xTB scan point: the transfer proton (atom j) is pinned
     at distance `target` from atom i along the i->j line and FIXED; all
     other atoms relax.  Returns (positions, unbiased energy_kcal)."""
@@ -3016,29 +3024,78 @@ def _xtb_constrained_opt(numbers, pos0, i, j, target, charge, solvent=None,
                          f"{p[1]:.8f} {p[2]:.8f}")
         xyz.write_text(nl.join(lines) + nl)
         (Path(td) / "xcontrol").write_text(
-            f"$fix{nl}  atoms: {j + 1}{nl}$end{nl}"
+            f"$fix{nl}  atoms: {i + 1},{j + 1}{nl}$end{nl}"
             f"$opt{nl}  maxcycle={maxcyc}{nl}$end{nl}")
         cmd = [XTB_EXE, "m.xyz", "--gfn", "2", "--chrg", str(charge),
-               "--mult", "1", "--opt", "--input", "xcontrol"]
+               "--uhf", "0", "--opt", "--input", "xcontrol"]
         if solvent:
             cmd += ["--alpb", solvent]
         proc = subprocess.run(cmd, cwd=td, capture_output=True, text=True,
+                              encoding='utf-8', errors='replace',
                               timeout=600)
         opt = Path(td) / "xtbopt.xyz"
-        if not opt.exists():
+        if proc.returncode != 0 or not opt.exists() or not (Path(td) / '.xtboptok').exists():
             raise RuntimeError("xtb constrained opt failed: "
                                + proc.stderr[-200:])
         toks = opt.read_text().splitlines()
         n = int(toks[0].split()[0])
         pos = np.array([[float(x) for x in l.split()[-3:]]
                         for l in toks[2:2 + n]])
-        m = re.search(r"total energy\s*:\s*([-\d.]+) Eh", proc.stdout)
-        e = float(m.group(1)) * 627.5094740631 if m else float("nan")
+        matches = re.findall(r"total\s+energy\s*:?\s*([-+\d.eEdD]+)\s+Eh",
+                             proc.stdout, flags=re.IGNORECASE)
+        e = float(matches[-1].replace('D','E')) * KCAL if matches else float("nan")
+        if not np.isfinite(e) or abs(np.linalg.norm(pos[i]-pos[j])-target) > 1e-4:
+            raise RuntimeError(f"Invalid constrained energy {e} or coordinate "
+                               f"{np.linalg.norm(pos[i]-pos[j])} vs {target}")
+        if return_charges:
+            charges = np.loadtxt(Path(td) / 'charges').reshape(-1)
+            if len(charges) != n or not np.isfinite(charges).all():
+                raise RuntimeError("Invalid xTB atomic charges")
+            return pos, e, charges
         return pos, e
 
 
+def _xtb_constrained_opt(numbers, pos0, i, j, target, charge, solvent=None,
+                         maxcyc=150, return_charges=False):
+    """ASE Cartesian BFGS with exact fixed endpoints; native xTB supplies gradients.
+
+    Avoid native optimizer builds that ignore $fix. Energy excludes restraints;
+    this fixed-endpoint potential scan is not a validated transition state.
+    """
+    from ase import Atoms
+    from ase.constraints import FixAtoms
+    from ase.calculators.calculator import Calculator, all_changes
+    from ase.optimize import BFGS
+    pos0 = np.asarray(pos0,float).copy()
+    axis = pos0[j]-pos0[i]
+    if np.linalg.norm(axis) < 1e-10:
+        raise ValueError('Coincident constraint endpoints')
+    pos0[j] = pos0[i] + axis/np.linalg.norm(axis)*target
+    engine = XtbMMCalculator(numbers,np.zeros(len(numbers)),np.empty((0,3)),
+                             np.empty(0),charge=charge,solvent=solvent)
+    class Adapter(Calculator):
+        implemented_properties = ['energy','forces']
+        def calculate(self, atoms=None, properties=('energy',), system_changes=all_changes):
+            super().calculate(atoms,properties,system_changes)
+            e, grad = engine.evaluate(atoms.positions)
+            self.results = {'energy': e/23.0605478306, 'forces': -grad/23.0605478306}
+    atoms = Atoms(numbers=numbers,positions=pos0)
+    atoms.set_constraint(FixAtoms(indices=[i,j])); atoms.calc = Adapter()
+    opt = BFGS(atoms,logfile=None,maxstep=.1)
+    if not opt.run(fmax=.05,steps=maxcyc):
+        raise RuntimeError(f'Fixed-endpoint BFGS not converged after {maxcyc} steps')
+    pos = atoms.positions.copy()
+    energy = float(atoms.get_potential_energy()*23.0605478306)
+    _xtb_constrained_opt.total_calls = getattr(_xtb_constrained_opt,'total_calls',0) + engine.n_calls
+    if not np.isfinite(energy) or abs(np.linalg.norm(pos[i]-pos[j])-target)>1e-6:
+        raise RuntimeError('Invalid fixed-endpoint result')
+    if return_charges:
+        return pos,energy,engine.last_qm_charges.copy()
+    return pos,energy
+
+
 def qmmm_kemp_scan(tz, enzyme, slot_idx, scan_pts, charge_qm=-1,
-                   solvent=None, tag="champ", base_water=False):
+                   solvent=None, tag="champ", base_water=False, isolated=False):
     """Constrained relaxed scan of the Kemp proton transfer in the designed
     enzyme's electrostatic field (or, with base_water=True, substrate + H2O
     in ALPB water = the uncatalyzed reference).  Returns profile, barrier,
@@ -3070,7 +3127,7 @@ def qmmm_kemp_scan(tz, enzyme, slot_idx, scan_pts, charge_qm=-1,
         e2 = np.cross(e3, e1)
         R_ace = np.column_stack([e1, e2, e3])
         base = (ace_pos - ace_pos[3]) @ R_ace.T + a
-        heavy = [j for j, sym in enumerate(ace_sym) if sym != "H"]
+        heavy = list(range(len(ace_sym)))  # complete acetate, including methyl H
         i_oe1 = None
         for j in heavy:
             qm_pos.append(base[j])
@@ -3097,61 +3154,127 @@ def qmmm_kemp_scan(tz, enzyme, slot_idx, scan_pts, charge_qm=-1,
             qm_sym.append("H")
     qm_pos = np.array(qm_pos)
     tassert(qm_pos.shape == (len(qm_sym), 3), "QM region assembly")
-    if base_water:
+    if base_water or isolated:
         mm_pos = np.zeros((0, 3))
         mm_chg = np.zeros(0)
         qm_charges = np.zeros(len(qm_sym))
     else:
         mm_pos, mm_chg, qm_charges = _amber_charges(
             enzyme, qm_sym, qm_pos,
-            skip=set(range(len(sub_sym) + 4)))   # substrate + acetate model
+            skip=set(range(len(qm_sym))))   # QM fragment charges come from xTB
     calc = XtbMMCalculator(_atomic_numbers(qm_sym), qm_charges, mm_pos,
                            mm_chg, charge=charge_qm, solvent=solvent)
+    calls_before = getattr(_xtb_constrained_opt,'total_calls',0)
     d0 = float(np.linalg.norm(qm_pos[i_oe1] - qm_pos[i_H3]))
     targets = np.linspace(min(d0, 2.75), 1.00, scan_pts)
-    # pre-relax the QM region (unconstrained) to remove construction strain
+    # Pre-relax with the same fixed endpoints to remove construction strain.
     try:
         qm_pos, _ = _xtb_constrained_opt(calc.numbers, qm_pos, i_oe1, i_H3,
                                          min(d0, 2.75), calc.charge,
                                          calc.solvent, maxcyc=250)
         d0 = float(np.linalg.norm(qm_pos[i_oe1] - qm_pos[i_H3]))
         targets = np.linspace(min(d0, 2.75), 1.00, scan_pts)
-    except Exception:
-        pass
+    except Exception as exc:
+        log(f'QM pre-relaxation failed; retrying first scan point: {exc}')
     pos = qm_pos.copy()
     profile = []
     e_ref = None
     ts_e, ts_idx = -1e18, 0
-    # constrained relaxed scan on the clean QM region (xtb's own robust
-    # optimizer with the $constrain proton-transfer coordinate), with the
+    ts_pos = pos.copy()
+    # Fixed-endpoint ASE BFGS scan on the clean QM region, with the
     # amber14SB point-charge embedding added post-hoc at each optimized
     # geometry (documented electrostatic-embedding approximation)
     for k, target in enumerate(targets):
-        pos, e_qm = _xtb_constrained_opt(calc.numbers, pos, i_oe1, i_H3,
+        pos, e_qm, q_site = _xtb_constrained_opt(calc.numbers, pos, i_oe1, i_H3,
                                          float(target), calc.charge,
-                                         calc.solvent, maxcyc=120)
+                                         calc.solvent, maxcyc=500, return_charges=True)
+        calc.qm_charges = q_site
+        calc.n_calls += 1
         e_emb, _ = calc._embedding(pos)
         e = float(e_qm + e_emb)
         if e_ref is None:
             e_ref = e
         profile.append(dict(d_OH=float(target), e=float(e),
-                            rel=float(e - e_ref)))
+                            rel=float(e - e_ref), e_embedding=float(e_emb),
+                            positions=pos.tolist(), charges=q_site.tolist()))
         if e > ts_e:
             ts_e, ts_idx = e, k
+            ts_pos = pos.copy()
     barrier = ts_e - e_ref
     i_c3, i_n8, i_o7 = tz.i_C3, tz.i_N8, tz.i_O7
-    d_ch = float(np.linalg.norm(pos[i_H3] - pos[i_c3]))
-    d_no = float(np.linalg.norm(pos[i_n8] - pos[i_o7]))
+    d_ch = float(np.linalg.norm(ts_pos[i_H3] - ts_pos[i_c3]))
+    d_no = float(np.linalg.norm(ts_pos[i_n8] - ts_pos[i_o7]))
     return dict(tag=tag,
-                profile=[dict(d_OH=p["d_OH"], rel_kcal=p["rel"])
+                profile=[dict(d_OH=p["d_OH"], rel_kcal=p["rel"],
+                              energy_kcal=p['e'],embedding_kcal=p['e_embedding'],
+                              positions_A=p['positions'],qm_charges=p['charges'])
                          for p in profile],
                 barrier_kcal=float(barrier), ts_d_OH=float(targets[ts_idx]),
                 ts_d_CH=d_ch, ts_d_NO=d_no, qm_atoms=len(qm_sym),
                 mm_atoms=len(mm_pos), qm_charge=charge_qm,
-                n_xtb_calls=calc.n_calls,
+                n_scan_points=len(profile),
+                n_xtb_calls=getattr(_xtb_constrained_opt,'total_calls',0)-calls_before,
                 engine=(f"GFN2-xTB({len(qm_sym)} QM atoms) + "
                         f"{len(mm_pos)} amber14SB charges"),
+                energy_kind="constrained potential-energy scan; not activation free energy",
+                transition_state_validated=False,
+                embedding_model="post-hoc Coulomb using geometry-specific xTB charges",
                 solvent=solvent or "gas-phase embedding")
+
+
+def rerun_qm_audit(scan_pts=5):
+    """Actual isolated-fragment recalculation; NOT a designed-enzyme rerun."""
+    from types import SimpleNamespace
+    global XTB_EXE
+    XTB_EXE = _find_xtb()
+    if not XTB_EXE:
+        raise RuntimeError('xTB required for QM audit')
+    pos, sym = _rdkit_geom(SUBSTRATE_SMILES, 0x19)
+    c3, o7, n8 = 9, 7, 8
+    h3 = min((i for i, s in enumerate(sym) if s == 'H'),
+             key=lambda i: np.linalg.norm(pos[i]-pos[c3]))
+    axis = pos[h3]-pos[c3]; axis /= np.linalg.norm(axis)
+    normal = np.cross(axis, np.array([.4,.2,.89])); normal /= np.linalg.norm(normal)
+    tz = SimpleNamespace(pos_sub=pos, sym=sym, i_C3=c3, i_H3=h3,
+                         i_O7=o7, i_N8=n8, zhat=normal, o_base=pos[h3]+2.55*axis)
+    out = {'scope': 'isolated substrate+water and substrate+acetate potential scans',
+           'full_enzyme_evolution_rerun': False, 'transition_state_validated': False,
+           'timestamp': time.strftime('%Y-%m-%d %H:%M:%S'), 'scans': {}}
+    for name, charge, water in [('water',0,True), ('acetate',-1,False)]:
+        log(f'QM audit: {name}, {scan_pts} points')
+        try:
+            out['scans'][name] = qmmm_kemp_scan(tz,None,None,scan_pts,
+                charge_qm=charge,solvent='water',tag=name,base_water=water,isolated=True)
+            out['scans'][name]['completed'] = True
+        except Exception as exc:
+            out['scans'][name] = {'completed':False,'error':str(exc)}
+        (RES/'phase19_qm_audit.json').write_text(json.dumps(out,indent=2),encoding='utf-8')
+    if not all(v['completed'] for v in out['scans'].values()):
+        raise RuntimeError('QM audit incomplete; see phase19_qm_audit.json')
+    fig_qm_audit(out)
+    return out
+
+
+def fig_qm_audit(record):
+    """Plot only the newly computed isolated-fragment data, not old designs."""
+    fig, axs = plt.subplots(1, 2, figsize=(10, 4.2))
+    for ax, (name, scan) in zip(axs, record['scans'].items()):
+        profile = scan['profile']
+        ax.plot([p['d_OH'] for p in profile],
+                [p['rel_kcal'] for p in profile], 'o-', color='black')
+        ax.invert_xaxis()
+        ax.axhline(0, color='gray', linewidth=.7)
+        ax.set_xlabel('Constrained O-H distance (angstrom)')
+        ax.set_ylabel('E - E(first point) (kcal/mol)')
+        ax.set_title(f"{name}: {scan['qm_atoms']} QM atoms, charge {scan['qm_charge']}\n"
+                     f"{scan['n_scan_points']} points; peak {scan['barrier_kcal']:.2f} kcal/mol")
+    fig.suptitle('Isolated fragments: GFN2-xTB / ALPB water', fontsize=12)
+    fig.text(.5, .02, 'No enzyme/MM environment; no validated transition state or activation free energy.',
+             ha='center', fontsize=9)
+    fig.tight_layout(rect=(0, .06, 1, .93))
+    FIG.mkdir(parents=True, exist_ok=True)
+    fig.savefig(FIG / 'fig4_qm_audit_recomputed.png', dpi=300)
+    plt.close(fig)
 
 
 def _amber_charges(enzyme, qm_sym, qm_pos, skip=None):
@@ -3664,10 +3787,10 @@ def fig3_free_energy(results):
         d = [p["d_OH"] for p in uncat["profile"]]
         rel = np.array([p["rel_kcal"] for p in uncat["profile"]])
         x = (max(d) - np.array(d)) / (max(d) - min(d))
-        offset = LIT["kemp_uncat_barrier_exp_kcal"] - uncat["barrier_kcal"]
+        offset = 0.0  # do not anchor a potential-energy scan to experimental dG
         ax.plot(x, rel + offset, "-", color="#7B241C", lw=2.0,
                 label=("uncatalyzed (substrate+H$_2$O, GFN2-xTB/ALPB, "
-                       f"anchored: raw {uncat['barrier_kcal']:.1f})"))
+                       f"raw potential barrier {uncat['barrier_kcal']:.1f})"))
     if champ:
         prof = champ.get("qmmm_profile")
     else:
@@ -3680,19 +3803,15 @@ def fig3_free_energy(results):
             x2 = (max(d) - np.array(d2)) / (max(d) - min(d))
             ax.plot(x2, rel2 + offset, "-", color="#196F3D", lw=2.4,
                     label=(f"de novo enzyme (QM/MM embedding): "
-                           f"$\\Delta G^\\ddagger$ = "
+                           f"scan peak = "
                            f"{qm['barrier_kcal']:.2f} kcal/mol"))
-            ddg = (LIT["kemp_uncat_barrier_exp_kcal"]
-                   - qm["barrier_kcal"])
-            acc = math.exp(ddg / RT_KCAL)
             ax.annotate(
-                f"$\\Delta\\Delta G^\\ddagger$ = {ddg:.1f} kcal/mol\n"
-                f"acceleration $\\approx$ {acc:.1e}×",
+                "Potential-energy scans only.\nNo validated TS or rate enhancement.",
                 xy=(0.45, 0.55), xycoords="axes fraction", fontsize=9,
                 bbox=dict(boxstyle="round", fc="#FEF9E7", ec="#B7950B"))
     ax.set_xlabel("reaction coordinate (proton transfer  $\\rightarrow$)")
-    ax.set_ylabel(r"$\Delta G$ (kcal/mol)")
-    ax.set_title("(a) Kemp elimination free-energy profile")
+    ax.set_ylabel(r"$\Delta E$ (kcal/mol)")
+    ax.set_title("(a) Constrained potential-energy profiles")
     ax.legend(fontsize=7.4, loc="upper right")
     # ---- per-generation descent ---------------------------------------------
     ax2 = fig.add_subplot(1, 2, 2)
@@ -3701,25 +3820,13 @@ def fig3_free_energy(results):
     gx = [rec["generation"] for rec in gens
           for _ in rec["measured_barriers"]]
     ax2.axhspan(0, CONFIG["BARRIER_GATE"], color="#D5F5E3", alpha=0.6)
-    ax2.axhline(LIT["kemp_uncat_barrier_exp_kcal"], color="#7B241C", ls=":",
-                lw=1.3, label="uncatalyzed 32.2 (exp.)")
     ax2.bar(gx, bars, width=0.32, color="#2471A3", alpha=0.85,
-            label="measured design barriers")
-    if bars:
-        accs = [math.exp((LIT["kemp_uncat_barrier_exp_kcal"] - b) / RT_KCAL)
-                for b in bars]
-        ax2b = ax2.twinx()
-        ax2b.plot(gx, accs, "d", color="#B7950B", ms=7)
-        ax2b.set_yscale("log")
-        ax2b.set_ylabel(r"rate acceleration $k_{cat}/k_{uncat}$",
-                        color="#B7950B")
+            label="computed potential-energy scan peaks")
     ax2.set_xlabel("evolutionary generation")
-    ax2.set_ylabel(r"$\Delta G^{\ddagger}$ (kcal/mol)")
-    ax2.set_ylim(0, 36)
-    ax2.set_title("(b) Five generations of epistemic barrier descent")
+    ax2.set_ylabel(r"$\Delta E$ (kcal/mol)")
+    ax2.set_title("(b) Per-generation scan peaks (not activation free energies)")
     ax2.legend(fontsize=7.4, loc="lower left")
-    fig.suptitle("Phase 19 — uncatalyzed vs de novo enzyme: the "
-                 "10$^{9+}$-fold gap engineered in hours", fontsize=11.5,
+    fig.suptitle("Phase 19 — constrained potential-energy scans; rates not established", fontsize=11.5,
                  y=1.0)
     fig.tight_layout(rect=(0, 0, 1, 0.97))
     out = FIG / "fig3_free_energy_profile_uncat_vs_denovo.png"
@@ -3740,13 +3847,16 @@ def main():
     ap = argparse.ArgumentParser(description="Phase 19 active-inference "
                                  "de novo enzyme engine")
     ap.add_argument("--stage", default="all",
-                    choices=["all", "evolve", "figures"])
+                    choices=["all", "evolve", "figures", "qm-audit"])
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--fig_only", action="store_true")
     args = ap.parse_args()
+    if args.stage == 'qm-audit':
+        rerun_qm_audit(5 if args.quick else CONFIG['QM_MM_SCAN_PTS'])
+        return
     t0 = time.time()
     jpath = RES / "phase19_results.json"
-    if args.fig_only:
+    if args.fig_only or args.stage == 'figures':
         results = json.loads(jpath.read_text())
     else:
         results = run_evolution(quick=args.quick)
@@ -3769,9 +3879,8 @@ def main():
         if results.get("champion"):
             ch = results["champion"]
             b = ch["barrier_kcal"]
-            acc = math.exp((LIT["kemp_uncat_barrier_exp_kcal"] - b) / RT_KCAL)
             log(f"  champion                 gen {ch['gen']}, "
-                f"DG_act = {b:.2f} kcal/mol "
+                f"potential scan peak = {b:.2f} kcal/mol "
                 f"({'PASS' if b <= CONFIG['BARRIER_GATE'] else 'MISS'} vs "
                 f"{CONFIG['BARRIER_GATE']})")
             log(f"  constellation RMSD       {ch['constellation_rmsd_A']:.3f} A"
@@ -3779,8 +3888,8 @@ def main():
             log(f"  MD RMSF (theozyme)       {ch['rmsf_A']:.2f} A "
                 f"(gate {CONFIG['RMSF_GATE']}) over "
                 f"{ch['md_ns']:.2f} ns")
-            log(f"  rate acceleration        ~{acc:.1e}x")
-            log(f"  sequence length          {len(ch['sequence'])} aa")
+            log("  rate acceleration        not established by a potential-energy scan")
+            log(f"  sequence length          {len(results['sequence'])} aa")
         log(f"  total wall clock         "
             f"{(time.time() - t0) / 60:.1f} min")
         log("=" * 72)
@@ -3788,4 +3897,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
