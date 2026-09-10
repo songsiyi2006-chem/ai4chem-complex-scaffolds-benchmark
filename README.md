@@ -17,6 +17,8 @@
 
 ## Phase 1–19 fresh reruns / 本轮重新计算（持续更新）
 
+[显性问题收尾清单 / Closeout checklist](PHASE1_19_CLOSEOUT.md)：区分已冻结阶段、已修软件缺陷、排队重算和仍未通过的科学指标；不是全阶段完成声明。
+
 修复代码与本轮独立运行的证据已分开记录，**不代表全部阶段通过**。查看 [逐阶段状态](PHASE1_19_RERUN_STATUS.md)、[公开核验证据](audit/phase1_19_rerun_20260910/README.md) 和 [命令、源码与结果哈希](audit/phase1_19_rerun_20260910/manifest.json)。其中包括失败和采样不足的结果；下方旧审计说明及历史图表不自动等于本轮结果。
 
 Current evidence distinguishes completed checks, failed convergence, insufficient sampling and pending runs. No experimental or hardware validation is implied. Large trajectories/checkpoints are not included in the selected public evidence bundle; omissions and text-path redaction are documented in its manifest.

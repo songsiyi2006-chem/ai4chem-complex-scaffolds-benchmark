@@ -262,12 +262,17 @@ class RerunTests(unittest.TestCase):
         ns = functions(4, ['stage2_neb', 'neb_fmax'], json=json, time=time,
                        ANIWrap=Warm, make_engine=lambda _: types.SimpleNamespace(name='xTB'),
                        _PerAtomCalc=lambda x: x, _log=Mock(), _warn=Mock(),
+                       # Real capture/export are covered by test_phase4_neb_diagnostic;
+                       # this isolated fixture verifies optimizer step allocation.
+                       _save_neb_force_diagnostics=Mock(), _export_neb_candidate=Mock(),
                        _images_to_xyz=lambda _: '', RESULTS={}, EV_TO_KCAL=23.06)
         args = types.SimpleNamespace(engine='auto', spring=.1, fmax=.05, max_neb_steps=500)
         with tempfile.TemporaryDirectory() as td, patch.dict(sys.modules, modules):
             self.assertTrue(ns['stage2_neb'](Path(td), args, force=True))
         self.assertEqual(len(optimizers), 3)
         optimizers[-1].run.assert_called_once_with(fmax=.05, steps=500)
+        ns['_save_neb_force_diagnostics'].assert_called_once()
+        ns['_export_neb_candidate'].assert_called_once()
         self.assertTrue(neb.climb)
 
     def test_ani_hessian_keeps_imaginary_mode_and_separates_cache(self):

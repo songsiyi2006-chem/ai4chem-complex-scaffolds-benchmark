@@ -2131,6 +2131,56 @@ def _best_chain_order(rods):
 _LAST_DATASET = []
 
 
+def require_constructed_backbone(atoms):
+    """Reject broken generated geometry before sequence design or simulation.
+
+    This is the ideal-coordinate constructor's contract, NOT a validator for
+    experimental/minimized proteins. Match existing NeRF lengths and its
+    111.0 (initial residue) / 111.2 degree N-CA-C angles to numerical precision.
+    No repair, coordinate movement, threshold relaxation or new sampling.
+    """
+    backbone = []
+    issues = []
+    n_invalid = 0
+
+    def invalid(message):
+        nonlocal n_invalid
+        n_invalid += 1
+        if len(issues) < 3:
+            issues.append(message)
+
+    for i, residue in enumerate(atoms):
+        if not all(name in residue for name in ("N", "CA", "C", "O")):
+            raise AssertionError(f"BACKBONE_REJECT: implement peptide closure; residue {i} missing N/CA/C/O")
+        r = {name: np.asarray(residue[name], float) for name in ("N", "CA", "C", "O")}
+        if any(p.shape != (3,) or not np.isfinite(p).all() for p in r.values()):
+            raise AssertionError(f"BACKBONE_REJECT: implement peptide closure; residue {i} invalid coordinates")
+        backbone.append(r)
+        for a, b, target in (("N", "CA", 1.458), ("CA", "C", 1.525), ("C", "O", 1.231)):
+            distance = float(np.linalg.norm(r[a] - r[b]))
+            if abs(distance - target) > 1e-4:
+                invalid(f"res {i} {a}-{b}={distance:.6f} A expected {target}")
+        u, v = r["N"] - r["CA"], r["C"] - r["CA"]
+        denominator = np.linalg.norm(u) * np.linalg.norm(v)
+        angle = float(np.degrees(np.arccos(np.clip(u @ v / denominator, -1., 1.)))) if denominator else 0.
+        if min(abs(angle - 111.0), abs(angle - 111.2)) > 1e-4:
+            invalid(f"res {i} N-CA-C={angle:.6f} deg expected 111.0/111.2")
+        if i:
+            distance = float(np.linalg.norm(backbone[i - 1]["C"] - r["N"]))
+            if abs(distance - 1.335) > 1e-4:
+                invalid(f"junction {i - 1}->{i} C-N={distance:.6f} A expected 1.335")
+    # Only backbone atoms enter this graph; GLY supplies the same peptide bonds.
+    clashes = heavy_clash_diagnostic(backbone, ["GLY"] * len(backbone))
+    count = clashes["n_nonbonded_clashes"]
+    if n_invalid or count:
+        example = clashes["worst_pairs"][:1]
+        raise AssertionError(
+            f"BACKBONE_REJECT: implement peptide closure/collision resolution; "
+            f"invalid_internal_geometry={n_invalid}, backbone_clashes={count}; "
+            + "; ".join(issues) + (f"; worst_pair={example}" if example else ""))
+    return dict(constructor_geometry_valid=True, backbone_clashes=0)
+
+
 def realize_backbone(flow_sample, tz, rng, _depth=0):
     """Stereochemical projection of one flow sample:
     (1) per-rod directions extracted from the generated Calpha trace (the
@@ -2216,10 +2266,10 @@ def realize_backbone(flow_sample, tz, rng, _depth=0):
                                        .sum(1).mean())))
     # ---- loop closure by spline construction --------------------------------
     # Loop Calpha positions are interpolated on a smooth path between the
-    # rod ends (~4.3 A spacing); N/C/O are built from the local spline
-    # tangents with idealized geometry.  Residual bond/angle/omega strain
-    # is regularized by the OpenMM restrained minimization (MODULE 19C-1):
-    # this replaces stochastic closure searches, which are fragile.
+    # rod ends (~4.3 A spacing). Tangent-based N/C/O do NOT guarantee peptide
+    # closure or ideal internal geometry. Keep the candidate generator for
+    # diagnosis, but reject invalid output below; minimization is not a repair
+    # guarantee for broken covalent geometry or intersecting backbones.
     def build_loop_spline(ca_prev, n_next, ca_next, placed_ca=None):
         A = np.asarray(ca_prev, float)
         B = np.asarray(ca_next, float)
@@ -2292,6 +2342,7 @@ def realize_backbone(flow_sample, tz, rng, _depth=0):
             "residue count mismatch")
     tassert(len(atoms) <= 200, f"enzyme length {len(atoms)} outside the "
             f"150-200 band")
+    construction = require_constructed_backbone(atoms)
     # ---- stereochemical gates ----------------------------------------------
     tors = backbone_torsions(atoms)
     n_allowed = sum(ramachandran_allowed(phi, psi)
@@ -2305,15 +2356,13 @@ def realize_backbone(flow_sample, tz, rng, _depth=0):
     ii = np.arange(len(atoms))
     D[np.abs(ii[:, None] - ii[None, :]) < 3] = 99.0
     min_ca = float(D.min())
-    # The realized model is the STARTING structure for restrained
-    # minimization: spline loops are torsion-crude until minimized, so the
-    # Ramachandran/omega quality is audited POST-minimization in the MD
-    # stage (MODULE 19C-1).  Here only gross failures are gated.
+    # The constructor contract above is required before the existing gross
+    # CA and downstream stereochemical gates; passing it is not fold validation.
     tassert(min_ca >= 0.5, f"Calpha gross-clash gate: {min_ca:.2f} A")
     if omega_dev > 14.0:
         log(f"    [realize] junction omega strain {omega_dev:.0f} deg -> "
             f"OpenMM restrained regularization")
-    return atoms, slot_idx, dict(fit_rmsds=fit_rmsds,
+    return atoms, slot_idx, dict(construction=construction, fit_rmsds=fit_rmsds,
                                  pin_residuals=[res_a, res_b, res_c],
                                  frac_ramachandran=frac_ram,
                                  max_omega_dev=omega_dev,
@@ -2600,10 +2649,17 @@ def pack_sidechains(atoms, seq, slot_idx, tz):
     def clash_score(cand_pts, res_i):
         c = np.asarray(cand_pts, float)
         d = np.linalg.norm(c[:, None, :] - ref[None, :, :], axis=-1)
-        d = np.where(d < 1e-6, 99.0, d)
+        # Coincident atoms on OTHER residues are maximal overlaps, not self pairs.
         other = ref_res != res_i
         pen = np.where(other, np.clip(2.9 - d, 0.0, None), 0.0)
         return float(pen.sum())
+
+    def register_packed(res_i, added):
+        # Later residues must see earlier accepted sidechains (including ALA).
+        nonlocal ref, ref_res
+        if added:
+            ref = np.concatenate((ref, np.asarray(added, float)), axis=0)
+            ref_res = np.concatenate((ref_res, np.full(len(added), res_i)))
 
     cat_slots = {slot_idx["GLU"], slot_idx["TRP"]}
     for i, r in enumerate(atoms):
@@ -2613,6 +2669,7 @@ def pack_sidechains(atoms, seq, slot_idx, tz):
         if aa == "ALA":
             if "CB" not in r:
                 r["CB"] = place_cb(r, outward[i])
+                register_packed(i, [r["CB"]])
             continue
         best = None
         n_chi = len(SC_GEOM[aa])
@@ -2629,9 +2686,12 @@ def pack_sidechains(atoms, seq, slot_idx, tz):
             if best is None or e < best[0]:
                 best = (e, sc)
         if best:
+            added = []
             for k, v in best[1].items():
                 if k not in r:
                     r[k] = v
+                    added.append(v)
+            register_packed(i, added)
     # ---- chirality gate -----------------------------------------------------
     signs = []
     for i, r in enumerate(atoms):
@@ -2709,6 +2769,85 @@ def write_pdb(atoms, seq, path, remarks=()):
     return Path(path)
 
 
+def heavy_clash_diagnostic(atoms, seq):
+    """Topology-aware heavy-atom audit; no coordinate or gate changes.
+
+    Standard single peptide chain, no disulfides/covalent ligand bonds.
+    Exclude only graph distance 1 or 2, never infer bonds from distances.
+    Keep the historical 2.65 A cutoff; this is an overlap audit, not energy.
+    Row-wise distances bound memory; retain at most 12 worst pairs.
+    """
+    side_bonds = {
+        "GLY": "", "ALA": "", "SER": "CB-OG", "CYS": "CB-SG",
+        "THR": "CB-OG1 CB-CG2", "VAL": "CB-CG1 CB-CG2",
+        "ILE": "CB-CG1 CB-CG2 CG1-CD1", "LEU": "CB-CG CG-CD1 CG-CD2",
+        "ASP": "CB-CG CG-OD1 CG-OD2", "ASN": "CB-CG CG-OD1 CG-ND2",
+        "GLU": "CB-CG CG-CD CD-OE1 CD-OE2",
+        "GLN": "CB-CG CG-CD CD-OE1 CD-NE2",
+        "LYS": "CB-CG CG-CD CD-CE CE-NZ", "MET": "CB-CG CG-SD SD-CE",
+        "ARG": "CB-CG CG-CD CD-NE NE-CZ CZ-NH1 CZ-NH2",
+        "PRO": "CB-CG CG-CD CD-N",
+        "HIS": "CB-CG CG-ND1 CG-CD2 ND1-CE1 CE1-NE2 NE2-CD2",
+        "PHE": "CB-CG CG-CD1 CG-CD2 CD1-CE1 CD2-CE2 CE1-CZ CE2-CZ",
+        "TYR": "CB-CG CG-CD1 CG-CD2 CD1-CE1 CD2-CE2 CE1-CZ CE2-CZ CZ-OH",
+        "TRP": "CB-CG CG-CD1 CG-CD2 CD1-NE1 NE1-CE2 CD2-CE2 CD2-CE3 CE2-CZ2 CE3-CZ3 CZ2-CH2 CZ3-CH2",
+    }
+    if len(atoms) != len(seq):
+        raise ValueError("clash audit requires one residue name per residue")
+    keys, coords, graph = [], [], {}
+    for i, (res, aa) in enumerate(zip(atoms, seq)):
+        if aa not in side_bonds:
+            raise ValueError(f"unsupported clash topology: {aa}")
+        # Include topology nodes even when an intermediate atom is missing.
+        for edge in ("N-CA CA-C C-O C-OXT CA-CB " + side_bonds[aa]).split():
+            a, b = [(i, name) for name in edge.split("-")]
+            graph.setdefault(a, set()).add(b)
+            graph.setdefault(b, set()).add(a)
+        if i:
+            a, b = (i - 1, "C"), (i, "N")
+            graph.setdefault(a, set()).add(b)
+            graph.setdefault(b, set()).add(a)
+        for name, p in res.items():
+            if name.lstrip("0123456789").startswith("H"):
+                continue
+            keys.append((i, name))
+            coords.append(p)
+    pts = np.asarray(coords, float).reshape(-1, 3)
+    if not np.isfinite(pts).all():
+        raise ValueError("non-finite heavy-atom coordinates")
+    counts = dict(backbone_backbone=0, backbone_sidechain=0, sidechain_sidechain=0)
+    legacy = local = excluded = 0
+    worst = []
+    backbone = {"N", "CA", "C", "O", "OXT"}
+    for a, key in enumerate(keys):
+        neighbors = graph.get(key, set())
+        omit = set(neighbors)
+        for n in neighbors:
+            omit.update(graph.get(n, set()))
+        distances = np.linalg.norm(pts[a + 1:] - pts[a], axis=1)
+        for offset in np.flatnonzero(distances < 2.65):
+            b = a + 1 + int(offset)
+            other = keys[b]
+            if other in omit:
+                excluded += 1
+                continue
+            separation = abs(key[0] - other[0])
+            legacy += int(separation >= 2)
+            local += int(separation < 2)
+            n_bb = int(key[1] in backbone) + int(other[1] in backbone)
+            category = ("sidechain_sidechain", "backbone_sidechain", "backbone_backbone")[n_bb]
+            counts[category] += 1
+            worst.append((float(distances[offset]), a, b, category))
+            worst = sorted(worst)[:12]
+    return dict(cutoff_A=2.65, n_nonbonded_clashes=sum(counts.values()),
+                n_legacy_nonlocal_clashes=legacy, n_previously_hidden_local_clashes=local,
+                n_close_bonded_or_1_3_pairs_excluded=excluded, pair_classes=counts,
+                worst_pairs=[dict(distance_A=d, atom1=list(keys[a]), atom2=list(keys[b]),
+                                  category=c) for d, a, b, c in worst],
+                residue_index_base=0,
+                topology="standard_single_peptide_chain_no_crosslinks")
+
+
 def static_fold_audit(atoms, seq):
     """Fidelity-0 static foldability: clashes, compactness, composition."""
     pts, owner = [], []
@@ -2729,6 +2868,7 @@ def static_fold_audit(atoms, seq):
     frac_ram = sum(ramachandran_allowed(phi, psi) for (phi, psi, om)
                    in tors if phi is not None) / (len(tors) - 1)
     return dict(n_heavy=len(pts), n_clashes=clash, radius_gyration=rg,
+                clash_diagnostic=heavy_clash_diagnostic(atoms, seq),
                 frac_ramachandran=float(frac_ram), n_res=len(atoms),
                 composition={c: sum(1 for aa in seq if _aa_class(aa) == c)
                              for c in "HP+-G"})

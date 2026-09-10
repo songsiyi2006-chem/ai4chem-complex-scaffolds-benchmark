@@ -24,7 +24,7 @@ Stages
     ligand; per-atom force discrepancy vector decomposed by moiety.
 4   OpenMM complex MD: Amber14SB protein + Sage 2.1 ligand (+GDP via Sage),
     GBSA/OBC2, 0.15 M ionic strength, T = 310 K, C-alpha restraints
-    k = 5 kcal/mol/A^2, 100k production steps (200 ps), C-alpha/ligand RMSD
+    k = 5 kcal/mol/A^2, 100k production steps at 1 fs (100 ps), C-alpha/ligand RMSD
     + protein-ligand interaction fingerprints (PLIF) over time.
 5   End-state MM-GBSA (trajectory frames) + per-residue energy decomposition
     (top-10 pocket residues; vdW / electrostatic / GB-polar components), with
@@ -35,7 +35,8 @@ Fault tolerance
 ---------------
 * every stage wrapped in try/except; results serialized atomically to
   results_phase3/phase3_results.json before ANY exit path (incl. failure);
-* stage artifacts double as checkpoints (--force_rerun to redo);
+* stage artifacts cache results; MD writes exact binary checkpoints per chunk,
+  but DCD append resume is disabled and partial MD artifacts cannot be overwritten;
 * ML potential chain: MACE-OFF23 -> ANI-2x (torchani) -> documented skip;
 * GAFF2 chain: openmmforcefield SystemGenerator -> Phase-2-style splice;
 * optional --auto_shutdown (default False) shuts down only after full success.
@@ -48,6 +49,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as _dt
+import hashlib
 import json
 import math
 import os
@@ -57,6 +59,7 @@ import sys
 import time
 import traceback
 import urllib.request
+import uuid
 from pathlib import Path
 
 import numpy as np
@@ -1205,11 +1208,154 @@ def _stage4_validate_cache(rec: dict, args, n_frames: int) -> None:
                            "Use a new output directory.")
 
 
+def _md_file_identity(path: Path) -> dict:
+    digest = hashlib.sha256()
+    with path.open("rb") as fh:
+        for block in iter(lambda: fh.read(1024 * 1024), b""):
+            digest.update(block)
+    return {"bytes": path.stat().st_size, "sha256": digest.hexdigest()}
+
+
+def _md_write_durable(path: Path, data: bytes) -> None:
+    """Exclusive creation: an interrupted generation is never reused."""
+    with path.open("xb") as fh:
+        fh.write(data)
+        fh.flush()
+        os.fsync(fh.fileno())
+
+
+def _md_identity(sim, args, inputs: dict) -> dict:
+    import openmm
+    import platform
+    plat = sim.context.getPlatform()
+    return {
+        "inputs": inputs,
+        "config": {k: getattr(args, k, None) for k in
+                   ("md_steps", "equil_steps", "report_interval", "mgb_frames",
+                    "pdb_id", "lig_code")},
+        "openmm_version": openmm.version.full_version,
+        "platform": plat.getName(),
+        "platform_properties": {k: plat.getPropertyValue(sim.context, k)
+                                for k in plat.getPropertyNames()},
+        "host": {"node": platform.node(), "machine": platform.machine(),
+                 "processor": platform.processor(), "os": platform.platform()},
+        "system_xml": openmm.XmlSerializer.serialize(sim.system),
+        "integrator_xml": openmm.XmlSerializer.serialize(sim.integrator),
+        "integrator_rng_seed": sim.integrator.getRandomNumberSeed(),
+        "rng_state": "Stored only in exact OpenMM binary checkpoint; XML is identity, not restart state",
+    }
+
+
+class _MDCheckpointWriter:
+    """Commit binary state and cumulative analysis AFTER DCD reporters finish.
+
+    Immutable generations, manifest last. No DCD append/resume is implemented.
+    Private DCDReporter attributes are checked explicitly (OpenMM 8.6 tested).
+    """
+
+    def __init__(self, root, identity, production_start, target_steps, interval):
+        self.root = Path(root)
+        self.identity = json.loads(json.dumps(identity, allow_nan=False))
+        self.start = production_start
+        self.target = target_steps
+        self.interval = interval
+        self.last_step = production_start
+        self.step_times = []
+
+    def save(self, sim, reporter, analyzer):
+        from openmm import unit
+        step = sim.currentStep
+        completed = step - self.start
+        expected = step // self.interval - self.start // self.interval
+        if not (self.last_step < step <= self.start + self.target):
+            raise RuntimeError("Checkpoint progress is not strictly increasing/in target")
+        if (analyzer.frames != expected or len(analyzer.rows) != expected
+                or any(len(row) != 5 for row in analyzer.rows)):
+            raise RuntimeError("Checkpoint analysis/frame alignment mismatch")
+        model = getattr(reporter, "_dcd", None)
+        if model is None or getattr(model, "_modelCount", None) != expected:
+            raise RuntimeError("Checkpoint DCD frame alignment mismatch")
+        stream = reporter._out
+        stream.flush()
+        os.fsync(stream.fileno())
+        dcd_path = Path(stream.name)
+        dcd_identity = _md_file_identity(dcd_path)
+        state = sim.context.getState()
+        if state.getStepCount() != step:
+            raise RuntimeError("Checkpoint Context/Simulation step mismatch")
+        time_ps = state.getTime().value_in_unit(unit.picosecond)
+        times = self.step_times + [{"absolute_step": step, "time_ps": time_ps,
+                                   "frames": expected}]
+        progress = {
+            "production_start_step": self.start, "absolute_step": step,
+            "production_steps_completed": completed, "production_steps_target": self.target,
+            "time_ps": time_ps, "report_interval": self.interval,
+            "frame_absolute_steps": list(range(
+                (self.start // self.interval + 1) * self.interval, step + 1, self.interval)),
+            "chunk_boundaries": times, "frames": analyzer.frames,
+            "rows": analyzer.rows,
+            "plif_counts": [[list(key), value] for key, value in sorted(analyzer.plif.items())],
+            "dcd": {"name": dcd_path.name, **dcd_identity},
+        }
+        # Serialize everything before filesystem mutation. createCheckpoint retains
+        # velocities, time, parameters and engine RNG state unlike a State XML.
+        payloads = {"state.chk": sim.context.createCheckpoint(),
+                    "progress.json": json.dumps(progress, allow_nan=False).encode("utf-8"),
+                    "identity.json": json.dumps(self.identity, allow_nan=False).encode("utf-8")}
+        generation = f"step_{step:09d}_{uuid.uuid4().hex}"
+        directory = self.root / generation
+        directory.mkdir()
+        records = {}
+        for name, data in payloads.items():
+            _md_write_durable(directory / name, data)
+            records[name] = _md_file_identity(directory / name)
+        manifest = {"schema": 1, "generation": generation, "files": records,
+                    "resume_supported": False,
+                    "resume_policy": "fail_closed_until_DCD_append_and_analysis_restore_validated"}
+        temporary = self.root / f"manifest_{uuid.uuid4().hex}.tmp"
+        _md_write_durable(temporary, json.dumps(manifest, allow_nan=False).encode("utf-8"))
+        os.replace(temporary, self.root / "manifest.json")
+        self.last_step = step
+        self.step_times = times
+
+
+def _md_validate_checkpoint(root: Path, expected_identity: dict) -> dict:
+    """Read-only integrity/identity check, NOT authorization to load or append."""
+    root = Path(root)
+    manifest = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
+    if manifest.get("schema") != 1 or manifest.get("resume_supported") is not False:
+        raise RuntimeError("Unsupported checkpoint schema/resume contract")
+    generation = manifest["generation"]
+    if not isinstance(generation, str) or Path(generation).name != generation:
+        raise RuntimeError("Invalid checkpoint generation path")
+    directory = root / generation
+    if directory.resolve().parent != root.resolve():
+        raise RuntimeError("Checkpoint generation outside checkpoint directory")
+    for name in ("state.chk", "progress.json", "identity.json"):
+        if _md_file_identity(directory / name) != manifest["files"].get(name):
+            raise RuntimeError(f"Checkpoint data integrity mismatch: {name}")
+    identity = json.loads((directory / "identity.json").read_text(encoding="utf-8"))
+    if identity != expected_identity:
+        raise RuntimeError("Checkpoint source/config/platform/system/integrator/RNG identity mismatch")
+    progress = json.loads((directory / "progress.json").read_text(encoding="utf-8"))
+    dcd = progress["dcd"]
+    if dcd["name"] != "T04_complex_trajectory.dcd":
+        raise RuntimeError("Unexpected checkpoint DCD path")
+    if _md_file_identity(root.parent / dcd["name"]) != {
+            "bytes": dcd["bytes"], "sha256": dcd["sha256"]}:
+        raise RuntimeError("DCD changed since checkpoint; append alignment not established")
+    return progress
+
+
 def stage4_complex_md(out: Path, args, force: bool = False) -> bool:
     expected_frames = _stage4_expected_frames(args)
+    if getattr(args, "resume_md", False):
+        raise RuntimeError("MD resume is disabled: exact binary checkpoints are saved, "
+                           "but DCD append/analysis restoration is not validated. "
+                           "Artifacts preserved; use a new output directory for fresh MD.")
     ckpt = out / "stage4.json"
     dcd = out / "T04_complex_trajectory.dcd"
-    if force and (dcd.exists() or ckpt.exists()):
+    if force and (dcd.exists() or ckpt.exists() or (out / "stage4_checkpoints").exists()):
         raise RuntimeError("Stage4 artifacts already exist; preserved even with --force_rerun. "
                            "Use a new output directory for fresh MD.")
     if ckpt.exists() and not dcd.exists():
@@ -1284,6 +1430,17 @@ def stage4_complex_md(out: Path, args, force: bool = False) -> bool:
             _log("4", f"replay done: <CA RMSD> {m['ca_rmsd_mean_A']:.2f} A, "
                       f"<lig RMSD> {m['lig_rmsd_mean_A']:.2f} A")
             return True
+
+    if (out / "stage4_checkpoints").exists() or (out / "complex_start.pdb").exists():
+        raise RuntimeError("Partial Stage4 artifacts preserved; use a new output directory. "
+                           "DCD append/resume is disabled.")
+    checkpoint_root = out / "stage4_checkpoints"
+    checkpoint_root.mkdir()  # Exclusive claim before any Stage4 output/engine work.
+    input_paths = [Path(__file__), out / f"{TARGET_PDB}_fixed_protein.pdb",
+                   out / "T04_pose1.pdb", out / "T04_pose1.sdf", out / "stage1a.json"]
+    input_paths += [out / f"{TARGET_PDB}_{code}.pdb" for code in KEEP_HETERO]
+    input_identity = {str(path.resolve()): _md_file_identity(path) if path.exists() else None
+                      for path in input_paths}
 
     from openmm import (CustomExternalForce, LangevinMiddleIntegrator,
                         Platform, Context, XmlSerializer, unit)
@@ -1378,10 +1535,25 @@ def stage4_complex_md(out: Path, args, force: bool = False) -> bool:
     sim.step(args.equil_steps)
     sim.reporters.append(dcd)
     sim.reporters.append(analyzer)
+    identity = _md_identity(sim, args, input_identity)
+    identity["analysis"] = {"ca_idx": ca_idx, "pocket_ca": pocket_ca,
+                            "lig_heavy": lig_heavy, "all_lig": lig_idx,
+                            "ref_positions_A": (pos0_nm * 10.0).tolist(),
+                            "topology_pdb": _md_file_identity(out / "complex_start.pdb")}
+    writer = _MDCheckpointWriter(checkpoint_root, identity,
+                                 sim.currentStep, args.md_steps, args.report_interval)
     t0 = time.time()
     _log("4", f"production {args.md_steps} steps "
               f"({args.md_steps / 1000:.0f} ps @ 1 fs) ...")
-    sim.step(args.md_steps)
+    production_end = sim.currentStep + args.md_steps
+    try:
+        while sim.currentStep < production_end:
+            chunk = min(args.report_interval - sim.currentStep % args.report_interval,
+                        production_end - sim.currentStep)
+            sim.step(chunk)
+            writer.save(sim, dcd, analyzer)
+    finally:
+        dcd._out.close()
     dt = time.time() - t0
     sps = args.md_steps / dt
 
@@ -2159,6 +2331,8 @@ def main() -> int:
     p.add_argument("--report_interval", type=int, default=500)
     p.add_argument("--mgb_frames", type=int, default=40)
     p.add_argument("--force_rerun", action="store_true")
+    p.add_argument("--resume_md", action="store_true",
+                   help="reserved fail-closed contract; DCD append resume is not supported")
     p.add_argument("--skip_dock", action="store_true")
     p.add_argument("--skip_md", action="store_true")
     p.add_argument("--fig_only", action="store_true")
@@ -2166,6 +2340,12 @@ def main() -> int:
                    help="shut the machine down AFTER full success only")
     p.add_argument("--shutdown_delay", type=int, default=60)
     args = p.parse_args()
+    if args.resume_md:
+        p.error("--resume_md is disabled until DCD append/analysis restoration is validated; no files changed")
+    if args.force_rerun and any((Path(args.out_dir) / name).exists() for name in
+                               ("stage4_checkpoints", "T04_complex_trajectory.dcd",
+                                "stage4.json", "complex_start.pdb")):
+        p.error("existing Stage4 artifacts are preserved even with --force_rerun; use a new output directory")
 
     global _OUT, _FIG
     _OUT = Path(args.out_dir)
@@ -2231,6 +2411,8 @@ def main() -> int:
         try:
             stage6_figures(_FIG)
         except Exception as exc:
+            code = 1
+            RESULTS["meta"]["warnings"].append(f"figure generation failed: {exc}")
             _warn(f"figure generation failed: {exc}")
             traceback.print_exc()
 
@@ -2245,6 +2427,8 @@ def main() -> int:
             write_json_atomic(_OUT / "phase3_results.json")
             _log("final", f"results -> {_OUT/'phase3_results.json'}")
         except Exception as exc:
+            code = 1
+            RESULTS["all_stages_ok"] = False
             _log("final", f"result serialization failed: {exc}")
         if args.auto_shutdown and RESULTS["all_stages_ok"]:
             _shutdown(args.shutdown_delay)

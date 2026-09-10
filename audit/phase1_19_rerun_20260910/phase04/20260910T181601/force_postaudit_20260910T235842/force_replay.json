@@ -1,0 +1,8 @@
+{
+  "projection_max_atom_error_eV_A": 4.163336342344337e-17,
+  "recomputed_saved_fmax_eV_A": 0.15066260951037777,
+  "fmax_bookkeeping_error_eV_A": 0.0,
+  "constraint_adjustment_fmax_eV_A": 0.0,
+  "force_gate_passes": false,
+  "acceptance": "diagnostic_only_no_TS_no_IRC"
+}

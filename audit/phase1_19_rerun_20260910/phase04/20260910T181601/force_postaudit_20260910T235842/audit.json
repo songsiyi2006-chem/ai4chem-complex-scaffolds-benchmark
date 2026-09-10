@@ -1,0 +1,28 @@
+{
+  "status": "completed",
+  "scope": "one_fixed_band_evaluation_no_optimizer",
+  "acceptance": "no_TS_no_IRC",
+  "input_sha256": {
+    "C:\\Users\\HUIWEI\\Documents\\Codex\\2026-09-08\\https-github-com-songsiyi2006-chem-ai4chem-2\\work\\phase1-19-rerun-20260910\\phase04\\20260910T181601\\results_phase4\\neb_final_path.xyz": "17530240607656bf62c8be2d1c6e04a5e50b4491c2912d75fd9d4382cd9134df",
+    "C:\\Users\\HUIWEI\\Documents\\Codex\\2026-09-08\\https-github-com-songsiyi2006-chem-ai4chem-2\\work\\phase1-19-rerun-20260910\\phase04\\20260910T181601\\results_phase4\\stage2.json": "0ca708bd45bbd6747362885cbcc5c51afd0fd0b30d80b8d057cba9aa4cfd114f",
+    "C:\\Users\\HUIWEI\\Documents\\Codex\\2026-09-08\\https-github-com-songsiyi2006-chem-ai4chem-2\\work\\phase1-19-rerun-20260910\\phase04\\20260910T181601\\rerun_status.json": "689e5f12b98c800940f73aaa57cd909ff4aa62e06edcc805c54cbfbd8ed3b347"
+  },
+  "production_source_sha256": "c29d8c194c3a75bf7380d5fffed6b86d753dedbd21b7530eceb1bf219fe73581",
+  "xtb_executable": "$USER_PROFILE/miniconda3/envs/phase2ff/Library/bin\\xtb.EXE",
+  "xtb_executable_sha256": "e11f074b519c3b226f3fab4902f36555c4bfb204cc0365bdb196313124e3dc1b",
+  "spring_eV_A2": 0.1,
+  "force_target_eV_A": 0.05,
+  "interpretation": "evaluated_not_scientifically_accepted",
+  "replay": {
+    "projection_max_atom_error_eV_A": 4.163336342344337e-17,
+    "recomputed_saved_fmax_eV_A": 0.15066260951037777,
+    "fmax_bookkeeping_error_eV_A": 0.0,
+    "constraint_adjustment_fmax_eV_A": 0.0,
+    "force_gate_passes": false,
+    "acceptance": "diagnostic_only_no_TS_no_IRC"
+  },
+  "evidence_sha256": "d6a518bce317ac99177c978f8ebbb8c271e01d1a8246047701abc0129c647fe9",
+  "input_hashes_rechecked": true,
+  "engine_calls": 9,
+  "elapsed_s": 0.75
+}

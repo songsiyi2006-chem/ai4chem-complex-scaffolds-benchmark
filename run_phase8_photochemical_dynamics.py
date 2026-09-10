@@ -73,6 +73,7 @@ from __future__ import annotations
 
 import argparse
 import datetime as _dt
+import hashlib
 import json
 import math
 import os
@@ -185,7 +186,90 @@ def parse_json(path):
 
 
 def dump_json(obj, path):
-    Path(path).write_text(json.dumps(obj, indent=1, default=float))
+    path = Path(path)
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(json.dumps(obj, indent=1, default=float), encoding="utf-8")
+    temporary.replace(path)
+
+
+def validate_qc_result(stage, result, smoke=False):
+    """Reject incomplete cached/worker QC records before downstream use."""
+    def finite(value):
+        return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
+
+    def series(rows, coordinate, expected, fields):
+        if (not isinstance(rows, list) or len(rows) != len(expected)
+                or {r.get(coordinate) for r in rows} != set(expected)
+                or any(not all(finite(r.get(k)) for k in fields) for r in rows)):
+            raise ValueError(f"{stage}: incomplete/nonfinite {coordinate} series")
+
+    if not isinstance(result, dict) or not result or result.get("error") or result.get("scan_error"):
+        raise ValueError(f"{stage}: missing/failed QC result")
+    if stage == "8a":
+        if result.get("basis") != BASIS_8A or not finite(result.get("e_scf_eh")):
+            raise ValueError("8a: missing energy or changed basis")
+        for spin, count in (("singlets", 3 if smoke else N_SINGLET),
+                            ("triplets", 2 if smoke else N_TRIPLET)):
+            series(result.get("states", {}).get(spin), "root", range(1, count + 1),
+                   ("dE_eV", "f_osc"))
+        validate_qc_result("8a_scan", result.get("torsion_scan"), smoke)
+    elif stage == "8a_scan":
+        series(result.get("points"), "phi", [180., 90., 0.] if smoke else SCAN_AZO_PHI,
+               ("e0_eh", "s1_eV", "s2_eV"))
+    elif stage == "8b":
+        if result.get("basis") != BASIS_8B:
+            raise ValueError("8b: missing or changed basis")
+        series(result.get("torsion_scan"), "phi",
+               [180., 100., 90., 80., 0.] if smoke else SCAN_DIA_PHI,
+               ("e0_eh", "e1_eh", "gap_eV"))
+        series(result.get("stretch_scan_at_ci"), "d", STRETCH_SCAN_D,
+               ("e0_eh", "e1_eh", "gap_eV"))
+        for axis in ("g", "h"):
+            series(result.get("branching_cuts", {}).get(axis), "t_ang",
+                   [-.2, -.1, 0., .1, .2], ("e0_eh", "e1_eh", "gap_eV"))
+            vector = result.get(f"{axis}_vector", {}).get("per_atom")
+            if (not isinstance(vector, list) or len(vector) != 4
+                    or any(len(row) != 3 or not all(finite(v) for v in row) for row in vector)):
+                raise ValueError(f"8b: missing/nonfinite {axis} vector")
+        meci = result.get("meci", {})
+        if (meci.get("converged") is not True
+                or not finite(meci.get("gap_eV")) or not finite(meci.get("gradF_norm"))
+                or not _meci_gate(meci["gap_eV"], meci["gradF_norm"])):
+            raise ValueError("8b: MECI gap/gradient gates not satisfied")
+    return result
+
+
+def checkpoint_identity(args, basis):
+    """Bind resumable QC state to this protocol and exact input files."""
+    paths = [Path(__file__), Path(args.xyz), Path(args.scan_t_json), Path(args.scan_s_json)]
+    for path, section in ((Path(args.scan_t_json), "scan_torsion"),
+                          (Path(args.scan_s_json), "scan_stretch")):
+        paths.extend(Path(row["file"]) for row in parse_json(path)[section].values())
+    return {"basis": basis, "smoke": bool(args.smoke),
+            "inputs": {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}}
+
+
+def require_scan_points(rows, field, expected):
+    if (len(rows) != len(expected) or {p[field] for p in rows} != set(expected)
+            or any(not all(isinstance(p.get(k), (int, float)) and math.isfinite(p[k])
+                           for k in ("e0_eh", "e1_eh", "gap_eV")) for p in rows)):
+        raise ValueError(f"incomplete/nonfinite {field} scan; checkpoint retained")
+
+
+def render_phase8_figures():
+    """A renderer that silently skips a figure is not a successful rebuild."""
+    paths = [FIG / name for name in (
+        "fig1_uv_vis_absorption_spectrum.png",
+        "fig2_conical_intersection_topology.png",
+        "fig3_fssh_population_trajectories.png")]
+    before = {p: p.stat().st_mtime_ns if p.exists() else None for p in paths}
+    sys.path.insert(0, str(Path(__file__).parent))
+    from phase8_figures import render_all
+    render_all()
+    missing = [str(p) for p in paths if not p.is_file() or p.stat().st_size == 0
+               or p.stat().st_mtime_ns == before[p]]
+    if missing:
+        raise RuntimeError("figures missing/not refreshed: " + ", ".join(missing))
 
 
 # --------------------------------------------------------------------------- #
@@ -203,7 +287,7 @@ def run_xtb(xtb_exe, xyz_path, workdir, opt=False, hess=False, timeout=900):
     workdir = Path(workdir)
     workdir.mkdir(parents=True, exist_ok=True)
     shutil.copy(xyz_path, workdir / "m.xyz")
-    cmd = [xtb_exe, "m.xyz", "--chrg", "0", "--mult", "1"]
+    cmd = [xtb_exe, "m.xyz", "--chrg", "0", "--uhf", "0"]
     if opt:
         cmd += ["--opt", "tight"]
     if hess:
@@ -211,6 +295,9 @@ def run_xtb(xtb_exe, xyz_path, workdir, opt=False, hess=False, timeout=900):
     proc = subprocess.run(cmd, cwd=workdir, capture_output=True, text=True,
                           encoding="utf-8", errors="replace", timeout=timeout)
     (workdir / "xtb.stdout").write_text((proc.stdout or "")[-8000:], encoding="utf-8")
+    (workdir / "xtb.stderr").write_text(proc.stderr or "", encoding="utf-8")
+    if proc.returncode != 0:
+        raise RuntimeError(f"xTB rc={proc.returncode}; see {workdir / 'xtb.stderr'}")
     return proc, workdir
 
 
@@ -233,7 +320,7 @@ def build_azobenzene(xtb_exe, out_xyz):
             els, c = read_xyz(workdir / "xtbopt.xyz")
             _log("PRE", "azobenzene: GFN2-xTB optimization converged")
         except Exception as exc:
-            _warn("PRE", f"xtb opt failed ({str(exc)[:90]}) — keeping MMFF94")
+            raise RuntimeError("azobenzene GFN2-xTB optimization failed") from exc
     write_xyz(out_xyz, els, c, "trans-azobenzene S0 (GFN2-xTB/MMFF94)")
 
 
@@ -306,7 +393,7 @@ def build_diazene(xtb_exe, out_xyz):
             els, xyz = read_xyz(workdir / "xtbopt.xyz")
             _log("PRE", "diazene: GFN2-xTB optimization converged")
         except Exception as exc:
-            _warn("PRE", f"xtb opt failed ({str(exc)[:90]}) — keeping guess")
+            raise RuntimeError("diazene GFN2-xTB optimization failed") from exc
     write_xyz(out_xyz, els, xyz, "trans-diazene S0 (GFN2-xTB)")
     return {"elements": els, "nn_ang": float(np.linalg.norm(xyz[0] - xyz[1]))}
 
@@ -472,13 +559,8 @@ def worker_8a(args, res_path):
            "engine": "Psi4 1.11 (PySCF-substituted on win32)", "states": {}}
 
     def run_td(nstates, singlet, tag):
-        psi4.set_options({"tdscf_states": [nstates], "tdscf_tda": True})
-        for opt_try in ({"tdscf_singlet": singlet}, {"singlet": singlet}):
-            try:
-                psi4.set_options(opt_try)
-                break
-            except Exception:
-                continue
+        psi4.set_options({"tdscf_states": [nstates], "tdscf_tda": True,
+                          "tdscf_triplets": "NONE" if singlet else "ONLY"})
         psi4.energy(f"td-{DFT_FUNC}/{basis}", ref_wfn=scf_wfn, molecule=mol,
                     return_wfn=True)
         data = _td_variables_map(scf_wfn, nstates)
@@ -527,12 +609,14 @@ def worker_8a(args, res_path):
                 "hole_N": frac(hole, ["N"]), "hole_C": frac(hole, ["C"]),
                 "part_N": frac(part, ["N"]), "part_C": frac(part, ["C"])}
 
+    singlet_ntos = {}
     for root in list(sing):
         if sing[root]["dE_eh"] is None:
             continue
         try:
             nt = nto_for_state(root)
             if nt:
+                singlet_ntos[root] = nt
                 sing[root]["nto"] = {k: v for k, v in nt.items()
                                      if k not in ("hole", "particle")}
         except Exception as exc:
@@ -577,28 +661,35 @@ def worker_8a(args, res_path):
             if bright["root"] != 1:
                 targets.append((f"S{bright['root']}_bright", bright["root"]))
         for label, root in targets:
-            nt = nto_for_state(root)
+            nt = singlet_ntos.get(root)
             if nt is None:
-                continue
+                raise RuntimeError(f"singlet NTO unavailable for {label}")
             Ca_view = np.asarray(scf_wfn.Ca())
+            original_ca = Ca_view.copy()
             Ca_view[:, nocc - 1] = nt["hole"]
             Ca_view[:, nocc] = nt["particle"]
             cdir = cube_dir / f"state{root}_{label}"
             cdir.mkdir(parents=True, exist_ok=True)
             psi4.set_options({"cubeprop_tasks": ["ORBITALS"],
-                              "cubeprop_orbitals": [nocc - 1, nocc],
+                              "cubeprop_orbitals": [nocc, nocc + 1],
                               "cubeprop_filepath": str(cdir.resolve())})
-            psi4.cubeprop(scf_wfn)
+            try:
+                psi4.cubeprop(scf_wfn)
+            finally:
+                Ca_view[:] = original_ca
             cube_info[label] = {"root": root,
                                 "nto": {k: v for k, v in nt.items()
                                         if k not in ("hole", "particle")},
                                 "cubes": sorted(p.name
                                                 for p in cdir.glob("*.cube")),
                                 "dir": str(cdir)}
+            if len(cube_info[label]["cubes"]) < 2:
+                raise RuntimeError(f"NTO hole/particle cubes missing for {label}")
             _log("8A", f"NTO cubes for {label}: {cube_info[label]['cubes']}")
         out["nto_cubes"] = cube_info
     except Exception as exc:
         _warn("8A", f"NTO cubeprop failed: {str(exc)[:120]}")
+        out["error"] = f"NTO cubeprop failed: {exc}"
 
     dump_json(out, res_path)
     _log("8A", f"module 8A complete -> {res_path}")
@@ -623,7 +714,8 @@ def worker_8a_scan(args, res_path):
                               "scf_type": "df", "save_jk": True})
             e0, wf = psi4.energy(f"{DFT_FUNC}/{basis}", molecule=mol,
                                  return_wfn=True)
-            psi4.set_options({"tdscf_states": [3], "tdscf_tda": True})
+            psi4.set_options({"tdscf_states": [3], "tdscf_tda": True,
+                              "tdscf_triplets": "NONE"})
             psi4.energy(f"td-{DFT_FUNC}/{basis}", ref_wfn=wf, molecule=mol,
                         return_wfn=True)
             td = _td_variables_map(wf, 3)
@@ -636,7 +728,7 @@ def worker_8a_scan(args, res_path):
                         "s1_eV": s1, "s2_eV": s2, "s2_f": float(f2 or 0.0)})
             if s1 and s2:
                 _log("8A", f"scan phi={g['phi']:5.0f}: S1={s1:.2f} eV  "
-                           f"S2={s2:.2f} eV  f2={f2:.3f}")
+                           f"S2={s2:.2f} eV  f2={float(f2 or 0.0):.3f}")
             else:
                 _log("8A", f"scan phi={g['phi']:5.0f}: TD incomplete")
         except Exception as exc:
@@ -746,13 +838,14 @@ def worker_8b(args, res_path):
     # ---- checkpoint state -------------------------------------------------- #
     ck_path = Path(str(res_path) + ".ckpt.json")
     ck = {}
+    identity = checkpoint_identity(args, eng)
     if args.resume and ck_path.exists():
-        try:
-            ck = json.loads(ck_path.read_text())
-            _log("8B", f"resuming from checkpoint (phase={ck.get('phase')}, "
-                       f"jobs so far={ck.get('n_jobs', 0)})")
-        except Exception:
-            ck = {}
+        ck = parse_json(ck_path)
+        if ck.get("identity") != identity:
+            raise ValueError("8B checkpoint inputs/protocol mismatch; use a fresh output directory")
+        _log("8B", f"resuming from checkpoint (phase={ck.get('phase')}, "
+                   f"jobs so far={ck.get('n_jobs', 0)})")
+    ck["identity"] = identity
     ck.setdefault("phase", "scan")
     ck.setdefault("torsion_scan", [])
     ck.setdefault("n_jobs", 0)
@@ -794,6 +887,7 @@ def worker_8b(args, res_path):
             except Exception as exc:
                 _warn("8B", f"torsion point {g['phi']} failed: "
                             f"{str(exc)[:80]}")
+        require_scan_points(ck["torsion_scan"], "phi", [g["phi"] for g in scan_t.values()])
         ck["torsion_scan"].sort(key=lambda p: -p["phi"])
         band = [p for p in ck["torsion_scan"]
                 if 70 <= p["phi"] <= 110 and p["e1_eh"] is not None]
@@ -991,8 +1085,6 @@ def worker_8b(args, res_path):
         ck.setdefault("h_evals", [])
         done_ids = {e["cid"] for e in ck["h_evals"]}
         for cid, pre in cands:
-            if cid in done_ids:
-                continue
             if pre is None:
                 v = rng.normal(size=x.size)
                 v = v - float(np.dot(v, gn)) * gn
@@ -1002,6 +1094,8 @@ def worker_8b(args, res_path):
                 u = v / nv
             else:
                 u = np.array(pre)
+            if cid in done_ids:
+                continue
             try:
                 Ep, _E1 = pair((x + LIFT_DELTA * u).reshape(-1, 3))
                 lift = abs(Ep - min(E0, E1)) / LIFT_DELTA
@@ -1066,6 +1160,7 @@ def worker_8b(args, res_path):
                     flush_ck()
                 except Exception as exc:
                     _warn("8B", f"cut {label} {t} failed: {str(exc)[:60]}")
+            require_scan_points(ck["branching_cuts"][label], "t_ang", [-.2, -.1, 0., .1, .2])
             ck["branching_cuts"][label].sort(key=lambda r: r["t_ang"])
             _log("8B", f"cut along {label}: " + " ".join(
                 f"{r['t_ang']:+.1f}A:{r['gap_eV']:.3f}eV"
@@ -1093,6 +1188,7 @@ def worker_8b(args, res_path):
             except Exception as exc:
                 _warn("8B", f"stretch point {g['d']} failed: "
                             f"{str(exc)[:80]}")
+        require_scan_points(ck["stretch_scan_at_ci"], "d", [g["d"] for g in scan_s.values()])
         ck["stretch_scan_at_ci"].sort(key=lambda p: p["d"])
         ck["phase"] = "done"
         flush_ck()
@@ -1610,6 +1706,7 @@ def run_fssh(lvc: dict, n_traj: int, seed: int):
 
 
 def stage_8c(args, res8b, meta):
+    validate_qc_result("8b", res8b, args.smoke)
     if "error" in res8b or "phi_ci_deg" not in res8b:
         _warn("8C", "8B results unavailable — dynamics skipped")
         return {"error": "8B unavailable"}
@@ -1640,6 +1737,8 @@ def stage_8c(args, res8b, meta):
 
 def stage_structures(args) -> dict:
     xtb = find_xtb()
+    if not xtb:
+        raise FileNotFoundError("GFN2-xTB required for Phase8 structures and normal modes")
     _log("PRE", f"xtb engine: {xtb or 'NOT FOUND (guess geometries)'}")
     meta = {}
     if not (OUT / "azobenzene_s0.xyz").exists():
@@ -1672,7 +1771,7 @@ def stage_structures(args) -> dict:
                         f"torsion inertia {I_tors:.3f} amu A^2 "
                         "(CASSCF-scan curvature supplies omega_phi)")
         except Exception as exc:
-            _warn("PRE", f"xtb hessian failed: {str(exc)[:100]}")
+            raise RuntimeError("diazene xTB normal-mode preparation failed") from exc
     return meta
 
 
@@ -1690,12 +1789,21 @@ def run_worker(stage, extra, timeout=14400, smoke=False, threads=2):
     env["PATH"] = os.pathsep.join([str(prefix / "Library" / "bin"),
                                    str(prefix), env.get("PATH", "")])
     env.pop("PYTHONPATH", None)
+    env.pop("PYTHONHOME", None)
     for name in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
         env[name] = str(threads)
     wait_for_qc_memory()
-    proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout,
-                          env=env, encoding="utf-8", errors="replace")
     log = OUT / f"worker_{stage}.log"
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout,
+                              env=env, encoding="utf-8", errors="replace")
+    except subprocess.TimeoutExpired as exc:
+        with log.open("a", encoding="utf-8") as handle:
+            handle.write(f"\n--- worker timeout after {timeout}s ---\n")
+            for output in (exc.stdout, exc.stderr):
+                handle.write(output.decode("utf-8", errors="replace")
+                             if isinstance(output, bytes) else (output or ""))
+        raise
     with log.open("a", encoding="utf-8") as handle:
         handle.write(f"\n--- worker exit {proc.returncode} ---\n")
         handle.write(proc.stdout or "")
@@ -1772,10 +1880,17 @@ def main():
     ap.add_argument("--scan-json", default=None)
     ap.add_argument("--scan-t-json", default=None)
     ap.add_argument("--scan-s-json", default=None)
-    ap.add_argument("--threads", type=int, default=min(16, __import__("os")
-                                                      .cpu_count() or 8))
+    ap.add_argument("--threads", type=int, default=os.environ.get("OMP_NUM_THREADS", "2"))
     ap.add_argument("--resume", action="store_true")
     args = ap.parse_args()
+    if args.threads < 1:
+        ap.error("--threads must be positive")
+    if args.worker:
+        required = {"8a": ("xyz", "res"), "8a_scan": ("scan_json", "res"),
+                    "8b": ("xyz", "res", "scan_t_json", "scan_s_json")}[args.worker]
+        missing = ["--" + key.replace("_", "-") for key in required if not getattr(args, key)]
+        if missing:
+            ap.error("worker requires " + ", ".join(missing))
     OUT.mkdir(exist_ok=True)
     FIG.mkdir(exist_ok=True)
 
@@ -1790,24 +1905,38 @@ def main():
         return
 
     if args.fig_only:
-        from phase8_figures import render_all
-        render_all()
-        return
+        args.stage = "fig"
 
     master_path = OUT / "phase8_results.json"
     master = parse_json(master_path) if master_path.exists() else {}
+    if args.stage == "all":
+        master = {}
+    else:
+        # A partial rerun cannot retain certification of an older full run.
+        master.pop("all_stages_ok", None)
+        master["run_scope"] = f"stage:{args.stage}"
 
     stages = ["structures", "8A", "8B", "8C"]
     if args.stage != "all":
         stages = [args.stage]
     for st in stages:
+        master.setdefault("errors", {}).pop(st, None)
+        key = {"structures": "meta", "8A": "module_8a", "8B": "module_8b",
+               "8C": "module_8c"}.get(st)
+        if key:
+            master.pop(key, None)
+        for dependent in ({"structures": ("module_8a", "module_8b", "module_8c"),
+                           "8B": ("module_8c",)}.get(st, ())):
+            master.pop(dependent, None)
         try:
             if st == "structures":
                 master["meta"] = stage_structures(args)
             elif st == "8A":
                 master["module_8a"] = stage_8a(args)
+                validate_qc_result("8a", master["module_8a"], args.smoke)
             elif st == "8B":
                 master["module_8b"] = stage_8b(args)
+                validate_qc_result("8b", master["module_8b"], args.smoke)
             elif st == "8C":
                 master["module_8c"] = stage_8c(args,
                                                master.get("module_8b", {}),
@@ -1820,10 +1949,9 @@ def main():
             dump_json(master, master_path)
 
     if args.stage in ("all", "fig"):
+        master.setdefault("errors", {}).pop("fig", None)
         try:
-            sys.path.insert(0, str(Path(__file__).parent))
-            from phase8_figures import render_all
-            render_all()
+            render_phase8_figures()
         except Exception as exc:
             _warn("fig", f"figure rendering failed: {str(exc)[:200]}")
             master.setdefault("errors", {})["fig"] = str(exc)

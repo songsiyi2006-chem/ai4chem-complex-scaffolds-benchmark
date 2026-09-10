@@ -15,7 +15,10 @@ GROUPS={
                 'test_phase11_13_audit','test_phase14_17_audit','test_phase18_19_audit',
                 'test_phase3_5_rerun','test_phase6_8_rerun','test_phase15_16_19_rerun','test_phase17_rerun','test_phase14_rerun'],
     'molecular': ['test_phase10_13_rerun', 'test_phase15_checkpoint', 'test_phase7_resume', 'test_phase5_plot', 'test_phase3_completion', 'test_continuous_pending', 'test_phase16_field', 'test_phase7_basis', 'test_phase12_checkpoint', 'test_phase19_orientation',
-                  'test_phase15_16_19_rerun.RerunTests.test_real_torch_training_checkpoint_roundtrip_and_no_overwrite'],
+                  'test_phase15_16_19_rerun.RerunTests.test_real_torch_training_checkpoint_roundtrip_and_no_overwrite',
+                  'test_phase3_checkpoint', 'test_phase4_neb_diagnostic',
+                  'test_phase8_preflight', 'test_phase19_clashes', 'test_phase3_delivery',
+                  'test_prepared_phase3'],
 }
 
 def main():
