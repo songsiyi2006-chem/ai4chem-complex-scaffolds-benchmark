@@ -9,6 +9,7 @@
 | 4 / 20260910T181601 | Bounded continuation, 150 steps | Exit1 after219.1s; best force0.150663 >0.05 eV/A; **not accepted** |
 | 5 / 20260910T142809 | Default full attempt before energy correction | Exit1 after917.6s; TS2b only2 converged frames; ModuleA incomplete |
 | 5 / 20260910T182103 | Fresh default full attempt with physical-SP correction | Exit1 after846.4s; TS2b still only2 converged frames; **not accepted** |
+| 5 / 20260910T201431 | Fresh default full attempt with physical-SP and TS2b pose correction | **Running**, molecular PID28064; acceptance pending |
 
 No further Phase4/5 retries unless new causal evidence appears. Existing failures
 remain failures; no convergence thresholds were relaxed, no rates invented, no
@@ -207,6 +208,52 @@ memory/compute allocation; test success is NOT a molecular rerun. Phase4 still
 fails0.05eV/A and has no newly established cause or authorized retry. Original
 Phase3 PID14832 remains alive and untouched (last observed CPU2140.94s,
 working set745934848bytes). Main owns commit/push; this owner performs neither.
+
+### Allocated fresh full Phase5 started20:14:31
+
+Main explicitly allocated the low-memory Phase5 attempt after its128+10 regression
+executions passed. Before launching, process inspection found only existing
+Phase3 PID14832 and no Phase5 duplicate; free physical RAM was1022564KiB.
+Command: `PRIMARY rerun_phase1_19_campaign.py --phases 5`, no extra arguments.
+Fresh attempt `phase05/20260910T201431/`; unified execution session83162;
+runner PID41292, molecular PID28064. Runtime metadata records all five thread
+limits as2. No historical cache copied, no module/sample reduction, ModuleD
+remains default opt-in/not requested. Started ModuleA species optimizations and
+Hessians; reached A.4 at20:15:16. Full/scientific outcome still pending.
+P3 is untouched, and no other new heavy task was started. Source/tests remain
+frozen; this launch record is the only post-freeze notes edit.
+
+### Source-only v4 cache repair discovered during201431 (running snapshot unchanged)
+
+At20:22:11 the fresh run logged `I1CatM` followed immediately by
+`cache hit: cx_I1Cat_m`. Windows case-insensitive filenames alias
+`cx_I1Cat_M.json` and `cx_I1Cat_m.json`. Only the uppercase file exists in the
+directory listing; reading the lowercase path returns the same `face_deg=35.0`
+record. Thus **201431 stereoselectivity is not acceptable**, regardless of later
+exit code. Main explicitly approved retaining the current attempt to inspect
+TS2b and subsequent gates, not restarting or modifying the snapshot.
+
+Source-only repair uses `cx_I1Cat_face_plus35` / `cx_I1Cat_face_minus35` via
+shared `FACE_CACHE_KEYS`, including result hydration. Separate exact-key reuse
+also skipped the intended unlocked optimization: `comp_I1Cat_unloc` previously
+requested already-populated `cx_I1Cat`. It now uses `cx_I1Cat_unlocked` in both
+calculation and hydration. Hydration of the deliberately shared TS2a proxy now
+loads its actual `cx_TS2a` file, rather than nonexistent M/m-suffixed files.
+Cache version is now `phase1-5-validation-v1-physical-sp-ts2b-pose-cache-v4`.
+
+All cache entry points reviewed: literal complex keys, `sp_{name}` for the
+eight species R/P_target/P_elim/Cat/H2/P_poly/Rprot/CPAneg, direct species reads,
+and opt-in ModuleD `dface_WIN_+1/-1` and `dface_BASE_+1/-1`. No additional
+case-only filename pairs were found. In-memory dictionary keys M/m remain
+distinct in Python and need not be renamed. Scan diagnostics use distinct
+TS1/TS2a/TS2b labels and numeric frame files.
+
+28 focused/existing regressions passed in2.818s; the new test compares casefolded
+keys, executes independent cache computations/readbacks and forbids obsolete
+case-only literals/hydration keys. Future sourceSHA256:
+`F41697E98B2CA9996A581ACE2E329C8E9C6F5E079674958D1EDF1860B8021B90`.
+This differs from the immutable201431 v3 snapshot. No v4 full run has started;
+one will require main coordination. No gates, modules or sampling were reduced.
 
 ## Commands, dependencies and verification
 

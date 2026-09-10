@@ -1,0 +1,378 @@
+{
+  "audit_version": "phase1-5-validation-v1",
+  "energy_cache_version": "phase1-5-validation-v1-physical-sp-ts2b-pose-v3",
+  "scan_energy_scope": "unrestrained GFN2 single points on constrained geometries; not verified TS barriers",
+  "evidence_status": "exploratory_effective_model_not_validated_prediction",
+  "phase": 5,
+  "title": "Autonomous Chemical World Model: ARN + stiff microkinetics + TS-conditioned generative catalyst design",
+  "timestamp": "2026-09-10T20:14:32",
+  "fallbacks": [
+    "ODE at 298.15 K: primary BDF failed — Radau used (The solver successfully reached the end of the integration interval.)"
+  ],
+  "warnings": [
+    "TS1-scan(dN1-C2) frame s=2.350 failed (xtb geometry optimization did not converge: 47 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.250 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.094 sec\r\n * ratio c/w:     0.375 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 34.535 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  8.516 sec\r\n * ratio c/w:     0.247 speedup\r\n\r\n); skipped",
+    "TS1-scan(dN1-C2) frame s=2.500 failed (xtb geometry optimization did not converge: 55 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.208 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.062 sec\r\n * ratio c/w:     0.301 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 34.820 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  8.875 sec\r\n * ratio c/w:     0.255 speedup\r\n\r\n); skipped",
+    "TS2a-scan(dC2-H) frame s=1.900 failed (xtb geometry optimization did not converge: 05 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.273 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.031 sec\r\n * ratio c/w:     0.114 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 54.477 sec\r\n *  cpu-time:     0 d,  0 h,  0 min, 16.703 sec\r\n * ratio c/w:     0.307 speedup\r\n\r\n); skipped",
+    "TS2a-scan(dC2-H) frame s=1.350 failed (xtb geometry optimization did not converge: 98 speedup\r\n SCF:\r\n * wall-time:     0 d,  0 h,  0 min,  0.224 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  0.000 sec\r\n * ratio c/w:     0.000 speedup\r\n ANC optimizer:\r\n * wall-time:     0 d,  0 h,  0 min, 36.374 sec\r\n *  cpu-time:     0 d,  0 h,  0 min,  7.234 sec\r\n * ratio c/w:     0.199 speedup\r\n\r\n); skipped",
+    "network ΔG dG_proton_transfer = -104.8 kcal/mol outside sanity window",
+    "network ΔG dG_TS1_vs_RC = -81.0 kcal/mol outside sanity window",
+    "network ΔG dG_I1_vs_RC = -93.2 kcal/mol outside sanity window",
+    "ODE BDF at 298.15 K not converged: Required step size is less than spacing between numbers.",
+    "ODE BDF at 250 K not converged: Required step size is less than spacing between numbers.",
+    "ODE Radau at 250 K not converged: Required step size is less than spacing between numbers.",
+    "ODE LSODA at 250 K not converged: Unexpected istate in LSODA."
+  ],
+  "assigned_parameters": [
+    {
+      "name": "dGTS2a_trap",
+      "value": "8.0",
+      "rationale": "post-RDS cation capture; computed raw = 66.44 kcal (relaxed scan collapses into product well)"
+    },
+    {
+      "name": "dGTS2b_trap",
+      "value": "6.0",
+      "rationale": "C3 deprotonation capture; computed raw = 15.67 kcal"
+    },
+    {
+      "name": "k_on(R+Cat→RC)",
+      "value": "1000000000.0",
+      "rationale": "Smoluchowski diffusion-limited cap"
+    },
+    {
+      "name": "k_dimer(2I1→P_poly)",
+      "value": "500.0",
+      "rationale": "cationic oligomerization surrogate"
+    },
+    {
+      "name": "ΔG‡(P_elim→Q+H2)",
+      "value": "52.0",
+      "rationale": "dehydrogenative aromatization reference barrier"
+    }
+  ],
+  "scan_diagnostics": [
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\000.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\001.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\002.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\003.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\004.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS1-scan_dN1-C2_\\005.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\000.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\001.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\002.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\003.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2a-scan_dC2-H_\\004.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2b-scan_dC3-H_\\000.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2b-scan_dC3-H_\\001.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2b-scan_dC3-H_\\002.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\TS2b-scan_dC3-H_\\003.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\thermal-scan\\000.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\thermal-scan\\001.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\thermal-scan\\002.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\thermal-scan\\003.json",
+    "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\scan_diagnostics\\thermal-scan\\004.json"
+  ],
+  "module_A": {
+    "engine": "GFN2-xTB",
+    "p_target_chiral_centers": 1,
+    "species_smiles": {
+      "R": "CC12Cc3ccccc3N1C2",
+      "P_target": "CC1C=Nc2ccccc2C1",
+      "P_elim": "CC1=Cc2ccccc2NC1",
+      "P_poly": "C20H20N2 (C2-C2 coupled dimer surrogate)",
+      "Cat": "O=P1(O)Oc2ccc3ccccc3c2-c2ccc3ccccc3c2O1"
+    },
+    "idx_R": {
+      "C2": 1,
+      "C3": 2,
+      "N1": 9,
+      "C2n": 10
+    },
+    "TS1_therm": {
+      "G_eh": -29.712775585113,
+      "n_imag": 0,
+      "d_star": 2.4,
+      "positions": [
+        [
+          -2.70434346677014,
+          0.92450137420826,
+          1.1283681913014
+        ],
+        [
+          -1.88163039991551,
+          0.00988479350489,
+          0.31130214948046
+        ],
+        [
+          -0.77995258357007,
+          -0.7544928659902,
+          0.91297190095787
+        ],
+        [
+          0.5467907773752,
+          -0.56092410329909,
+          0.19892568175523
+        ],
+        [
+          1.68711729177698,
+          -1.21689991781443,
+          0.62083341176836
+        ],
+        [
+          2.92574844184238,
+          -0.87422413228831,
+          0.11036207991068
+        ],
+        [
+          3.0194768217914,
+          0.15346242073823,
+          -0.82576717237038
+        ],
+        [
+          1.89967402318411,
+          0.80520944751894,
+          -1.27203935978531
+        ],
+        [
+          0.61200421460697,
+          0.42656173032259,
+          -0.82245294193145
+        ],
+        [
+          -0.46515845569951,
+          1.00919460374683,
+          -1.33092771803679
+        ],
+        [
+          -1.70002345554656,
+          0.22830839246001,
+          -1.17322065603298
+        ],
+        [
+          -2.9866003792737,
+          0.43320067007863,
+          2.05942532249658
+        ],
+        [
+          -2.13915070911923,
+          1.82155338176643,
+          1.39801445470961
+        ],
+        [
+          -3.59817453738997,
+          1.23812239012664,
+          0.59306845544712
+        ],
+        [
+          -0.67447089748517,
+          -0.55163709156858,
+          1.98313463721528
+        ],
+        [
+          -1.00539062531803,
+          -1.82303541218444,
+          0.80124723511068
+        ],
+        [
+          1.61148199684148,
+          -1.9772583591723,
+          1.38671836331281
+        ],
+        [
+          3.81478431420367,
+          -1.37383483205424,
+          0.4631825472075
+        ],
+        [
+          3.98893354183776,
+          0.43756003374937,
+          -1.20932639566306
+        ],
+        [
+          1.9578467810785,
+          1.57343090885582,
+          -2.02678231422209
+        ],
+        [
+          -1.61085124846112,
+          -0.73353791028273,
+          -1.70122131388328
+        ],
+        [
+          -2.51811144578944,
+          0.80485447757767,
+          -1.6058165589482
+        ]
+      ],
+      "numbers": [
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        6,
+        7,
+        6,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "chrg": 0
+    },
+    "G_kcal": {
+      "R": -18688.002273940623,
+      "P_target": -18690.943529755463,
+      "P_elim": -18691.191045315933,
+      "Cat": -42787.22946363728,
+      "H2": -618.5409536919329,
+      "P_poly": -61460.91368242018,
+      "Rprot": -18745.386258914554,
+      "CPAneg": -42638.379911747936,
+      "RC": -61371.672279742364,
+      "I_RC": -61476.504112102746,
+      "TS1": -61452.67573199584,
+      "I1Cat": -61464.91368242018,
+      "I1Cat_M": -61413.42235164146,
+      "I1Cat_m": -61413.42235164146,
+      "TS2aM": -61398.47829683422,
+      "TS2am": -61398.47829683422,
+      "TS2b": -61449.241927581046,
+      "TS1_therm": -18645.048180369176,
+      "sep_R+Cat": -61473.34173757791,
+      "sep_P+Cat": -61476.28299339274,
+      "sep_PE+Cat": -61476.53050895322
+    },
+    "dG_kcal": {
+      "dG_bind_RC": 101.66945783554547,
+      "dG_proton_transfer": -104.83183236038167,
+      "dG_TS1_vs_RC": -81.00345225347701,
+      "dG_I1_vs_RC": -93.24140267781331,
+      "dG_TS2aM_vs_I1": 8.0,
+      "dG_TS2am_vs_I1": 8.0,
+      "dG_TS2b_vs_I1": 6.0,
+      "dG_TS2a_raw": 66.43538558595901,
+      "dG_TS2b_raw": 15.671754839131609,
+      "dG_I1Cat_face_split": 0.0,
+      "ddG_ts2a_stereo": 0.0,
+      "dG_TS1_thermal": 42.95409357144672,
+      "dG_rxn_overall": -2.9412558148324024,
+      "dG_aromatization_sink": 52.0
+    },
+    "network_nodes": {
+      "R+Cat": {
+        "G_rel": 3.188771375309443
+      },
+      "RC": {
+        "G_rel": 104.85822921085492
+      },
+      "I_RC": {
+        "G_rel": 0.02639685047324747
+      },
+      "TS1": {
+        "G_rel": 23.854776957377908
+      },
+      "I1Cat": {
+        "G_rel": 11.616826533041603
+      },
+      "TS2aM": {
+        "G_rel": 78.05221211900061
+      },
+      "TS2am": {
+        "G_rel": 78.05221211900061
+      },
+      "TS2b": {
+        "G_rel": 27.288581372173212
+      },
+      "P_R+Cat": {
+        "G_rel": 0.2475155604770407
+      },
+      "P_S+Cat": {
+        "G_rel": 0.2475155604770407
+      },
+      "P_elim+Cat": {
+        "G_rel": 0.0
+      },
+      "P_poly": {
+        "G_rel": 15.616826533041603
+      }
+    },
+    "network_edges": [
+      {
+        "u": "R+Cat",
+        "v": "RC",
+        "dG_bar": 20.666005582068465
+      },
+      {
+        "u": "RC",
+        "v": "TS1",
+        "dG_bar": 81.00345225347701
+      },
+      {
+        "u": "TS1",
+        "v": "I1Cat",
+        "dG_bar": 12.237950424336304
+      },
+      {
+        "u": "I1Cat",
+        "v": "TS2aM",
+        "dG_bar": 66.43538558595901
+      },
+      {
+        "u": "I1Cat",
+        "v": "TS2am",
+        "dG_bar": 66.43538558595901
+      },
+      {
+        "u": "I1Cat",
+        "v": "TS2b",
+        "dG_bar": 15.671754839131609
+      },
+      {
+        "u": "TS2aM",
+        "v": "P_R+Cat",
+        "dG_bar": 77.80469655852357
+      },
+      {
+        "u": "TS2am",
+        "v": "P_S+Cat",
+        "dG_bar": 77.80469655852357
+      },
+      {
+        "u": "TS2b",
+        "v": "P_elim+Cat",
+        "dG_bar": 27.288581372173212
+      }
+    ],
+    "complex_G_kcal": {
+      "RC": -61371.672279742364,
+      "I_RC": -61476.504112102746,
+      "TS1": -61452.67573199584,
+      "I1Cat": -61464.91368242018,
+      "I1Cat_M": -61413.42235164146,
+      "I1Cat_m": -61413.42235164146,
+      "TS2aM": -61398.47829683422,
+      "TS2am": -61398.47829683422,
+      "TS2b": -61449.241927581046,
+      "TS1_therm": -18645.048180369176
+    },
+    "ts_quality": {
+      "TS1_n_imag": 1,
+      "TS2aM_n_imag": 3,
+      "TS2am_n_imag": 3,
+      "TS2b_n_imag": 2,
+      "TS1_therm_n_imag": 0
+    }
+  },
+  "execution_status": "failed",
+  "fatal_error": "RuntimeError: all stiff solvers failed at T=250"
+}

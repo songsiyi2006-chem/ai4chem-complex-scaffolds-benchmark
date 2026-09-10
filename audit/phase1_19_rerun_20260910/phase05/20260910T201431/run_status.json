@@ -74,7 +74,7 @@
     "run_phase5_chemical_world_model.py"
   ],
   "cwd": "$CAMPAIGN\\phase05\\20260910T201431",
-  "status": "running",
+  "status": "process_failed",
   "scope": "default/full attempt",
   "prerequisite_artifacts": [],
   "historical_cache_copied": false,
@@ -103,5 +103,7 @@
     "NUMEXPR_NUM_THREADS": "2",
     "OPENMM_CPU_THREADS": "2"
   },
-  "pid": 28064
+  "pid": 28064,
+  "exit_code": 1,
+  "elapsed_s": 805.375
 }

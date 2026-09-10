@@ -1,0 +1,121 @@
+[p5 20:14:32] PHASE 5 chemical world model — stage=all — engine=GFN2-xTB
+[p5 20:14:32] ======================================================================
+[p5 20:14:32] MODULE A — automated reaction network (GFN2-xTB topology)
+[p5 20:14:32] ======================================================================
+[p5 20:14:32] A.1 building species through RDKit programmatic gates ...
+[p5 20:14:32]   R        = CC12Cc3ccccc3N1C2
+[p5 20:14:32]   P_target = CC1C=Nc2ccccc2C1 (chiral centers: 1)
+[p5 20:14:32]   P_elim   = CC1=Cc2ccccc2NC1
+[p5 20:14:32]   Cat      = O=P1(O)Oc2ccc3ccccc3c2-c2ccc3ccccc3c2O1
+[p5 20:14:32] A.2 GFN2-xTB opt+hess of closed-shell species ...
+[p5 20:14:37]   species R: G=-18688.00 kcal/mol, n_imag=0 (4 s)
+[p5 20:14:38]   species P_target: G=-18690.94 kcal/mol, n_imag=0 (2 s)
+[p5 20:14:40]   species P_elim: G=-18691.19 kcal/mol, n_imag=0 (2 s)
+[p5 20:14:51]   species Cat: G=-42787.23 kcal/mol, n_imag=0 (10 s)
+[p5 20:14:51]   species H2: G=-618.54 kcal/mol, n_imag=0 (0 s)
+[p5 20:15:04]   species P_poly: G=-36218.87 kcal/mol, n_imag=0 (13 s)
+[p5 20:15:04] A.3 ionic partners: aziridinium R-H+ and chiral phosphate anion ...
+[p5 20:15:06]   species Rprot: G=-18745.39 kcal/mol, n_imag=0 (2 s)
+[p5 20:15:16]   species CPAneg: G=-42638.38 kcal/mol, n_imag=0 (10 s)
+[p5 20:15:16] A.4 Tier-2: assembling H-bonded complex RC and aziridinium ion pair I_RC ...
+[p5 20:16:55] A.5 Tier-2 relaxed scan: TS1 = aziridinium C2-N1 cleavage ...
+[p5 20:17:08]     TS1-scan(dN1-C2) frame 1/6 s=1.600 E=-61722.168 Eh-kcal
+[p5 20:17:25]     TS1-scan(dN1-C2) frame 2/6 s=1.800 E=-61711.133 Eh-kcal
+[p5 20:17:51]     TS1-scan(dN1-C2) frame 3/6 s=2.000 E=-61700.925 Eh-kcal
+[p5 20:18:22]     TS1-scan(dN1-C2) frame 4/6 s=2.200 E=-61714.984 Eh-kcal
+[p5 20:18:57] !! WARNING: TS1-scan(dN1-C2) frame s=2.350 failed (xtb geometry optimization did not converge: 47 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.250 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.094 sec
+ * ratio c/w:     0.375 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 34.535 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  8.516 sec
+ * ratio c/w:     0.247 speedup
+
+); skipped
+[p5 20:19:32] !! WARNING: TS1-scan(dN1-C2) frame s=2.500 failed (xtb geometry optimization did not converge: 55 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.208 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.062 sec
+ * ratio c/w:     0.301 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 34.820 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  8.875 sec
+ * ratio c/w:     0.255 speedup
+
+); skipped
+[p5 20:20:04]   TS1: d(N1-C2)*=2.00 A, G=-61452.68, n_imag=1
+[p5 20:21:05] A.6 Tier-2: diastereomeric TS2a proton-relay pair (Re/Si faces) ...
+[p5 20:22:11]   I1CatM: G=-61413.42, n_imag=1
+[p5 20:22:11] cache hit: cx_I1Cat_m
+[p5 20:22:45]     TS2a-scan(dC2-H) frame 1/5 s=2.200 E=-61696.621 Eh-kcal
+[p5 20:23:40] !! WARNING: TS2a-scan(dC2-H) frame s=1.900 failed (xtb geometry optimization did not converge: 05 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.273 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.031 sec
+ * ratio c/w:     0.114 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 54.477 sec
+ *  cpu-time:     0 d,  0 h,  0 min, 16.703 sec
+ * ratio c/w:     0.307 speedup
+
+); skipped
+[p5 20:24:07]     TS2a-scan(dC2-H) frame 3/5 s=1.600 E=-61647.580 Eh-kcal
+[p5 20:24:44] !! WARNING: TS2a-scan(dC2-H) frame s=1.350 failed (xtb geometry optimization did not converge: 98 speedup
+ SCF:
+ * wall-time:     0 d,  0 h,  0 min,  0.224 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  0.000 sec
+ * ratio c/w:     0.000 speedup
+ ANC optimizer:
+ * wall-time:     0 d,  0 h,  0 min, 36.374 sec
+ *  cpu-time:     0 d,  0 h,  0 min,  7.234 sec
+ * ratio c/w:     0.199 speedup
+
+); skipped
+[p5 20:25:17]     TS2a-scan(dC2-H) frame 5/5 s=1.150 E=-61722.845 Eh-kcal
+[p5 20:25:55]   TS2a: d(C2-H)*=1.60 A, G=-61398.48, n_imag=3
+[p5 20:26:16]     TS2b-scan(dC3-H) frame 1/4 s=1.600 E=-61718.162 Eh-kcal
+[p5 20:26:36]     TS2b-scan(dC3-H) frame 2/4 s=1.400 E=-61713.359 Eh-kcal
+[p5 20:26:56]     TS2b-scan(dC3-H) frame 3/4 s=1.250 E=-61707.147 Eh-kcal
+[p5 20:27:17]     TS2b-scan(dC3-H) frame 4/4 s=1.100 E=-61698.169 Eh-kcal
+[p5 20:27:49]   TS2b: d(C3-H)*=1.10 A, G=-61449.24, n_imag=2
+[p5 20:27:49] cache hit: cx_I1Cat
+[p5 20:27:49] A.8 Tier-1: intrinsic thermal cleavage scan on neutral R ...
+[p5 20:27:50]     thermal-scan frame 1/5 s=1.600 E=-18777.641 Eh-kcal
+[p5 20:27:50]     thermal-scan frame 2/5 s=1.800 E=-18765.596 Eh-kcal
+[p5 20:27:51]     thermal-scan frame 3/5 s=2.000 E=-18752.920 Eh-kcal
+[p5 20:27:52]     thermal-scan frame 4/5 s=2.200 E=-18743.069 Eh-kcal
+[p5 20:27:53]     thermal-scan frame 5/5 s=2.400 E=-18734.620 Eh-kcal
+[p5 20:27:55] assigned parameter: dGTS2a_trap = 8.0  (post-RDS cation capture; computed raw = 66.44 kcal (relaxed scan collapses into product well))
+[p5 20:27:55] assigned parameter: dGTS2b_trap = 6.0  (C3 deprotonation capture; computed raw = 15.67 kcal)
+[p5 20:27:55] !! WARNING: network ΔG dG_proton_transfer = -104.8 kcal/mol outside sanity window
+[p5 20:27:55] !! WARNING: network ΔG dG_TS1_vs_RC = -81.0 kcal/mol outside sanity window
+[p5 20:27:55] !! WARNING: network ΔG dG_I1_vs_RC = -93.2 kcal/mol outside sanity window
+[p5 20:27:55] MODULE A complete — network written to results JSON
+[p5 20:27:55] ======================================================================
+[p5 20:27:55] MODULE B — stiff microkinetic world model (Eyring-Polanyi, Radau)
+[p5 20:27:55] ======================================================================
+[p5 20:27:55] assigned parameter: k_on(R+Cat→RC) = 1000000000.0  (Smoluchowski diffusion-limited cap)
+[p5 20:27:55] assigned parameter: k_dimer(2I1→P_poly) = 500.0  (cationic oligomerization surrogate)
+[p5 20:27:55] assigned parameter: ΔG‡(P_elim→Q+H2) = 52.0  (dehydrogenative aromatization reference barrier)
+[p5 20:27:56] !! WARNING: ODE BDF at 298.15 K not converged: Required step size is less than spacing between numbers.
+[p5 20:27:56] !! FALLBACK: ODE at 298.15 K: primary BDF failed — Radau used (The solver successfully reached the end of the integration interval.)
+[p5 20:27:56] 298 K: yield=0.0%  ee=0.0%  selectivity=0.1  stiffness ratio=7.03e+108
+[p5 20:27:56] B: temperature sweep T=250..350 K ...
+[p5 20:27:56] !! WARNING: ODE BDF at 250 K not converged: Required step size is less than spacing between numbers.
+[p5 20:27:56] !! WARNING: ODE Radau at 250 K not converged: Required step size is less than spacing between numbers.
+$USER_PROFILE\miniconda3\envs\phase2ff\Lib\site-packages\scipy\integrate\_ivp\lsoda.py:163: UserWarning: lsoda: Repeated convergence failures (perhaps bad Jacobian or tolerances).
+  solver._y, solver.t = integrator.run(
+[p5 20:27:56] !! WARNING: ODE LSODA at 250 K not converged: Unexpected istate in LSODA.
+Traceback (most recent call last):
+  File "$CAMPAIGN\phase05\20260910T201431\run_phase5_chemical_world_model.py", line 2480, in <module>
+    main()
+  File "$CAMPAIGN\phase05\20260910T201431\run_phase5_chemical_world_model.py", line 2453, in main
+    module_B()
+  File "$CAMPAIGN\phase05\20260910T201431\run_phase5_chemical_world_model.py", line 1511, in module_B
+    s, _, _, _ = integrate(T, G, dg)
+                 ^^^^^^^^^^^^^^^^^^^
+  File "$CAMPAIGN\phase05\20260910T201431\run_phase5_chemical_world_model.py", line 1447, in integrate
+    raise RuntimeError(f"all stiff solvers failed at T={T}")
+RuntimeError: all stiff solvers failed at T=250

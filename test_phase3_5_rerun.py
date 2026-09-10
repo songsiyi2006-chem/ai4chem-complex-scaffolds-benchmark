@@ -80,6 +80,28 @@ def probe_phase5_restraint(cache_path):
 
 
 class RerunTests(unittest.TestCase):
+    def test_phase5_cache_keys_distinguish_faces_and_unlocked_state(self):
+        tree = ast.parse((ROOT/'run_phase5_chemical_world_model.py').read_text(encoding='utf-8'))
+        constants = {n.targets[0].id: ast.literal_eval(n.value) for n in tree.body
+                     if isinstance(n, ast.Assign) and isinstance(n.targets[0], ast.Name)
+                     and n.targets[0].id in ('FACE_CACHE_KEYS', 'UNLOCKED_CACHE_KEY')}
+        faces = constants['FACE_CACHE_KEYS']
+        keys = [faces['M'], faces['m'], constants['UNLOCKED_CACHE_KEY'], 'cx_I1Cat']
+        self.assertEqual(len(set(k.casefold() for k in keys)), 4)
+        with tempfile.TemporaryDirectory() as td:
+            ns = functions(5, ['cached_or_compute'], CACHE=Path(td), json=json,
+                           _log=lambda *a: None, _warn=lambda *a: None)
+            computes = [Mock(return_value={'state': i}) for i in range(4)]
+            for i, key in enumerate(keys):
+                self.assertEqual(ns['cached_or_compute'](key, computes[i]), {'state': i})
+            for i, key in enumerate(keys):
+                self.assertEqual(ns['cached_or_compute'](key, computes[i]), {'state': i})
+                computes[i].assert_called_once()
+        # Call sites and hydration must use the shared keys, not stale literals.
+        stale = {'cx_I1Cat_M', 'cx_I1Cat_m', 'cx_TS2aM', 'cx_TS2am'}
+        self.assertFalse(any(isinstance(n, ast.Constant) and isinstance(n.value, str)
+                             and n.value in stale for n in ast.walk(tree)))
+
     def test_deprotonation_pose_uses_global_oxygen_preserves_fragments(self):
         ns = functions(5, ['prepare_deprotonation_pose', 'kabsch_rotate'])
         nums = np.array([6, 1, 6, 8, 15, 8])

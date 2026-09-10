@@ -80,9 +80,7 @@ EXPLORATORY_KINETICS = False
 ROOT = Path(__file__).resolve().parent
 RES = ROOT / "results_phase5"
 FIG = ROOT / "figures_phase5"
-ENERGY_CACHE_VERSION = AUDIT_VERSION + "-physical-sp-ts2b-pose-cache-v4"
-FACE_CACHE_KEYS = {'M': 'cx_I1Cat_face_plus35', 'm': 'cx_I1Cat_face_minus35'}
-UNLOCKED_CACHE_KEY = 'cx_I1Cat_unlocked'
+ENERGY_CACHE_VERSION = AUDIT_VERSION + "-physical-sp-ts2b-pose-v3"
 CACHE = RES / ("cache_" + ENERGY_CACHE_VERSION)
 for d in (RES, FIG, CACHE):
     d.mkdir(parents=True, exist_ok=True)
@@ -1070,9 +1068,9 @@ def module_A():
                 "chrg": 0, "charges": h["charges"].tolist(),
                 "face_deg": face_deg}
 
-    I1Cat_M = cached_or_compute(FACE_CACHE_KEYS['M'], lambda: comp_I1Cat_face(
+    I1Cat_M = cached_or_compute("cx_I1Cat_M", lambda: comp_I1Cat_face(
         +35.0, "M"))
-    I1Cat_m = cached_or_compute(FACE_CACHE_KEYS['m'], lambda: comp_I1Cat_face(
+    I1Cat_m = cached_or_compute("cx_I1Cat_m", lambda: comp_I1Cat_face(
         -35.0, "m"))
 
     def comp_TS2a():
@@ -1165,7 +1163,7 @@ def module_A():
                 "G_eh": h["G_eh"], "E_eh": h["E_eh"], "n_imag": h["n_imag"],
                 "chrg": 0, "charges": h["charges"].tolist()}
 
-    I1Cat = cached_or_compute(UNLOCKED_CACHE_KEY, comp_I1Cat_unloc)
+    I1Cat = cached_or_compute("cx_I1Cat", comp_I1Cat_unloc)
     XA["I1Cat_M"], XA["I1Cat_m"] = I1Cat_M, I1Cat_m
     XA["TS2aM"], XA["TS2am"], XA["TS2b"] = TS2aM, TS2am, TS2b
     XA["I1Cat"] = I1Cat
@@ -2407,10 +2405,10 @@ def _hydrate_from_results():
         XA.update(MA)
         RESULTS["module_A"] = MA
         for key, fname in [("RC", "cx_RC"), ("I_RC", "cx_IRC"),
-                           ("TS1", "cx_TS1"), ("I1Cat", UNLOCKED_CACHE_KEY),
-                           ("I1Cat_M", FACE_CACHE_KEYS['M']),
-                           ("I1Cat_m", FACE_CACHE_KEYS['m']),
-                           ("TS2aM", "cx_TS2a"), ("TS2am", "cx_TS2a"),
+                           ("TS1", "cx_TS1"), ("I1Cat", "cx_I1Cat"),
+                           ("I1Cat_M", "cx_I1Cat_M"),
+                           ("I1Cat_m", "cx_I1Cat_m"),
+                           ("TS2aM", "cx_TS2aM"), ("TS2am", "cx_TS2am"),
                            ("TS2b", "cx_TS2b")]:
             if key not in XA:
                 p = CACHE / f"{fname}.json"

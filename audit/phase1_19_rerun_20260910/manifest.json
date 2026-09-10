@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-10 20:16:25",
+  "generated": "2026-09-10 20:28:14",
   "campaign": "$CAMPAIGN",
   "phases": [
     {
@@ -522,7 +522,7 @@
             }
           },
           "pid": 14832,
-          "elapsed_s": 19935.467663764954,
+          "elapsed_s": 20645.19261932373,
           "attempt_path": "$CAMPAIGN\\phase03\\20260910T144409",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
@@ -1209,11 +1209,11 @@
             "run_phase5_chemical_world_model.py"
           ],
           "cwd": "$CAMPAIGN\\phase05\\20260910T201431",
-          "status": "running",
+          "status": "process_failed",
           "scope": "default/full attempt",
           "prerequisite_artifacts": [],
           "historical_cache_copied": false,
-          "scientific_acceptance": "pending output review",
+          "scientific_acceptance": "not accepted: process failed or was deliberately stopped; inspect log/notes",
           "runtime": {
             "python": "3.12.14 | packaged by conda-forge | (main, Sep  2 2026, 23:18:20) [MSC v.1944 64 bit (AMD64)]",
             "executable": "$USER_PROFILE\\miniconda3\\envs\\phase2ff\\python.exe",
@@ -1239,13 +1239,15 @@
             "OPENMM_CPU_THREADS": "2"
           },
           "pid": 28064,
-          "elapsed_s": 113.60460042953491,
+          "exit_code": 1,
+          "elapsed_s": 805.375,
           "attempt_path": "$CAMPAIGN\\phase05\\20260910T201431",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
-          "log_sha256": "810dd05557204e13312e8bdd388a1f9381549fea347a1921f7eebabae2decbdb",
-          "memory_hold_reported": false,
-          "result_files": []
+          "log_sha256": "3b2b9e5eab00cb48a9a2bc1ecd40f3475f15d6973e774bc5efdb03d4e93a614c",
+          "result_files": [
+            "results_phase5\\phase5_results.json"
+          ]
         }
       ]
     },
@@ -1613,12 +1615,12 @@
             }
           },
           "pid": 38388,
-          "elapsed_s": 7575.684428691864,
+          "elapsed_s": 8285.400327444077,
           "attempt_path": "$CAMPAIGN\\phase07\\20260910T181009",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
-          "log_sha256": "b6243fb53c7770da1ed1fa344d3defe0a84afa5c3167a8e7681be49d4e1c5411",
-          "memory_hold_reported": true,
+          "log_sha256": "600911659ec4b3d412168df4dcb3545291f217569c4885ed25c02525f8e07bd6",
+          "memory_hold_reported": false,
           "result_files": []
         }
       ]
@@ -2187,18 +2189,20 @@
             "run_phase14_active_matter_condensate_phase_separation.py"
           ],
           "cwd": "$CAMPAIGN\\phase14\\20260910T135701",
-          "status": "running",
+          "status": "process_completed",
           "scope": "default/full attempt",
           "historical_cache_copied": false,
           "scientific_acceptance": "pending output review",
           "pid": 32948,
-          "elapsed_s": 22763.796629428864,
+          "exit_code": 0,
+          "elapsed_s": 23427.5,
           "attempt_path": "$CAMPAIGN\\phase14\\20260910T135701",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
-          "log_sha256": "34fc7d696f5796ba0192b145e58608be24675bc82ee18d6415f28fbcc2ed40d7",
-          "memory_hold_reported": false,
-          "result_files": []
+          "log_sha256": "f815fa3542604c4c6e57336f28fbdefc0db48ee89342895aadb31de46c52a9d3",
+          "result_files": [
+            "results_phase14\\phase14_results.json"
+          ]
         }
       ]
     },
@@ -2536,7 +2540,7 @@
             }
           },
           "pid": 41388,
-          "elapsed_s": 7421.871365070343,
+          "elapsed_s": 8131.557994842529,
           "attempt_path": "$CAMPAIGN\\phase15\\20260910T181243",
           "regenerated_python_artifacts": [],
           "snapshot_hash_mismatches": [],
@@ -4923,10 +4927,37 @@
       "path": "phase05/20260910T201431/run_status.json",
       "role": "process snapshot",
       "source": "$CAMPAIGN\\phase05\\20260910T201431\\rerun_status.json",
-      "source_sha256": "ce4a5df1fe135db333baa6b5efc8ccc0b6fb21f158e91bc01ae6a5040b9b012d",
-      "published_sha256": "83597e28e0188ee3fb6e8b28dc3e5d391656704f76e0ab862502d44c340979db",
-      "bytes": 7749,
+      "source_sha256": "58d7f9df4695d5ab2a4d3fbaccf0c9fdbf332f98872fe1d029210aa12eb5e8cc",
+      "published_sha256": "c0bfb8784ddcb7649c81eef69f73fcdda6421bcd5cb4d0d67bf78dceb4767b0a",
+      "bytes": 7798,
       "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase05/20260910T201431/results_phase5/phase5_results.json",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase05\\20260910T201431\\results_phase5\\phase5_results.json",
+      "source_sha256": "95aa3cc1eaec309695e3cb4db15fafce3ed7fd0b11d371710d4105c1005017d8",
+      "published_sha256": "6600b322cd2744a282195a669c312501054814b750af55adb75240d4ef4041c4",
+      "bytes": 12544,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase05/20260910T201431/run.log",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase05\\20260910T201431\\run.log",
+      "source_sha256": "3b2b9e5eab00cb48a9a2bc1ecd40f3475f15d6973e774bc5efdb03d4e93a614c",
+      "published_sha256": "dde79005a82a566a8f6f6aba5364975ac54c5c336111eb0e037b41fb18e3f54f",
+      "bytes": 7654,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase05/20260910T201431/run_phase5_chemical_world_model.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase05\\20260910T201431\\run_phase5_chemical_world_model.py",
+      "source_sha256": "79f67387e93d25604647b109eba09202822b8ac91fb8dc293902ba462130ebed",
+      "published_sha256": "79f67387e93d25604647b109eba09202822b8ac91fb8dc293902ba462130ebed",
+      "bytes": 109923,
+      "text_normalized_or_redacted": false
     },
     {
       "path": "phase06/20260910T135824/run_status.json",
@@ -5328,10 +5359,64 @@
       "path": "phase14/20260910T135701/run_status.json",
       "role": "process snapshot",
       "source": "$CAMPAIGN\\phase14\\20260910T135701\\rerun_status.json",
-      "source_sha256": "41633c35ee7262ee5be9df6b4d186ed8999f76f0a8b738a1687c37cdb4d90d25",
-      "published_sha256": "97fb38eaf49ad515949de378a15865da7f5d89aa7068409c1a6cbbcc559b102e",
-      "bytes": 6562,
+      "source_sha256": "a72a38b3ac364acb1622241a6464d355d8624afbc84d4f0b4bc8f79fefcdd839",
+      "published_sha256": "4d527ff523d532cd30f193c2ba05522647cccae20320059c773db23c076f756b",
+      "bytes": 6614,
       "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase14/20260910T135701/figures_phase14/fig1_active_droplet_spatiotemporal.png",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase14\\20260910T135701\\figures_phase14\\fig1_active_droplet_spatiotemporal.png",
+      "source_sha256": "dddd03dcb4841efdcd2126ddca24656f980f0c20365eafffc1a2ffe85c6c9b3a",
+      "published_sha256": "dddd03dcb4841efdcd2126ddca24656f980f0c20365eafffc1a2ffe85c6c9b3a",
+      "bytes": 5114138,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase14/20260910T135701/figures_phase14/fig2_thermodynamic_entropy_dissipation.png",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase14\\20260910T135701\\figures_phase14\\fig2_thermodynamic_entropy_dissipation.png",
+      "source_sha256": "81e52cc58fce5b701b229d1427dad182063b4cb1ea1dfc971f92e33bf2751cb3",
+      "published_sha256": "81e52cc58fce5b701b229d1427dad182063b4cb1ea1dfc971f92e33bf2751cb3",
+      "bytes": 457846,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase14/20260910T135701/figures_phase14/fig3_analytical_frap_saxs_twin.png",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase14\\20260910T135701\\figures_phase14\\fig3_analytical_frap_saxs_twin.png",
+      "source_sha256": "aa0e52d42d4e1e0a823e0d8087df5743844024b707ae488f37fedbb6f0aa3170",
+      "published_sha256": "aa0e52d42d4e1e0a823e0d8087df5743844024b707ae488f37fedbb6f0aa3170",
+      "bytes": 466975,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase14/20260910T135701/results_phase14/phase14_results.json",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase14\\20260910T135701\\results_phase14\\phase14_results.json",
+      "source_sha256": "b86d0260f8c4a2ed6f4c5b20f944f17e610d30ec5cea8b305bf19ab37b8f4783",
+      "published_sha256": "d21183d2364a8b64c50ecb79f64ac6820c69d9fb06e487952d240bb6613e0c7a",
+      "bytes": 203708,
+      "text_normalized_or_redacted": true
+    },
+    {
+      "path": "phase14/20260910T135701/run.log",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase14\\20260910T135701\\run.log",
+      "source_sha256": "f815fa3542604c4c6e57336f28fbdefc0db48ee89342895aadb31de46c52a9d3",
+      "published_sha256": "f815fa3542604c4c6e57336f28fbdefc0db48ee89342895aadb31de46c52a9d3",
+      "bytes": 317030,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "phase14/20260910T135701/run_phase14_active_matter_condensate_phase_separation.py",
+      "role": "selected evidence, not full trajectory archive",
+      "source": "$CAMPAIGN\\phase14\\20260910T135701\\run_phase14_active_matter_condensate_phase_separation.py",
+      "source_sha256": "9a766f29dbd11686cf49c94ff81d5f1532baf31cfe41314c24c9d57da0bfb56a",
+      "published_sha256": "9a766f29dbd11686cf49c94ff81d5f1532baf31cfe41314c24c9d57da0bfb56a",
+      "bytes": 54193,
+      "text_normalized_or_redacted": false
     },
     {
       "path": "phase15/20260910T181243/run_status.json",
@@ -5703,13 +5788,41 @@
       "text_normalized_or_redacted": false
     },
     {
+      "path": "regressions/20260910T202711/molecular.log",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T202711\\molecular.log",
+      "source_sha256": "f814a09f9b1beb468753e7fe579cec2f9fbea1ad6b755f4b6936aa73ff20e6b1",
+      "published_sha256": "f814a09f9b1beb468753e7fe579cec2f9fbea1ad6b755f4b6936aa73ff20e6b1",
+      "bytes": 2038,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "regressions/20260910T202711/primary.log",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T202711\\primary.log",
+      "source_sha256": "6080b5f4e626e40bcf18f43f422049410fa3287eafb37a08c0d351c65049c7ac",
+      "published_sha256": "6080b5f4e626e40bcf18f43f422049410fa3287eafb37a08c0d351c65049c7ac",
+      "bytes": 16926,
+      "text_normalized_or_redacted": false
+    },
+    {
+      "path": "regressions/20260910T202711/regression_status.json",
+      "role": "regression evidence",
+      "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T202711\\regression_status.json",
+      "source_sha256": "f176c40439786c295828b91e10e280d9d510b761169c514f5d5f37ae7d8ecc2a",
+      "published_sha256": "915f14ef1c30ada27053269ef38455ffecf37272c3347555883a386ba0eb0e6f",
+      "bytes": 14944,
+      "text_normalized_or_redacted": true
+    },
+    {
       "path": "regressions/20260910T201248/molecular.log",
       "role": "regression evidence",
       "source": "$SOURCE_ROOT\\results_rerun_audit\\20260910T201248\\molecular.log",
       "source_sha256": "151acbcd9570e23e5bdda93e51ef8681570825269ba38cb586ea386e4936fd45",
       "published_sha256": "151acbcd9570e23e5bdda93e51ef8681570825269ba38cb586ea386e4936fd45",
       "bytes": 2038,
-      "text_normalized_or_redacted": false
+      "text_normalized_or_redacted": false,
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T201248/primary.log",
@@ -5718,7 +5831,8 @@
       "source_sha256": "05528d80b81940d22196bbe45e444aac5c358e61a15187ebbb72196b2ae1ecac",
       "published_sha256": "05528d80b81940d22196bbe45e444aac5c358e61a15187ebbb72196b2ae1ecac",
       "bytes": 16765,
-      "text_normalized_or_redacted": false
+      "text_normalized_or_redacted": false,
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T201248/regression_status.json",
@@ -5727,7 +5841,8 @@
       "source_sha256": "3f543f85b53b3e21db66afa0a2d043115bcde6ccc585d02efbdf52b995f0d167",
       "published_sha256": "f44ee1eda73713e282f4c215387f339d8accff7d512731d8b4027beaad34db83",
       "bytes": 14943,
-      "text_normalized_or_redacted": true
+      "text_normalized_or_redacted": true,
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase05/20260910T182103/run_status.json",
@@ -5737,7 +5852,7 @@
       "published_sha256": "1f9ce8a91bc9c41fc480fc912c9bc7bf6183a4617aafec00d69e118c727f288b",
       "bytes": 7385,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase05/20260910T182103/acceptance_review.json",
@@ -5747,7 +5862,7 @@
       "published_sha256": "045b8bdfc08cfc5e1861308a9571d77e229dab0ac68b8e15b7b96cb7ee44928d",
       "bytes": 443,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase05/20260910T182103/results_phase5/phase5_results.json",
@@ -5757,7 +5872,7 @@
       "published_sha256": "d8e09307192b41f30d2c2f83a9131473be4553333035856eaf1a37e29e0eef3d",
       "bytes": 3178,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase05/20260910T182103/run.log",
@@ -5767,7 +5882,7 @@
       "published_sha256": "77b2abce663782593bd47af975efcf64c7b3e09d1d69aff97865f6056a2368a6",
       "bytes": 6057,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase05/20260910T182103/run_phase5_chemical_world_model.py",
@@ -5777,7 +5892,7 @@
       "published_sha256": "dbb02293c06a14746d5479cb7ed4d842d154effa0a9e58014e966cb565ade206",
       "bytes": 106865,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T193128/molecular.log",
@@ -5787,7 +5902,7 @@
       "published_sha256": "94ea64cee0200a4415262c1fb656912e238ff6e97dea882a089cde6a3ae7dc51",
       "bytes": 1761,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T193128/primary.log",
@@ -5797,7 +5912,7 @@
       "published_sha256": "5232757c7958b02044b02d2d3a7d94a9e021edc185b24d476492d7cdbc7edc91",
       "bytes": 16028,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T193128/regression_status.json",
@@ -5807,7 +5922,7 @@
       "published_sha256": "953bf5c27135de7faa21b0b17b2c55e9f40c8bd39081aeaffc72dcdc42d076c5",
       "bytes": 14942,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase19/20260910T181030/run_status.json",
@@ -5817,7 +5932,7 @@
       "published_sha256": "5f0cfe7bc7a6065dc9e2480bf04ad6cfe6a87b80df9b6e9f6f81baa437a6ba9f",
       "bytes": 7133,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase19/20260910T181030/figures_phase19/fig1_active_inference_convergence.png",
@@ -5827,7 +5942,7 @@
       "published_sha256": "c20805ffe08dcaa83f366e4b7f29ea1ef2bfe9755795930a46b39dc6b7b68150",
       "bytes": 489125,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase19/20260910T181030/figures_phase19/fig3_free_energy_profile_uncat_vs_denovo.png",
@@ -5837,7 +5952,7 @@
       "published_sha256": "a94a0982c065ab0aeb4eb7c7be2d8ec9919a1647edb02d7d5168f051c670aedc",
       "bytes": 190948,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase19/20260910T181030/results_phase19/evolution_progress.json",
@@ -5847,7 +5962,7 @@
       "published_sha256": "8c18a26f20692c69adcc6ace8d3178c8c29940564062162194b98f600495e764",
       "bytes": 48171,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase19/20260910T181030/results_phase19/phase19_acceptance_audit.json",
@@ -5857,7 +5972,7 @@
       "published_sha256": "64233b616c741be33ba07dd68981f976c3372d74f24e5630e9ed04685ec3034e",
       "bytes": 15020,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase19/20260910T181030/results_phase19/phase19_results.json",
@@ -5867,7 +5982,7 @@
       "published_sha256": "ed997aafea951de9b8bf7f97862462d270116fe8e5a95600c07ac43356d10aef",
       "bytes": 76410,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase19/20260910T181030/run.log",
@@ -5877,7 +5992,7 @@
       "published_sha256": "23a9dc8e7fc1f3911747c53f63b9cc001b8d74c38571f42fced0e67de0598aed",
       "bytes": 10167,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "phase19/20260910T181030/run_phase19_active_inference_denovo_enzyme.py",
@@ -5887,7 +6002,7 @@
       "published_sha256": "7797383a9ebd888301f0f9050e91c49c62d62b100613605f3daddd10746e1863",
       "bytes": 182775,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T190344/molecular.log",
@@ -5897,7 +6012,7 @@
       "published_sha256": "4bb13ac2c96b1710baa17453933ebb9a27550135628addea353e21ce8d542ae6",
       "bytes": 1589,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T190344/primary.log",
@@ -5907,7 +6022,7 @@
       "published_sha256": "69d8b4b4f81dc15d9d5541c0b1512d254d2b1dbb73614ae48b63689e45cb1c45",
       "bytes": 15459,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T190344/regression_status.json",
@@ -5917,7 +6032,7 @@
       "published_sha256": "c39dec6f53c8ea1ff2fd78ce8e0b263331ead1423ad3dc6b22fb3bc9f89a5678",
       "bytes": 14668,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T184148/molecular.log",
@@ -5927,7 +6042,7 @@
       "published_sha256": "8be7e756c4a0f3e693a8c0664f07c285c1c1ec4f72fc8a446e3a35ed355a1a1b",
       "bytes": 1589,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T184148/primary.log",
@@ -5937,7 +6052,7 @@
       "published_sha256": "f0e6a5a9c54e48d368ebc7e7aa4a519178ac05b9c56b9e24cef5350bf5c6b7d3",
       "bytes": 15141,
       "text_normalized_or_redacted": false,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     },
     {
       "path": "regressions/20260910T184148/regression_status.json",
@@ -5947,7 +6062,7 @@
       "published_sha256": "75add417e6049a58a79c5747682d10871ca463bc465f56865edee5f5634cf837",
       "bytes": 14471,
       "text_normalized_or_redacted": true,
-      "retained_from_publication": "2026-09-10 20:13:46"
+      "retained_from_publication": "2026-09-10 20:16:25"
     }
   ],
   "omitted_large_files": [

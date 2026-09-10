@@ -69,9 +69,11 @@
     "run_phase14_active_matter_condensate_phase_separation.py"
   ],
   "cwd": "$CAMPAIGN\\phase14\\20260910T135701",
-  "status": "running",
+  "status": "process_completed",
   "scope": "default/full attempt",
   "historical_cache_copied": false,
   "scientific_acceptance": "pending output review",
-  "pid": 32948
+  "pid": 32948,
+  "exit_code": 0,
+  "elapsed_s": 23427.5
 }
