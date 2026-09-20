@@ -1,5 +1,7 @@
 # Phase 29 technical report: public evidence and bounded local computation
 
+This page records the initial delivery at commit `73b1ea0`. The [xTB matrix addendum](xtb_matrix_en.md) and [DFT crosscheck](dft_crosscheck_en.md) document subsequent calculations; initial counts and results below are retained for traceability.
+
 Date: 2026-09-20. No new experiments, HPC calculations, or industrial validation are available.
 
 ## Outcome

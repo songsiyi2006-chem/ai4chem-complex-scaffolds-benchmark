@@ -1,0 +1,315 @@
+{
+  "scope": "Current evidence; historical_initial_* files are snapshots, not current-file assertions",
+  "files": [
+    {
+      "path": "comparison/comparison.csv",
+      "bytes": 2049,
+      "sha256": "0e5884d5d6e63247f8952ec967b79822dac792f3d96db53683cd7d2b22a317a7"
+    },
+    {
+      "path": "comparison/matched_model_comparison.png",
+      "bytes": 139085,
+      "sha256": "91358b06e423f9656364e70eedf8bd3e9b0346c5fc52112055bbfd6e7539a125"
+    },
+    {
+      "path": "comparison/summary.json",
+      "bytes": 4043,
+      "sha256": "d8f475843cbb098844b9d451a6cc2c964070f7717b606501651002c50fcdcc64"
+    },
+    {
+      "path": "energy_differences.csv",
+      "bytes": 611,
+      "sha256": "95b72f8c8c6508b26b3845f677501c906b2e542a9b95714a3d5646d975073411"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 3406,
+      "sha256": "c6ecc5feb54b638fc853c52575815ea9124c8172b29e314f7ce29d19cf71e996"
+    },
+    {
+      "path": "raw/Q01_def2-svp_cation/input.json",
+      "bytes": 1415,
+      "sha256": "598baeebcdd4c90d99cd8ad00130eca8e7443f2cd41dcd469c48f487ebe21dca"
+    },
+    {
+      "path": "raw/Q01_def2-svp_cation/input.xyz",
+      "bytes": 498,
+      "sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19"
+    },
+    {
+      "path": "raw/Q01_def2-svp_cation/psi4.out",
+      "bytes": 13036,
+      "sha256": "936351ae999a398e4f634525ac956bae7f43d855d51d704b7b28f3e082c7ab7f"
+    },
+    {
+      "path": "raw/Q01_def2-svp_cation/result.json",
+      "bytes": 1126,
+      "sha256": "f907f478f50ac377c1bf2ab09fb74708ce999c678d0db1b4bc88e9d2bd92e009"
+    },
+    {
+      "path": "raw/Q01_def2-svp_cation/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/Q01_def2-svp_cation/stdout.txt",
+      "bytes": 87,
+      "sha256": "d5fc39038aab55447b30349ed9bfa9335d12cd7c5c7c2f5da4663d7643b7d3ad"
+    },
+    {
+      "path": "raw/Q01_def2-svp_cation/timer.dat",
+      "bytes": 5670,
+      "sha256": "a65b9f768c60652271085cf1c5b5766c27e1a36b89fb9abb33e64024c1821bb8"
+    },
+    {
+      "path": "raw/Q01_def2-svp_radical/input.json",
+      "bytes": 1417,
+      "sha256": "7743d174b0b91df86f0986a1dfb75931acc0ac543ab84c49be0990ce0ea9a5b1"
+    },
+    {
+      "path": "raw/Q01_def2-svp_radical/input.xyz",
+      "bytes": 498,
+      "sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19"
+    },
+    {
+      "path": "raw/Q01_def2-svp_radical/psi4.out",
+      "bytes": 16686,
+      "sha256": "f81de5990859a2998217246d9e03e7bd26cadd5fb2e797fc6bca37dede74c634"
+    },
+    {
+      "path": "raw/Q01_def2-svp_radical/result.json",
+      "bytes": 1126,
+      "sha256": "282a09d4e36d5a978c04c9f417f1b49ea85719bf250561441e2631f686743c3f"
+    },
+    {
+      "path": "raw/Q01_def2-svp_radical/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/Q01_def2-svp_radical/stdout.txt",
+      "bytes": 87,
+      "sha256": "d5fc39038aab55447b30349ed9bfa9335d12cd7c5c7c2f5da4663d7643b7d3ad"
+    },
+    {
+      "path": "raw/Q01_def2-svp_radical/timer.dat",
+      "bytes": 5670,
+      "sha256": "2185b6552e4fd64fbe3b8f52b51f9dda7ad85956972471b314956fb60048dcea"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_cation/input.json",
+      "bytes": 1417,
+      "sha256": "9a0b2cc702d2ff7de4ce437674b6b3886215b558d99e337d4aff6007a2d2dd5e"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_cation/input.xyz",
+      "bytes": 498,
+      "sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_cation/psi4.out",
+      "bytes": 15528,
+      "sha256": "04c81909465072ddf2b6bf332c82b6f07b095f2dbf4a84e2d7f59e514f62a311"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_cation/result.json",
+      "bytes": 1131,
+      "sha256": "7ee64b1e6092cabe9e902e40299fd7f177bf58a1f60d88a7c59ea5cb04d2824f"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_cation/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_cation/stdout.txt",
+      "bytes": 87,
+      "sha256": "d5fc39038aab55447b30349ed9bfa9335d12cd7c5c7c2f5da4663d7643b7d3ad"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_cation/timer.dat",
+      "bytes": 5670,
+      "sha256": "55c3c34255a75ee3cb6297fdc6c6436b06a4f9fd6cbd3a738ef75c0173819bcb"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_radical/input.json",
+      "bytes": 1419,
+      "sha256": "538e3b6ead3df20dfa5900fbfd9a1557bfe938989f6967e87e66fe2ac3e7256e"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_radical/input.xyz",
+      "bytes": 498,
+      "sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_radical/psi4.out",
+      "bytes": 21740,
+      "sha256": "3883611b0eac3849448fa2f33cbb286573a08f62d93021471afd20a4d04f67ea"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_radical/result.json",
+      "bytes": 1129,
+      "sha256": "7890241a85eeba7ada45565109132e937a974e15ba1a7a9401002dbd26495bea"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_radical/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_radical/stdout.txt",
+      "bytes": 87,
+      "sha256": "d5fc39038aab55447b30349ed9bfa9335d12cd7c5c7c2f5da4663d7643b7d3ad"
+    },
+    {
+      "path": "raw/Q01_def2-tzvp_radical/timer.dat",
+      "bytes": 5670,
+      "sha256": "975b025ff5e0887fef5975dd0b265c7cb3570469b94cfe71e6860d1a32fed3de"
+    },
+    {
+      "path": "raw/Q02_def2-svp_cation/input.json",
+      "bytes": 1415,
+      "sha256": "24d80f2e02aabb7a9e8136d35c76393b7269d82a719e97dc46ad3e930100f1ee"
+    },
+    {
+      "path": "raw/Q02_def2-svp_cation/input.xyz",
+      "bytes": 662,
+      "sha256": "77586112303e2123356d1cbb3bec9fdae811265bd1eb4b657a03df4f4b4bb4cc"
+    },
+    {
+      "path": "raw/Q02_def2-svp_cation/psi4.out",
+      "bytes": 14676,
+      "sha256": "d9669be0e30ecb696cdafa6973bdc45e5ffd3612b5dd8f2d55515247b003de87"
+    },
+    {
+      "path": "raw/Q02_def2-svp_cation/result.json",
+      "bytes": 1127,
+      "sha256": "cfbf128735ee5b1be203597ce429fed017167c23b8c9298daf099404b73b8473"
+    },
+    {
+      "path": "raw/Q02_def2-svp_cation/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/Q02_def2-svp_cation/stdout.txt",
+      "bytes": 87,
+      "sha256": "d5fc39038aab55447b30349ed9bfa9335d12cd7c5c7c2f5da4663d7643b7d3ad"
+    },
+    {
+      "path": "raw/Q02_def2-svp_cation/timer.dat",
+      "bytes": 5670,
+      "sha256": "9f0db607b0f4aaa07ece786d852779738d7b32d77959c241548b8fc85ce4178f"
+    },
+    {
+      "path": "raw/Q02_def2-svp_radical/input.json",
+      "bytes": 1417,
+      "sha256": "71f15659e690510a5a76a9bd436808d972a9f081cacc93929620f0a6911edd0b"
+    },
+    {
+      "path": "raw/Q02_def2-svp_radical/input.xyz",
+      "bytes": 662,
+      "sha256": "77586112303e2123356d1cbb3bec9fdae811265bd1eb4b657a03df4f4b4bb4cc"
+    },
+    {
+      "path": "raw/Q02_def2-svp_radical/psi4.out",
+      "bytes": 19352,
+      "sha256": "399c89ae991e2fdcd320677f174ab061bc5b18e97df3ca477241e0b5d556bea9"
+    },
+    {
+      "path": "raw/Q02_def2-svp_radical/result.json",
+      "bytes": 1125,
+      "sha256": "8ad0cfa9380337c6c0fdd6712bcd866a509986fae8828cf9b8620caefc268e4c"
+    },
+    {
+      "path": "raw/Q02_def2-svp_radical/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/Q02_def2-svp_radical/stdout.txt",
+      "bytes": 87,
+      "sha256": "d5fc39038aab55447b30349ed9bfa9335d12cd7c5c7c2f5da4663d7643b7d3ad"
+    },
+    {
+      "path": "raw/Q02_def2-svp_radical/timer.dat",
+      "bytes": 5670,
+      "sha256": "3fa79f06f2e4149f00f6124ec4596da3a704f1e3ee02c5047393769d7db65bd6"
+    },
+    {
+      "path": "raw/Q03_def2-svp_cation/input.json",
+      "bytes": 1415,
+      "sha256": "85fa1a5ad36bfabef302611299a261c6214afcbd93c487bfe9cbe4203476d6ef"
+    },
+    {
+      "path": "raw/Q03_def2-svp_cation/input.xyz",
+      "bytes": 539,
+      "sha256": "d5f4921bbb3ee4a970dfd7d441f0516bff226685f902c889bc814430bf0adbe9"
+    },
+    {
+      "path": "raw/Q03_def2-svp_cation/psi4.out",
+      "bytes": 13834,
+      "sha256": "4f91a08deed631c19b41e8cecdde83e92392e6ab9deeb87262c721e5de2608bb"
+    },
+    {
+      "path": "raw/Q03_def2-svp_cation/result.json",
+      "bytes": 1125,
+      "sha256": "159420c2029725d4037531025a1a1c8e797866ef69e36739e9afbd4124b5012c"
+    },
+    {
+      "path": "raw/Q03_def2-svp_cation/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/Q03_def2-svp_cation/stdout.txt",
+      "bytes": 87,
+      "sha256": "d5fc39038aab55447b30349ed9bfa9335d12cd7c5c7c2f5da4663d7643b7d3ad"
+    },
+    {
+      "path": "raw/Q03_def2-svp_cation/timer.dat",
+      "bytes": 5670,
+      "sha256": "946defbc5644d7d08ce3d54f1af0ef6b763b503d5c652772880e4c27a79c093c"
+    },
+    {
+      "path": "raw/Q03_def2-svp_radical/input.json",
+      "bytes": 1417,
+      "sha256": "6656c274829af1c7213801f807a85841c97677be4e2223ed3160df9900fa5edb"
+    },
+    {
+      "path": "raw/Q03_def2-svp_radical/input.xyz",
+      "bytes": 539,
+      "sha256": "d5f4921bbb3ee4a970dfd7d441f0516bff226685f902c889bc814430bf0adbe9"
+    },
+    {
+      "path": "raw/Q03_def2-svp_radical/psi4.out",
+      "bytes": 18323,
+      "sha256": "123c833b38fe2a81f64ac48caacaf4297ef34485e1daee168eb04dc99b991d90"
+    },
+    {
+      "path": "raw/Q03_def2-svp_radical/result.json",
+      "bytes": 1125,
+      "sha256": "1fd91d916108e7720a10765a5b2e88c40711e004f38aa7130df7d8fdce62df91"
+    },
+    {
+      "path": "raw/Q03_def2-svp_radical/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/Q03_def2-svp_radical/stdout.txt",
+      "bytes": 87,
+      "sha256": "d5fc39038aab55447b30349ed9bfa9335d12cd7c5c7c2f5da4663d7643b7d3ad"
+    },
+    {
+      "path": "raw/Q03_def2-svp_radical/timer.dat",
+      "bytes": 5670,
+      "sha256": "fa1c637c4482fbd21dcff19d4e9a5525e30a8aff0e2305f739adaa9e9d257661"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 1880,
+      "sha256": "9c6d37dd33ba038c1fa00d368619e6e2e5ef87d9d275bb96932b7ebcefeaf789"
+    }
+  ]
+}

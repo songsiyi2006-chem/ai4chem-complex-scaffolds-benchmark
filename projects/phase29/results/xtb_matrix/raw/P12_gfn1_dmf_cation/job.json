@@ -1,0 +1,40 @@
+{
+  "id": "P12_gfn1_dmf_cation",
+  "molecule_id": "P12",
+  "gfn": 1,
+  "environment": "dmf",
+  "state": "cation",
+  "charge": 1,
+  "uhf": 0,
+  "geometry_sha256": "2e5c1ffdb4458cf4b71b2c87496e9072965156f6095e9d756900cb5db03407ea",
+  "electron_count": 82,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -31.450273386864,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.18200489997980185,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "1",
+    "--chrg",
+    "1",
+    "--uhf",
+    "0",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300",
+    "--alpb",
+    "dmf"
+  ],
+  "stdout_sha256": "d0fd72e26119072ae201c173ff08720efd4add43725ff8b4be3bb44efc1b08b7",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

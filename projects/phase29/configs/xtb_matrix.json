@@ -1,0 +1,140 @@
+{
+  "version": "2026-09-20-xtb-matrix-v1",
+  "frozen_utc": "2026-09-20T12:50:39.103213+00:00",
+  "source_panel_sha256": "07307c85961ee95535ac05e9bbfa9d4c68adb308113f475c4f08fb8a6375cd99",
+  "methods": [
+    1,
+    2
+  ],
+  "environments": [
+    "gas",
+    "acetonitrile",
+    "dmf"
+  ],
+  "states": [
+    {
+      "name": "cation",
+      "charge": 1,
+      "uhf": 0
+    },
+    {
+      "name": "radical",
+      "charge": 0,
+      "uhf": 1
+    }
+  ],
+  "threads": 2,
+  "timeout_seconds": 90,
+  "accuracy": 0.1,
+  "max_scc_iterations": 300,
+  "MMFF_variant": "MMFF94",
+  "MMFF_max_iters": 1000,
+  "planned_single_points": 144,
+  "alpb_reference_state": "default_gsolv; no thermal/vibrational/electron/electrode correction",
+  "boundary": "Assumed isolated molecular states; identical nucleargeometry in every state/environment/method; no interface,rate,selectivity or potential prediction",
+  "species": [
+    {
+      "id": "P01",
+      "name": "pyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][cH:3][cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "exact_original_preflight",
+      "original_id": "Q01",
+      "geometry_source": "results/quantum_preflight/inputs/Q01.xyz",
+      "geometry_sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19"
+    },
+    {
+      "id": "P02",
+      "name": "3-methylpyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](C)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260922
+    },
+    {
+      "id": "P03",
+      "name": "3-ethylpyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](CC)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260923
+    },
+    {
+      "id": "P04",
+      "name": "3-methoxypyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](OC)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "exact_original_preflight",
+      "original_id": "Q02",
+      "geometry_source": "results/quantum_preflight/inputs/Q02.xyz",
+      "geometry_sha256": "77586112303e2123356d1cbb3bec9fdae811265bd1eb4b657a03df4f4b4bb4cc"
+    },
+    {
+      "id": "P05",
+      "name": "3-fluoropyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](F)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260925
+    },
+    {
+      "id": "P06",
+      "name": "3-chloropyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](Cl)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260926
+    },
+    {
+      "id": "P07",
+      "name": "3-bromopyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](Br)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260927
+    },
+    {
+      "id": "P08",
+      "name": "3-(trifluoromethyl)pyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](C(F)(F)F)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260928
+    },
+    {
+      "id": "P09",
+      "name": "pyridine-3-carbonitrile",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](C#N)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "exact_original_preflight",
+      "original_id": "Q03",
+      "geometry_source": "results/quantum_preflight/inputs/Q03.xyz",
+      "geometry_sha256": "d5f4921bbb3ee4a970dfd7d441f0516bff226685f902c889bc814430bf0adbe9"
+    },
+    {
+      "id": "P10",
+      "name": "methyl nicotinate",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](C(=O)OC)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260930
+    },
+    {
+      "id": "P11",
+      "name": "nicotinamide",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](C(=O)N)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260931
+    },
+    {
+      "id": "P12",
+      "name": "3-phenylpyridine",
+      "neutral_mapped_smiles": "[n:1]1[cH:2][c:3](-c2ccccc2)[cH:4][cH:5][cH:6]1",
+      "protonation_policy": "ring N map1 only; assumed state, not measured speciation",
+      "geometry_policy": "one_ETKDGv3_MMFF94_cation",
+      "geometry_seed": 20260932
+    }
+  ],
+  "method_docs": "https://xtb-docs.readthedocs.io/en/latest/gbsa.html"
+}

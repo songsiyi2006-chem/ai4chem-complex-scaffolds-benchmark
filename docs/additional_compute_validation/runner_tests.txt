@@ -1,0 +1,35 @@
+test_cross_phase_imports_relative_package_and_output_isolation (test_layout.LayoutTests.test_cross_phase_imports_relative_package_and_output_isolation) ... ok
+test_existing_directory_is_never_silently_overwritten (test_layout.LayoutTests.test_existing_directory_is_never_silently_overwritten) ... ok
+test_later_source_edits_are_used_in_new_workspaces (test_layout.LayoutTests.test_later_source_edits_are_used_in_new_workspaces) ... ok
+test_rejects_traversal_and_repository_destination (test_layout.LayoutTests.test_rejects_traversal_and_repository_destination) ... ok
+test_reuse_rejects_modified_workspace_code (test_layout.LayoutTests.test_reuse_rejects_modified_workspace_code) ... ok
+test_reuse_retains_outputs_and_rejects_source_changes (test_layout.LayoutTests.test_reuse_retains_outputs_and_rejects_source_changes) ... ok
+test_cannot_shadow_old_phase_or_escape_repository (test_native_phases.NativePhaseTests.test_cannot_shadow_old_phase_or_escape_repository) ... ok
+test_dispatch_help_without_materializing_legacy_files (test_native_phases.NativePhaseTests.test_dispatch_help_without_materializing_legacy_files) ... ok
+test_rejects_ambiguous_output_and_legacy_flags (test_native_phases.NativePhaseTests.test_rejects_ambiguous_output_and_legacy_flags) ... usage: python.exe -m unittest [-h] [--list] [--workspace WORKSPACE]
+                              [--prepare-only] [--reuse] [--python PYTHON]
+                              [--module MODULE | --script SCRIPT]
+                              [{1,28}]
+python.exe -m unittest: error: Specify only --workspace or native --out, not both
+usage: python.exe -m unittest [-h] [--list] [--workspace WORKSPACE]
+                              [--prepare-only] [--reuse] [--python PYTHON]
+                              [--module MODULE | --script SCRIPT]
+                              [{1,28}]
+python.exe -m unittest: error: Specify only --workspace or native --out, not both
+usage: python.exe -m unittest [-h] [--list] [--workspace WORKSPACE]
+                              [--prepare-only] [--reuse] [--python PYTHON]
+                              [--module MODULE | --script SCRIPT]
+                              [{1,28}]
+python.exe -m unittest: error: Native phases run in their project layout; use arguments after -- and optional --workspace for --out
+usage: python.exe -m unittest [-h] [--list] [--workspace WORKSPACE]
+                              [--prepare-only] [--reuse] [--python PYTHON]
+                              [--module MODULE | --script SCRIPT]
+                              [{1,28}]
+python.exe -m unittest: error: Native phases run in their project layout; use arguments after -- and optional --workspace for --out
+ok
+test_workspace_forwarded_as_native_output_and_return_code_propagated (test_native_phases.NativePhaseTests.test_workspace_forwarded_as_native_output_and_return_code_propagated) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.447s
+
+OK

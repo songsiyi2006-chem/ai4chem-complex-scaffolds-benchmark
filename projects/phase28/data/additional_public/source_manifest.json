@@ -1,0 +1,21 @@
+{
+  "source_doi": "10.1038/s44160-026-01039-y",
+  "source_url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs44160-026-01039-y/MediaObjects/44160_2026_1039_MOESM4_ESM.xlsx",
+  "source_sha256": "a3e8a97ef93f7a4cff8a113a9d4705293182e86c9632e20260adc6bd84c68272",
+  "figure_caption": "https://www.nature.com/articles/s44160-026-01039-y/figures/2",
+  "figure_review": "Published image visually inspected for mol Cl2, FE percent, h and V vs NHE/mA cm^-2 axes",
+  "n_definition": "Mean plus/minus SD of four independent experiments, Figure2e/f caption; SI printedp1/PDFp4 general statement",
+  "raw_replicates_available": false,
+  "summary_rows": 50,
+  "polarization_points": 777,
+  "extracted_files": [
+    {
+      "path": "polarization_inputs.csv",
+      "sha256": "f665b6f8356eeff5cb99582e0547e5c7b6c5e64abcd7a299ce4bb4e8b85f7f6c"
+    },
+    {
+      "path": "production_fe_summary_inputs.csv",
+      "sha256": "339e43d1c17492907b5fc0daa63fc894578af2456fa40ff0e2eccd96b3736702"
+    }
+  ]
+}

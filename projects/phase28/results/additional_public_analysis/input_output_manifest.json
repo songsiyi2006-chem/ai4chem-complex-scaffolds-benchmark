@@ -1,0 +1,67 @@
+{
+  "config_sha256": "be58e725e9f68bbd57d2dc18af614010852045b9abf5bdf88890ab9ddf0be13a",
+  "inputs": [
+    {
+      "path": "data/additional_public/polarization_inputs.csv",
+      "sha256": "f665b6f8356eeff5cb99582e0547e5c7b6c5e64abcd7a299ce4bb4e8b85f7f6c"
+    },
+    {
+      "path": "data/additional_public/production_fe_summary_inputs.csv",
+      "sha256": "339e43d1c17492907b5fc0daa63fc894578af2456fa40ff0e2eccd96b3736702"
+    },
+    {
+      "path": "data/additional_public/source_manifest.json",
+      "sha256": "15be2c093ed81c299013b0a7187f78f100a906b3522d2eaa80b5254d8ef103d1"
+    },
+    {
+      "path": "data/literature/natsynth2026_constant_current.csv.gz",
+      "sha256": "db82574f2686bb3c17a63087c816bbb793bf195d53e774049fbdd080bbdb5c9f"
+    },
+    {
+      "path": "data/literature/nature2023_constant_current.csv.gz",
+      "sha256": "2c58eea8bb84c22b8929c381e160e09f0bc21453445a12561df38fd735ca8120"
+    },
+    {
+      "path": "data/literature/nature2023_constant_potential.csv.gz",
+      "sha256": "db104eca5d78713580287d097341a680c55e5cb206b81e62a9b17e3bfa64366d"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "figures/polarization_matched_currents.png",
+      "sha256": "bcfc7c16c72fe0556b03c2df382218a9e52b10a8182bdbe275d1320dc6bbcdb7"
+    },
+    {
+      "path": "figures/production_FE_uncertainty.png",
+      "sha256": "f8334eced9df59e19df50f2aa168f37331b478cbaeb933e304dec33b8cfb6f32"
+    },
+    {
+      "path": "figures/startup_window_sensitivity.png",
+      "sha256": "7fd88981a1d82981355c5f42b472ff50f21f8e33783809122162affec336fdd4"
+    },
+    {
+      "path": "polarization_differences.csv",
+      "sha256": "db636bea64de06d830562752fa9e52973e06a76160a4eaf377097421fa93fae0"
+    },
+    {
+      "path": "polarization_interpolated.csv",
+      "sha256": "25abf9787d35f53c8926c0a0edd92dec7d3271550f661857727ac14e08fa7a47"
+    },
+    {
+      "path": "replicate_mean_intervals.csv",
+      "sha256": "36e7dfdd7f3ef751020eaac4cd0f8449d7cad5450f47171b2bee72fecf76397c"
+    },
+    {
+      "path": "stability_window_robustness.csv",
+      "sha256": "dd5109cc6c9f83817cc6ec23432712d462d3774d6336f4bc5666e108aeee490a"
+    },
+    {
+      "path": "summary.json",
+      "sha256": "c84c51c320675479b1101ae8363a17d4b9b9816860dca010765b762f1144c53f"
+    },
+    {
+      "path": "time_contrasts_correlation_sensitivity.csv",
+      "sha256": "cf33ee166fdfde37dbdbb224240a0e15d2a2a118f1b653a60bc282858541b688"
+    }
+  ]
+}

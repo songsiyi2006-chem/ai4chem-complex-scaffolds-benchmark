@@ -1,0 +1,79 @@
+{
+  "evidence": "EXECUTED_CALCULATION_FROM_PUBLISHED_SUMMARY_AND_TRACE_DATA",
+  "config_sha256": "be58e725e9f68bbd57d2dc18af614010852045b9abf5bdf88890ab9ddf0be13a",
+  "published_summary_rows": 50,
+  "new_polarization_points": 777,
+  "mean_intervals": 50,
+  "contrast_sensitivity_rows": 48,
+  "polarization_grid_rows": 28,
+  "stability_robustness_rows": 72,
+  "final_Cl2_mol": 0.33819,
+  "final_Cl2_mean_ci95_mol": [
+    0.32692414007929566,
+    0.3494558599207043
+  ],
+  "average_24h_rate_mol_h": 0.01409125,
+  "average_24h_rate_mean_ci95_mol_h": [
+    0.013621839169970652,
+    0.014560660830029347
+  ],
+  "descriptive_cumulative_rate_origin_OLS_mol_h": 0.013915987755102043,
+  "descriptive_origin_fit_max_residual_mol": 0.006512281632652994,
+  "final_FE_percent": 99.79236,
+  "final_FE_mean_ci95_percent": [
+    99.76277916159239,
+    99.82194083840761
+  ],
+  "FE_change_24minus0_percentage_points": -0.0629600000000039,
+  "FE_change_24minus1_percentage_points": 0.0024000000000086175,
+  "after200minus100_at1000mA_mV": -5.208769835476801,
+  "maximum_linear_PCHIP_difference_mV": 0.043711286721981324,
+  "blind_or_experiment_status": "No new experiments, no replicate-level reconstruction, no mechanism identification",
+  "stability_ranges": [
+    {
+      "trace_id": "natsynth2026_constant_current",
+      "all_grid_change_min_max": [
+        0.0030000000000001137,
+        0.017000000000000126
+      ],
+      "startup_at_least10h_change_min_max": [
+        0.0030000000000001137,
+        0.006000000000000005
+      ],
+      "all_grid_relative_percent_min_max": [
+        0.21126760563381083,
+        1.2091038406827972
+      ]
+    },
+    {
+      "trace_id": "nature2023_constant_current",
+      "all_grid_change_min_max": [
+        -0.0040000000000000036,
+        0.0442499999999999
+      ],
+      "startup_at_least10h_change_min_max": [
+        -0.0040000000000000036,
+        0.00924999999999998
+      ],
+      "all_grid_relative_percent_min_max": [
+        -0.23446658851113739,
+        2.6704888352444116
+      ]
+    },
+    {
+      "trace_id": "nature2023_constant_potential",
+      "all_grid_change_min_max": [
+        -0.15625,
+        0.042812499999999254
+      ],
+      "startup_at_least10h_change_min_max": [
+        -0.023749999999999716,
+        0.021250000000000213
+      ],
+      "all_grid_relative_percent_min_max": [
+        -2.6858616244091107,
+        0.7617882562277447
+      ]
+    }
+  ]
+}

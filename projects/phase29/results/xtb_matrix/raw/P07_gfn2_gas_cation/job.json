@@ -1,0 +1,38 @@
+{
+  "id": "P07_gfn2_gas_cation",
+  "molecule_id": "P07",
+  "gfn": 2,
+  "environment": "gas",
+  "state": "cation",
+  "charge": 1,
+  "uhf": 0,
+  "geometry_sha256": "dcc518900088f8345083c8dd274b403e1a3478033755810a2443f905f9484d8d",
+  "electron_count": 76,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -19.809663432684,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.19644689999404363,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "2",
+    "--chrg",
+    "1",
+    "--uhf",
+    "0",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300"
+  ],
+  "stdout_sha256": "417408d6ee104a5edc50175d1132e077e4b510e0e4c0b77f934ef2c875553e41",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

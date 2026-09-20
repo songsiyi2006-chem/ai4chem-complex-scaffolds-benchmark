@@ -1,0 +1,38 @@
+{
+  "id": "P09_gfn1_gas_radical",
+  "molecule_id": "P09",
+  "gfn": 1,
+  "environment": "gas",
+  "state": "radical",
+  "charge": 0,
+  "uhf": 1,
+  "geometry_sha256": "d5f4921bbb3ee4a970dfd7d441f0516bff226685f902c889bc814430bf0adbe9",
+  "electron_count": 55,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -21.658153471154,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.15919320000102744,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "1",
+    "--chrg",
+    "0",
+    "--uhf",
+    "1",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300"
+  ],
+  "stdout_sha256": "bda4944111ccf2285802d099f9fff7b8ab09c2aa16c6a1a5cb25097c41900356",
+  "stderr_sha256": "aed80165ddd0bba450acf0d7a3176446b80dd9a55f810ca34f5c649e596e098a"
+}

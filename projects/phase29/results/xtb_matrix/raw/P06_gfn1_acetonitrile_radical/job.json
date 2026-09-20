@@ -1,0 +1,40 @@
+{
+  "id": "P06_gfn1_acetonitrile_radical",
+  "molecule_id": "P06",
+  "gfn": 1,
+  "environment": "acetonitrile",
+  "state": "radical",
+  "charge": 0,
+  "uhf": 1,
+  "geometry_sha256": "2a38edb7c5d4b300ae3fcb3fa1bb761247ff968a47de88367b97e3ae574679a7",
+  "electron_count": 59,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -20.652177428927,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.15773970002192073,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "1",
+    "--chrg",
+    "0",
+    "--uhf",
+    "1",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300",
+    "--alpb",
+    "acetonitrile"
+  ],
+  "stdout_sha256": "7d4a3df467a1d54d6785650cb294d84de009c0eb4ebc0b1d1e636ec1649adbcd",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

@@ -1,0 +1,40 @@
+{
+  "id": "P06_gfn1_acetonitrile_cation",
+  "molecule_id": "P06",
+  "gfn": 1,
+  "environment": "acetonitrile",
+  "state": "cation",
+  "charge": 1,
+  "uhf": 0,
+  "geometry_sha256": "2a38edb7c5d4b300ae3fcb3fa1bb761247ff968a47de88367b97e3ae574679a7",
+  "electron_count": 58,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -20.321727417313,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.16042020000168122,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "1",
+    "--chrg",
+    "1",
+    "--uhf",
+    "0",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300",
+    "--alpb",
+    "acetonitrile"
+  ],
+  "stdout_sha256": "43b83fc8a723ac2eda666ac2dadf76c83b0b8bc03e244d964b25e4719853a0db",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

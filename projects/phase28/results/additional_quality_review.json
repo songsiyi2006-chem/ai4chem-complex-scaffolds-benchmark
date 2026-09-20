@@ -1,0 +1,80 @@
+{
+  "additional_tests": {
+    "passed": 18,
+    "new": 7,
+    "failed": 0,
+    "output": "additional_tests.txt"
+  },
+  "visual_review": "All3 new figures opened and inspected; readable with explicit interval/correction/trace scope labels",
+  "independent_review": "Source agent compared all50summary rows and777polarization pairs to workbook; zero mismatches; code/source/addendum reviewed",
+  "original_run_preservation": [
+    {
+      "path": "results/run_20260920/batch_predictions.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/breakeven.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/control_timeseries.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/fair_comparison.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/figures/control_economics.png",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/figures/identifiability.png",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/figures/published_stability.png",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/mechanism_comparison.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/profile_likelihood.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/published_trace_hour_bins.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/published_trace_metrics.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/published_trace_summary.json",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/scenario_uncertainty.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/summary.json",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/synthetic_batches.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/synthetic_survival.csv",
+      "sha256_unchanged": true
+    },
+    {
+      "path": "results/run_20260920/synthetic_truth.json",
+      "sha256_unchanged": true
+    }
+  ]
+}

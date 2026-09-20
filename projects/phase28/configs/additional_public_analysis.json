@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "input_scope": "Published numerical Figure2 source data only; no synthetic observations",
+  "frozen_before_execution": true,
+  "confidence_level": 0.95,
+  "reported_replicates": 4,
+  "error_bar_definition": "Sample SD, per publisher Figure2 caption and SI PDFp4",
+  "contrasts_h": [[0,24],[1,24],[6,24],[12,24]],
+  "unknown_within_run_correlations": [-1,-0.5,0,0.5,1],
+  "current_grid_mA_cm2": [10,50,100,300,500,800,1000],
+  "startup_exclusion_h": [0,1,5,10,20,30],
+  "endpoint_window_h": [1,3,6,12],
+  "source_workbook_sha256": "a3e8a97ef93f7a4cff8a113a9d4705293182e86c9632e20260adc6bd84c68272",
+  "units": {"production":"mol Cl2","FE":"percent","potential":"V vs NHE","current_density":"mA/cm2"},
+  "limitations": ["Raw n=4 replicate values and cross-time pairing unavailable", "Post100/200h iR status unresolved", "Fig2a zero-hour baseline is a cross-panel proxy, not a verified same-electrode pretest", "No confidence intervals across electrode populations from stability trace rows"],
+  "resource_budget": {"threads":2,"max_expected_memory_GiB":0.6,"expected_wall_seconds":120}
+}

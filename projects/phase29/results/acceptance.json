@@ -6,7 +6,7 @@
   "experimental_reactions_performed": 0,
   "software_tests": {
     "command": "python projects/phase29/run.py --self-test",
-    "passed": 16,
+    "passed": 28,
     "failed": 0,
     "interpretation": "software regression only"
   },
@@ -23,7 +23,14 @@
     "molecular_xtb_single_points": 12,
     "molecular_xtb_numerical_warning_jobs": 12,
     "surface_DFT": 0,
-    "TS_IRC_validations": 0
+    "TS_IRC_validations": 0,
+    "additional_xtb_single_points": 144,
+    "additional_xtb_unique_model_settings": 132,
+    "additional_xtb_repeat_previous_settings": 12,
+    "additional_xtb_warning_jobs": 144,
+    "gas_PBE0_single_points": 8,
+    "gas_PBE0_converged": 8,
+    "gas_PBE0_state_pairs": 4
   },
   "gates": {
     "G0": {
@@ -47,7 +54,10 @@
         "RDKit/MMFF",
         "publicDFTtablearithmetic",
         "12molecularxTBdiagnosticswithwarnings",
-        "syntheticODE/learning/unitchecks"
+        "syntheticODE/learning/unitchecks",
+        "144additionalmolecularxTBmatrixwithwarnings",
+        "8gasPBE0singlepoints",
+        "electron_reference_aware_centered_contrasts"
       ],
       "missing": [
         "experimentalbaseline",
@@ -85,5 +95,14 @@
     "characterizedmatchedcatalystsupport",
     "independentproductidentityandlosscontrols",
     "labwithrepeatsandrawanalysis"
+  ],
+  "delivery_round": "second_local_compute_extension; first delivery snapshots retained",
+  "quantum_limits": [
+    "No empirical xTB electron-reference correction applied; raw offsets are not prediction errors",
+    "GFN and UKS use different spin approximations",
+    "PBE0 is not experimental ground truth",
+    "single MMFF geometry; Q01-only basis check",
+    "wavefunction stability and diffuse bases not checked",
+    "no new surface, barrier, redox-potential or regioselectivity evidence"
   ]
 }

@@ -1,0 +1,3 @@
+
+  Memory set to 858.307 MiB by Python driver.
+  Threads set to 2 by Python driver.

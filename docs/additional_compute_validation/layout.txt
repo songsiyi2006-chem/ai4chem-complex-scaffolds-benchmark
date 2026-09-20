@@ -1,0 +1,10 @@
+{
+  "mapped_files": 1936,
+  "moved_files": 1929,
+  "phases": 29,
+  "unchanged_non_markdown_files": 1839,
+  "python_sources_parsed": 161,
+  "markdown_documents": 162,
+  "local_markdown_links": 1311,
+  "broken_links": []
+}

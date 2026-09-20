@@ -4,7 +4,7 @@
 
 [阶段与证据总表](docs/PHASE_INDEX.md) · [复现指南](docs/REPRODUCE.md) · [证据说明](docs/EVIDENCE.md) · [共享工具](shared/) · [旧路径迁移表](docs/layout_manifest.json)
 
-新增：[Phase 28–29 公开数据与本机计算交付](docs/PHASE28_29_STATUS.md)。
+新增：[Phase 28–29 第二轮补充计算](docs/PHASE28_29_ADDITIONAL_COMPUTE.md) · [首轮公开数据与本机计算交付](docs/PHASE28_29_STATUS.md)。
 
 ## 目录结构
 

@@ -1,0 +1,106 @@
+{
+  "scope": "Second local compute extension after 73b1ea0; no experiments or HPC",
+  "tests": {
+    "phase28": {
+      "command": [
+        "python",
+        "projects/phase28/run.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "tests": 18,
+      "log": "phase28_tests.txt"
+    },
+    "phase29": {
+      "command": [
+        "python",
+        "projects/phase29/run.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "tests": 28,
+      "log": "phase29_tests.txt"
+    },
+    "runner": {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 10,
+      "log": "runner_tests.txt"
+    }
+  },
+  "total_software_tests": 56,
+  "frozen_manifests_verified": {
+    "projects/phase28/results/artifact_manifest.json": 80,
+    "projects/phase29/results/file_manifest.json": 797,
+    "projects/phase29/results/xtb_matrix/file_manifest.json": 595,
+    "projects/phase29/results/dft_crosscheck/file_manifest.json": 62
+  },
+  "phase28_independent_reproduction": [
+    {
+      "path": "figures/polarization_matched_currents.png",
+      "sha256_identical": true
+    },
+    {
+      "path": "figures/production_FE_uncertainty.png",
+      "sha256_identical": true
+    },
+    {
+      "path": "figures/startup_window_sensitivity.png",
+      "sha256_identical": true
+    },
+    {
+      "path": "input_output_manifest.json",
+      "sha256_identical": true
+    },
+    {
+      "path": "polarization_differences.csv",
+      "sha256_identical": true
+    },
+    {
+      "path": "polarization_interpolated.csv",
+      "sha256_identical": true
+    },
+    {
+      "path": "replicate_mean_intervals.csv",
+      "sha256_identical": true
+    },
+    {
+      "path": "stability_window_robustness.csv",
+      "sha256_identical": true
+    },
+    {
+      "path": "summary.json",
+      "sha256_identical": true
+    },
+    {
+      "path": "time_contrasts_correlation_sensitivity.csv",
+      "sha256_identical": true
+    }
+  ],
+  "DFT_jobs_converged": 8,
+  "xTB_matrix_jobs_converged_with_warnings": 144,
+  "visual_review": "3 new phase28 figures + xTB matrix + DFT comparison individually inspected",
+  "independent_scientific_audit": "827 extracted source records, 144 xTB jobs, 8 DFT jobs and centered contrasts independently checked",
+  "environment_note": "Initial analysis/plot-only attempt omitted existing Windows DLL PATH and terminated; rerun with existing phase2ff Library/bin completed. SCF runs were unaffected.",
+  "scientific_status": "No new mechanism, switching, redox-potential or manufacturing validation",
+  "layout": {
+    "mapped_files": 1936,
+    "moved_files": 1929,
+    "phases": 29,
+    "unchanged_non_markdown_files": 1839,
+    "python_sources_parsed": 161,
+    "markdown_documents": 162,
+    "local_markdown_links": 1311,
+    "broken_links": []
+  }
+}

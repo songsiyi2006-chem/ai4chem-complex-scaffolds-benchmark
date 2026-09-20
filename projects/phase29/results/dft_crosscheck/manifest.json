@@ -1,0 +1,105 @@
+{
+  "started_utc": "2026-09-20T12:51:17.532493+00:00",
+  "script_sha256": "3aed3b80be562a04df18a7e22e53ebbf79f16a59859d770638f7846776b1ecde",
+  "config_sha256": "1511d80d83ad2b38fd45d463d6cafbc7495a6d92108c84941bf5a32660328785",
+  "config": {
+    "scope": "Fixed-nuclei gas-phase electron attachment at the original MMFF cation geometries; independent model comparison, not ground truth",
+    "method": "pbe0",
+    "molecules": [
+      "Q01",
+      "Q02",
+      "Q03"
+    ],
+    "basis": "def2-svp",
+    "basis_check_molecules": [
+      "Q01"
+    ],
+    "basis_check": "def2-tzvp",
+    "states": [
+      {
+        "name": "cation",
+        "charge": 1,
+        "multiplicity": 1
+      },
+      {
+        "name": "radical",
+        "charge": 0,
+        "multiplicity": 2
+      }
+    ],
+    "threads": 2,
+    "memory": "900 MB",
+    "timeout_seconds_per_job": 300,
+    "scf_type": "df",
+    "e_convergence": 1e-09,
+    "d_convergence": 1e-07,
+    "maxiter": 150,
+    "dft_radial_points": 75,
+    "dft_spherical_points": 302,
+    "wavefunction_stability": "not_checked",
+    "geometry_optimization": false,
+    "thermal_corrections": false,
+    "solvation": "gas_only",
+    "success_interpretation": "SCF convergence and spin diagnostics only; no experimental potential, surface mechanism or site-selectivity inference"
+  },
+  "sequential_jobs": true,
+  "jobs": [
+    {
+      "id": "Q01_def2-svp_cation",
+      "status": "converged",
+      "returncode": 0,
+      "elapsed_seconds": 26.027756900002714,
+      "result_sha256": "f907f478f50ac377c1bf2ab09fb74708ce999c678d0db1b4bc88e9d2bd92e009"
+    },
+    {
+      "id": "Q01_def2-svp_radical",
+      "status": "converged",
+      "returncode": 0,
+      "elapsed_seconds": 39.43710280000232,
+      "result_sha256": "282a09d4e36d5a978c04c9f417f1b49ea85719bf250561441e2631f686743c3f"
+    },
+    {
+      "id": "Q02_def2-svp_cation",
+      "status": "converged",
+      "returncode": 0,
+      "elapsed_seconds": 37.725590200017905,
+      "result_sha256": "cfbf128735ee5b1be203597ce429fed017167c23b8c9298daf099404b73b8473"
+    },
+    {
+      "id": "Q02_def2-svp_radical",
+      "status": "converged",
+      "returncode": 0,
+      "elapsed_seconds": 73.49581809999654,
+      "result_sha256": "8ad0cfa9380337c6c0fdd6712bcd866a509986fae8828cf9b8620caefc268e4c"
+    },
+    {
+      "id": "Q03_def2-svp_cation",
+      "status": "converged",
+      "returncode": 0,
+      "elapsed_seconds": 29.132910099986475,
+      "result_sha256": "159420c2029725d4037531025a1a1c8e797866ef69e36739e9afbd4124b5012c"
+    },
+    {
+      "id": "Q03_def2-svp_radical",
+      "status": "converged",
+      "returncode": 0,
+      "elapsed_seconds": 63.44074619997991,
+      "result_sha256": "1fd91d916108e7720a10765a5b2e88c40711e004f38aa7130df7d8fdce62df91"
+    },
+    {
+      "id": "Q01_def2-tzvp_cation",
+      "status": "converged",
+      "returncode": 0,
+      "elapsed_seconds": 42.22005070000887,
+      "result_sha256": "7ee64b1e6092cabe9e902e40299fd7f177bf58a1f60d88a7c59ea5cb04d2824f"
+    },
+    {
+      "id": "Q01_def2-tzvp_radical",
+      "status": "converged",
+      "returncode": 0,
+      "elapsed_seconds": 84.71786370000336,
+      "result_sha256": "7890241a85eeba7ada45565109132e937a974e15ba1a7a9401002dbd26495bea"
+    }
+  ],
+  "finished_utc": "2026-09-20T12:57:53.819731+00:00"
+}

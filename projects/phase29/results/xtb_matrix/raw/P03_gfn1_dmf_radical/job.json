@@ -1,0 +1,40 @@
+{
+  "id": "P03_gfn1_dmf_radical",
+  "molecule_id": "P03",
+  "gfn": 1,
+  "environment": "dmf",
+  "state": "radical",
+  "charge": 0,
+  "uhf": 1,
+  "geometry_sha256": "695147512dba85fde0431cf9e68929f0b2fa11b3161fab2854940e034aea67bd",
+  "electron_count": 59,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -23.337169694128,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.15314750000834465,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "1",
+    "--chrg",
+    "0",
+    "--uhf",
+    "1",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300",
+    "--alpb",
+    "dmf"
+  ],
+  "stdout_sha256": "9ecc73ad5c1680d93f75cbc354e4dfd6d8a913b931b768f7d4bd513720c048ad",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

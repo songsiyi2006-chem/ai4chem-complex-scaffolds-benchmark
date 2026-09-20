@@ -1,0 +1,23 @@
+test_batch_leakage_rejected (test_phase28.PhysicsTests.test_batch_leakage_rejected) ... ok
+test_censoring (test_phase28.PhysicsTests.test_censoring) ... ok
+test_fair_schedules_and_constraints (test_phase28.PhysicsTests.test_fair_schedules_and_constraints) ... ok
+test_faraday_charge (test_phase28.PhysicsTests.test_faraday_charge) ... ok
+test_jensen_negative_result (test_phase28.PhysicsTests.test_jensen_negative_result) ... ok
+test_mass_conservation_nonnegative (test_phase28.PhysicsTests.test_mass_conservation_nonnegative) ... ok
+test_no_future_price_access (test_phase28.PhysicsTests.test_no_future_price_access) ... ok
+test_unavailable_baseload_rejected (test_phase28.PhysicsTests.test_unavailable_baseload_rejected) ... ok
+test_unsupported_config_rejected (test_phase28.PhysicsTests.test_unsupported_config_rejected) ... ok
+test_voltage_route_nonidentifiability (test_phase28.PhysicsTests.test_voltage_route_nonidentifiability) ... ok
+test_zero_current_no_product (test_phase28.PhysicsTests.test_zero_current_no_product) ... ok
+test_covariance_sensitivity (test_public_extension.PublicAnalysisTests.test_covariance_sensitivity) ... ok
+test_duplicate_timestamp_balancing (test_public_extension.PublicAnalysisTests.test_duplicate_timestamp_balancing) ... ok
+test_independent_equal_variance_welch_df (test_public_extension.PublicAnalysisTests.test_independent_equal_variance_welch_df) ... ok
+test_interpolation_and_no_extrapolation (test_public_extension.PublicAnalysisTests.test_interpolation_and_no_extrapolation) ... ok
+test_no_silent_curve_sort (test_public_extension.PublicAnalysisTests.test_no_silent_curve_sort) ... ok
+test_t_not_z_small_n (test_public_extension.PublicAnalysisTests.test_t_not_z_small_n) ... ok
+test_window_overlap_rejected (test_public_extension.PublicAnalysisTests.test_window_overlap_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.055s
+
+OK

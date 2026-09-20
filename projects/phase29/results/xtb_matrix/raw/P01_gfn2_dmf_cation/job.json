@@ -1,0 +1,40 @@
+{
+  "id": "P01_gfn2_dmf_cation",
+  "molecule_id": "P01",
+  "gfn": 2,
+  "environment": "dmf",
+  "state": "cation",
+  "charge": 1,
+  "uhf": 0,
+  "geometry_sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19",
+  "electron_count": 42,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -16.329284554399,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.15495430000009947,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "2",
+    "--chrg",
+    "1",
+    "--uhf",
+    "0",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300",
+    "--alpb",
+    "dmf"
+  ],
+  "stdout_sha256": "f615360636af47255c248728e17666c0bbc5b9e7f2f6fc55f3992e2b6f0ff5a9",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

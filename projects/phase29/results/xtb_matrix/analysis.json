@@ -1,0 +1,603 @@
+{
+  "boundary": "EXECUTED_ASSUMED_MOLECULAR_STATES: fixed single cation geometry for both states; gas electronic or independently equilibrated ALPB total-state differences (including model solvation terms). No electron/electrode reference, thermal correction, reaction path, interface, concentration or observed protonation. Not redox potentials, experimental electron affinities, chemical selectivity or uncertainty intervals.",
+  "complete_pairs": 72,
+  "expected_pairs": 72,
+  "success_jobs": 144,
+  "total_jobs": 144,
+  "jobs_with_warnings": 144,
+  "method_difference_ranges_eV": {
+    "gas": {
+      "min": 0.5799831317466069,
+      "max": 1.008636905487032
+    },
+    "acetonitrile": {
+      "min": 0.6691486491767247,
+      "max": 1.0478440417196895
+    },
+    "dmf": {
+      "min": 0.7069673776245455,
+      "max": 1.0735970916801199
+    }
+  },
+  "solvent_shift_range_eV": {
+    "min": 1.7225999148070645,
+    "max": 2.1173987551678835
+  },
+  "rank_comparisons": [
+    {
+      "first": "GFN1_gas",
+      "second": "GFN1_acetonitrile",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 7,
+      "reversed_pairs": [
+        [
+          "P01",
+          "P12"
+        ],
+        [
+          "P02",
+          "P03"
+        ],
+        [
+          "P02",
+          "P12"
+        ],
+        [
+          "P03",
+          "P12"
+        ],
+        [
+          "P04",
+          "P12"
+        ],
+        [
+          "P05",
+          "P10"
+        ],
+        [
+          "P09",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9020979020979022
+    },
+    {
+      "first": "GFN1_gas",
+      "second": "GFN1_dmf",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 7,
+      "reversed_pairs": [
+        [
+          "P01",
+          "P12"
+        ],
+        [
+          "P02",
+          "P03"
+        ],
+        [
+          "P02",
+          "P12"
+        ],
+        [
+          "P03",
+          "P12"
+        ],
+        [
+          "P04",
+          "P12"
+        ],
+        [
+          "P05",
+          "P10"
+        ],
+        [
+          "P09",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9020979020979022
+    },
+    {
+      "first": "GFN1_gas",
+      "second": "GFN2_gas",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 6,
+      "reversed_pairs": [
+        [
+          "P03",
+          "P12"
+        ],
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P06",
+          "P11"
+        ],
+        [
+          "P07",
+          "P10"
+        ],
+        [
+          "P07",
+          "P11"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9160839160839163
+    },
+    {
+      "first": "GFN1_gas",
+      "second": "GFN2_acetonitrile",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 9,
+      "reversed_pairs": [
+        [
+          "P01",
+          "P12"
+        ],
+        [
+          "P02",
+          "P03"
+        ],
+        [
+          "P02",
+          "P12"
+        ],
+        [
+          "P03",
+          "P12"
+        ],
+        [
+          "P04",
+          "P12"
+        ],
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P05",
+          "P10"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P07",
+          "P11"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.8671328671328673
+    },
+    {
+      "first": "GFN1_gas",
+      "second": "GFN2_dmf",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 9,
+      "reversed_pairs": [
+        [
+          "P01",
+          "P12"
+        ],
+        [
+          "P02",
+          "P03"
+        ],
+        [
+          "P02",
+          "P12"
+        ],
+        [
+          "P03",
+          "P12"
+        ],
+        [
+          "P04",
+          "P12"
+        ],
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P05",
+          "P10"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P07",
+          "P11"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.8671328671328673
+    },
+    {
+      "first": "GFN1_acetonitrile",
+      "second": "GFN1_dmf",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 0,
+      "reversed_pairs": [],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 1.0
+    },
+    {
+      "first": "GFN1_acetonitrile",
+      "second": "GFN2_gas",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 11,
+      "reversed_pairs": [
+        [
+          "P01",
+          "P12"
+        ],
+        [
+          "P02",
+          "P03"
+        ],
+        [
+          "P02",
+          "P12"
+        ],
+        [
+          "P04",
+          "P12"
+        ],
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P05",
+          "P10"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P06",
+          "P11"
+        ],
+        [
+          "P07",
+          "P10"
+        ],
+        [
+          "P07",
+          "P11"
+        ],
+        [
+          "P09",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.8391608391608393
+    },
+    {
+      "first": "GFN1_acetonitrile",
+      "second": "GFN2_acetonitrile",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 4,
+      "reversed_pairs": [
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P07",
+          "P11"
+        ],
+        [
+          "P09",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9510489510489512
+    },
+    {
+      "first": "GFN1_acetonitrile",
+      "second": "GFN2_dmf",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 4,
+      "reversed_pairs": [
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P07",
+          "P11"
+        ],
+        [
+          "P09",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9510489510489512
+    },
+    {
+      "first": "GFN1_dmf",
+      "second": "GFN2_gas",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 11,
+      "reversed_pairs": [
+        [
+          "P01",
+          "P12"
+        ],
+        [
+          "P02",
+          "P03"
+        ],
+        [
+          "P02",
+          "P12"
+        ],
+        [
+          "P04",
+          "P12"
+        ],
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P05",
+          "P10"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P06",
+          "P11"
+        ],
+        [
+          "P07",
+          "P10"
+        ],
+        [
+          "P07",
+          "P11"
+        ],
+        [
+          "P09",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.8391608391608393
+    },
+    {
+      "first": "GFN1_dmf",
+      "second": "GFN2_acetonitrile",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 4,
+      "reversed_pairs": [
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P07",
+          "P11"
+        ],
+        [
+          "P09",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9510489510489512
+    },
+    {
+      "first": "GFN1_dmf",
+      "second": "GFN2_dmf",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 4,
+      "reversed_pairs": [
+        [
+          "P05",
+          "P07"
+        ],
+        [
+          "P06",
+          "P07"
+        ],
+        [
+          "P07",
+          "P11"
+        ],
+        [
+          "P09",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9510489510489512
+    },
+    {
+      "first": "GFN2_gas",
+      "second": "GFN2_acetonitrile",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 7,
+      "reversed_pairs": [
+        [
+          "P01",
+          "P12"
+        ],
+        [
+          "P02",
+          "P03"
+        ],
+        [
+          "P02",
+          "P12"
+        ],
+        [
+          "P04",
+          "P12"
+        ],
+        [
+          "P05",
+          "P10"
+        ],
+        [
+          "P06",
+          "P11"
+        ],
+        [
+          "P07",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9160839160839163
+    },
+    {
+      "first": "GFN2_gas",
+      "second": "GFN2_dmf",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 7,
+      "reversed_pairs": [
+        [
+          "P01",
+          "P12"
+        ],
+        [
+          "P02",
+          "P03"
+        ],
+        [
+          "P02",
+          "P12"
+        ],
+        [
+          "P04",
+          "P12"
+        ],
+        [
+          "P05",
+          "P10"
+        ],
+        [
+          "P06",
+          "P11"
+        ],
+        [
+          "P07",
+          "P10"
+        ]
+      ],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 0.9160839160839163
+    },
+    {
+      "first": "GFN2_acetonitrile",
+      "second": "GFN2_dmf",
+      "n_common": 12,
+      "n_pairwise": 66,
+      "rank_reversals": 0,
+      "reversed_pairs": [],
+      "ties_within_1e-6_eV": [],
+      "spearman_rho": 1.0
+    }
+  ],
+  "original_preflight_reproduction": [
+    {
+      "molecule_id": "P01",
+      "original_id": "Q01",
+      "gfn": 1,
+      "previous_eV": -8.808612175068824,
+      "matrix_eV": -8.808612175068824,
+      "absolute_difference_eV": 0.0
+    },
+    {
+      "molecule_id": "P01",
+      "original_id": "Q01",
+      "gfn": 2,
+      "previous_eV": -7.792389515083509,
+      "matrix_eV": -7.792389515083509,
+      "absolute_difference_eV": 0.0
+    },
+    {
+      "molecule_id": "P04",
+      "original_id": "Q02",
+      "gfn": 1,
+      "previous_eV": -8.778651034704387,
+      "matrix_eV": -8.778651034704387,
+      "absolute_difference_eV": 0.0
+    },
+    {
+      "molecule_id": "P04",
+      "original_id": "Q02",
+      "gfn": 2,
+      "previous_eV": -7.7579565426343375,
+      "matrix_eV": -7.7579565426343375,
+      "absolute_difference_eV": 0.0
+    },
+    {
+      "molecule_id": "P09",
+      "original_id": "Q03",
+      "gfn": 1,
+      "previous_eV": -9.239473478450615,
+      "matrix_eV": -9.239473478450615,
+      "absolute_difference_eV": 0.0
+    },
+    {
+      "molecule_id": "P09",
+      "original_id": "Q03",
+      "gfn": 2,
+      "previous_eV": -8.50366052626198,
+      "matrix_eV": -8.50366052626198,
+      "absolute_difference_eV": 0.0
+    }
+  ],
+  "rank_meaning": "Ordering of computed model-state differences, not chemistry success or site preference",
+  "no_experimental_or_potential_validation": true
+}

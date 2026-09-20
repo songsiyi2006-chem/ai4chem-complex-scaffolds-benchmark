@@ -1,8 +1,8 @@
 {
   "phase": 28,
   "scope": "Public data and local computation, as requested; no new experimental/HPC work",
-  "software_status": "PASSED_11_CHECKS",
-  "calculation_status": "EXECUTED_PUBLIC_TRACE_REANALYSIS_AND_SYNTHETIC_LOCAL_BENCHMARK",
+  "software_status": "PASSED_18_CHECKS_11_ORIGINAL_PLUS_7_PUBLIC_EXTENSION",
+  "calculation_status": "EXECUTED_PUBLIC_TRACE_SUMMARY_POLARIZATION_ROBUSTNESS_AND_SEPARATE_SYNTHETIC_BENCHMARK",
   "scientific_status": "PARTIAL_PUBLIC_DATA_AND_ANALYTICAL_RESULTS_NO_VALIDATED_NEW_MECHANISM",
   "experimental_status": "NOT_RUN",
   "industrial_status": "NOT_VALIDATED_SCENARIO_5_PERCENT_TARGET_NOT_REACHED",
@@ -40,5 +40,25 @@
   ],
   "results": "run_20260920/summary.json",
   "published_results": "run_20260920/published_trace_summary.json",
-  "tests": "tests.txt"
+  "tests": "tests.txt",
+  "current_tests": "additional_tests.txt",
+  "additional_public_analysis": {
+    "status": "EXECUTED",
+    "results": "additional_public_analysis/summary.json",
+    "new_summary_records": 50,
+    "new_polarization_points": 777,
+    "pointwise_mean_intervals": 50,
+    "correlation_sensitivity_contrasts": 48,
+    "interpolated_grid_points": 28,
+    "stability_window_combinations": 72,
+    "raw_four_replicates": "NOT_AVAILABLE_ONLY_MEAN_SD",
+    "zero_hour_polarization_pairing": "UNVERIFIED_CROSS_PANEL_ONLY",
+    "replicate_mean_interval_assumption": "Independent approximately normal n4 within each timepoint; pointwise not simultaneous"
+  },
+  "historical_snapshot": {
+    "original_acceptance": "historical_initial_acceptance.json",
+    "original_manifest": "historical_initial_artifact_manifest.json",
+    "frozen_original_run": "run_20260920/",
+    "original_run_all_hashes_unchanged": true
+  }
 }

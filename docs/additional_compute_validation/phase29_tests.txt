@@ -1,0 +1,33 @@
+test_cross_method_comparison_requires_matching_gas_geometries (test_dft_crosscheck.DFTPairTests.test_cross_method_comparison_requires_matching_gas_geometries) ... ok
+test_reject_failed_scf_and_wrong_spin (test_dft_crosscheck.DFTPairTests.test_reject_failed_scf_and_wrong_spin) ... ok
+test_reject_mismatched_model_environment_or_geometry (test_dft_crosscheck.DFTPairTests.test_reject_mismatched_model_environment_or_geometry) ... ok
+test_same_state_reference_and_units (test_dft_crosscheck.DFTPairTests.test_same_state_reference_and_units) ... ok
+test_acquisition_rejects_impurity_and_values_yield (test_phase29.Phase29Tests.test_acquisition_rejects_impurity_and_values_yield) ... ok
+test_duplicate_families_stay_together (test_phase29.Phase29Tests.test_duplicate_families_stay_together) ... ok
+test_element_formula_and_charge_conserved (test_phase29.Phase29Tests.test_element_formula_and_charge_conserved) ... ok
+test_family_holdout_not_leaked (test_phase29.Phase29Tests.test_family_holdout_not_leaked) ... ok
+test_finite_sample_conformal_quantile (test_phase29.Phase29Tests.test_finite_sample_conformal_quantile) ... ok
+test_manufacturing_units (test_phase29.Phase29Tests.test_manufacturing_units) ... ok
+test_occupied_C2_rejected (test_phase29.Phase29Tests.test_occupied_C2_rejected) ... ok
+test_ode_conserves_substrate_equivalents (test_phase29.Phase29Tests.test_ode_conserves_substrate_equivalents) ... ok
+test_panel_unlabelled_and_size (test_phase29.Phase29Tests.test_panel_unlabelled_and_size) ... ok
+test_parent_symmetry_not_counted_as_distinct (test_phase29.Phase29Tests.test_parent_symmetry_not_counted_as_distinct) ... ok
+test_pulse_charge_and_mass_balance (test_phase29.Phase29Tests.test_pulse_charge_and_mass_balance) ... ok
+test_relay_removed_no_product (test_phase29.Phase29Tests.test_relay_removed_no_product) ... ok
+test_site_graph_distance (test_phase29.Phase29Tests.test_site_graph_distance) ... ok
+test_unique_heavy_atom_maps (test_phase29.Phase29Tests.test_unique_heavy_atom_maps) ... ok
+test_zero_denominator_abstains (test_phase29.Phase29Tests.test_zero_denominator_abstains) ... ok
+test_zero_yield_not_reported_as_infinite_advantage (test_phase29.Phase29Tests.test_zero_yield_not_reported_as_infinite_advantage) ... ok
+test_comparison_rejects_each_mismatch (test_xtb_matrix.XTBMatrixTests.test_comparison_rejects_each_mismatch) ... ok
+test_frozen_scope_144_single_points (test_xtb_matrix.XTBMatrixTests.test_frozen_scope_144_single_points) ... ok
+test_missing_scc_rejected_despite_printed_energy (test_xtb_matrix.XTBMatrixTests.test_missing_scc_rejected_despite_printed_energy) ... ok
+test_order_reversal_counts_pairs_not_molecules (test_xtb_matrix.XTBMatrixTests.test_order_reversal_counts_pairs_not_molecules) ... ok
+test_original_three_geometries_exact_hash (test_xtb_matrix.XTBMatrixTests.test_original_three_geometries_exact_hash) ... ok
+test_state_difference_sign_and_units (test_xtb_matrix.XTBMatrixTests.test_state_difference_sign_and_units) ... ok
+test_ties_and_missing_are_not_forced_into_reversals (test_xtb_matrix.XTBMatrixTests.test_ties_and_missing_are_not_forced_into_reversals) ... ok
+test_warning_does_not_disappear_on_convergence (test_xtb_matrix.XTBMatrixTests.test_warning_does_not_disappear_on_convergence) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.140s
+
+OK

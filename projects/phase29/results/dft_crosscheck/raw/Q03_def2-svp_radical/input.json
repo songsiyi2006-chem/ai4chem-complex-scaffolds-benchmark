@@ -1,0 +1,51 @@
+{
+  "id": "Q03_def2-svp_radical",
+  "molecule_id": "Q03",
+  "method": "pbe0",
+  "basis": "def2-svp",
+  "environment": "gas",
+  "state": "radical",
+  "charge": 0,
+  "multiplicity": 2,
+  "geometry_sha256": "d5f4921bbb3ee4a970dfd7d441f0516bff226685f902c889bc814430bf0adbe9",
+  "config": {
+    "scope": "Fixed-nuclei gas-phase electron attachment at the original MMFF cation geometries; independent model comparison, not ground truth",
+    "method": "pbe0",
+    "molecules": [
+      "Q01",
+      "Q02",
+      "Q03"
+    ],
+    "basis": "def2-svp",
+    "basis_check_molecules": [
+      "Q01"
+    ],
+    "basis_check": "def2-tzvp",
+    "states": [
+      {
+        "name": "cation",
+        "charge": 1,
+        "multiplicity": 1
+      },
+      {
+        "name": "radical",
+        "charge": 0,
+        "multiplicity": 2
+      }
+    ],
+    "threads": 2,
+    "memory": "900 MB",
+    "timeout_seconds_per_job": 300,
+    "scf_type": "df",
+    "e_convergence": 1e-09,
+    "d_convergence": 1e-07,
+    "maxiter": 150,
+    "dft_radial_points": 75,
+    "dft_spherical_points": 302,
+    "wavefunction_stability": "not_checked",
+    "geometry_optimization": false,
+    "thermal_corrections": false,
+    "solvation": "gas_only",
+    "success_interpretation": "SCF convergence and spin diagnostics only; no experimental potential, surface mechanism or site-selectivity inference"
+  }
+}

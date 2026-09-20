@@ -1,0 +1,38 @@
+{
+  "id": "P12_gfn1_gas_cation",
+  "molecule_id": "P12",
+  "gfn": 1,
+  "environment": "gas",
+  "state": "cation",
+  "charge": 1,
+  "uhf": 0,
+  "geometry_sha256": "2e5c1ffdb4458cf4b71b2c87496e9072965156f6095e9d756900cb5db03407ea",
+  "electron_count": 82,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -31.369659549634,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.18323470000177622,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "1",
+    "--chrg",
+    "1",
+    "--uhf",
+    "0",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300"
+  ],
+  "stdout_sha256": "636b5d0cd3427eaa383c22033e956faca8dd76faf3e87d1ffea5225f7b652258",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

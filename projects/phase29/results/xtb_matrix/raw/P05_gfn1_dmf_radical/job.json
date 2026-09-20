@@ -1,0 +1,40 @@
+{
+  "id": "P05_gfn1_dmf_radical",
+  "molecule_id": "P05",
+  "gfn": 1,
+  "environment": "dmf",
+  "state": "radical",
+  "charge": 0,
+  "uhf": 1,
+  "geometry_sha256": "6a534ce738e9b79786e6a782edaba5676e3bf12f96528f03ea89cb66b8282ed7",
+  "electron_count": 51,
+  "status": "success_with_warnings",
+  "scc_converged": true,
+  "normal_termination": true,
+  "energy_hartree": -21.542027374179,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "warning_count": 1,
+  "returncode": 0,
+  "elapsed_seconds": 0.15373029999318533,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "1",
+    "--chrg",
+    "0",
+    "--uhf",
+    "1",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300",
+    "--alpb",
+    "dmf"
+  ],
+  "stdout_sha256": "5504335e6c7a966847f53cee47c69638130790ba5cf40cb0c8fbd2d39403ab5b",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

@@ -1,11 +1,16 @@
 {
-  "schema": 1,
-  "scope": "All phase deliverables except this manifest, ignored work, Python cache and transient logs",
+  "schema": 2,
+  "scope": "Current deliverables; originalrun unchanged; historical_initial manifests are historical snapshots, not current-file hash assertions",
   "files": [
     {
       "path": ".gitignore",
       "bytes": 20,
       "sha256": "cc54ed0bd3ddcf80a59b13dff3f57597603cca25f233e849dc56aaa24944451f"
+    },
+    {
+      "path": "code/additional_public_analysis.py",
+      "bytes": 16795,
+      "sha256": "7e8525ccc25b53bcc2a3738f4771eeca6238e8fd50d799f39e229d278b5855f2"
     },
     {
       "path": "code/analysis.py",
@@ -33,6 +38,11 @@
       "sha256": "6806c17e6c87919704a17e59cf33e96429187727f9e1c4306aed05d2b7de8553"
     },
     {
+      "path": "configs/additional_public_analysis.json",
+      "bytes": 1105,
+      "sha256": "be58e725e9f68bbd57d2dc18af614010852045b9abf5bdf88890ab9ddf0be13a"
+    },
+    {
       "path": "configs/experiment.json",
       "bytes": 443,
       "sha256": "3dec340acb038ebcef2f483ad9b6abecdd4ad82c2ae98cd585aa4dde90b3c1de"
@@ -46,6 +56,26 @@
       "path": "configs/local.json",
       "bytes": 1443,
       "sha256": "d43ff44052d95f5371cf1f233601ec67cbb202319948c404c077b54c45823d5a"
+    },
+    {
+      "path": "data/additional_public/polarization_inputs.csv",
+      "bytes": 42325,
+      "sha256": "f665b6f8356eeff5cb99582e0547e5c7b6c5e64abcd7a299ce4bb4e8b85f7f6c"
+    },
+    {
+      "path": "data/additional_public/production_fe_summary_inputs.csv",
+      "bytes": 3602,
+      "sha256": "339e43d1c17492907b5fc0daa63fc894578af2456fa40ff0e2eccd96b3736702"
+    },
+    {
+      "path": "data/additional_public/README.md",
+      "bytes": 1091,
+      "sha256": "09231cc902f7a67b143851fbfcafb5375e813e24f979b8230a66aa1b1e8b0a92"
+    },
+    {
+      "path": "data/additional_public/source_manifest.json",
+      "bytes": 1042,
+      "sha256": "15be2c093ed81c299013b0a7187f78f100a906b3522d2eaa80b5254d8ef103d1"
     },
     {
       "path": "data/calculated/README.md",
@@ -129,8 +159,18 @@
     },
     {
       "path": "README.md",
-      "bytes": 3413,
-      "sha256": "f57e3cdd2c00e2a9848d417c393c53ff6428192110b0456b7cc13be0abdde77f"
+      "bytes": 4759,
+      "sha256": "e8f3c003ddd068d6f4a3e9dde6eed0d4aabede3bcb2c247ac8102643eeee758a"
+    },
+    {
+      "path": "reports/ADDITIONAL_PUBLIC_ANALYSIS_EN.md",
+      "bytes": 5426,
+      "sha256": "cc49cdc084810ef644b00739dbbe65eee8af249412726133054766692e17f6db"
+    },
+    {
+      "path": "reports/ADDITIONAL_PUBLIC_ANALYSIS_ZH.md",
+      "bytes": 6348,
+      "sha256": "61bd6823987de85ab0bf174c5a7b48aac1149cfa4e00d519fb7e1414d2715318"
     },
     {
       "path": "reports/industry_requirements.md",
@@ -169,13 +209,83 @@
     },
     {
       "path": "results/acceptance.json",
-      "bytes": 1973,
-      "sha256": "3275c7a2d729f0263bb6a4e5d4a761c9df2c3f5a589924a668d8b717c2ad2835"
+      "bytes": 2957,
+      "sha256": "5808150971fe836bec7ff606cc72b097e39c234ff53d6c81321d49ef5287e4ba"
+    },
+    {
+      "path": "results/additional_public_analysis/figures/polarization_matched_currents.png",
+      "bytes": 149996,
+      "sha256": "bcfc7c16c72fe0556b03c2df382218a9e52b10a8182bdbe275d1320dc6bbcdb7"
+    },
+    {
+      "path": "results/additional_public_analysis/figures/production_FE_uncertainty.png",
+      "bytes": 126446,
+      "sha256": "f8334eced9df59e19df50f2aa168f37331b478cbaeb933e304dec33b8cfb6f32"
+    },
+    {
+      "path": "results/additional_public_analysis/figures/startup_window_sensitivity.png",
+      "bytes": 216365,
+      "sha256": "7fd88981a1d82981355c5f42b472ff50f21f8e33783809122162affec336fdd4"
+    },
+    {
+      "path": "results/additional_public_analysis/input_output_manifest.json",
+      "bytes": 2488,
+      "sha256": "3ad8bc1bb589ece86faf22359c9c6c493d870fca92a0d030669f33ad8452b97d"
+    },
+    {
+      "path": "results/additional_public_analysis/polarization_differences.csv",
+      "bytes": 3019,
+      "sha256": "db636bea64de06d830562752fa9e52973e06a76160a4eaf377097421fa93fae0"
+    },
+    {
+      "path": "results/additional_public_analysis/polarization_interpolated.csv",
+      "bytes": 4031,
+      "sha256": "25abf9787d35f53c8926c0a0edd92dec7d3271550f661857727ac14e08fa7a47"
+    },
+    {
+      "path": "results/additional_public_analysis/replicate_mean_intervals.csv",
+      "bytes": 7192,
+      "sha256": "36e7dfdd7f3ef751020eaac4cd0f8449d7cad5450f47171b2bee72fecf76397c"
+    },
+    {
+      "path": "results/additional_public_analysis/stability_window_robustness.csv",
+      "bytes": 12428,
+      "sha256": "dd5109cc6c9f83817cc6ec23432712d462d3774d6336f4bc5666e108aeee490a"
+    },
+    {
+      "path": "results/additional_public_analysis/summary.json",
+      "bytes": 2491,
+      "sha256": "c84c51c320675479b1101ae8363a17d4b9b9816860dca010765b762f1144c53f"
+    },
+    {
+      "path": "results/additional_public_analysis/time_contrasts_correlation_sensitivity.csv",
+      "bytes": 6676,
+      "sha256": "cf33ee166fdfde37dbdbb224240a0e15d2a2a118f1b653a60bc282858541b688"
+    },
+    {
+      "path": "results/additional_quality_review.json",
+      "bytes": 2312,
+      "sha256": "359251c2138b0620d81486d551ccf9aeefdded5e750f43225f318161bb3d0da5"
+    },
+    {
+      "path": "results/additional_tests.txt",
+      "bytes": 1954,
+      "sha256": "df7fd15aedf13073f75d9ac71b10b5758919e6de9c07fcc65e91a08d7261bbf9"
     },
     {
       "path": "results/existing_phase_readme_audit.csv",
       "bytes": 6887,
       "sha256": "3c6ea09e1707203d074e6c8d76a7457fc0359a692e3a18ea8b457544e8d7944b"
+    },
+    {
+      "path": "results/historical_initial_acceptance.json",
+      "bytes": 1973,
+      "sha256": "3275c7a2d729f0263bb6a4e5d4a761c9df2c3f5a589924a668d8b717c2ad2835"
+    },
+    {
+      "path": "results/historical_initial_artifact_manifest.json",
+      "bytes": 9952,
+      "sha256": "21f6e3a12385238ef9ad88ab42f1d38fe1efc2109724f13c6a1d97fc13225bfc"
     },
     {
       "path": "results/quality_review.json",
@@ -286,6 +396,11 @@
       "path": "tests/test_phase28.py",
       "bytes": 3236,
       "sha256": "867a2678c2fd89a71809869dbbf13aa5ab1a227ff743826416417016efcc9392"
+    },
+    {
+      "path": "tests/test_public_extension.py",
+      "bytes": 1656,
+      "sha256": "aa3c7066c13fa640cc7dcb0a2969c62edda52d9e868df8df7c638ea4440638a3"
     }
   ]
 }

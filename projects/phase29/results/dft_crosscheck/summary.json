@@ -1,0 +1,54 @@
+{
+  "evidence_type": "executed_gas_phase_PBE0_single_points_at_MMFF_geometry",
+  "jobs_attempted": 8,
+  "jobs_converged": 8,
+  "pairs": [
+    {
+      "molecule_id": "Q01",
+      "method": "pbe0",
+      "basis": "def2-svp",
+      "environment": "gas",
+      "geometry_sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19",
+      "delta_E_radical_minus_cation_eV": -4.95732526770699,
+      "radical_spin_squared": 0.7769175539142381
+    },
+    {
+      "molecule_id": "Q01",
+      "method": "pbe0",
+      "basis": "def2-tzvp",
+      "environment": "gas",
+      "geometry_sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19",
+      "delta_E_radical_minus_cation_eV": -4.997139185604173,
+      "radical_spin_squared": 0.7759408377170018
+    },
+    {
+      "molecule_id": "Q02",
+      "method": "pbe0",
+      "basis": "def2-svp",
+      "environment": "gas",
+      "geometry_sha256": "77586112303e2123356d1cbb3bec9fdae811265bd1eb4b657a03df4f4b4bb4cc",
+      "delta_E_radical_minus_cation_eV": -4.776458276659774,
+      "radical_spin_squared": 0.7708247498796155
+    },
+    {
+      "molecule_id": "Q03",
+      "method": "pbe0",
+      "basis": "def2-svp",
+      "environment": "gas",
+      "geometry_sha256": "d5f4921bbb3ee4a970dfd7d441f0516bff226685f902c889bc814430bf0adbe9",
+      "delta_E_radical_minus_cation_eV": -5.689793365560809,
+      "radical_spin_squared": 0.7755371517345537
+    }
+  ],
+  "limits": [
+    "DFT is a model comparator, not ground truth",
+    "one cation geometry per molecule; not DFT optimized",
+    "no diffuse-basis convergence study",
+    "basis check covers Q01 only",
+    "wavefunction stability not checked",
+    "no solvent/electrode/counterion/free-energy or reaction-barrier calculation"
+  ],
+  "basis_change_eV": {
+    "Q01": -0.039813917897182804
+  }
+}
