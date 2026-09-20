@@ -1,0 +1,37 @@
+{
+  "id": "Q03_gfn1_radical",
+  "molecule_id": "Q03",
+  "state": "radical",
+  "gfn": 1,
+  "charge": 0,
+  "uhf": 1,
+  "solvent": "acetonitrile",
+  "geometry_sha256": "d5f4921bbb3ee4a970dfd7d441f0516bff226685f902c889bc814430bf0adbe9",
+  "status": "success",
+  "returncode": 0,
+  "scc_converged": true,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO"
+  ],
+  "energy_hartree": -21.674862613297,
+  "elapsed_seconds": 0.16728959997999482,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "1",
+    "--chrg",
+    "0",
+    "--uhf",
+    "1",
+    "--alpb",
+    "acetonitrile",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300"
+  ],
+  "stdout_sha256": "7552bfb66da53f1577907e9eb7d81a0171ae2c6cd2c2f3b37b9e0dcf5d8585a1",
+  "stderr_sha256": "aed80165ddd0bba450acf0d7a3176446b80dd9a55f810ca34f5c649e596e098a"
+}

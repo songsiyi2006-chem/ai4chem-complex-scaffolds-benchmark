@@ -1,0 +1,17 @@
+{
+  "literature_NC_standard": {
+    "substrate_mol": 0.0002,
+    "isolated_major_yield": 0.81,
+    "current_A": 0.025,
+    "time_h": 9,
+    "charge_C_calculated": 810.0,
+    "charge_F_per_mol_substrate": 41.975292109301805,
+    "FE_percent_recalculated_if_two_electrons": 3.8594132848000013,
+    "reported_FE_percent": 3.86,
+    "electron_assumption": "two electrons per product; source SI S6 FE convention verified",
+    "measured_cell_voltage_V": null,
+    "published_own_experiment": false
+  },
+  "energy_or_route_advantage": "NOT_DETERMINED_voltage_full_inventory_and_matched_route_missing",
+  "scenario_table_evidence": "hypothetical unit and recovery sensitivity only"
+}

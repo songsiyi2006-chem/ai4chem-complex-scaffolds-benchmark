@@ -1,0 +1,67 @@
+[
+  {
+    "key": "nature2023",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-05886-z/MediaObjects/41586_2023_5886_MOESM1_ESM.pdf",
+    "accessed_utc": "2026-09-20T12:17:54.365117+00:00",
+    "status": 200,
+    "bytes": 9346994,
+    "content_type": "application/pdf",
+    "sha256": "28bcf09538a77c20417630b5e0ff3a993b8800d342fbb8265521c09557ba3cf6",
+    "filename": "nature2023_41586_2023_5886_MOESM1_ESM.pdf",
+    "reproduce_extraction": false,
+    "redistributed": "Only numerical extracted trace pairs where noted; original article/SI/CIF/XLSX not bundled"
+  },
+  {
+    "key": "nature2023",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-023-05886-z/MediaObjects/41586_2023_5886_MOESM2_ESM.xlsx",
+    "accessed_utc": "2026-09-20T12:18:09.100678+00:00",
+    "status": 200,
+    "bytes": 815707,
+    "content_type": "application/octet-stream",
+    "sha256": "7023af8dbf2921e5a4641bc86ebe403371917bc7f0b8bd14e7a96fdddfc4ab45",
+    "filename": "nature2023_41586_2023_5886_MOESM2_ESM.xlsx",
+    "reproduce_extraction": true,
+    "redistributed": "Only numerical extracted trace pairs where noted; original article/SI/CIF/XLSX not bundled"
+  },
+  {
+    "key": "natsynth2026",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs44160-026-01039-y/MediaObjects/44160_2026_1039_MOESM1_ESM.pdf",
+    "accessed_utc": "2026-09-20T12:17:56.476118+00:00",
+    "status": 200,
+    "bytes": 24635713,
+    "content_type": "application/pdf",
+    "sha256": "f43e36294be820c64d09be3daa5959ebc70161fe8efe4199ce5ae2f4b8ee3c45",
+    "filename": "natsynth2026_44160_2026_1039_MOESM1_ESM.pdf",
+    "reproduce_extraction": false,
+    "redistributed": "Only numerical extracted trace pairs where noted; original article/SI/CIF/XLSX not bundled"
+  },
+  {
+    "key": "natsynth2026",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs44160-026-01039-y/MediaObjects/44160_2026_1039_MOESM2_ESM.cif",
+    "accessed_utc": "2026-09-20T12:20:21.315120+00:00",
+    "status": 200,
+    "bytes": 135626,
+    "content_type": "application/octet-stream",
+    "sha256": "cf7678d88ae4e1b17f1ea0c7b10b0cb76781f38051bbb9c118550a969c461c87",
+    "filename": "natsynth2026_44160_2026_1039_MOESM2_ESM.cif",
+    "reproduce_extraction": false,
+    "redistributed": "Only numerical extracted trace pairs where noted; original article/SI/CIF/XLSX not bundled"
+  },
+  {
+    "key": "natsynth2026",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs44160-026-01039-y/MediaObjects/44160_2026_1039_MOESM4_ESM.xlsx",
+    "accessed_utc": "2026-09-20T12:20:28.600331+00:00",
+    "status": 200,
+    "bytes": 1531461,
+    "content_type": "application/octet-stream",
+    "sha256": "a3e8a97ef93f7a4cff8a113a9d4705293182e86c9632e20260adc6bd84c68272",
+    "filename": "natsynth2026_44160_2026_1039_MOESM4_ESM.xlsx",
+    "reproduce_extraction": true,
+    "redistributed": "Only numerical extracted trace pairs where noted; original article/SI/CIF/XLSX not bundled"
+  }
+]

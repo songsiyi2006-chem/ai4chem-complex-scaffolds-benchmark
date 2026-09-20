@@ -1,0 +1,7 @@
+molecule_id,name,gfn,delta_e_eV
+Q01,pyridinium,1,-8.808612175068824
+Q01,pyridinium,2,-7.792389515083509
+Q02,3-methoxypyridinium,1,-8.778651034704387
+Q02,3-methoxypyridinium,2,-7.7579565426343375
+Q03,3-cyanopyridinium,1,-9.239473478450615
+Q03,3-cyanopyridinium,2,-8.50366052626198

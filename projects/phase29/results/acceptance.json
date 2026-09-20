@@ -1,0 +1,89 @@
+{
+  "version": "2026-09-20",
+  "authorized_scope": "public-data audit and bounded existing local computation; no experimental/HPC resources",
+  "delivery_status": "LOCAL_PUBLIC_DATA_SCOPE_COMPLETED",
+  "scientific_status": "NOT_DEMONSTRATED",
+  "experimental_reactions_performed": 0,
+  "software_tests": {
+    "command": "python projects/phase29/run.py --self-test",
+    "passed": 16,
+    "failed": 0,
+    "interpretation": "software regression only"
+  },
+  "computed": {
+    "structure_records": 48,
+    "mapped_proposals": 36,
+    "conformer_attempts": 151,
+    "conformer_converged": 150,
+    "retained_converged_structures": 48,
+    "unique_records_not_independent_products": "parentC2/C6symmetryduplicate",
+    "public_condition_records": 40,
+    "public_DFT_species_rows": 14,
+    "public_reference_reactions": 2,
+    "molecular_xtb_single_points": 12,
+    "molecular_xtb_numerical_warning_jobs": 12,
+    "surface_DFT": 0,
+    "TS_IRC_validations": 0
+  },
+  "gates": {
+    "G0": {
+      "status": "PARTIAL",
+      "done": [
+        "keyJACS/NCsourceSIidentityaudit",
+        "referenceheavyatommaps",
+        "explicitnearcompetitors",
+        "hashedproposedpanel"
+      ],
+      "missing": [
+        "matchedsamepairchemistrybenchmark",
+        "procurementandquantitationfreeze",
+        "sourceconflictsresolved",
+        "exhaustivenoveltysearch"
+      ]
+    },
+    "G1": {
+      "status": "SOFTWARE_AND_BOUNDED_CALCULATION_ONLY",
+      "done": [
+        "RDKit/MMFF",
+        "publicDFTtablearithmetic",
+        "12molecularxTBdiagnosticswithwarnings",
+        "syntheticODE/learning/unitchecks"
+      ],
+      "missing": [
+        "experimentalbaseline",
+        "interfacialpathvalidation"
+      ]
+    },
+    "G2": {
+      "status": "MECHANISM_UNDETERMINED",
+      "reason": "no discriminatory observations; kineticratesareassumed"
+    },
+    "G3": {
+      "status": "NOT_DEMONSTRATED",
+      "reason": "zero independent same-pair switchingexperiments"
+    },
+    "G4": {
+      "status": "UNVALIDATED_FOR_CHEMISTRY",
+      "reason": "syntheticcalibrationonly; realdeploymentabstains"
+    },
+    "G5": {
+      "status": "NO_MANUFACTURING_ADVANTAGE_EVIDENCE",
+      "reason": "no matchedproduct cost/quality/separation/continuousrunmeasurements"
+    }
+  },
+  "success_criteria": "configs/preregistered_panel.json; 3 distinct environments; s2>=0.8 and <=0.2 with frozen uncertainty/yield thresholds",
+  "claims_prohibited": [
+    "successfulsamepairswitch",
+    "mechanismproved",
+    "realexperimentsavings",
+    "industrialvalidation",
+    "druglikeorADMEimprovement",
+    "publicationreadiness"
+  ],
+  "next_resources": [
+    "quantitatedsamepairbaseline",
+    "characterizedmatchedcatalystsupport",
+    "independentproductidentityandlosscontrols",
+    "labwithrepeatsandrawanalysis"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "status": "NOT_RUN_USER_SCOPE_PUBLIC_DATA_AND_LOCAL_ONLY",
+  "enabled": false,
+  "minimum_observation_contract": ["electrode_batch", "anode_potential_raw_and_iR", "full_cell_voltage", "current", "product_flow_and_purity", "surface_inventory", "calibrated_dissolved_inventory", "electrolyte_flow", "maintenance_and_censoring_reason"],
+  "independent_batches": "to_be_determined_by_power_analysis_after_between_batch_variance_is_measured"
+}

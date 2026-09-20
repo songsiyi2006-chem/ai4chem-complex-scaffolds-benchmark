@@ -1,0 +1,19 @@
+{
+  "evidence_layer": "recalculation_of_published_DFT_table_not_new_electronic_structure",
+  "source": "10.1038/s41467-026-71858-2 SI Table S3 ppS19-S20",
+  "Gcorr_plus_E_minus_G_max_abs_Hartree": 2.2737367544323206e-13,
+  "TS1_from_INT1_plus_radicalB1_kcal_mol": 9.722945544850063,
+  "TS2_from_INT1_plus_radicalB1_kcal_mol": 12.033937435683878,
+  "TS2_minus_TS1_kcal_mol": 2.310991890833815,
+  "TS3_from_INT2_plus_TEMPOplus_kcal_mol": 15.87391891087237,
+  "TS4_from_INT2_plus_TEMPOplus_kcal_mol": 21.14531224727655,
+  "not_done": [
+    "rerun_DFT",
+    "frequency_or_IRC_revalidation",
+    "interfacial_free_energy",
+    "conversion_to_final_regioselectivity"
+  ],
+  "SI_conflicts": [
+    "TableS1 heading C1 but footnote b C1 prime; retained as source ambiguity"
+  ]
+}

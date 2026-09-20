@@ -1,0 +1,79 @@
+{
+  "evidence_layer": "synthetic_hypothetical_parameter_stress_test",
+  "terminal": {
+    "surface_on": {
+      "s2_C2_over_C2_plus_C4": 0.6518518518518519,
+      "total_three_isomer_yield": 0.7981513456772125,
+      "C6_fraction_all_target": 0.037044996628959166,
+      "mass_balance": 0.9999999999999998
+    },
+    "matched_support": {
+      "s2_C2_over_C2_plus_C4": 0.15384615384615385,
+      "total_three_isomer_yield": 0.739148668752437,
+      "C6_fraction_all_target": 0.09025399529755546,
+      "mass_balance": 1.0000000000000002
+    },
+    "relay_removed": {
+      "s2_C2_over_C2_plus_C4": null,
+      "total_three_isomer_yield": 0.0,
+      "C6_fraction_all_target": null,
+      "mass_balance": 1.0000000000000002
+    },
+    "selective_C4_consumption": {
+      "s2_C2_over_C2_plus_C4": 0.9194025569133515,
+      "total_three_isomer_yield": 0.17923194144226495,
+      "C6_fraction_all_target": 0.37220553399668077,
+      "mass_balance": 1.0000000000000002
+    },
+    "equal_charge_pulse": {
+      "s2_C2_over_C2_plus_C4": 0.5895649318655899,
+      "total_three_isomer_yield": 0.7930317031287606,
+      "C6_fraction_all_target": 0.0442096966758013,
+      "mass_balance": 0.9999999999999998
+    }
+  },
+  "identifiability": {
+    "endpoint_only": {
+      "n_parameters": 6,
+      "n_observations": 2,
+      "singular_values": [
+        0.3336525134680828,
+        0.07670809811902164
+      ],
+      "numerical_rank_relative_tolerance_1e-4": 2
+    },
+    "time_resolved": {
+      "n_parameters": 6,
+      "n_observations": 16,
+      "singular_values": [
+        0.6323103378859409,
+        0.20019119431731397,
+        0.15963078023192173,
+        0.03732554806189024,
+        2.878762585121062e-11,
+        2.593142020561027e-12
+      ],
+      "numerical_rank_relative_tolerance_1e-4": 4
+    },
+    "time_resolved_plus_support_intervention": {
+      "n_parameters": 6,
+      "n_observations": 32,
+      "singular_values": [
+        0.7463198876188993,
+        0.3882352607369579,
+        0.18126619063150162,
+        0.1508157956127172,
+        0.09741808228350357,
+        0.014530182985284766
+      ],
+      "numerical_rank_relative_tolerance_1e-4": 6
+    }
+  },
+  "s2_parameter_assumption_95pct_interval": [
+    0.2826704853461645,
+    0.6403181421809119,
+    0.8903283282612792
+  ],
+  "uncertainty_distribution": "independent lognormal rate multipliers, log SD 0.65; not a posterior",
+  "interpretation": "No chemical switch is predicted; rate assumptions alone span selectivity outcomes."
+}

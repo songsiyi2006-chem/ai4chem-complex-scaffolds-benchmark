@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import re
 import sys
+from run_phase import phase_registry
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -19,6 +20,7 @@ def markdown_links(text):
 
 def main():
     manifest = json.loads((ROOT/'docs/layout_manifest.json').read_text(encoding='utf-8'))
+    phases = phase_registry(manifest)
     originals = json.loads(gzip.decompress((ROOT/'shared/original_document_bytes.json.gz').read_bytes()))
     assert set(manifest['phases']) == {str(i) for i in range(1,28)}
     assert len({r['old'] for r in manifest['files']}) == len(manifest['files'])
@@ -36,7 +38,7 @@ def main():
             ast.parse(path.read_bytes(), filename=str(path)); python_files += 1
         if record['old'] != record['new']:
             assert not (ROOT/record['old']).is_file(), f'Old duplicate remains: {record["old"]}'
-    for phase in manifest['phases'].values():
+    for phase in phases.values():
         folder=ROOT/phase['folder']
         for relative in ('README.md','run.py','reports','code'):
             assert (folder/relative).exists(), f'Phase entry missing: {folder/relative}'
@@ -53,7 +55,7 @@ def main():
                     broken.append({'document':doc.relative_to(ROOT).as_posix(),'target':url})
                 links+=1
     report={'mapped_files':len(manifest['files']), 'moved_files':sum(r['old']!=r['new'] for r in manifest['files']),
-            'phases':27,'unchanged_non_markdown_files':preserved,'python_sources_parsed':python_files,
+            'phases':len(phases),'unchanged_non_markdown_files':preserved,'python_sources_parsed':python_files,
             'markdown_documents':documents,'local_markdown_links':links,'broken_links':broken}
     print(json.dumps(report,ensure_ascii=False,indent=2))
     return bool(broken)

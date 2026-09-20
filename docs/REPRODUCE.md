@@ -2,7 +2,7 @@
 
 [返回首页](../README.md) · [项目目录](../projects/) · [证据说明](EVIDENCE.md)
 
-代码已按阶段实际归档。旧脚本内部的相对路径、包内导入和跨阶段依赖保持原样，由统一入口在独立工作目录重建原有运行布局。请不要直接在 `code/` 内启动原脚本。
+代码已按阶段实际归档。Phase 1–27 的旧脚本内部相对路径、包内导入和跨阶段依赖保持原样，由统一入口在独立工作目录重建原有运行布局。旧阶段请不要直接在 `code/` 内启动原脚本。Phase 28–29 使用原生项目布局，无需复制历史文件集。
 
 ## 准备与运行
 
@@ -37,7 +37,24 @@ Windows 的 Conda 环境须先激活，让 `Library/bin` 中的数值库 DLL 可
 python -m pip install -r projects/phase23/requirements_phase23.txt
 ```
 
-没有经验证的单环境覆盖全部 27 阶段。Phase 2–19 的 OpenMM、OpenFF、xTB、Psi4 等要求以各阶段技术报告为准；机器专用解释器路径仍需自行适配。
+没有经验证的单环境覆盖全部 29 阶段。Phase 2–19 的 OpenMM、OpenFF、xTB、Psi4 等要求以各阶段技术报告为准；机器专用解释器路径仍需自行适配。
+
+## Phase 28–29：公开数据与本机计算
+
+两项任务各自包含任务书、来源记录、配置、计算代码、结果、图表和中英文报告。直接运行项目入口，或通过统一入口转发：
+
+```sh
+python projects/phase28/run.py --help
+python projects/phase29/run.py --help
+python tools/run_phase.py 28 -- --self-test
+python tools/run_phase.py 29 -- --self-test
+python tools/run_phase.py 28 --workspace work/runs/phase28
+python tools/run_phase.py 29 --workspace work/runs/phase29
+```
+
+原生阶段的 `--workspace` 等同于传给项目入口的 `--out`；不要同时提供两者。`--prepare-only`、`--reuse`、`--module` 和 `--script` 仅用于旧阶段。新增阶段登记于 [native_phases.json](native_phases.json)，历史迁移清单仍只记录 1–27 阶段。
+
+复现时默认使用仓库中带来源的提取数据，不需要重新下载整篇论文。来源文件的 URL、哈希与提取位置见项目数据说明；第三方文件不可用时应保留缺口。可选 xTB 分子诊断单独运行，命令和证据边界见 [Phase 29](../projects/phase29/)。本机运行不提交集群作业、不操作实验设备。
 
 ## Phase 25–27 与辅助工具
 
@@ -68,8 +85,8 @@ python tools/run_phase.py 4 --workspace work/runs/phase04-help --script diagnose
 - 默认输出位于工作目录；用户显式传入的绝对输出路径仍由原程序处理。已提交的项目数据不会被准备流程覆盖。
 - 改善导航而调整过链接的 Markdown，在来源未被进一步编辑时还原原始字节，便于旧哈希审计；未来对代码的编辑会随下一次准备进入新工作目录。
 - [迁移清单](layout_manifest.json)记录旧路径、新路径与原始/整理后 SHA-256。科学代码和非 Markdown 结果文件保持原字节；文档正文中的旧路径是历史运行布局。
-- 本次是目录与复现兼容性验证，不是全阶段生产重算。科学验收状态见[证据说明](EVIDENCE.md)。
+- 1–27 阶段的整理仅验证目录与复现兼容性，不是全阶段生产重算；28–29 的新运行有独立结果记录。科学验收状态见[证据说明](EVIDENCE.md)。
 
 ## 后续维护
 
-修改已有文件后，新工作目录会使用修改后的代码；不要手动修改已准备工作目录后再把它当作未变更来源复用。新增或改名源文件时，也应更新迁移清单的 `old` / `new` 映射，以便运行入口包含它。历史哈希保留为迁移时的基线，新的科学运行另记自己的来源哈希。
+修改旧阶段已有文件后，新工作目录会使用修改后的代码；不要手动修改已准备工作目录后再把它当作未变更来源复用。旧阶段新增或改名源文件时，也应更新迁移清单的 `old` / `new` 映射，以便运行入口包含它。历史哈希保留为迁移时的基线，新的科学运行另记自己的来源哈希。原生阶段在自身目录维护代码与结果，不向历史迁移表伪造迁移记录。

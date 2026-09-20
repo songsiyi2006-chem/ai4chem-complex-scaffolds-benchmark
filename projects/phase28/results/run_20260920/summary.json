@@ -1,0 +1,167 @@
+{
+  "evidence": "EXECUTED_CALCULATION: synthetic benchmark and analytic implications only",
+  "configuration_sha256": "d43ff44052d95f5371cf1f233601ec67cbb202319948c404c077b54c45823d5a",
+  "seed": 28029,
+  "software": {
+    "python": "3.12.14",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "matplotlib": "3.11.1"
+  },
+  "batch_count": 9,
+  "point_count": 648,
+  "fit_kir_per_h": 0.0028894438531725164,
+  "fit_kdes_per_h": 0.001510185246911327,
+  "voltage_total_loss_per_h": 0.0043936085968526075,
+  "voltage_profile_chi2_range": 0.0,
+  "local_identifiability": {
+    "voltage_only": {
+      "singular_values": [
+        166911.6389138858,
+        1.8423846969269462e-11
+      ],
+      "rank_relative_1e-8": 1,
+      "column_correlation": 0.9999999999999999
+    },
+    "joint_observations": {
+      "singular_values": [
+        184824.3926811122,
+        40365.53828596553
+      ],
+      "rank_relative_1e-8": 2,
+      "column_correlation": 0.9082365517437232
+    }
+  },
+  "synthetic_blind_pass": true,
+  "synthetic_blind_predictions": [
+    {
+      "batch_id": "blind_01",
+      "split": "blind",
+      "voltage_rmse_V": 0.01453152660359476,
+      "joint_nrmse": 2.4379305076412106
+    },
+    {
+      "batch_id": "blind_02",
+      "split": "blind",
+      "voltage_rmse_V": 0.008888556231342415,
+      "joint_nrmse": 1.6124920426895721
+    },
+    {
+      "batch_id": "blind_03",
+      "split": "blind",
+      "voltage_rmse_V": 0.006246805830865705,
+      "joint_nrmse": 1.2249906387838376
+    }
+  ],
+  "controls": [
+    {
+      "qualified_Cl2_kg": 1.8761007919304034,
+      "charge_Ah": 1440.0,
+      "electricity_kWh": 4.611051037987715,
+      "auxiliary_kWh": 0.28800000000000014,
+      "total_kWh_per_tCl2": 2611.294158106967,
+      "electricity_cost_USD": 0.5400700815599931,
+      "layer_consumption_USD": 0.12111868448886794,
+      "life_fraction_consumed": 0.6055934224443397,
+      "end_active_fraction": 0.8057353018734796,
+      "predicted_life_h": 79.26109865305166,
+      "support_membrane_USD": 0.07504403167721614,
+      "maintenance_USD": 0.04690251979826009,
+      "disposal_USD": 0.028141511878956048,
+      "offspec_reserve_USD": 0.018761007919304035,
+      "total_cost_USD_per_tCl2": 442.42710247381467,
+      "strategy": "constant",
+      "mean_load": 1.0,
+      "mean_square_load": 1.0,
+      "terminal_storage_charge_h": 0.0,
+      "max_storage_charge_h": 0.0,
+      "max_ramp_load_per_h": 0.0,
+      "max_temperature_C": 29.999888496274007
+    },
+    {
+      "qualified_Cl2_kg": 1.8761007919304031,
+      "charge_Ah": 1440.0,
+      "electricity_kWh": 4.617129299850182,
+      "auxiliary_kWh": 0.28800000000000014,
+      "total_kWh_per_tCl2": 2614.5339956938433,
+      "electricity_cost_USD": 0.5280738707514532,
+      "layer_consumption_USD": 0.12616529634257076,
+      "life_fraction_consumed": 0.6308264817128538,
+      "end_active_fraction": 0.7985162187593771,
+      "predicted_life_h": 76.0906547069296,
+      "support_membrane_USD": 0.07504403167721613,
+      "maintenance_USD": 0.04690251979826008,
+      "disposal_USD": 0.028141511878956044,
+      "offspec_reserve_USD": 0.018761007919304032,
+      "total_cost_USD_per_tCl2": 438.7228244388983,
+      "strategy": "rule",
+      "mean_load": 1.0,
+      "mean_square_load": 1.0416666666666667,
+      "terminal_storage_charge_h": 0.0,
+      "max_storage_charge_h": 2.0,
+      "max_ramp_load_per_h": 0.25,
+      "max_temperature_C": 32.290719186584795
+    },
+    {
+      "qualified_Cl2_kg": 1.8761007919304031,
+      "charge_Ah": 1440.0,
+      "electricity_kWh": 4.612225860129101,
+      "auxiliary_kWh": 0.28800000000000014,
+      "total_kWh_per_tCl2": 2611.9203622781065,
+      "electricity_cost_USD": 0.5395654389115548,
+      "layer_consumption_USD": 0.12458823013828864,
+      "life_fraction_consumed": 0.6229411506914432,
+      "end_active_fraction": 0.8007652067815569,
+      "predicted_life_h": 77.05382755132112,
+      "support_membrane_USD": 0.07504403167721613,
+      "maintenance_USD": 0.04690251979826008,
+      "disposal_USD": 0.028141511878956044,
+      "offspec_reserve_USD": 0.018761007919304032,
+      "total_cost_USD_per_tCl2": 444.0074562659645,
+      "strategy": "mpc",
+      "mean_load": 1.0,
+      "mean_square_load": 1.0286458333333333,
+      "terminal_storage_charge_h": 0.0,
+      "max_storage_charge_h": 2.0,
+      "max_ramp_load_per_h": 0.25,
+      "max_temperature_C": 32.31542501516438
+    }
+  ],
+  "uncertainty": {
+    "rule": {
+      "feasible_draws": 1875,
+      "infeasible_draws": 125,
+      "cost_reduction_fraction_q025_q50_q975_conditional_feasible": [
+        -0.0044520405953124564,
+        0.006045344387329621,
+        0.01420256093771671
+      ],
+      "fraction_feasible_draws_reaching_5_percent": 0.0,
+      "lifetime_h_q025_q50_q975_all_draws": [
+        40.47208755920752,
+        75.20538645403319,
+        139.66249208366784
+      ]
+    },
+    "mpc": {
+      "feasible_draws": 1883,
+      "infeasible_draws": 117,
+      "cost_reduction_fraction_q025_q50_q975_conditional_feasible": [
+        -0.009366858931489941,
+        -0.00435764191375565,
+        -0.0006189796710143634
+      ],
+      "fraction_feasible_draws_reaching_5_percent": 0.0,
+      "lifetime_h_q025_q50_q975_all_draws": [
+        40.98439246502028,
+        76.15735337117286,
+        141.43037173029657
+      ]
+    }
+  },
+  "posterior_predictive_check": "NOT_RUN: no Bayesian posterior; frequentist residual and held-out synthetic checks are provided",
+  "statistical_residual_correction": "NOT_ADDED: no external evidence supporting a correction",
+  "physical_mass_conservation_max_error": 1.1102230246251565e-16,
+  "scientific_mechanism_status": "NOT_IDENTIFIED_IN_REAL_ELECTRODES",
+  "industrial_cost_status": "NOT_VALIDATED"
+}

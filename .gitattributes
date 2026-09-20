@@ -1,2 +1,8 @@
 # Preserve source and frozen evidence bytes across Windows/Linux checkouts.
 * -text whitespace=cr-at-eol
+
+# Engine/structure writer formatting is frozen evidence, including trailing spaces.
+projects/phase29/data/calculated/proposed_structures.sdf -whitespace
+projects/phase29/results/quantum_preflight/raw/**/stdout.txt -whitespace
+projects/phase29/results/quantum_preflight/raw/**/wbo -whitespace
+projects/phase29/results/quantum_preflight/xtb_version.txt -whitespace

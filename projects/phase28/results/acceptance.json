@@ -1,0 +1,44 @@
+{
+  "phase": 28,
+  "scope": "Public data and local computation, as requested; no new experimental/HPC work",
+  "software_status": "PASSED_11_CHECKS",
+  "calculation_status": "EXECUTED_PUBLIC_TRACE_REANALYSIS_AND_SYNTHETIC_LOCAL_BENCHMARK",
+  "scientific_status": "PARTIAL_PUBLIC_DATA_AND_ANALYTICAL_RESULTS_NO_VALIDATED_NEW_MECHANISM",
+  "experimental_status": "NOT_RUN",
+  "industrial_status": "NOT_VALIDATED_SCENARIO_5_PERCENT_TARGET_NOT_REACHED",
+  "public_source_rows": 196496,
+  "public_trace_count": 3,
+  "independent_electrode_count": "unverified",
+  "synthetic_batches": 9,
+  "synthetic_points": 648,
+  "synthetic_blind_status": "PASSED_FROZEN_SOFTWARE_BENCHMARK_ONLY",
+  "posterior_predictive_check": "NOT_RUN_NO_BAYESIAN_POSTERIOR",
+  "electronic_structure_status": "NOT_RUN_INTERFACE_INPUTS_NOT_READY",
+  "gates": {
+    "G0": "PARTIAL_PUBLIC_RAW_DATA_ACQUIRED_INTERFACE_AND_MEASUREMENT_DETAILS_INCOMPLETE",
+    "G1": "SOFTWARE_CONSERVATION_AND_UNITS_PASSED",
+    "G2": "ANALYTIC_AND_SYNTHETIC_ONLY_REAL_MECHANISM_NOT_IDENTIFIED",
+    "G3": "SYNTHETIC_BLIND_ONLY_NO_NEW_REAL_BATCHES",
+    "G4": "SCENARIO_ACCOUNTING_COMPLETE_NO_ROBUST_5_PERCENT_BENEFIT",
+    "G5": "NOT_SCIENTIFICALLY_COMPLETE"
+  },
+  "evidence_labels": [
+    "LITERATURE_FACT",
+    "HYPOTHESIS",
+    "EXECUTED_CALCULATION",
+    "MODEL_INFERENCE",
+    "EXPERIMENT_REQUIRED",
+    "SOFTWARE_CHECK"
+  ],
+  "key_limits": [
+    "196496 source rows are not independent electrodes",
+    "Published potentials are anodic vs NHE, not cell voltages",
+    "2023 current normalization unresolved",
+    "No synthetic data used as measured lifetime data",
+    "Scenario economics omit full plant inventory and require baseload availability",
+    "No interface free energies, no validated industrial lifetime, no client quote"
+  ],
+  "results": "run_20260920/summary.json",
+  "published_results": "run_20260920/published_trace_summary.json",
+  "tests": "tests.txt"
+}

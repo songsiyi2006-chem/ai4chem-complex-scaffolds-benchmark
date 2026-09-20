@@ -1,0 +1,22 @@
+{
+  "scope": "Required fields for any future measured electrode run; missing public inputs are not imputed",
+  "required_fields": {
+    "electrode_batch": "unverified for independent replicate identity in extracted source traces",
+    "geometric_area_cm2": "unverified for specific extracted traces",
+    "loading_and_coverage_measurement": "unverified for specific extracted traces",
+    "support": "see original SI; not treated as matched across papers",
+    "membrane": "see original SI; trace-specific mapping not independently audited",
+    "liquid_composition": "see original SI; trace-specific mapping not independently audited",
+    "temperature_C": "90, verified from selected figure/caption",
+    "flow_pressure_reference": "unverified for extracted traces",
+    "potential_reference": "NHE for extracted potential traces",
+    "iR_processing": "unverified for extracted durability traces",
+    "current_potential_timeseries": "numeric source records preserved, with current-axis normalization caveat",
+    "product_flow_and_purity": "no synchronized raw trace paired with these stability files",
+    "gas_liquid_balance": "unverified",
+    "stop_reason": "end of published record; failure event not identified",
+    "maintenance_events": "not obtained in synchronized trace form"
+  },
+  "synthetic_buffer_convention": "storage_charge_h denotes deviation from common initial 2 rated hours of qualified-product buffer; physical stock=2+deviation is bounded0..4 and final stock equals initial stock",
+  "schema_does_not_imply": "That the publication omitted these details; only this bounded audit has not established the trace-specific mapping"
+}

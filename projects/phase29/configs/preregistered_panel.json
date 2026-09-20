@@ -1,0 +1,149 @@
+{
+  "version": "2026-09-20-v1",
+  "status": "COMPUTATIONAL_PANEL_FROZEN_EXPERIMENTAL_PROCUREMENT_NOT_FROZEN",
+  "evidence_layer": "proposal",
+  "partner": "4-methoxyacetophenone",
+  "partner_status": "verified NatComm model partner; proposed for every panel member",
+  "ring_mapping": "N1-C2-C3-C4-C5-C6 fixed identity; C6 tracked separately, C2/C6 duplicate for parent only",
+  "procurement": "availability/prices/analytical feasibility unverified; no purchased samples",
+  "minimum_repeats_per_condition": 3,
+  "minimum_distinct_substituent_environments": 3,
+  "C2_rich_s2_lower95CI_min": 0.8,
+  "C4_rich_s2_upper95CI_max": 0.2,
+  "minimum_total_C2_C4_assay_yield_lower95CI": 0.4,
+  "C6_fraction_max_proposed": 0.05,
+  "minimum_mass_balance_lower95CI_proposed": 0.85,
+  "simultaneous_95CI": "replicate bootstrap with multiplicity control across frozen 3 pairs; protocol requires independent analyst before experiments",
+  "switch_same_pair_key": [
+    "canonical_substrate",
+    "canonical_partner",
+    "product_connectivity",
+    "catalyst_characterization_scope"
+  ],
+  "no_threshold_relaxation": true,
+  "substrates": [
+    {
+      "id": "P01",
+      "name": "pyridine",
+      "mapped_smiles": "[n:1]1[cH:2][cH:3][cH:4][cH:5][cH:6]1",
+      "family": "parent",
+      "split": "anchor",
+      "literature_scope_status": "NC article explicitly reports pyridine / A19",
+      "yield": null
+    },
+    {
+      "id": "P02",
+      "name": "3-methylpyridine",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](C)[cH:4][cH:5][cH:6]1",
+      "family": "alkyl",
+      "split": "development",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P03",
+      "name": "3-ethylpyridine",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](CC)[cH:4][cH:5][cH:6]1",
+      "family": "alkyl",
+      "split": "development",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P04",
+      "name": "3-methoxypyridine",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](OC)[cH:4][cH:5][cH:6]1",
+      "family": "alkoxy",
+      "split": "development",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P05",
+      "name": "3-fluoropyridine",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](F)[cH:4][cH:5][cH:6]1",
+      "family": "halogen",
+      "split": "development",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P06",
+      "name": "3-chloropyridine",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](Cl)[cH:4][cH:5][cH:6]1",
+      "family": "halogen",
+      "split": "development",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P07",
+      "name": "3-bromopyridine",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](Br)[cH:4][cH:5][cH:6]1",
+      "family": "halogen",
+      "split": "development",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P08",
+      "name": "3-(trifluoromethyl)pyridine",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](C(F)(F)F)[cH:4][cH:5][cH:6]1",
+      "family": "strong_EWG",
+      "split": "prospective_holdout",
+      "literature_scope_status": "NC article explicitly reports 3-CF3 / A24",
+      "yield": null
+    },
+    {
+      "id": "P09",
+      "name": "pyridine-3-carbonitrile",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](C#N)[cH:4][cH:5][cH:6]1",
+      "family": "strong_EWG",
+      "split": "prospective_holdout",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P10",
+      "name": "methyl nicotinate",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](C(=O)OC)[cH:4][cH:5][cH:6]1",
+      "family": "carbonyl",
+      "split": "development",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P11",
+      "name": "nicotinamide",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](C(=O)N)[cH:4][cH:5][cH:6]1",
+      "family": "carbonyl",
+      "split": "development",
+      "literature_scope_status": "proposed extrapolation, not certified published scope",
+      "yield": null
+    },
+    {
+      "id": "P12",
+      "name": "3-phenylpyridine",
+      "mapped_smiles": "[n:1]1[cH:2][c:3](-c2ccccc2)[cH:4][cH:5][cH:6]1",
+      "family": "aryl",
+      "split": "prospective_holdout",
+      "literature_scope_status": "NC article explicitly reports 3-phenyl / A23",
+      "yield": null
+    }
+  ],
+  "complex_challenge_candidates": [
+    {
+      "name": "Abametapir",
+      "status": "literature NC A33 exists; exact site availability and pricing not yet frozen"
+    },
+    {
+      "name": "Myrtenol-derived pyridine A32",
+      "status": "NC publication substrate; acquisition and mapping need SI identity review"
+    },
+    {
+      "name": "thieno[3,2-b]pyridine A27",
+      "status": "NC C2/C4 mixtures; fused numbering needs separately audited maps"
+    }
+  ],
+  "experimental_reaction_count": 0
+}

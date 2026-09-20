@@ -1,0 +1,42 @@
+{
+  "evidence_layer": "synthetic_algorithm_check",
+  "n_families": 120,
+  "split_sizes": [
+    66,
+    24,
+    30
+  ],
+  "ridge_test_MAE": 0.04572618034928368,
+  "constant_baseline_test_MAE": 0.15464563148410196,
+  "conformal_nominal_coverage": 0.9,
+  "conformal_observed_coverage": 0.9,
+  "conformal_radius": 0.11645633787060872,
+  "OOD_rejected": 0,
+  "calibration_bins": [
+    {
+      "bin": 1,
+      "count": 10,
+      "mean_prediction": 0.2911266454076156,
+      "mean_target": 0.26703034342103804
+    },
+    {
+      "bin": 2,
+      "count": 10,
+      "mean_prediction": 0.47540211559491075,
+      "mean_target": 0.45184906621584914
+    },
+    {
+      "bin": 3,
+      "count": 10,
+      "mean_prediction": 0.6498662525255657,
+      "mean_target": 0.6727799854197718
+    }
+  ],
+  "deployment_status": "ABSTAIN_ALL_REAL_REACTIONS_NO_EXPERIMENTAL_LABELS",
+  "clinical_or_experimental_savings_claim": false,
+  "tree_test_MAE": 0.07165112518379267,
+  "GP_test_MAE": 0.05982136408874988,
+  "hyperparameters": "fixed a priori; no test optimization",
+  "proposed_deployment_acquisition_function": "probability*total_yield*(1-impurity_risk)/joint_cost + 0.15*information/joint_cost; reject risk>0.2; NOT evaluated in this simulation",
+  "actual_evaluated_acquisition_rule": "uncertainty_proxy_per_cost=(nearest_feature_distance+0.1*ridge_predicted_synthetic_site_fraction)/cost; diversity_per_cost=nearest_feature_distance/cost"
+}

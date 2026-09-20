@@ -1,0 +1,14 @@
+{
+  "28": {
+    "title": "工业氯碱有机电极：失活识别与寿命成本",
+    "folder": "projects/phase28",
+    "entrypoint": "projects/phase28/run.py",
+    "execution": "native"
+  },
+  "29": {
+    "title": "医药吡啶：位点控制与可制造性",
+    "folder": "projects/phase29",
+    "entrypoint": "projects/phase29/run.py",
+    "execution": "native"
+  }
+}

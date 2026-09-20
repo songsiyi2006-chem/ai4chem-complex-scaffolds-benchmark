@@ -1,0 +1,37 @@
+{
+  "id": "Q01_gfn2_cation",
+  "molecule_id": "Q01",
+  "state": "cation",
+  "gfn": 2,
+  "charge": 1,
+  "uhf": 0,
+  "solvent": "acetonitrile",
+  "geometry_sha256": "9b82e12f0e84963194c888a69c720d507f48725df2e7c4414674f2d3dd5f5d19",
+  "status": "success",
+  "returncode": 0,
+  "scc_converged": true,
+  "numerical_warnings": [
+    "Note: The following floating-point exceptions are signalling: IEEE_DIVIDE_BY_ZERO IEEE_DENORMAL"
+  ],
+  "energy_hartree": -16.327842979902,
+  "elapsed_seconds": 0.14766419999068603,
+  "command": [
+    "xtb",
+    "input.xyz",
+    "--gfn",
+    "2",
+    "--chrg",
+    "1",
+    "--uhf",
+    "0",
+    "--alpb",
+    "acetonitrile",
+    "--sp",
+    "--acc",
+    "0.1",
+    "--iterations",
+    "300"
+  ],
+  "stdout_sha256": "a7af94654dc8412b86a66b180a3b4f7415bada6fdb512eed2419a453878d92b3",
+  "stderr_sha256": "f55294a69917df8a2d00d423240960627803c2caf526d2527fc4dad1d4745344"
+}

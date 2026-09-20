@@ -1,0 +1,27 @@
+{
+  "seed": 29092026,
+  "threads_max": 2,
+  "uncertainty_draws": 120,
+  "kinetics": {
+    "k2_solution": 0.04,
+    "k4_solution": 0.22,
+    "k2_surface": 0.8,
+    "k4_surface": 0.03,
+    "k6": 0.025,
+    "loss2": 0.025,
+    "loss4": 0.025,
+    "loss6": 0.02,
+    "side": 0.025,
+    "activity": 1.0,
+    "relay_setpoint": 1.0,
+    "surface": 1.0,
+    "tau_relay_h": 0.25,
+    "tau_surface_h": 0.45
+  },
+  "rate_units": "h^-1, pseudo first-order; all assumed",
+  "kinetic_time_h": 9,
+  "ETKDGv3_candidates_per_species": 4,
+  "MMFF94s_max_iters": 300,
+  "DFT_or_surface_cluster": "not available; no arbitrary Zn-N4 cluster",
+  "learning": "synthetic families only; real reaction service always abstains"
+}

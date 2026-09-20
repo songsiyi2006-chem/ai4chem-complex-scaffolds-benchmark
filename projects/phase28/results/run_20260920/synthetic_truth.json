@@ -1,0 +1,38 @@
+[
+  {
+    "batch_id": "train_01",
+    "rate_multiplier": 1.1138062264582258
+  },
+  {
+    "batch_id": "train_02",
+    "rate_multiplier": 0.9588847932512461
+  },
+  {
+    "batch_id": "train_03",
+    "rate_multiplier": 0.903848686250695
+  },
+  {
+    "batch_id": "train_04",
+    "rate_multiplier": 0.9482835922950509
+  },
+  {
+    "batch_id": "validation_01",
+    "rate_multiplier": 1.0712166326030879
+  },
+  {
+    "batch_id": "validation_02",
+    "rate_multiplier": 1.0634759560996645
+  },
+  {
+    "batch_id": "blind_01",
+    "rate_multiplier": 0.8565894676210823
+  },
+  {
+    "batch_id": "blind_02",
+    "rate_multiplier": 0.9207550480970511
+  },
+  {
+    "batch_id": "blind_03",
+    "rate_multiplier": 1.0098462609136307
+  }
+]

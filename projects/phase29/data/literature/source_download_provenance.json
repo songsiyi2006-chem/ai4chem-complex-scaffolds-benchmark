@@ -1,0 +1,79 @@
+[
+  {
+    "key": "reactor2023",
+    "kind": "article_html",
+    "url": "https://www.nature.com/articles/s41586-022-05667-0?error=cookies_not_supported",
+    "status": 200,
+    "bytes": 398476,
+    "sha256": "411d4c76027ae9a5df24ff31edd98e7127a36a1c982d6e66fc18e55c98d453eb",
+    "accessed_utc": "2026-09-20T12:17:54.366831+00:00",
+    "local_path": "work\\phase28_29_sources\\reactor2023.html"
+  },
+  {
+    "key": "reactor2023",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-022-05667-0/MediaObjects/41586_2022_5667_MOESM1_ESM.pdf",
+    "local_path": "work\\phase28_29_sources\\reactor2023_41586_2022_5667_MOESM1_ESM.pdf",
+    "accessed_utc": "2026-09-20T12:17:54.443914+00:00",
+    "status": 200,
+    "bytes": 17104028,
+    "content_type": "application/pdf",
+    "sha256": "cfe89bb96171e21808df842ac4695f07b03a39b692d1d4c1cff082c8cb4b77f4"
+  },
+  {
+    "key": "natcomm2026",
+    "kind": "article_html",
+    "url": "https://www.nature.com/articles/s41467-026-71858-2?error=cookies_not_supported",
+    "status": 200,
+    "bytes": 525026,
+    "sha256": "cc694b6493cb7c0753953836be6d9f4589cc6e1a6d742126f5040d73be75c8b9",
+    "accessed_utc": "2026-09-20T12:17:54.908253+00:00",
+    "local_path": "work\\phase28_29_sources\\natcomm2026.html"
+  },
+  {
+    "key": "natcomm2026",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-026-71858-2/MediaObjects/41467_2026_71858_MOESM1_ESM.pdf",
+    "local_path": "work\\phase28_29_sources\\natcomm2026_41467_2026_71858_MOESM1_ESM.pdf",
+    "accessed_utc": "2026-09-20T12:17:55.027449+00:00",
+    "status": 200,
+    "bytes": 19914408,
+    "content_type": "application/pdf",
+    "sha256": "16933a7afa2aecc48bb6ee83624f2a7435f0b8456c04f50c4f2eb731b8a52880"
+  },
+  {
+    "key": "natcomm2026",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-026-71858-2/MediaObjects/41467_2026_71858_MOESM2_ESM.pdf",
+    "local_path": "work\\phase28_29_sources\\natcomm2026_41467_2026_71858_MOESM2_ESM.pdf",
+    "accessed_utc": "2026-09-20T12:18:46.957578+00:00",
+    "status": 200,
+    "bytes": 1220522,
+    "content_type": "application/pdf",
+    "sha256": "0c6a9ec7842e88dd3ca880669871e834f6b3674deae620cc5a4bc94ae3bde39f"
+  },
+  {
+    "key": "natcomm2026",
+    "kind": "publisher_supplement",
+    "url": "https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41467-026-71858-2/MediaObjects/41467_2026_71858_MOESM3_ESM.xlsx",
+    "local_path": "work\\phase28_29_sources\\natcomm2026_41467_2026_71858_MOESM3_ESM.xlsx",
+    "accessed_utc": "2026-09-20T12:18:52.911924+00:00",
+    "status": 200,
+    "bytes": 1133920,
+    "content_type": "application/octet-stream",
+    "sha256": "6c4ea9f93fa3f2be19c7ee3776eb8d228ee72065e9ee2f99c0ae4f73dc01c420"
+  },
+  {
+    "url": "https://ndownloader.figshare.com/files/65594325",
+    "local_path": "work\\phase28_29_sources\\jacs2026_ja6c07265_si_001.pdf",
+    "sha256": "fd2b7a3d29f059f6ef1893a2ca565532401bd42a7608d1d57365220b7faa1527",
+    "bytes": 19280711,
+    "status": 200,
+    "accessed_utc": "2026-09-20T12:19:26.527538+00:00",
+    "license": {
+      "value": 10,
+      "name": "CC BY-NC 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc/4.0/"
+    }
+  }
+]

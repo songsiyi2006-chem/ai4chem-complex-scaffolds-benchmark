@@ -1,0 +1,15 @@
+{
+  "visual_review": "All3 generated PNG figures opened and visually inspected; readable axes/legends; explicit synthetic/published labels",
+  "source_review": "Independent source_audit agent reviewed README and bilingual reports with no material issue",
+  "tests": {
+    "passed": 11,
+    "failed": 0,
+    "output": "tests.txt"
+  },
+  "published_row_total": 196496,
+  "copy_consistency": {
+    "control_economics.png": true,
+    "identifiability.png": true,
+    "published_stability.png": true
+  }
+}

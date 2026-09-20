@@ -1,0 +1,172 @@
+{
+  "date_utc": "2026-09-20T20:42:00.650882+08:00",
+  "scope": "Repository integration, frozen artifact hashes, and local deterministic reproduction; not scientific or industrial validation",
+  "legacy_runner_tests_passed": 6,
+  "native_dispatch_tests_passed": 4,
+  "project_tests_passed": 27,
+  "unit_tests_total": 37,
+  "xtb_comparison_invariant_checks_passed": 5,
+  "new_project_python_sources_parsed": 12,
+  "frozen_project_artifact_hashes_verified": {
+    "28": 57,
+    "29": 125
+  },
+  "layout": {
+    "mapped_files": 1936,
+    "moved_files": 1929,
+    "phases": 29,
+    "unchanged_non_markdown_files": 1839,
+    "python_sources_parsed": 161,
+    "markdown_documents": 154,
+    "local_markdown_links": 1248,
+    "broken_links": []
+  },
+  "runs": [
+    {
+      "phase": 28,
+      "date_utc": "2026-09-20T20:39:58.965078+08:00",
+      "commands": [
+        {
+          "command": [
+            "python",
+            "tools/run_phase.py",
+            "28",
+            "--",
+            "--self-test"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 3.1293264999985695,
+          "output_sha256": "6b2283177f55ddf7670b87d3888504c1c694b9c42af53aeeb65a05b2d349031f"
+        },
+        {
+          "command": [
+            "python",
+            "tools/run_phase.py",
+            "28",
+            "--workspace",
+            "work/integration_phase28"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 12.042978299985407,
+          "output_sha256": "05091f432134269a22c796aee45fa698becc58cfed7a30a4a7e771ae3dc92780"
+        }
+      ],
+      "reproduced_artifacts": [
+        {
+          "artifact": "published_trace_metrics.csv",
+          "expected_sha256": "ea77ceefb1e70830d0f1b9a22266e670ab241218a99deb4af9eddff2557db6e5",
+          "actual_sha256": "ea77ceefb1e70830d0f1b9a22266e670ab241218a99deb4af9eddff2557db6e5",
+          "identical": true
+        },
+        {
+          "artifact": "published_trace_summary.json",
+          "expected_sha256": "133468f08373dc56c31fc28001111ce6959471e81c857e0759ec53d3bc5e225a",
+          "actual_sha256": "133468f08373dc56c31fc28001111ce6959471e81c857e0759ec53d3bc5e225a",
+          "identical": true
+        },
+        {
+          "artifact": "fair_comparison.csv",
+          "expected_sha256": "c8bb63e3126f4a07f75ea63a2d700dfb0976d6732b9deb68cb7f99b78899369b",
+          "actual_sha256": "c8bb63e3126f4a07f75ea63a2d700dfb0976d6732b9deb68cb7f99b78899369b",
+          "identical": true
+        },
+        {
+          "artifact": "summary.json",
+          "expected_sha256": "bc3aee5e7ef39f0e98b3ba6b720c59a953b4adbd319db579b85c9a34419bf205",
+          "actual_sha256": "bc3aee5e7ef39f0e98b3ba6b720c59a953b4adbd319db579b85c9a34419bf205",
+          "identical": true
+        }
+      ],
+      "pass": true,
+      "test_output": "phase28_tests.txt",
+      "pipeline_output": "phase28_pipeline.txt",
+      "passed_tests": 11
+    },
+    {
+      "phase": 29,
+      "date_utc": "2026-09-20T20:39:20.066116+08:00",
+      "commands": [
+        {
+          "command": [
+            "python",
+            "tools/run_phase.py",
+            "29",
+            "--",
+            "--self-test"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 3.6961243999830913,
+          "output_sha256": "e30037eadbfa5f6dbe835475d4d84b9c507851b1d460d977b2f4b9173363bfe7"
+        },
+        {
+          "command": [
+            "python",
+            "tools/run_phase.py",
+            "29",
+            "--workspace",
+            "work/integration_phase29"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 14.514538599993102,
+          "output_sha256": "154e8241c114d36d2e2d77c99d9b16d0430852387d49231b8d8e0b07ae57c783"
+        }
+      ],
+      "reproduced_artifacts": [
+        {
+          "artifact": "data/calculated/descriptors.csv",
+          "expected_sha256": "dd547b8e0aea8c2e096e02801c701c9f5ba8789430c2505dfb991c2b4a5251e8",
+          "actual_sha256": "dd547b8e0aea8c2e096e02801c701c9f5ba8789430c2505dfb991c2b4a5251e8",
+          "identical": true
+        },
+        {
+          "artifact": "data/calculated/conformers.csv",
+          "expected_sha256": "8cfa78472f097e24736671fcb3726d9f3753dc91107daa776d627160e705f96a",
+          "actual_sha256": "8cfa78472f097e24736671fcb3726d9f3753dc91107daa776d627160e705f96a",
+          "identical": true
+        },
+        {
+          "artifact": "data/reaction_identity_audit.csv",
+          "expected_sha256": "eba6bd2da407b5aed4542bbe2bdf651a80fd6bb2d19fd1727e7e746aaf4b8894",
+          "actual_sha256": "eba6bd2da407b5aed4542bbe2bdf651a80fd6bb2d19fd1727e7e746aaf4b8894",
+          "identical": true
+        },
+        {
+          "artifact": "results/public_DFT_table_audit.json",
+          "expected_sha256": "5c39c64d76fc798c516294804b0e59ac527c9e469cdcf59c4d8f79fed353fead",
+          "actual_sha256": "5c39c64d76fc798c516294804b0e59ac527c9e469cdcf59c4d8f79fed353fead",
+          "identical": true
+        },
+        {
+          "artifact": "data/literature/derived_electrical_metrics.csv",
+          "expected_sha256": "ec25bccf896ebac411e5a147f0ca87f313ad792a151ce695355317db3d27f11b",
+          "actual_sha256": "ec25bccf896ebac411e5a147f0ca87f313ad792a151ce695355317db3d27f11b",
+          "identical": true
+        },
+        {
+          "artifact": "results/synthetic_learning.json",
+          "expected_sha256": "411c08a4f75b99bf1e0759b9951af0f6bff34c8661ded1b3938f77f80ffc1684",
+          "actual_sha256": "411c08a4f75b99bf1e0759b9951af0f6bff34c8661ded1b3938f77f80ffc1684",
+          "identical": true
+        },
+        {
+          "artifact": "results/synthetic_kinetics.json",
+          "expected_sha256": "8501a972dd6e1e353ef1934eaaeab593a8151d9b2db6a8d18b69f66338337b27",
+          "actual_sha256": "8501a972dd6e1e353ef1934eaaeab593a8151d9b2db6a8d18b69f66338337b27",
+          "identical": true
+        }
+      ],
+      "pass": true,
+      "test_output": "phase29_tests.txt",
+      "pipeline_output": "phase29_pipeline.txt",
+      "passed_tests": 16
+    }
+  ],
+  "reproduction_scope": "11 named CSV/JSON outputs reproduced byte-for-byte on the same installed environment; not a cross-platform guarantee",
+  "independent_review": "Source and scientific-claim review completed; reviewed numerical conventions, data classes, main reports and source access boundaries",
+  "scientific_limitations": [
+    "No new experiments or industrial deployment",
+    "No validated electrode lifetime or same-pair C2/C4 switch",
+    "xTB numeric warnings retained; no new surface DFT/TS/IRC"
+  ],
+  "staged_whitespace_check": "PASSED; engine-native whitespace retained via path-specific .gitattributes"
+}

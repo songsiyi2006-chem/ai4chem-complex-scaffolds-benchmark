@@ -1,0 +1,17 @@
+{
+  "seed": 29092026,
+  "python": "3.12.14 | packaged by conda-forge | (main, Sep  2 2026, 23:18:20) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.22631-SP0",
+  "rdkit": "2026.03.5",
+  "numpy": "2.4.6",
+  "descriptor_structures": 48,
+  "mapped_proposed_reactions": 36,
+  "conformers": 151,
+  "conformer_converged": 150,
+  "experimental_rows": 0,
+  "main_pipeline_electronic_structure_calculations": 0,
+  "optional_quantum_preflight": "separate results/quantum_preflight/manifest.json, not rerun by this pipeline",
+  "synthetic_ODE_scenarios": 5,
+  "config_sha256": "41c107b86e51484757f4c2581704ef2922a169c95143c7c50a815dc84445044f",
+  "panel_sha256": "07307c85961ee95535ac05e9bbfa9d4c68adb308113f475c4f08fb8a6375cd99"
+}

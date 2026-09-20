@@ -1,0 +1,8 @@
+{
+  "status": "INPUTS_NOT_READY_NOT_RUN",
+  "enabled": false,
+  "method_family": "Potential-controlled solvated electrode interface; exact implementation not selected",
+  "verified_inputs": ["Published molecule identity available through Nature Synthesis 2026 CIF"],
+  "blocking_inputs": ["working-electrode anchoring geometry", "surface and coverage", "solvent and ions", "reference potential convention", "independent kinetic validation"],
+  "forbidden_surrogates": ["gas-phase xTB energy as CER activation free energy", "unverified Phase26 copper interface as organic-electrode calibration"]
+}

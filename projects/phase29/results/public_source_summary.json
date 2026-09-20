@@ -1,0 +1,13 @@
+{
+  "literature_controls_rows": 40,
+  "DFT_species_rows": 14,
+  "reference_identity_rows": 2,
+  "electrical_rows": 3,
+  "same_substrate_partner_switch_demonstrated_by_these_two_models": false,
+  "reason": "JACS C4 occupied pyridine+aldehyde; NC C2 occupied pyridine+ketone; products and input structures differ",
+  "NC_source_spreadsheet": "Sheet1 B3:B582 contains coordinate labels/xyz; Sheet2 empty; no additional reaction-yield dataset",
+  "unresolved_JACS_SI_conflicts": [
+    "A1 synthesis scheme4-bromo versus prose2-bromo",
+    "catalyst preparation5mg versus TON paragraph2.5mg"
+  ]
+}

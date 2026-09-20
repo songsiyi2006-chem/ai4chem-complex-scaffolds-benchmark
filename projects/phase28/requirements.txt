@@ -1,0 +1,5 @@
+# Versions actually used; reuse an existing compatible environment.
+numpy==2.4.6
+scipy==1.18.0
+matplotlib==3.11.1
+openpyxl>=3.1,<4

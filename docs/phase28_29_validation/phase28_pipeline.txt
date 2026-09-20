@@ -1,0 +1,1 @@
+{"out": "C:\\Users\\HUIWEI\\Documents\\Codex\\2026-09-20\\https-github-com-songsiyi2006-chem-ai4chem\\work\\repository\\work\\integration_phase28", "synthetic_blind_pass": true, "literature": {"trace_count": 3, "source_rows": 196496}, "scientific_status": "PUBLIC_DATA_REANALYSIS_AND_UNCALIBRATED_LOCAL_BENCHMARK"}

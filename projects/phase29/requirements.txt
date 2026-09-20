@@ -1,0 +1,7 @@
+# Recorded existing environment; do not reinstall if these packages are available.
+numpy==2.4.6
+scipy==1.18.0
+scikit-learn==1.9.0
+matplotlib==3.11.1
+rdkit==2026.3.5
+# Optional quantum stage also requires the existing xTB executable (not pip).

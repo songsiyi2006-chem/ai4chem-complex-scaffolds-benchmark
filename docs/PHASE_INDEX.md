@@ -2,7 +2,7 @@
 
 [返回首页](../README.md) · [证据说明](EVIDENCE.md) · [复现指南](REPRODUCE.md)
 
-每个阶段已建立独立项目文件夹；点击阶段编号直接进入。按研究主题查找全部 27 个阶段。表内“边界”来自已提交的报告、[Phase 1–19 收尾清单](../shared/audit/reports/PHASE1_19_CLOSEOUT.md)和[25–27 验收台账](../shared/phase25_27/results/acceptance.json)，不是本次重新计算的结果。
+每个阶段已建立独立项目文件夹；点击阶段编号直接进入。按研究主题查找全部 29 个阶段。Phase 1–27 的“边界”来自历史报告、[Phase 1–19 收尾清单](../shared/audit/reports/PHASE1_19_CLOSEOUT.md)和[25–27 验收台账](../shared/phase25_27/results/acceptance.json)，本次未重跑。Phase 28–29 新增公开数据分析和本机计算，具体范围见各项目报告。
 “数据”可能包含历史输出；较新的审计与重算说明优先于早期图表。Phase 编号是模块标识，不表示成熟度。
 
 <a id="molecules"></a>
@@ -66,6 +66,13 @@
 | [25](../projects/phase25/) | 不对称催化 | [中文](../projects/phase25/reports/PHASE25_REPORT_ZH.md) / [EN](../projects/phase25/reports/PHASE25_REPORT_EN.md) · [进展](../projects/phase25/reports/PHASE25_PROGRESS_ZH.md) | [模块指南](../shared/phase25_27/code/phase25_27/README.md) | [数据](../projects/phase25/results) | xTB/DFT 初步计算；选择性未判定 |
 | [26](../projects/phase26/) | 恒电位铜界面 | [中文](../projects/phase26/reports/PHASE26_REPORT_ZH.md) / [EN](../projects/phase26/reports/PHASE26_REPORT_EN.md) | [模块指南](../shared/phase25_27/code/phase25_27/README.md) | [数据](../shared/phase25_27/results) | 设计与干表面种子；无完整界面采样 |
 | [27](../projects/phase27/) | Ni 光动力学 | [中文](../projects/phase27/reports/PHASE27_REPORT_ZH.md) / [EN](../projects/phase27/reports/PHASE27_REPORT_EN.md) | [模块指南](../shared/phase25_27/code/phase25_27/README.md) | [数据](../shared/phase25_27/results) | 文献坐标与方案；无新非绝热轨迹 |
+
+## 产业问题与公开数据研究 / Phases 28–29
+
+| Phase | 研究问题 | 任务与报告 | 实现 | 数据 / 图表 | 证据边界 |
+|---|---|---|---|---|---|
+| [28](../projects/phase28/) | 工业氯碱有机电极、失活识别与寿命成本 | [任务书](../projects/phase28/TASK_PROMPT.md) · [报告](../projects/phase28/reports/) | [代码](../projects/phase28/code/) | [数据](../projects/phase28/data/) · [结果](../projects/phase28/results/) · [图表](../projects/phase28/figures/) | 公开源数据复算与假设模型；未取得电极寿命、启停或工厂数据 |
+| [29](../projects/phase29/) | 医药吡啶位点控制、竞争机理与可制造性 | [任务书](../projects/phase29/TASK_PROMPT.md) · [报告](../projects/phase29/reports/) | [代码](../projects/phase29/code/) | [数据](../projects/phase29/data/) · [结果](../projects/phase29/results/) · [图表](../projects/phase29/figures/) | 文献反应审计、分子计算与假设模型；尚未证明同底物同试剂 C2/C4 切换 |
 
 ## 跨阶段审计入口
 

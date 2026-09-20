@@ -1,0 +1,7 @@
+source,excel_row,electrode,current_density_kA_m2,B,C,D,E,untransformed_arithmetic_mean,stored_mean_F,stored_sd_G,stored_minus_raw_mean,interpretation
+Nature2023 Figure2c,2,DSA,0.1,1928,1975,1999,2037,1984.75,1255.75,35.63898,-729.0,Stored metric extrapolated to ODC; raw-column transformation unresolved; not a demonstrated paper error
+Nature2023 Figure2c,3,DSA,4,2184,2191,2220,2269,2216.0,1402,31.61779,-814.0,Stored metric extrapolated to ODC; raw-column transformation unresolved; not a demonstrated paper error
+Nature2023 Figure2c,4,DSA,12.5,2450,2537,2478,2484,2487.25,1587.25,46.32607,-900.0,Stored metric extrapolated to ODC; raw-column transformation unresolved; not a demonstrated paper error
+Nature2023 Figure2c,6,NCOOH,0.1,1634,1694,1675,1643,1661.5,1291.5,41.91057,-370.0,Stored metric extrapolated to ODC; raw-column transformation unresolved; not a demonstrated paper error
+Nature2023 Figure2c,7,NCOOH,4,1796,1729,1790,1726,1760.25,1337.25,36.91548,-423.0,Stored metric extrapolated to ODC; raw-column transformation unresolved; not a demonstrated paper error
+Nature2023 Figure2c,8,NCOOH,12.5,1862,1871,1722,1864,1829.75,1509.75,31.93689,-320.0,Stored metric extrapolated to ODC; raw-column transformation unresolved; not a demonstrated paper error

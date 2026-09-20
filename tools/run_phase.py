@@ -14,6 +14,22 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / 'docs/layout_manifest.json'
+NATIVE_PHASES = ROOT / 'docs/native_phases.json'
+
+
+def phase_registry(manifest):
+    """Keep the immutable 1-27 migration ledger separate from new native projects."""
+    phases = dict(manifest['phases'])
+    native = json.loads(NATIVE_PHASES.read_text(encoding='utf-8')) if NATIVE_PHASES.exists() else {}
+    overlap = set(native) & set(phases)
+    if overlap:
+        raise ValueError(f'Native phase shadows legacy phase: {sorted(overlap)}')
+    for key, phase in native.items():
+        if not key.isdigit() or phase.get('execution') != 'native':
+            raise ValueError(f'Invalid native phase: {key}')
+        safe_path(ROOT, phase['entrypoint'])
+    phases.update(native)
+    return dict(sorted(phases.items(), key=lambda item: int(item[0])))
 
 
 def digest(data):
@@ -79,8 +95,10 @@ def main(argv=None):
         split = argv.index('--'); arguments = argv[split+1:]; argv = argv[:split]
     else:
         arguments = []
+    manifest = json.loads(MANIFEST.read_text(encoding='utf-8'))
+    phases = phase_registry(manifest)
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('phase', nargs='?', type=int, choices=range(1, 28))
+    parser.add_argument('phase', nargs='?', type=int, choices=[int(key) for key in phases])
     parser.add_argument('--list', action='store_true', help='List phase folders without importing scientific packages')
     parser.add_argument('--workspace', type=Path, help='New isolated working directory; never the source tree')
     parser.add_argument('--prepare-only', action='store_true', help='Copy sources/data without running a calculation')
@@ -90,12 +108,29 @@ def main(argv=None):
     selection.add_argument('--module', help='Existing phase25_27 module, e.g. phase25_27.test_analysis')
     selection.add_argument('--script', help='Original script name from layout_manifest.json, for tests/helpers')
     args = parser.parse_args(argv)
-    manifest = json.loads(MANIFEST.read_text(encoding='utf-8'))
     if args.list:
-        for n, phase in manifest['phases'].items():
+        for n, phase in phases.items():
             print(f'{int(n):02d}  {phase["folder"]}  {phase["title"]}')
         return 0
-    if args.phase is None or args.workspace is None:
+    if args.phase is None:
+        parser.error('phase is required; scientific arguments go after --')
+    phase = phases[str(args.phase)]
+    if phase.get('execution') == 'native':
+        if args.module or args.script or args.prepare_only or args.reuse:
+            parser.error('Native phases run in their project layout; use arguments after -- and optional --workspace for --out')
+        if args.workspace and any(arg.split('=', 1)[0] in ('--out', '--output-dir') for arg in arguments):
+            parser.error('Specify only --workspace or native --out, not both')
+        entry = safe_path(ROOT, phase['entrypoint'])
+        if not entry.is_file():
+            parser.error(f'Native entrypoint is missing: {entry}')
+        command = [args.python, str(entry)]
+        if args.workspace:
+            command += ['--out', str(args.workspace.resolve())]
+        command += arguments
+        env = os.environ.copy()
+        env.setdefault('PYTHONUTF8', '1')
+        return subprocess.call(command, cwd=ROOT, env=env)
+    if args.workspace is None:
         parser.error('phase and --workspace are required; scientific arguments go after --')
     known = {r['old'] for r in manifest['files']}
     if args.module:

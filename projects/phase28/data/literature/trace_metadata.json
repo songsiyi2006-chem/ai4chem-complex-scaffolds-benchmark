@@ -1,0 +1,41 @@
+[
+  {
+    "trace_id": "nature2023_constant_potential",
+    "doi": "10.1038/s41586-023-05886-z",
+    "figure": "2g; source workbook Figure2g A:B",
+    "x_unit": "h",
+    "y_unit": "source current ordinate; figure label mA/cm2; normalization unresolved",
+    "y_label": "Current ordinate (unit unresolved)",
+    "short_title": "Nature 2023 | 1.55 V, 90 C",
+    "temperature_C": 90,
+    "potential_reference": "NHE",
+    "iR_correction": "unverified for durability trace",
+    "unit_audit": "Publisher Fig2g left axis literally says mA cm^-2 and ordinate is about 6; preserved without guessing an A/cm2 or kA/m2 conversion. Relative drift is scale invariant."
+  },
+  {
+    "trace_id": "nature2023_constant_current",
+    "doi": "10.1038/s41586-023-05886-z",
+    "figure": "2g; source workbook Figure2g D:E",
+    "x_unit": "h",
+    "y_unit": "V vs NHE (anode potential)",
+    "y_label": "Anode potential / V vs NHE",
+    "short_title": "Nature 2023 | 800 mA/cm2, 90 C",
+    "temperature_C": 90,
+    "potential_reference": "NHE",
+    "iR_correction": "unverified for durability trace",
+    "unit_audit": "Electrode potential is not cell voltage; cannot integrate as whole-cell power."
+  },
+  {
+    "trace_id": "natsynth2026_constant_current",
+    "doi": "10.1038/s44160-026-01039-y",
+    "figure": "2h; source workbook 2h A:B",
+    "x_unit": "h",
+    "y_unit": "V vs NHE (anode potential)",
+    "y_label": "Anode potential / V vs NHE",
+    "short_title": "Nature Synthesis 2026 | 1000 mA/cm2",
+    "temperature_C": 90,
+    "potential_reference": "NHE",
+    "iR_correction": "unverified for durability trace",
+    "unit_audit": "Separated membrane/anodic CER test; potential is not whole-cell voltage."
+  }
+]

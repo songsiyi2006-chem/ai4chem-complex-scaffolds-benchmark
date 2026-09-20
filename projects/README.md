@@ -27,5 +27,7 @@
 - [Phase 25 · 不对称催化](phase25/)
 - [Phase 26 · 恒电位铜界面](phase26/)
 - [Phase 27 · Ni 光动力学](phase27/)
+- [Phase 28 · 工业氯碱有机电极与寿命成本](phase28/)
+- [Phase 29 · 医药吡啶位点控制与可制造性](phase29/)
 
 [历史辅助项目](legacy_solubility/) · [共享资源](../shared/)

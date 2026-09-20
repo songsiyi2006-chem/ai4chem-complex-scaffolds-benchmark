@@ -1,0 +1,41 @@
+source,row_id,condition,reported_yield_raw,reported_yield_percent,label_type,source_locator,replicate_count,site_fraction,censoring,evidence_layer
+JACS,1,standard Zn-N4@CNT,85,85.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,2,Fe-N4@NC,21,21.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,3,Co-N4@NC,26,26.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,4,Ni-N4@NC,19,19.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,5,Cu-N4@NC,22,22.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,6,Pd-N4@NC,19,19.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,7,Zn-N4@NC,56,56.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,8,ZnSA-C-N,67,67.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,9,carbon paper,31,31.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,10,Zn electrode,34,34.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,11,Zn-NPs@CNT,29,29.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,12,NC material,30,30.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,13,0.1eq ZnPc plus carbon paper,39,39.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,14,5mg dispersed Zn-N4@CNT plus carbon paper,37,37.0,reported_yield_table_basis_unresolved,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+JACS,15,no electricity,N.R.,,reported_yield_table_basis_unresolved,SI TableS1 S6,,,unquantified,published_literature_not_own_experiment
+NC,1,standard,81,81.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,2,no electricity,N.R.,,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,unquantified,published_literature_not_own_experiment
+NC,3,no AcOH,N.R.,,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,unquantified,published_literature_not_own_experiment
+NC,4,no TEMPO,37,37.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,5,15mA 15h,Trace,,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,unquantified,published_literature_not_own_experiment
+NC,6,30mA 7.5h,68,68.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,7,AcOH3eq,55,55.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,8,TEMPO0.25eq,64,64.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,9,HCOOH instead AcOH,45,45.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,10,Fc instead TEMPO,Trace,,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,unquantified,published_literature_not_own_experiment
+NC,11,nBu4NI instead nBu4NBF4,N.R.,,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,unquantified,published_literature_not_own_experiment
+NC,12,NMP instead DMF,10,10.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,13,acetone instead DMF,21,21.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,14,argon instead air,81,81.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,15,graphite cathode 4.5h,53,53.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,16,Ni cathode,71,71.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,17,Zn anode,15,15.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,18,Pt anode,19,19.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,19,11h,73,73.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,20,8h,76,76.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,21,water10eq,74,74.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,22,B1 1.5eq,41,41.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,23,A1 .6mmol B1 .2mmol,57,57.0,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,none_reported,published_literature_not_own_experiment
+NC,24,B(C6F5)3 30molpct instead AcOH,Trace,,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,unquantified,published_literature_not_own_experiment
+NC,25,Sc(OTf)3 30molpct instead AcOH,Trace,,isolated_yield_product_label_footnote_conflict,SI TableS1 S6,,,unquantified,published_literature_not_own_experiment

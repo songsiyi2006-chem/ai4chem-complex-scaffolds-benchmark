@@ -1,0 +1,41 @@
+[
+  {
+    "trace_id": "nature2023_constant_potential",
+    "source_filename": "nature2023_41586_2023_5886_MOESM2_ESM.xlsx",
+    "sheet": "Figure2g",
+    "excel_columns": [
+      1,
+      2
+    ],
+    "n_pairs": 43112,
+    "source_sha256": "7023af8dbf2921e5a4641bc86ebe403371917bc7f0b8bd14e7a96fdddfc4ab45",
+    "extracted_sha256": "db104eca5d78713580287d097341a680c55e5cb206b81e62a9b17e3bfa64366d",
+    "extraction_rule": "Every numeric x/y pair; no filtering or interpolation; source row retained"
+  },
+  {
+    "trace_id": "nature2023_constant_current",
+    "source_filename": "nature2023_41586_2023_5886_MOESM2_ESM.xlsx",
+    "sheet": "Figure2g",
+    "excel_columns": [
+      4,
+      5
+    ],
+    "n_pairs": 18750,
+    "source_sha256": "7023af8dbf2921e5a4641bc86ebe403371917bc7f0b8bd14e7a96fdddfc4ab45",
+    "extracted_sha256": "2c58eea8bb84c22b8929c381e160e09f0bc21453445a12561df38fd735ca8120",
+    "extraction_rule": "Every numeric x/y pair; no filtering or interpolation; source row retained"
+  },
+  {
+    "trace_id": "natsynth2026_constant_current",
+    "source_filename": "natsynth2026_44160_2026_1039_MOESM4_ESM.xlsx",
+    "sheet": "2h",
+    "excel_columns": [
+      1,
+      2
+    ],
+    "n_pairs": 134634,
+    "source_sha256": "a3e8a97ef93f7a4cff8a113a9d4705293182e86c9632e20260adc6bd84c68272",
+    "extracted_sha256": "db82574f2686bb3c17a63087c816bbb793bf195d53e774049fbdd080bbdb5c9f",
+    "extraction_rule": "Every numeric x/y pair; no filtering or interpolation; source row retained"
+  }
+]
