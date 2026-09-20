@@ -1,83 +1,80 @@
-# AI4Chem · Complex Scaffolds Benchmark
+# AI4Chem · 分阶段项目集合
 
-**从复杂分子骨架出发的计算化学与 AI for Science 研究原型集合。**
+**每个阶段一个文件夹，代码、技术报告、结果与图表集中存放。**
 
-Computational chemistry benchmarks and research prototypes, organized across 27 phases.
+[阶段与证据总表](docs/PHASE_INDEX.md) · [复现指南](docs/REPRODUCE.md) · [证据说明](docs/EVIDENCE.md) · [共享工具](shared/) · [旧路径迁移表](docs/layout_manifest.json)
 
-[阶段导航 / Phase index](docs/PHASE_INDEX.md) · [证据状态 / Evidence](docs/EVIDENCE.md) · [复现指南 / Reproduce](docs/REPRODUCE.md) · [历史长版 / Archive](README_HISTORY.md)
+## 目录结构
 
-> **如何理解本项目：** 代码可运行、数值检查通过、科学结论成立、实验验证完成，是四种不同的证据。本仓库包含真实计算、有效模型、合成数据和待验证方案；不能将全部 27 个阶段视为已完成的研究成果。状态来源与局限见[证据说明](docs/EVIDENCE.md)。
-
-## 先看哪里？
-
-| 你的目的 | 推荐入口 |
-|---|---|
-| 快速理解项目组成 | 下方研究地图 → [27 阶段导航](docs/PHASE_INDEX.md) |
-| 查看复杂骨架基准 | [中文报告](BENCHMARK_REPORT_ZH.md) / [English](BENCHMARK_REPORT_EN.md) → [数据](bench_results/) |
-| 判断结果是否可靠 | [证据状态](docs/EVIDENCE.md) → [Phase 1–19 收尾清单](PHASE1_19_CLOSEOUT.md) |
-| 查看催化方向阶段性工作 | [Phase 25 进展](PHASE25_PROGRESS_ZH.md) → [25–27 验收台账](results_phase25_27/acceptance.json) |
-| 运行一个模块 | [复现指南](docs/REPRODUCE.md) → 对应阶段的依赖与命令 |
-| 查找原有图表与详细介绍 | [历史长版](README_HISTORY.md)，结合更正与重算记录阅读 |
-
-## 研究地图
-
-以下按主题组织，**不是已验证的端到端流水线，也不是完成度排名**。
-
-```mermaid
-flowchart TD
-    A["AI4Chem · 27 个阶段"] --> B["分子与反应 · 1–8"]
-    A --> C["自动化与定律发现 · 9–12"]
-    A --> D["生物与多尺度模型 · 13–19"]
-    A --> E["量子与分子器件模型 · 20–23"]
-    A --> F["催化研究试点 · 24–27"]
-    B --> B1["构象 / 动力学 / 路径 / 增强采样"]
-    C --> C1["实验室与流动模拟 / VMC / 符号发现"]
-    D --> D1["PCET / 凝聚体 / 自旋 / 输运 / 代谢 / 酶"]
-    E --> E1["CISS / 腔 QED / 自旋量子比特 / 忆阻器"]
-    F --> F1["模拟高通量 / 不对称催化 / 铜界面 / Ni 光动力学"]
+```text
+projects/
+  phase01/ … phase27/
+    README.md       阶段入口与证据链接
+    run.py          统一运行入口
+    code/           本阶段专属源码（共同实现见 shared/）
+    reports/        中英文技术报告、阶段更正
+    results/        已保存结果（若有）
+    figures/        图表（若有）
+    tests/          阶段专属测试（若有）
+  legacy_solubility/ 历史辅助项目
+shared/             跨阶段代码、测试、审计证据、文献来源
+tools/              目录检查与兼容运行工具
+docs/               导航、复现、证据与历史文档
 ```
 
-| 主题 | 阶段 | 内容与入口 | 阅读时的边界 |
-|---|---|---|---|
-| 分子与反应 | 1–8 | [构象、MD、反应路径、增强采样](docs/PHASE_INDEX.md#molecules) | 部分重算中断或采样不足；单虚频不等于 IRC 连通性 |
-| 自动化与定律发现 | 9–12 | [实验室模拟、流动孪生、VMC、定律发现](docs/PHASE_INDEX.md#automation) | 模拟器检查不等于真实设备验证 |
-| 生物与多尺度模型 | 13–19 | [PCET、凝聚体、自旋、输运、代谢、酶设计](docs/PHASE_INDEX.md#biological) | 各阶段有独立近似与验收门槛 |
-| 量子与分子器件模型 | 20–23 | [输运、腔 QED、量子比特、储备池](docs/PHASE_INDEX.md#devices) | 有效模型或指定模型参数，不代表器件实测 |
-| 催化研究试点 | 24–27 | [高通量模拟及三项催化任务](docs/PHASE_INDEX.md#catalysis) | 24 为合成响应；25–27 科学验收未完成 |
+## 打开一个项目
 
-## 证据概览
+| 阶段 | 项目文件夹 | 代码与技术报告 |
+|---|---|---|
+| 01 | [复杂骨架与构象](projects/phase01/) | [代码](projects/phase01/code/) · [报告](projects/phase01/reports/) |
+| 02 | [扭转扫描与分子动力学](projects/phase02/) | [代码](projects/phase02/code/) · [报告](projects/phase02/reports/) |
+| 03 | [KRAS 复合物与结合分析](projects/phase03/) | [代码](projects/phase03/code/) · [报告](projects/phase03/reports/) |
+| 04 | [骨架编辑与反应路径](projects/phase04/) | [代码](projects/phase04/code/) · [报告](projects/phase04/reports/) |
+| 05 | [反应网络与逆向设计](projects/phase05/) | [代码](projects/phase05/code/) · [报告](projects/phase05/reports/) |
+| 06 | [显式溶剂与增强采样](projects/phase06/) | [代码](projects/phase06/code/) · [报告](projects/phase06/reports/) |
+| 07 | [强关联与模型适用边界](projects/phase07/) | [代码](projects/phase07/code/) · [报告](projects/phase07/reports/) |
+| 08 | [光化学与非绝热动力学](projects/phase08/) | [代码](projects/phase08/code/) · [报告](projects/phase08/reports/) |
+| 09 | [自驱动实验室模拟](projects/phase09/) | [代码](projects/phase09/code/) · [报告](projects/phase09/reports/) |
+| 10 | [连续流反应器数字孪生](projects/phase10/) | [代码](projects/phase10/code/) · [报告](projects/phase10/reports/) |
+| 11 | [神经波函数与 VMC](projects/phase11/) | [代码](projects/phase11/code/) · [报告](projects/phase11/reports/) |
+| 12 | [动力学定律发现](projects/phase12/) | [代码](projects/phase12/code/) · [报告](projects/phase12/reports/) |
+| 13 | [金属酶与 PCET](projects/phase13/) | [代码](projects/phase13/code/) · [报告](projects/phase13/reports/) |
+| 14 | [活性物质与凝聚体](projects/phase14/) | [代码](projects/phase14/code/) · [报告](projects/phase14/reports/) |
+| 15 | [自由基对与变构模型](projects/phase15/) | [代码](projects/phase15/code/) · [报告](projects/phase15/reports/) |
+| 16 | [核孔复合物与输运](projects/phase16/) | [代码](projects/phase16/code/) · [报告](projects/phase16/reports/) |
+| 17 | [相对论量子化学](projects/phase17/) | [代码](projects/phase17/code/) · [报告](projects/phase17/reports/) |
+| 18 | [全细胞代谢与热力学](projects/phase18/) | [代码](projects/phase18/code/) · [报告](projects/phase18/reports/) |
+| 19 | [酶设计与几何闭环](projects/phase19/) | [代码](projects/phase19/code/) · [报告](projects/phase19/reports/) |
+| 20 | [CISS 输运与自旋电子学](projects/phase20/) | [代码](projects/phase20/code/) · [报告](projects/phase20/reports/) |
+| 21 | [腔 QED 与极化激元](projects/phase21/) | [代码](projects/phase21/code/) · [报告](projects/phase21/reports/) |
+| 22 | [分子自旋量子比特](projects/phase22/) | [代码](projects/phase22/code/) · [报告](projects/phase22/reports/) |
+| 23 | [分子忆阻器与储备池计算](projects/phase23/) | [代码](projects/phase23/code/) · [报告](projects/phase23/reports/) |
+| 24 | [AI 高通量催化模拟](projects/phase24/) | [代码](projects/phase24/code/) · [报告](projects/phase24/reports/) |
+| 25 | [不对称催化](projects/phase25/) | [代码](projects/phase25/code/) · [报告](projects/phase25/reports/) |
+| 26 | [恒电位铜界面](projects/phase26/) | [代码](projects/phase26/code/) · [报告](projects/phase26/reports/) |
+| 27 | [Ni 光动力学](projects/phase27/) | [代码](projects/phase27/code/) · [报告](projects/phase27/reports/) |
 
-这里汇总仓库已提交记录，**不是实时计算监控**。旧报告里的“运行中 / 排队”仅描述当时快照。
+## 运行示例
 
-- **Phase 1–19：** [逐阶段收尾清单](PHASE1_19_CLOSEOUT.md)区分已通过的检查、失败、部分验收和待重算；[公开审计包](audit/phase1_19_rerun_20260910/README.md)提供命令与哈希。
-- **Phase 20–23：** 模型计算与检查见对应报告和 `summary.json`；Phase 23 未达到原定 NMSE < 0.01 与 sub-fJ 目标。
-- **Phase 24：** [模拟高通量原型](PHASE24_GXNU_AI_HTS_REPORT_ZH.md)，反应响应为合成数据，描述符含代理量；没有已投运的真实实验平台。
-- **Phase 25–27：** [验收台账](results_phase25_27/acceptance.json)为 `NOT_SCIENTIFICALLY_COMPLETE`。Phase 25 有 xTB/DFT 阶段性计算，选择性未判定；Phase 26 无完整溶剂化界面采样；Phase 27 无新非绝热轨迹。
+在已具备对应科学依赖的 Python 环境中，从仓库根目录执行：
 
-## 图示预览：Phase 24 模拟高通量
+```sh
+# 查看全部阶段，无需导入科学依赖
+python tools/run_phase.py --list
 
-下面展示的是**模拟孔板预测与合成响应**，用于理解软件流程，不是实验产率或 ee。
+# 在新目录准备原有运行布局，不启动计算
+python projects/phase23/run.py --workspace work/runs/phase23 --prepare-only
 
-![Phase 24 simulated plate forecasts and synthetic responses](figures_hts_pilot/fig2_96well_plate_heatmap_yield_ee.png)
+# 在同一工作目录执行 Phase 23 的软件自检
+python projects/phase23/run.py --workspace work/runs/phase23 --reuse -- --self-test
+```
 
-[查看报告](PHASE24_GXNU_AI_HTS_REPORT_ZH.md) · [数据与指标](results_phase24/metrics.json) · [其他阶段图表](docs/PHASE_INDEX.md)
+旧脚本依赖的相对路径与跨阶段导入，通过独立工作目录兼容；源码不需要复制回仓库根目录。运行输出留在工作目录，不覆盖已提交结果。完整说明见[复现指南](docs/REPRODUCE.md)。
 
-## 目录怎么读？
+## 研究状态
 
-| 路径 | 用途 |
-|---|---|
-| `docs/` | 阶段导航、证据解释、复现入口 |
-| 根目录 `*.py`、`phase25_27/` | 阶段程序、审计与复现工具 |
-| 根目录 `*_REPORT_EN.md / *_REPORT_ZH.md` | 英文 / 中文技术报告 |
-| `bench_results/`、`results_phase*/` | 已保存的计算、模拟与验证输出 |
-| `figures/`、`figures_phase*/`、`figures_hts_pilot/` | 图表；应结合对应运行与审计记录解读 |
-| `audit/`、`PHASE*_NOTES.md`、`PHASE*_FIXES.md` | 来源、修复、更正及重算证据 |
-| `README_HISTORY.md` | 原首页的历史叙述与图表，保留供追溯 |
+本项目包含真实计算、有效模型、合成数据和待验证方案，各阶段成熟度不同。
+Phase 24 是模拟高通量原型；Phase 25–27 尚未完成科学验收。历史“运行中”只表示报告当时的状态。
+目录整理不等于重新计算或科学结论通过；请结合[证据总表](docs/EVIDENCE.md)阅读结果。
 
-为保持脚本路径与已有证据哈希可用，本次采用导航层整理；计算代码与结果路径保持兼容。
-
-## Reproduction & license
-
-Start with the [reproduction guide](docs/REPRODUCE.md). Dependencies differ by phase; the root requirements file is not a complete environment for all 27 phases. This documentation update does not rerun scientific calculations.
-
-Repository code license: [MIT](LICENSE). Third-party data and recovered coordinates retain their original attribution and license conditions; see [Phase 25–27 source guidance](phase25_27/README.md).
+代码许可：[MIT](LICENSE)。第三方坐标与数据保留各自来源和许可。

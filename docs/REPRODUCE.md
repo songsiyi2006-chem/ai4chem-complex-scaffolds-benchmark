@@ -1,51 +1,75 @@
 # 复现入口 / Reproduction guide
 
-[返回首页](../README.md) · [阶段导航](PHASE_INDEX.md) · [证据说明](EVIDENCE.md)
+[返回首页](../README.md) · [项目目录](../projects/) · [证据说明](EVIDENCE.md)
 
-从一个阶段开始，先核对其报告、依赖和输入。仓库包含不同计算引擎与原型，没有经验证的“单环境运行全部 27 阶段”流程。复用已有环境；不要为了阅读结果安装整套软件。
+代码已按阶段实际归档。旧脚本内部的相对路径、包内导入和跨阶段依赖保持原样，由统一入口在独立工作目录重建原有运行布局。请不要直接在 `code/` 内启动原脚本。
 
-## 1. 只查看已保存结果
+## 准备与运行
 
-通过[阶段导航](PHASE_INDEX.md)打开报告、数据和图表即可。核对审计记录，区分历史输出与修复后重算；无需执行任何计算。
-
-## 2. 一个独立模块的软件自检示例
-
-Phase 23 使用 NumPy、SciPy 和 Matplotlib，提供独立的 `--self-test` 入口。
-在仓库根目录、已满足对应依赖的环境中：
+复用已有、满足对应阶段依赖的 Python 环境。在仓库根目录运行：
 
 ```sh
-python run_phase23_in_materio_neuromorphic_computing.py --self-test
+# 查看阶段
+python tools/run_phase.py --list
+
+# 仅准备目录，不启动计算
+python projects/phase23/run.py --workspace work/runs/phase23 --prepare-only
+
+# 运行软件自检；-- 后的参数原样传给阶段程序
+python projects/phase23/run.py --workspace work/runs/phase23 --reuse -- --self-test
 ```
 
-若需要新环境，可在独立检出副本中创建虚拟环境，激活后再安装[该阶段依赖](../requirements_phase23.txt)：
+也可一次完成准备与自检：
 
 ```sh
-python -m venv .venv-phase23
-# Windows PowerShell:
-.venv-phase23/Scripts/Activate.ps1
-# macOS/Linux instead: source .venv-phase23/bin/activate
-python -m pip install -r requirements_phase23.txt
-python run_phase23_in_materio_neuromorphic_computing.py --self-test
+python tools/run_phase.py 23 --workspace work/runs/phase23-new -- --self-test
 ```
 
-自检是软件检查，不是完整基准运行，也不证明实验性能。本次文档整理未重新执行这一自检；命令入口来自[脚本](../run_phase23_in_materio_neuromorphic_computing.py)。
+`--python PATH_TO_PYTHON` 可以指定已安装的科学计算解释器。统一入口本身只依赖 Python 标准库，不安装软件、不下载数据、不启动未指定的任务。
 
-## 3. 按任务选择运行指南
+Windows 的 Conda 环境须先激活，让 `Library/bin` 中的数值库 DLL 可见；只指定 `python.exe` 路径不等于完整环境激活。本次检查使用已有环境，未安装或升级依赖。
 
-| 任务 | 依赖 / 操作入口 | 注意事项 |
-|---|---|---|
-| Phase 1 构象基准 | [代码](../molecule_benchmark.py) · [报告](../BENCHMARK_REPORT_EN.md) | 根目录 requirements 不覆盖所有扩展模块 |
-| Phase 2–8 分子模拟 / 量子计算 | [阶段导航](PHASE_INDEX.md)中的报告和脚本 | 按阶段核对 OpenMM、OpenFF、xTB、Psi4 等环境 |
-| Phase 1–19 审计重算 | [公开证据](../audit/phase1_19_rerun_20260910/README.md) · [运行器](../rerun_phase1_19_campaign.py) | 运行器含原机器路径；先适配，避免直接启动整套长任务 |
-| Phase 20–23 独立模型 | 各自 `requirements_phaseNN.txt` 与脚本 | 依赖和输出目录按阶段隔离 |
-| Phase 24 高通量模拟 | [验证说明](../PHASE24_VALIDATION.md) · [依赖](../requirements_phase24.txt) | 用新的输出目录；保留已有 measurements |
-| Phase 25–27 | [模块详细指南](../phase25_27/README.md) · [依赖](../requirements_phase25_27.txt) | 初始化可能重置未测标签；运行前保护现有 campaign |
+## 依赖
 
-## 4. 输出与验收
+各项目的 `requirements*.txt` 已随项目移动；例如 Phase 23 的依赖位于 [projects/phase23/requirements_phase23.txt](../projects/phase23/requirements_phase23.txt)。仅在需要的独立环境中安装：
 
-- 部分脚本使用固定相对输出路径；完整运行应在独立副本或明确的新输出目录进行。
-- 保存命令、源码提交、随机种子、依赖版本、日志和结果哈希。
-- 先检查完整性、收敛、采样与对照，再解释数值。失败或负结果也属于有效记录。
-- 文献数据与恢复坐标遵守原始许可；仓库代码的 MIT 许可不覆盖所有第三方来源。
+```sh
+python -m pip install -r projects/phase23/requirements_phase23.txt
+```
 
-完整命令和历史机器配置可在[旧首页](../README_HISTORY.md)查到，但应先与现有脚本、环境和后续更正核对。
+没有经验证的单环境覆盖全部 27 阶段。Phase 2–19 的 OpenMM、OpenFF、xTB、Psi4 等要求以各阶段技术报告为准；机器专用解释器路径仍需自行适配。
+
+## Phase 25–27 与辅助工具
+
+三个阶段共享原来的 `phase25_27` 包。专属源文件已分别归档，运行入口会还原完整包，保持相对导入：
+
+```sh
+# 数学/结构单元测试；不提交量子化学计算
+python projects/phase25/run.py --workspace work/runs/phase25-tests --module phase25_27.test_analysis
+
+# 只准备 Phase 26 的工作目录，不运行会改写输入的初始化程序
+python projects/phase26/run.py --workspace work/runs/phase26 --prepare-only
+```
+
+三项任务尚无完整生产入口，因此 25–27 必须显式指定模块，或只准备目录。可用模块与原命令见[共用指南](../shared/phase25_27/README.md)。运行 `build_inputs` 等初始化工具前仍须核对它们的覆盖行为。
+
+使用原辅助脚本时，可显式指定迁移表中的旧脚本名：
+
+```sh
+python tools/run_phase.py 4 --workspace work/runs/phase04-help --script diagnose_phase4_neb.py -- --help
+```
+
+也可以进入已准备的工作目录，执行原报告中的命令；那里的 `run_phase*.py`、`results_phase*/` 与 `phase25_27/` 均已还原。历史命令中的机器路径和依赖条件并未自动修复。
+
+## 工作目录与证据
+
+- 每次首次准备都会复制完整映射文件集，包含跨阶段依赖和已提交结果，占用约一个仓库数据副本的空间；没有使用可写硬链接。
+- 必须指定新目录，或对已有兼容目录明确传入 `--reuse`。来源变动或工作目录源码被改写时，复用会被拒绝。
+- 默认输出位于工作目录；用户显式传入的绝对输出路径仍由原程序处理。已提交的项目数据不会被准备流程覆盖。
+- 改善导航而调整过链接的 Markdown，在来源未被进一步编辑时还原原始字节，便于旧哈希审计；未来对代码的编辑会随下一次准备进入新工作目录。
+- [迁移清单](layout_manifest.json)记录旧路径、新路径与原始/整理后 SHA-256。科学代码和非 Markdown 结果文件保持原字节；文档正文中的旧路径是历史运行布局。
+- 本次是目录与复现兼容性验证，不是全阶段生产重算。科学验收状态见[证据说明](EVIDENCE.md)。
+
+## 后续维护
+
+修改已有文件后，新工作目录会使用修改后的代码；不要手动修改已准备工作目录后再把它当作未变更来源复用。新增或改名源文件时，也应更新迁移清单的 `old` / `new` 映射，以便运行入口包含它。历史哈希保留为迁移时的基线，新的科学运行另记自己的来源哈希。

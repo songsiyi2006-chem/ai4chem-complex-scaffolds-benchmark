@@ -17,10 +17,10 @@
 
 ## 当前应优先查看的记录
 
-1. [Phase 1–19 收尾清单](../PHASE1_19_CLOSEOUT.md)：按阶段说明后续修复与未结事项。
-2. [重算状态表](../PHASE1_19_RERUN_STATUS.md)：表内时间戳为 2026-09-11；“运行中”等状态仅属于该历史快照。
-3. [公开审计清单](../audit/phase1_19_rerun_20260910/manifest.json)：命令、源码和所选输出的哈希；大轨迹与检查点并非全部公开。
-4. [Phase 25–27 验收台账](../results_phase25_27/acceptance.json)：总状态为 `NOT_SCIENTIFICALLY_COMPLETE`；[进展报告](../PHASE25_PROGRESS_ZH.md)补充初步计算。
+1. [Phase 1–19 收尾清单](../shared/audit/reports/PHASE1_19_CLOSEOUT.md)：按阶段说明后续修复与未结事项。
+2. [重算状态表](../shared/audit/reports/PHASE1_19_RERUN_STATUS.md)：表内时间戳为 2026-09-11；“运行中”等状态仅属于该历史快照。
+3. [公开审计清单](../shared/audit/evidence/phase1_19_rerun_20260910/manifest.json)：命令、源码和所选输出的哈希；大轨迹与检查点并非全部公开。
+4. [Phase 25–27 验收台账](../shared/phase25_27/results/acceptance.json)：总状态为 `NOT_SCIENTIFICALLY_COMPLETE`；[进展报告](../projects/phase25/reports/PHASE25_PROGRESS_ZH.md)补充初步计算。
 5. Phase 20–24 的模型假设、数据类型与检查记录见[阶段导航](PHASE_INDEX.md)对应报告。
 
 若资料不一致，先核对时间戳、运行目录与源码哈希；不要自动把不同运行的数值拼接。收尾清单比旧重算表包含更多后续修复说明，但也不是实时监控。
@@ -41,6 +41,6 @@
 
 ## 历史文档的使用
 
-[历史首页](../README_HISTORY.md)保留原文，便于追溯。其早期性能数字、宣传性徽章、机器绝对路径和“运行中”措辞均需结合后续更正解读。归档本身不代表认可或重新验证这些结论。
+[历史首页](history/README_HISTORY.md)保留原文，便于追溯。其早期性能数字、宣传性徽章、机器绝对路径和“运行中”措辞均需结合后续更正解读。归档本身不代表认可或重新验证这些结论。
 
-本次整理只更改展示与导航，不重跑量子化学、分子动力学、机器学习训练或硬件实验。
+本次实际迁移代码、报告和结果目录，并增加兼容运行入口。科学代码与非 Markdown 数据保持原字节；Markdown 只调整链接，原始文档字节另外保留供运行布局还原。迁移不代表重跑量子化学、分子动力学、机器学习训练或硬件实验。

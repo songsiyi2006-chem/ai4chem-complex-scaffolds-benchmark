@@ -43,13 +43,13 @@ logs/
 *.part
 
 # Phase 7 heavy intermediates (kept local; science lands in JSON/CSV/PNG)
-results_phase7/cubes/
-results_phase7/logs/
-results_phase7/checkpoints/
-results_phase7/_probe/
+projects/phase07/results/cubes/
+projects/phase07/results/logs/
+projects/phase07/results/checkpoints/
+projects/phase07/results/_probe/
 
 # Phase 6 MD checkpoints (platform-bound binaries, re-creatable)
-results_phase6/*.chk
+projects/phase06/results/*.chk
 
 # Phase 9 isolated Opentrons simulator venv
 .ot2env/
@@ -57,11 +57,21 @@ results_phase6/*.chk
 phase24_runs/
 
 # Phase 8 heavy intermediates (science lands in JSON/figures; cubes are 48 MB)
-results_phase8/nto_cubes/
-results_phase8/_probe/
-results_phase8/_xtb_*/
-results_phase13/_scratch_*/
+projects/phase08/results/nto_cubes/
+projects/phase08/results/_probe/
+projects/phase08/results/_xtb_*/
+projects/phase13/results/_scratch_*/
 
 # Phase 16 heavy intermediates (science lands in JSON/npz/PNG; the 3.5 A master
 # map is 48 MB and re-creatable from the committed 7 A force map + seed)
-results_phase16/mdff/cryoem_map_3p5A.mrc
+projects/phase16/results/mdff/cryoem_map_3p5A.mrc
+
+# Isolated reproduction workspaces
+/work/
+.venv-*/
+
+# Phase 25 in-flight campaigns (relocated from the combined result folder)
+/projects/phase25/results/stationary_pilot/pbe_E_freq_02/
+/projects/phase25/results/stationary_pilot/pbe_Z_freq_01/
+/projects/phase25/results/stationary_pilot/wb97xd_E_sp_01/
+/projects/phase25/results/stationary_pilot/wb97xd_Z_sp_01/
