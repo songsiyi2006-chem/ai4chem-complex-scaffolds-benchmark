@@ -1,0 +1,12 @@
+{
+  "material": "Cu",
+  "target": "C2H4",
+  "potential_RHE_V": -0.75,
+  "stack_kW": 100.0,
+  "stacks": 10,
+  "seed": 30,
+  "cells": 12,
+  "initial_samples": 6,
+  "rounds": 3,
+  "batch_size": 3
+}

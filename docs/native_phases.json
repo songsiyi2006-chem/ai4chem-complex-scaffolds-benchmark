@@ -5,6 +5,12 @@
     "entrypoint": "projects/phase28/run.py",
     "execution": "native"
   },
+  "30": {
+    "title": "CO₂ 电催化跨尺度数字孪生：规格与可审计降阶原型",
+    "folder": "projects/phase30",
+    "entrypoint": "projects/phase30/run.py",
+    "execution": "native"
+  },
   "29": {
     "title": "医药吡啶：位点控制与可制造性",
     "folder": "projects/phase29",

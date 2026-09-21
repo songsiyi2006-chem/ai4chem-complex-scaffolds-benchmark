@@ -1,0 +1,574 @@
+{
+  "single_stack": {
+    "evidence_type": "UNCALIBRATED_REDUCED_ORDER_SCENARIO",
+    "target": "C2H4",
+    "installed_power_kW": 100.0,
+    "stacks": 1,
+    "stack_kW": 100.0,
+    "geometric_area_m2": 8.593622501102582,
+    "idealized_channel_equivalents": 85936.22501102582,
+    "initial_recovered_kg_h": 1.8816674381618548,
+    "functional_unit": "1 kg recovered target at gate; all shared burdens to target",
+    "monetary_basis": "constant illustrative USD; no market-price or inflation forecast",
+    "discounted_cost_USD": {
+      "capex": 150000.0,
+      "electricity": 253579.00391935796,
+      "feed_CO2": 198270.37748623203,
+      "replacements": 144746.42392427937,
+      "fixed_opex": 30195.36629523649
+    },
+    "discounted_product_kg": 84471.96666470355,
+    "LCO_product_USD_kg": 9.195845702378877,
+    "LCOE_USD_kWh": null,
+    "LCOE_reason": "electrolyzer consumes electricity, does not generate it",
+    "GHG_inventory_kgCO2e": {
+      "electricity": 755746.6522049184,
+      "feed_CO2": 738644.2606785807,
+      "embodied": 20000.0,
+      "replacements": 30000.0
+    },
+    "product_lifetime_kg": 125799.05702267727,
+    "screening_GHG_kgCO2e_kg": 12.276649359979688,
+    "electricity_kWh_kg": 60.07570089088052,
+    "total_replacements": 6,
+    "annual": [
+      {
+        "year": 1,
+        "operating_h": 7446.0,
+        "effective_product_h": 6918.097840737756,
+        "downtime_h": 0.0,
+        "replacements": 0,
+        "product_kg": 13017.559440934072,
+        "electricity_kWh": 757624.3190160911,
+        "purchased_CO2_kg": 370037.7553294521,
+        "discount_factor": 1.08
+      },
+      {
+        "year": 2,
+        "operating_h": 7422.0,
+        "effective_product_h": 6658.366867951985,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 12528.832126760984,
+        "electricity_kWh": 754735.5699144073,
+        "purchased_CO2_kg": 368845.0470125159,
+        "discount_factor": 1.1664
+      },
+      {
+        "year": 3,
+        "operating_h": 7446.0,
+        "effective_product_h": 6423.2511851645295,
+        "downtime_h": 0.0,
+        "replacements": 0,
+        "product_kg": 12086.422602258637,
+        "electricity_kWh": 756693.1821774156,
+        "purchased_CO2_kg": 370037.7553294521,
+        "discount_factor": 1.2597120000000002
+      },
+      {
+        "year": 4,
+        "operating_h": 7422.0,
+        "effective_product_h": 6897.391527275147,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 12978.59704512711,
+        "electricity_kWh": 755185.3348327734,
+        "purchased_CO2_kg": 368845.0470125159,
+        "discount_factor": 1.3604889600000003
+      },
+      {
+        "year": 5,
+        "operating_h": 7422.000000000004,
+        "effective_product_h": 6656.738753172853,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 12525.7685561955,
+        "electricity_kWh": 754732.5063438423,
+        "purchased_CO2_kg": 368845.04701251606,
+        "discount_factor": 1.4693280768000005
+      },
+      {
+        "year": 6,
+        "operating_h": 7446.0,
+        "effective_product_h": 6426.380729842662,
+        "downtime_h": 0.0,
+        "replacements": 0,
+        "product_kg": 12092.311364575751,
+        "electricity_kWh": 756699.0709397327,
+        "purchased_CO2_kg": 370037.7553294521,
+        "discount_factor": 1.5868743229440005
+      },
+      {
+        "year": 7,
+        "operating_h": 7421.999999999996,
+        "effective_product_h": 6895.879870396993,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 12975.752609601814,
+        "electricity_kWh": 755182.4903972478,
+        "purchased_CO2_kg": 368845.0470125157,
+        "discount_factor": 1.7138242687795209
+      },
+      {
+        "year": 8,
+        "operating_h": 7421.999999999996,
+        "effective_product_h": 6655.109845141538,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 12522.703492993216,
+        "electricity_kWh": 754729.4412806393,
+        "purchased_CO2_kg": 368845.0470125157,
+        "discount_factor": 1.8509302102818825
+      },
+      {
+        "year": 9,
+        "operating_h": 7446.0,
+        "effective_product_h": 6429.511799301565,
+        "downtime_h": 0.0,
+        "replacements": 0,
+        "product_kg": 12098.202996023192,
+        "electricity_kWh": 756704.9625711802,
+        "purchased_CO2_kg": 370037.7553294521,
+        "discount_factor": 1.9990046271044333
+      },
+      {
+        "year": 10,
+        "operating_h": 7421.999999999996,
+        "effective_product_h": 6894.3674770074385,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 12972.906788206998,
+        "electricity_kWh": 755179.644575853,
+        "purchased_CO2_kg": 368845.0470125157,
+        "discount_factor": 2.158924997272788
+      }
+    ],
+    "degradation_trace": [
+      {
+        "year": 1,
+        "scheduled_h": 7446.0,
+        "activity": 0.8616380431852448,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 2,
+        "scheduled_h": 11157.177565710484,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 2,
+        "scheduled_h": 11157.177565710484,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 2,
+        "scheduled_h": 14892.0,
+        "activity": 0.9284707058262052,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 3,
+        "scheduled_h": 22338.0,
+        "activity": 0.8000056821229146,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 4,
+        "scheduled_h": 22338.35513142097,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 4,
+        "scheduled_h": 22338.35513142097,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 4,
+        "scheduled_h": 29784.0,
+        "activity": 0.8620578515774115,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 5,
+        "scheduled_h": 33519.53269713145,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 5,
+        "scheduled_h": 33519.53269713145,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 5,
+        "scheduled_h": 37230.0,
+        "activity": 0.9289230765139544,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 6,
+        "scheduled_h": 44676.0,
+        "activity": 0.8003954619171012,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 7,
+        "scheduled_h": 44700.71026284194,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 7,
+        "scheduled_h": 44700.71026284194,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 7,
+        "scheduled_h": 52122.0,
+        "activity": 0.8624778645091613,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 8,
+        "scheduled_h": 55881.887828552426,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 8,
+        "scheduled_h": 55881.887828552426,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 8,
+        "scheduled_h": 59568.0,
+        "activity": 0.9293756676063305,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 9,
+        "scheduled_h": 67014.0,
+        "activity": 0.8007854316202991,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 10,
+        "scheduled_h": 67063.06539426291,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 10,
+        "scheduled_h": 67063.06539426291,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 10,
+        "scheduled_h": 74460.0,
+        "activity": 0.8628980820801503,
+        "event": "operating_segment_end"
+      }
+    ],
+    "industrial_lifetime_validated": false,
+    "limitations": [
+      "10-stack linear replication excludes manifolds and scale-dependent failure",
+      "activity loss diverts lost target output to unspecified side products at fixed load",
+      "GHG screening omits full equipment/electrolyte/refrigeration LCI; not ISO-complete LCA",
+      "no uptake credit: feedstock carbon is not permanent CO2 removal"
+    ]
+  },
+  "stack_array": {
+    "evidence_type": "UNCALIBRATED_REDUCED_ORDER_SCENARIO",
+    "target": "C2H4",
+    "installed_power_kW": 1000.0,
+    "stacks": 10,
+    "stack_kW": 100.0,
+    "geometric_area_m2": 85.93622501102581,
+    "idealized_channel_equivalents": 859362.2501102581,
+    "initial_recovered_kg_h": 18.816674381618544,
+    "functional_unit": "1 kg recovered target at gate; all shared burdens to target",
+    "monetary_basis": "constant illustrative USD; no market-price or inflation forecast",
+    "discounted_cost_USD": {
+      "capex": 1500000.0,
+      "electricity": 2535790.03919358,
+      "feed_CO2": 1982703.7748623202,
+      "replacements": 1447464.2392427935,
+      "fixed_opex": 301953.6629523649
+    },
+    "discounted_product_kg": 844719.6666470353,
+    "LCO_product_USD_kg": 9.195845702378879,
+    "LCOE_USD_kWh": null,
+    "LCOE_reason": "electrolyzer consumes electricity, does not generate it",
+    "GHG_inventory_kgCO2e": {
+      "electricity": 7557466.522049184,
+      "feed_CO2": 7386442.606785808,
+      "embodied": 200000.0,
+      "replacements": 300000.0
+    },
+    "product_lifetime_kg": 1257990.5702267725,
+    "screening_GHG_kgCO2e_kg": 12.276649359979691,
+    "electricity_kWh_kg": 60.07570089088053,
+    "total_replacements": 6,
+    "annual": [
+      {
+        "year": 1,
+        "operating_h": 7446.0,
+        "effective_product_h": 6918.097840737756,
+        "downtime_h": 0.0,
+        "replacements": 0,
+        "product_kg": 130175.5944093407,
+        "electricity_kWh": 7576243.190160911,
+        "purchased_CO2_kg": 3700377.553294521,
+        "discount_factor": 1.08
+      },
+      {
+        "year": 2,
+        "operating_h": 7422.0,
+        "effective_product_h": 6658.366867951985,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 125288.32126760982,
+        "electricity_kWh": 7547355.699144074,
+        "purchased_CO2_kg": 3688450.470125159,
+        "discount_factor": 1.1664
+      },
+      {
+        "year": 3,
+        "operating_h": 7446.0,
+        "effective_product_h": 6423.2511851645295,
+        "downtime_h": 0.0,
+        "replacements": 0,
+        "product_kg": 120864.22602258636,
+        "electricity_kWh": 7566931.821774156,
+        "purchased_CO2_kg": 3700377.553294521,
+        "discount_factor": 1.2597120000000002
+      },
+      {
+        "year": 4,
+        "operating_h": 7422.0,
+        "effective_product_h": 6897.391527275147,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 129785.97045127107,
+        "electricity_kWh": 7551853.348327735,
+        "purchased_CO2_kg": 3688450.470125159,
+        "discount_factor": 1.3604889600000003
+      },
+      {
+        "year": 5,
+        "operating_h": 7422.000000000004,
+        "effective_product_h": 6656.738753172853,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 125257.68556195499,
+        "electricity_kWh": 7547325.063438423,
+        "purchased_CO2_kg": 3688450.4701251606,
+        "discount_factor": 1.4693280768000005
+      },
+      {
+        "year": 6,
+        "operating_h": 7446.0,
+        "effective_product_h": 6426.380729842662,
+        "downtime_h": 0.0,
+        "replacements": 0,
+        "product_kg": 120923.11364575749,
+        "electricity_kWh": 7566990.709397327,
+        "purchased_CO2_kg": 3700377.553294521,
+        "discount_factor": 1.5868743229440005
+      },
+      {
+        "year": 7,
+        "operating_h": 7421.999999999996,
+        "effective_product_h": 6895.879870396993,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 129757.5260960181,
+        "electricity_kWh": 7551824.903972479,
+        "purchased_CO2_kg": 3688450.470125157,
+        "discount_factor": 1.7138242687795209
+      },
+      {
+        "year": 8,
+        "operating_h": 7421.999999999996,
+        "effective_product_h": 6655.109845141538,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 125227.03492993214,
+        "electricity_kWh": 7547294.412806393,
+        "purchased_CO2_kg": 3688450.470125157,
+        "discount_factor": 1.8509302102818825
+      },
+      {
+        "year": 9,
+        "operating_h": 7446.0,
+        "effective_product_h": 6429.511799301565,
+        "downtime_h": 0.0,
+        "replacements": 0,
+        "product_kg": 120982.0299602319,
+        "electricity_kWh": 7567049.625711801,
+        "purchased_CO2_kg": 3700377.553294521,
+        "discount_factor": 1.9990046271044333
+      },
+      {
+        "year": 10,
+        "operating_h": 7421.999999999996,
+        "effective_product_h": 6894.3674770074385,
+        "downtime_h": 24.0,
+        "replacements": 1,
+        "product_kg": 129729.06788206994,
+        "electricity_kWh": 7551796.445758531,
+        "purchased_CO2_kg": 3688450.470125157,
+        "discount_factor": 2.158924997272788
+      }
+    ],
+    "degradation_trace": [
+      {
+        "year": 1,
+        "scheduled_h": 7446.0,
+        "activity": 0.8616380431852448,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 2,
+        "scheduled_h": 11157.177565710484,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 2,
+        "scheduled_h": 11157.177565710484,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 2,
+        "scheduled_h": 14892.0,
+        "activity": 0.9284707058262052,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 3,
+        "scheduled_h": 22338.0,
+        "activity": 0.8000056821229146,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 4,
+        "scheduled_h": 22338.35513142097,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 4,
+        "scheduled_h": 22338.35513142097,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 4,
+        "scheduled_h": 29784.0,
+        "activity": 0.8620578515774115,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 5,
+        "scheduled_h": 33519.53269713145,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 5,
+        "scheduled_h": 33519.53269713145,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 5,
+        "scheduled_h": 37230.0,
+        "activity": 0.9289230765139544,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 6,
+        "scheduled_h": 44676.0,
+        "activity": 0.8003954619171012,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 7,
+        "scheduled_h": 44700.71026284194,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 7,
+        "scheduled_h": 44700.71026284194,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 7,
+        "scheduled_h": 52122.0,
+        "activity": 0.8624778645091613,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 8,
+        "scheduled_h": 55881.887828552426,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 8,
+        "scheduled_h": 55881.887828552426,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 8,
+        "scheduled_h": 59568.0,
+        "activity": 0.9293756676063305,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 9,
+        "scheduled_h": 67014.0,
+        "activity": 0.8007854316202991,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 10,
+        "scheduled_h": 67063.06539426291,
+        "activity": 0.8,
+        "event": "operating_segment_end"
+      },
+      {
+        "year": 10,
+        "scheduled_h": 67063.06539426291,
+        "activity": 1.0,
+        "event": "replacement"
+      },
+      {
+        "year": 10,
+        "scheduled_h": 74460.0,
+        "activity": 0.8628980820801503,
+        "event": "operating_segment_end"
+      }
+    ],
+    "industrial_lifetime_validated": false,
+    "limitations": [
+      "10-stack linear replication excludes manifolds and scale-dependent failure",
+      "activity loss diverts lost target output to unspecified side products at fixed load",
+      "GHG screening omits full equipment/electrolyte/refrigeration LCI; not ISO-complete LCA",
+      "no uptake credit: feedstock carbon is not permanent CO2 removal"
+    ]
+  }
+}

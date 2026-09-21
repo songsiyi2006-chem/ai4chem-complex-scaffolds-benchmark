@@ -1,0 +1,25 @@
+{
+  "software_pipeline_executed": true,
+  "evidence_type": "UNCALIBRATED_REDUCED_ORDER_SCENARIO",
+  "science_status": "NOT_SCIENTIFICALLY_VALIDATED",
+  "dft_aimd": false,
+  "cfd_3d": false,
+  "operando_data": false,
+  "industrial_validation": false,
+  "checks": {
+    "carbon_balance_mol_s": -4.1165801236558996e-19,
+    "heat_balance_W": -7.438494264988549e-15,
+    "FE_sum": 0.9999999999999999,
+    "ode_analytic_error": 8.349571034571568e-13,
+    "doubled_mesh_current_relative_change": 0.00218991106101163
+  },
+  "resource_scope": "CPU-only bounded pilot; no external jobs or network calls",
+  "missing": [
+    "constant-potential barriers and raw convergence",
+    "calibrated EDL/speciation",
+    "3D two-phase mesh validation",
+    "measured FE/polarization/degradation",
+    "complete life-cycle inventory",
+    "prospective blind optimization comparison"
+  ]
+}

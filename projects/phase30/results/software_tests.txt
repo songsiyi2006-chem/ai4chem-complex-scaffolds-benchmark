@@ -1,0 +1,57 @@
+test_discounted_cost_components_reconcile (test_phase30.EngineeringTests.test_discounted_cost_components_reconcile) ... ok
+test_events_reconcile_scheduled_time_and_exact_cycle_integral (test_phase30.EngineeringTests.test_events_reconcile_scheduled_time_and_exact_cycle_integral) ... ok
+test_no_false_economies_of_scale (test_phase30.EngineeringTests.test_no_false_economies_of_scale) ... ok
+test_zero_degradation_zero_discount_analytic_product (test_phase30.EngineeringTests.test_zero_degradation_zero_discount_analytic_product) ... ok
+test_zero_electricity_price_and_emissions_not_negative_credit (test_phase30.EngineeringTests.test_zero_electricity_price_and_emissions_not_negative_credit) ... ok
+test_atomic_json_refuses_nonfinite (test_phase30.EvidenceTests.test_atomic_json_refuses_nonfinite) ... ok
+test_failure_is_recorded_and_cannot_be_reexecuted (test_phase30.EvidenceTests.test_failure_is_recorded_and_cannot_be_reexecuted) ... ok
+test_micro_evidence_hash_units_and_path_guard (test_phase30.EvidenceTests.test_micro_evidence_hash_units_and_path_guard) ... ok
+test_production_mode_never_silently_runs_demo (test_phase30.EvidenceTests.test_production_mode_never_silently_runs_demo) ... ok
+test_workspace_no_clobber_source_and_mutated_config_refused (test_phase30.EvidenceTests.test_workspace_no_clobber_source_and_mutated_config_refused) ... ok
+test_closed_loop_causality_duplicates_and_observed_front (test_phase30.OptimizerTests.test_closed_loop_causality_duplicates_and_observed_front) ... ok
+test_gp_and_ei_are_finite_nonnegative (test_phase30.OptimizerTests.test_gp_and_ei_are_finite_nonnegative) ... ok
+test_pareto_direction_ties_and_nonfinite (test_phase30.OptimizerTests.test_pareto_direction_ties_and_nonfinite) ... ok
+test_zero_burden_scenario_does_not_break_acquisition (test_phase30.OptimizerTests.test_zero_burden_scenario_does_not_break_acquisition) ... ok
+test_dimension_and_booleans_fail_closed (test_phase30.PhysicsTests.test_dimension_and_booleans_fail_closed) ... ok
+test_macro_carbon_heat_and_grid_refinement (test_phase30.PhysicsTests.test_macro_carbon_heat_and_grid_refinement) ... ok
+test_ode_matches_quadratic_root_and_charge (test_phase30.PhysicsTests.test_ode_matches_quadratic_root_and_charge) ... ok
+test_pressure_scales_with_velocity_in_laminar_closure (test_phase30.PhysicsTests.test_pressure_scales_with_velocity_in_laminar_closure) ... ok
+test_rates_are_finite_and_explicit_synthetic (test_phase30.PhysicsTests.test_rates_are_finite_and_explicit_synthetic) ... ok
+test_reference_potential_sign_and_temperature (test_phase30.PhysicsTests.test_reference_potential_sign_and_temperature) ... ok
+test_unsupported_envelope_rejected (test_phase30.PhysicsTests.test_unsupported_envelope_rejected) ... ok
+test_zero_carbon_does_not_create_carbon_products (test_phase30.PhysicsTests.test_zero_carbon_does_not_create_carbon_products) ... ok
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.856s
+
+OK
+
+test_cannot_shadow_old_phase_or_escape_repository (test_native_phases.NativePhaseTests.test_cannot_shadow_old_phase_or_escape_repository) ... ok
+test_dispatch_help_without_materializing_legacy_files (test_native_phases.NativePhaseTests.test_dispatch_help_without_materializing_legacy_files) ... ok
+test_rejects_ambiguous_output_and_legacy_flags (test_native_phases.NativePhaseTests.test_rejects_ambiguous_output_and_legacy_flags) ... usage: python.exe -m unittest [-h] [--list] [--workspace WORKSPACE]
+                              [--prepare-only] [--reuse] [--python PYTHON]
+                              [--module MODULE | --script SCRIPT]
+                              [{1,28}]
+python.exe -m unittest: error: Specify only --workspace or native --out, not both
+usage: python.exe -m unittest [-h] [--list] [--workspace WORKSPACE]
+                              [--prepare-only] [--reuse] [--python PYTHON]
+                              [--module MODULE | --script SCRIPT]
+                              [{1,28}]
+python.exe -m unittest: error: Specify only --workspace or native --out, not both
+usage: python.exe -m unittest [-h] [--list] [--workspace WORKSPACE]
+                              [--prepare-only] [--reuse] [--python PYTHON]
+                              [--module MODULE | --script SCRIPT]
+                              [{1,28}]
+python.exe -m unittest: error: Native phases run in their project layout; use arguments after -- and optional --workspace for --out
+usage: python.exe -m unittest [-h] [--list] [--workspace WORKSPACE]
+                              [--prepare-only] [--reuse] [--python PYTHON]
+                              [--module MODULE | --script SCRIPT]
+                              [{1,28}]
+python.exe -m unittest: error: Native phases run in their project layout; use arguments after -- and optional --workspace for --out
+ok
+test_workspace_forwarded_as_native_output_and_return_code_propagated (test_native_phases.NativePhaseTests.test_workspace_forwarded_as_native_output_and_return_code_propagated) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.064s
+
+OK

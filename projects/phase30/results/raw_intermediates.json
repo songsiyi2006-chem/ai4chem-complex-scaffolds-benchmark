@@ -1,0 +1,53 @@
+{
+  "schema_version": "phase30.demo.v1",
+  "evidence_type": "UNCALIBRATED_REDUCED_ORDER_SCENARIO",
+  "dft_executed": false,
+  "aimd_executed": false,
+  "material": "Cu",
+  "potential_RHE_V": -0.75,
+  "potential_SHE_V": -1.1641154478000506,
+  "barriers_eV": {
+    "ads": 0.616,
+    "CO": 0.6608,
+    "C2H4": 0.5252,
+    "HCOOH": 0.604,
+    "H2": 0.6368
+  },
+  "effective_constants_s": {
+    "ads": 240.27399457808286,
+    "CO": 42.01748170716897,
+    "C2H4": 8232.741234260262,
+    "HCOOH": 383.30876916316777,
+    "H2": 106.93355184022238
+  },
+  "adsorption_energies_eV": null,
+  "missing": "Adsorption free energies and constant-potential PCET barriers require external DFT",
+  "standard_state": "CO2 activity = c/33 mol m^-3; unit free-site fraction",
+  "network": [
+    {
+      "id": "ads",
+      "lumped_step": "CO2 + * + 2(H+ + e-) -> CO* + H2O"
+    },
+    {
+      "id": "CO",
+      "lumped_step": "CO* -> CO + *"
+    },
+    {
+      "id": "C2H4",
+      "lumped_step": "2CO* + 8(H+ + e-) -> C2H4 + 2H2O + 2*"
+    },
+    {
+      "id": "HCOOH",
+      "lumped_step": "CO2 + 2(H+ + e-) -> HCOOH"
+    },
+    {
+      "id": "H2",
+      "lumped_step": "2(H+ + e-) -> H2"
+    }
+  ],
+  "limitations": [
+    "irreversible lumped network, not detailed-balance mechanism",
+    "ligand_shift_eV is a hypothetical perturbation, not a ligand identity",
+    "HCOOH reports acid-equivalent moles; local formate speciation not resolved"
+  ]
+}

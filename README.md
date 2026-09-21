@@ -6,11 +6,13 @@
 
 新增：[Phase 28–29 第二轮补充计算](docs/PHASE28_29_ADDITIONAL_COMPUTE.md) · [首轮公开数据与本机计算交付](docs/PHASE28_29_STATUS.md)。
 
+[Phase30 CO₂电催化跨尺度规格与运行原型](projects/phase30/)：已执行未校准降阶管线；未执行恒电位DFT、3D CFD或工业验证。
+
 ## 目录结构
 
 ```text
 projects/
-  phase01/ … phase29/
+  phase01/ … phase30/
     README.md       阶段入口与证据链接
     run.py          统一运行入口
     code/           本阶段专属源码（共同实现见 shared/）
@@ -57,6 +59,7 @@ docs/               导航、复现、证据与历史文档
 | 27 | [Ni 光动力学](projects/phase27/) | [代码](projects/phase27/code/) · [报告](projects/phase27/reports/) |
 | 28 | [工业氯碱有机电极与寿命成本](projects/phase28/) | [任务书](projects/phase28/TASK_PROMPT.md) · [代码](projects/phase28/code/) · [报告](projects/phase28/reports/) |
 | 29 | [医药吡啶位点控制与可制造性](projects/phase29/) | [任务书](projects/phase29/TASK_PROMPT.md) · [代码](projects/phase29/code/) · [报告](projects/phase29/reports/) |
+| 30 | [CO₂电催化跨尺度数字孪生](projects/phase30/) | [技术规格](projects/phase30/reports/phase30_technical_report.md) · [代码](projects/phase30/code/) · [验收边界](projects/phase30/README.md) |
 
 ## 运行示例
 

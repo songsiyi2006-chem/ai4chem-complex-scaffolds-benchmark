@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "tests": [
+    {
+      "suite": "phase30",
+      "exit_code": 0,
+      "count": 22
+    },
+    {
+      "suite": "native_dispatch",
+      "exit_code": 0,
+      "count": 4
+    }
+  ],
+  "source_sha256": {
+    "code/01_micro_surface.py": "e0e2eadd942a82b89358e222832b6e96db0126335deff82394dd96cb769e7fa6",
+    "code/02_meso_microkinetics.py": "0bec82d77c0eda5b82e19cb62373905bf79506dec85dc35b729376f0497e3b5d",
+    "code/03_macro_flow_cfd.py": "30b2deb1586bcbcc9390afce2a18e4732be3d9df8987fa7183df3fcb09975e1a",
+    "code/04_tea_lca_model.py": "fa982b72b1b70a1bb4b980c06827494e7688dc680afe48fdf484888a93db31b5",
+    "code/05_agent_closed_loop.py": "bf8c53c5a9dbc709ad4c3ded20e134ed2e33d4e7e214d9da1f362e436c00cdf0",
+    "code/__init__.py": "dfb9694e470a092cb8b389e19cc131739f552f28e634f1df7a95e445facc1293",
+    "code/common.py": "df11b2786ffa9cb53ac76f207a2834982de4dc03e7004c2d9d3627579038bcaa",
+    "code/pipeline.py": "d18c0fd92d7d27b9769370cc0711391f57d05217830928b4330c7e62b346aff1",
+    "code/verify_delivery.py": "e6a845f0700d432649ccf6568daa5e4e30f1347e6c2b920afa7588f217abd59e",
+    "configs/local.json": "d0daffb98e7bf668b33307cb39f5c4a53849f59e28f63c82630837e97ad72e78",
+    "tests/test_phase30.py": "df7a0470ec8c24ecb3ccf9fb5625354b340ceffeeee12fde7e031aeb0a8c006e",
+    "run.py": "6dd406eaccd6d2aaee7d254444847dd8c36a4487aec83eaa809cd08d1edcb18c"
+  },
+  "run_artifact_files_checked": 29,
+  "hash_mismatches": [],
+  "source_unchanged": true,
+  "tested_run_matches_source": true,
+  "broken_project_links": [],
+  "figures": [
+    {
+      "name": "microkinetics_rate_map.png",
+      "width": 3600,
+      "height": 1260,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "multiscale_architecture.png",
+      "width": 3600,
+      "height": 1080,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "stack_degradation_tea.png",
+      "width": 3300,
+      "height": 1200,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    }
+  ],
+  "visual_qa": "Images inspected manually during authoring; no color-vision simulation",
+  "scope": "software, hashes, image metadata and Phase30 links only; not full repository or science acceptance"
+}

@@ -1,0 +1,542 @@
+{
+  "algorithm": "fixed_kernel_GP_marginal_EI_multi_policy_batch",
+  "qEI": false,
+  "experimental_feedback": false,
+  "candidate_pool": 72,
+  "evaluations": 15,
+  "observations": [
+    {
+      "candidate_id": 7,
+      "round": 0,
+      "role": "maxmin_seed",
+      "material": "Cu",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.8,
+      "velocity_m_s": 0.05,
+      "feasible": false,
+      "rejection": "EDL/buffer solution outside pH 0..14; candidate infeasible"
+    },
+    {
+      "candidate_id": 62,
+      "round": 0,
+      "role": "maxmin_seed",
+      "material": "Ag",
+      "ligand_shift_eV": 0.06,
+      "potential_RHE_V": -0.5,
+      "velocity_m_s": 0.1,
+      "feasible": true,
+      "cost_USD_kg": 1193793882.202962,
+      "GHG_kgCO2e_kg": 2938365382.6148095,
+      "productivity_kg_h": 4.197586911177586e-06,
+      "target_FE": 1.1135833122347696e-07,
+      "carbon_residual_mol_s": 8.470329472543003e-22
+    },
+    {
+      "candidate_id": 69,
+      "round": 0,
+      "role": "maxmin_seed",
+      "material": "Ag",
+      "ligand_shift_eV": 0.06,
+      "potential_RHE_V": -0.95,
+      "velocity_m_s": 0.025,
+      "feasible": false,
+      "rejection": "EDL/buffer solution outside pH 0..14; candidate infeasible"
+    },
+    {
+      "candidate_id": 24,
+      "round": 0,
+      "role": "maxmin_seed",
+      "material": "Cu",
+      "ligand_shift_eV": 0.06,
+      "potential_RHE_V": -0.5,
+      "velocity_m_s": 0.025,
+      "feasible": true,
+      "cost_USD_kg": 4225.789655217236,
+      "GHG_kgCO2e_kg": 10165.718902971275,
+      "productivity_kg_h": 0.49679943890319306,
+      "target_FE": 0.013187075324705887,
+      "carbon_residual_mol_s": -4.65444604516238e-19
+    },
+    {
+      "candidate_id": 36,
+      "round": 0,
+      "role": "maxmin_seed",
+      "material": "Ag",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.5,
+      "velocity_m_s": 0.025,
+      "feasible": true,
+      "cost_USD_kg": 6037.041857759046,
+      "GHG_kgCO2e_kg": 14323.858503084959,
+      "productivity_kg_h": 0.258782198999412,
+      "target_FE": 0.0068750875648528826,
+      "carbon_residual_mol_s": 0.0
+    },
+    {
+      "candidate_id": 35,
+      "round": 0,
+      "role": "maxmin_seed",
+      "material": "Cu",
+      "ligand_shift_eV": 0.06,
+      "potential_RHE_V": -0.95,
+      "velocity_m_s": 0.1,
+      "feasible": false,
+      "rejection": "EDL/buffer solution outside pH 0..14; candidate infeasible"
+    },
+    {
+      "candidate_id": 12,
+      "round": 1,
+      "role": "cost_EI",
+      "material": "Cu",
+      "ligand_shift_eV": 0.0,
+      "potential_RHE_V": -0.5,
+      "velocity_m_s": 0.025,
+      "feasible": true,
+      "cost_USD_kg": 86.76314741492878,
+      "GHG_kgCO2e_kg": 206.55761244266952,
+      "productivity_kg_h": 19.25022953045017,
+      "target_FE": 0.5113095811568352,
+      "carbon_residual_mol_s": -9.740878893424454e-21
+    },
+    {
+      "candidate_id": 15,
+      "round": 1,
+      "role": "carbon_EI",
+      "material": "Cu",
+      "ligand_shift_eV": 0.0,
+      "potential_RHE_V": -0.65,
+      "velocity_m_s": 0.025,
+      "feasible": true,
+      "cost_USD_kg": 13.521036591247379,
+      "GHG_kgCO2e_kg": 23.850580264585048,
+      "productivity_kg_h": 20.2431516962966,
+      "target_FE": 0.590243922514246,
+      "carbon_residual_mol_s": 0.0
+    },
+    {
+      "candidate_id": 11,
+      "round": 1,
+      "role": "uncertainty",
+      "material": "Cu",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.95,
+      "velocity_m_s": 0.1,
+      "feasible": false,
+      "rejection": "EDL/buffer solution outside pH 0..14; candidate infeasible"
+    },
+    {
+      "candidate_id": 3,
+      "round": 2,
+      "role": "cost_EI",
+      "material": "Cu",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.65,
+      "velocity_m_s": 0.025,
+      "feasible": true,
+      "cost_USD_kg": 7.819002167628084,
+      "GHG_kgCO2e_kg": 12.24173961485329,
+      "productivity_kg_h": 27.61319836036148,
+      "target_FE": 0.8187413113859511,
+      "carbon_residual_mol_s": -4.235164736271502e-22
+    },
+    {
+      "candidate_id": 6,
+      "round": 2,
+      "role": "carbon_EI",
+      "material": "Cu",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.8,
+      "velocity_m_s": 0.025,
+      "feasible": false,
+      "rejection": "EDL/buffer solution outside pH 0..14; candidate infeasible"
+    },
+    {
+      "candidate_id": 47,
+      "round": 2,
+      "role": "uncertainty",
+      "material": "Ag",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.95,
+      "velocity_m_s": 0.1,
+      "feasible": true,
+      "cost_USD_kg": 7.715243328428879,
+      "GHG_kgCO2e_kg": 9.956056443411706,
+      "productivity_kg_h": 21.609681457737516,
+      "target_FE": 0.7909778788784138,
+      "carbon_residual_mol_s": -2.913793338554793e-19
+    },
+    {
+      "candidate_id": 10,
+      "round": 3,
+      "role": "cost_EI",
+      "material": "Cu",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.95,
+      "velocity_m_s": 0.05,
+      "feasible": false,
+      "rejection": "EDL/buffer solution outside pH 0..14; candidate infeasible"
+    },
+    {
+      "candidate_id": 9,
+      "round": 3,
+      "role": "carbon_EI",
+      "material": "Cu",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.95,
+      "velocity_m_s": 0.025,
+      "feasible": false,
+      "rejection": "EDL/buffer solution outside pH 0..14; candidate infeasible"
+    },
+    {
+      "candidate_id": 70,
+      "round": 3,
+      "role": "uncertainty",
+      "material": "Ag",
+      "ligand_shift_eV": 0.06,
+      "potential_RHE_V": -0.95,
+      "velocity_m_s": 0.05,
+      "feasible": false,
+      "rejection": "EDL/buffer solution outside pH 0..14; candidate infeasible"
+    }
+  ],
+  "proposal_ledger": [
+    {
+      "candidate_id": 7,
+      "role": "maxmin_seed",
+      "round": 0,
+      "acquisition": null,
+      "training_candidate_ids": [],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 62,
+      "role": "maxmin_seed",
+      "round": 0,
+      "acquisition": null,
+      "training_candidate_ids": [],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 69,
+      "role": "maxmin_seed",
+      "round": 0,
+      "acquisition": null,
+      "training_candidate_ids": [],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 24,
+      "role": "maxmin_seed",
+      "round": 0,
+      "acquisition": null,
+      "training_candidate_ids": [],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 36,
+      "role": "maxmin_seed",
+      "round": 0,
+      "acquisition": null,
+      "training_candidate_ids": [],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 35,
+      "role": "maxmin_seed",
+      "round": 0,
+      "acquisition": null,
+      "training_candidate_ids": [],
+      "observation_available_after_proposal": true
+    },
+    {
+      "round": 1,
+      "event": "proposal",
+      "candidate_id": 12,
+      "role": "cost_EI",
+      "acquisition": 1.2242619439931126,
+      "training_candidate_ids": [
+        62,
+        24,
+        36
+      ]
+    },
+    {
+      "round": 1,
+      "event": "proposal",
+      "candidate_id": 15,
+      "role": "carbon_EI",
+      "acquisition": 1.1948166137202572,
+      "training_candidate_ids": [
+        62,
+        24,
+        36
+      ]
+    },
+    {
+      "round": 1,
+      "event": "proposal",
+      "candidate_id": 11,
+      "role": "uncertainty",
+      "acquisition": 5.834399301943741,
+      "training_candidate_ids": [
+        62,
+        24,
+        36
+      ]
+    },
+    {
+      "candidate_id": 12,
+      "role": "cost_EI",
+      "round": 1,
+      "acquisition": 1.2242619439931126,
+      "training_candidate_ids": [
+        62,
+        24,
+        36
+      ],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 15,
+      "role": "carbon_EI",
+      "round": 1,
+      "acquisition": 1.1948166137202572,
+      "training_candidate_ids": [
+        62,
+        24,
+        36
+      ],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 11,
+      "role": "uncertainty",
+      "round": 1,
+      "acquisition": 5.834399301943741,
+      "training_candidate_ids": [
+        62,
+        24,
+        36
+      ],
+      "observation_available_after_proposal": true
+    },
+    {
+      "round": 2,
+      "event": "proposal",
+      "candidate_id": 3,
+      "role": "cost_EI",
+      "acquisition": 1.1281938055132492,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15
+      ]
+    },
+    {
+      "round": 2,
+      "event": "proposal",
+      "candidate_id": 6,
+      "role": "carbon_EI",
+      "acquisition": 1.0369338369172263,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15
+      ]
+    },
+    {
+      "round": 2,
+      "event": "proposal",
+      "candidate_id": 47,
+      "role": "uncertainty",
+      "acquisition": 6.3634022911896135,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15
+      ]
+    },
+    {
+      "candidate_id": 3,
+      "role": "cost_EI",
+      "round": 2,
+      "acquisition": 1.1281938055132492,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15
+      ],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 6,
+      "role": "carbon_EI",
+      "round": 2,
+      "acquisition": 1.0369338369172263,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15
+      ],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 47,
+      "role": "uncertainty",
+      "round": 2,
+      "acquisition": 6.3634022911896135,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15
+      ],
+      "observation_available_after_proposal": true
+    },
+    {
+      "round": 3,
+      "event": "proposal",
+      "candidate_id": 10,
+      "role": "cost_EI",
+      "acquisition": 1.133744729067721,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15,
+        3,
+        47
+      ]
+    },
+    {
+      "round": 3,
+      "event": "proposal",
+      "candidate_id": 9,
+      "role": "carbon_EI",
+      "acquisition": 1.105207735596798,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15,
+        3,
+        47
+      ]
+    },
+    {
+      "round": 3,
+      "event": "proposal",
+      "candidate_id": 70,
+      "role": "uncertainty",
+      "acquisition": 6.182702946049762,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15,
+        3,
+        47
+      ]
+    },
+    {
+      "candidate_id": 10,
+      "role": "cost_EI",
+      "round": 3,
+      "acquisition": 1.133744729067721,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15,
+        3,
+        47
+      ],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 9,
+      "role": "carbon_EI",
+      "round": 3,
+      "acquisition": 1.105207735596798,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15,
+        3,
+        47
+      ],
+      "observation_available_after_proposal": true
+    },
+    {
+      "candidate_id": 70,
+      "role": "uncertainty",
+      "round": 3,
+      "acquisition": 6.182702946049762,
+      "training_candidate_ids": [
+        62,
+        24,
+        36,
+        12,
+        15,
+        3,
+        47
+      ],
+      "observation_available_after_proposal": true
+    }
+  ],
+  "pareto": [
+    {
+      "candidate_id": 3,
+      "round": 2,
+      "role": "cost_EI",
+      "material": "Cu",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.65,
+      "velocity_m_s": 0.025,
+      "feasible": true,
+      "cost_USD_kg": 7.819002167628084,
+      "GHG_kgCO2e_kg": 12.24173961485329,
+      "productivity_kg_h": 27.61319836036148,
+      "target_FE": 0.8187413113859511,
+      "carbon_residual_mol_s": -4.235164736271502e-22
+    },
+    {
+      "candidate_id": 47,
+      "round": 2,
+      "role": "uncertainty",
+      "material": "Ag",
+      "ligand_shift_eV": -0.06,
+      "potential_RHE_V": -0.95,
+      "velocity_m_s": 0.1,
+      "feasible": true,
+      "cost_USD_kg": 7.715243328428879,
+      "GHG_kgCO2e_kg": 9.956056443411706,
+      "productivity_kg_h": 21.609681457737516,
+      "target_FE": 0.7909778788784138,
+      "carbon_residual_mol_s": -2.913793338554793e-19
+    }
+  ],
+  "objectives": [
+    "min cost",
+    "min screening GHG",
+    "max target kg/h"
+  ],
+  "uncertainty": "GP conditional variance is acquisition-only, not chemistry confidence"
+}
