@@ -1,0 +1,46 @@
+{
+  "retrieved_utc": "2026-09-21T05:12:02.390651+00:00",
+  "evidence": "PUBLIC_STRUCTURE_NOT_PREPARED_SIMULATION",
+  "entries": [
+    {
+      "file": "6SIS.pdb",
+      "source": "https://files.rcsb.org/download/6SIS.pdb",
+      "bytes": 1259550,
+      "sha256": "53893820ff68058a449d71b81ce648d9a99d3b0f3f5bccf4b239f7992d4a88f5"
+    },
+    {
+      "file": "LFE_ideal.sdf",
+      "source": "https://files.rcsb.org/ligands/download/LFE_ideal.sdf",
+      "bytes": 10207,
+      "sha256": "da8f6d499d6f6b57f753b258f7093cd31a94bd6875ef23bef30a6240d3a90609"
+    }
+  ],
+  "polymer_atom_records_by_author_chain": {
+    "A": 884,
+    "B": 814,
+    "C": 689,
+    "D": 1215,
+    "E": 885,
+    "F": 817,
+    "G": 689,
+    "H": 1215
+  },
+  "LFE_atom_records": {
+    "D 301": 77,
+    "H 301": 77
+  },
+  "reference_target": "human BRD4 BD2",
+  "E3_receptor": "VHL (with Elongin B/C)",
+  "resolution_A": 3.5,
+  "ligand_class": "macrocyclic heterobifunctional PROTAC, not a proven molecular glue",
+  "intended_author_chains": {
+    "BRD4": "A",
+    "ElonginB": "B",
+    "ElonginC": "C",
+    "VHL": "D"
+  },
+  "assembly_selection": "Requires assembly/contacts/alternate-location review before preparation",
+  "full_E3_E2_ubiquitin_system_present": false,
+  "covalent_site": null,
+  "prepared_for_dynamics": false
+}

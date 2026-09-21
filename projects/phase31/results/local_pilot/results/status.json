@@ -1,0 +1,78 @@
+{
+  "tasks": [
+    {
+      "id": "Alpha",
+      "role": "Alpha",
+      "deps": "[]",
+      "status": "SUCCEEDED",
+      "owner": "969fed13426041d088d1e2213c62572c",
+      "lease": null,
+      "fence": 1,
+      "result": "{\"artifact\":\"attempts/Alpha_1_969fed13426041d088d1e2213c62572c/conformers.json\",\"converged\":18,\"evidence\":\"EXECUTED_MMFF_BENCHMARK\",\"sha256\":\"705ff02a345425df4dc8ccf7d17572bad699cf238c87dc0d39b2d2796439001c\"}"
+    },
+    {
+      "id": "Beta",
+      "role": "Beta",
+      "deps": "[\"Alpha\"]",
+      "status": "BLOCKED",
+      "owner": "969fed13426041d088d1e2213c62572c",
+      "lease": null,
+      "fence": 1,
+      "result": "{\"pyscf_available\":false,\"qm_executed\":false,\"reason\":\"Requested original omegaB97X-D not wired; no reviewed QM partition\",\"ts_executed\":false}"
+    },
+    {
+      "id": "Gamma",
+      "role": "Gamma",
+      "deps": "[\"Beta\"]",
+      "status": "SUCCEEDED",
+      "owner": "969fed13426041d088d1e2213c62572c",
+      "lease": null,
+      "fence": 1,
+      "result": "{\"evidence\":\"GATE_AUDIT\",\"healing_attempts\":0,\"reason\":\"dependency/method blockers are not SCF oscillation; no retries\"}"
+    },
+    {
+      "id": "Delta",
+      "role": "Delta",
+      "deps": "[\"Alpha\"]",
+      "status": "BLOCKED",
+      "owner": "969fed13426041d088d1e2213c62572c",
+      "lease": null,
+      "fence": 1,
+      "result": "{\"plan\":\"attempts/Delta_1_969fed13426041d088d1e2213c62572c/lambda_plan.json\",\"reason\":\"No validated forcefield/topology/partition or PLUMED/REST2 sampling adapter\",\"trajectories\":0}"
+    },
+    {
+      "id": "Epsilon",
+      "role": "Epsilon",
+      "deps": "[\"Alpha\"]",
+      "status": "BLOCKED",
+      "owner": "969fed13426041d088d1e2213c62572c",
+      "lease": null,
+      "fence": 1,
+      "result": "{\"reason\":\"No verified route supplied\",\"status\":\"UNKNOWN\",\"synthesis_feasible\":null}"
+    },
+    {
+      "id": "Zeta",
+      "role": "Zeta",
+      "deps": "[\"Beta\",\"Delta\"]",
+      "status": "BLOCKED",
+      "owner": "969fed13426041d088d1e2213c62572c",
+      "lease": null,
+      "fence": 1,
+      "result": "{\"alpha\":null,\"reason\":\"No matched binary/conditional binding free energies\",\"ubiquitination_probability\":null}"
+    },
+    {
+      "id": "Omega",
+      "role": "Omega",
+      "deps": "[\"Alpha\",\"Beta\",\"Gamma\",\"Delta\",\"Epsilon\",\"Zeta\"]",
+      "status": "SUCCEEDED",
+      "owner": "969fed13426041d088d1e2213c62572c",
+      "lease": null,
+      "fence": 1,
+      "result": "{\"evidence\":\"AUDIT_ONLY\",\"reason\":\"No candidate passes scientific evidence gates\",\"scientific_claim_accepted\":false}"
+    }
+  ],
+  "token_cap": 100000000,
+  "actual_provider_tokens": 0,
+  "unresolved_reserved_tokens": 0,
+  "event_chain_tip": "84c6120bbcc468c0de4665e8bee9328cfe13be5d889b80f8e85a6ddd99dceb1a"
+}

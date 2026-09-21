@@ -8,11 +8,13 @@
 
 [Phase30 CO₂电催化跨尺度规格与运行原型](projects/phase30/)：已执行未校准降阶管线；未执行恒电位DFT、3D CFD或工业验证。
 
+[Phase31 大环分子胶 QM/MM–FEP 蜂群规格](projects/phase31/)：BRD4–VHL 公开结构基线、可恢复七角色账本与本地 MMFF 试验；未执行 QM/MM–FEP 或发现新分子胶。
+
 ## 目录结构
 
 ```text
 projects/
-  phase01/ … phase30/
+  phase01/ … phase31/
     README.md       阶段入口与证据链接
     run.py          统一运行入口
     code/           本阶段专属源码（共同实现见 shared/）
@@ -60,6 +62,7 @@ docs/               导航、复现、证据与历史文档
 | 28 | [工业氯碱有机电极与寿命成本](projects/phase28/) | [任务书](projects/phase28/TASK_PROMPT.md) · [代码](projects/phase28/code/) · [报告](projects/phase28/reports/) |
 | 29 | [医药吡啶位点控制与可制造性](projects/phase29/) | [任务书](projects/phase29/TASK_PROMPT.md) · [代码](projects/phase29/code/) · [报告](projects/phase29/reports/) |
 | 30 | [CO₂电催化跨尺度数字孪生](projects/phase30/) | [技术规格](projects/phase30/reports/phase30_technical_report.md) · [代码](projects/phase30/code/) · [验收边界](projects/phase30/README.md) |
+| 31 | [大环分子胶 QM/MM–FEP 蜂群](projects/phase31/) | [技术规格](projects/phase31/reports/phase31_scientific_full.md) · [代码](projects/phase31/code/) · [实际验证](projects/phase31/reports/local_validation.md) |
 
 ## 运行示例
 

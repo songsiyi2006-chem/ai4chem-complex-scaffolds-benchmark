@@ -1,0 +1,160 @@
+{
+  "evidence": "EXECUTED_MMFF_BENCHMARK",
+  "rdkit_version": "2026.03.5",
+  "seed": 31,
+  "records": [
+    {
+      "id": "fixture_1",
+      "smiles": "C[C@H]1CCCCCCCCCC(=O)N1",
+      "ring_size": 12,
+      "sdf": "fixture_1.sdf",
+      "conformers": [
+        {
+          "conformer": 0,
+          "converged": true,
+          "energy_kcal_mol": -6.251582447071059,
+          "ring_dihedral_deg": -69.94009809463539,
+          "relative_energy_kcal_mol": 3.372104081232986
+        },
+        {
+          "conformer": 1,
+          "converged": true,
+          "energy_kcal_mol": -9.623686528304045,
+          "ring_dihedral_deg": 66.18087137497666,
+          "relative_energy_kcal_mol": 0.0
+        },
+        {
+          "conformer": 2,
+          "converged": true,
+          "energy_kcal_mol": -0.553517119735357,
+          "ring_dihedral_deg": -60.49891294484372,
+          "relative_energy_kcal_mol": 9.070169408568688
+        },
+        {
+          "conformer": 3,
+          "converged": true,
+          "energy_kcal_mol": -8.827650444438303,
+          "ring_dihedral_deg": -55.082494189751394,
+          "relative_energy_kcal_mol": 0.7960360838657419
+        },
+        {
+          "conformer": 4,
+          "converged": true,
+          "energy_kcal_mol": -6.836900413804626,
+          "ring_dihedral_deg": -56.397592689912706,
+          "relative_energy_kcal_mol": 2.786786114499419
+        },
+        {
+          "conformer": 5,
+          "converged": true,
+          "energy_kcal_mol": -9.457522216307098,
+          "ring_dihedral_deg": 85.08464116951104,
+          "relative_energy_kcal_mol": 0.1661643119969476
+        }
+      ]
+    },
+    {
+      "id": "fixture_2",
+      "smiles": "C[C@H]1CCCCCCCCCCC(=O)N1",
+      "ring_size": 13,
+      "sdf": "fixture_2.sdf",
+      "conformers": [
+        {
+          "conformer": 0,
+          "converged": true,
+          "energy_kcal_mol": -6.668606891109722,
+          "ring_dihedral_deg": 59.30671293801579,
+          "relative_energy_kcal_mol": 4.333184521736383
+        },
+        {
+          "conformer": 1,
+          "converged": true,
+          "energy_kcal_mol": -11.001791412846105,
+          "ring_dihedral_deg": -133.68962915838665,
+          "relative_energy_kcal_mol": 0.0
+        },
+        {
+          "conformer": 2,
+          "converged": true,
+          "energy_kcal_mol": -7.129269015563235,
+          "ring_dihedral_deg": -152.177569026147,
+          "relative_energy_kcal_mol": 3.8725223972828697
+        },
+        {
+          "conformer": 3,
+          "converged": true,
+          "energy_kcal_mol": -5.590884158690369,
+          "ring_dihedral_deg": -80.19934916932503,
+          "relative_energy_kcal_mol": 5.4109072541557355
+        },
+        {
+          "conformer": 4,
+          "converged": true,
+          "energy_kcal_mol": -8.905201015780307,
+          "ring_dihedral_deg": -162.62698717110953,
+          "relative_energy_kcal_mol": 2.096590397065798
+        },
+        {
+          "conformer": 5,
+          "converged": true,
+          "energy_kcal_mol": -4.212390761358304,
+          "ring_dihedral_deg": -120.46912763007315,
+          "relative_energy_kcal_mol": 6.789400651487801
+        }
+      ]
+    },
+    {
+      "id": "fixture_3",
+      "smiles": "C[C@H]1CCCCCCCCCCCC(=O)N1",
+      "ring_size": 14,
+      "sdf": "fixture_3.sdf",
+      "conformers": [
+        {
+          "conformer": 0,
+          "converged": true,
+          "energy_kcal_mol": -12.584496664680696,
+          "ring_dihedral_deg": 76.8596046348036,
+          "relative_energy_kcal_mol": 0.0
+        },
+        {
+          "conformer": 1,
+          "converged": true,
+          "energy_kcal_mol": -5.766949560317425,
+          "ring_dihedral_deg": 101.34213961237295,
+          "relative_energy_kcal_mol": 6.817547104363271
+        },
+        {
+          "conformer": 2,
+          "converged": true,
+          "energy_kcal_mol": -1.9005280238695077,
+          "ring_dihedral_deg": -54.42844246260858,
+          "relative_energy_kcal_mol": 10.683968640811187
+        },
+        {
+          "conformer": 3,
+          "converged": true,
+          "energy_kcal_mol": -4.777093932877162,
+          "ring_dihedral_deg": -99.80718994222204,
+          "relative_energy_kcal_mol": 7.807402731803534
+        },
+        {
+          "conformer": 4,
+          "converged": true,
+          "energy_kcal_mol": -8.038094061184843,
+          "ring_dihedral_deg": 63.41848470374103,
+          "relative_energy_kcal_mol": 4.546402603495853
+        },
+        {
+          "conformer": 5,
+          "converged": true,
+          "energy_kcal_mol": -9.230878266665659,
+          "ring_dihedral_deg": 127.52559958745235,
+          "relative_energy_kcal_mol": 3.353618398015037
+        }
+      ]
+    }
+  ],
+  "target_binding_evaluated": false,
+  "absolute_ring_strain_computed": false,
+  "proposed_leads": []
+}

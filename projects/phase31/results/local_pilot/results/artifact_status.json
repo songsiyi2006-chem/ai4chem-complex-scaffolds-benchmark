@@ -1,0 +1,6 @@
+{
+  "free_energy_landscape_3d": "NOT_GENERATED_NO_UNBIASED_OR_REWEIGHTED_SAMPLING",
+  "quantum_states": "EMPTY_NO_QM_EXECUTED",
+  "fep_trajectories": "EMPTY_NO_SAMPLING_EXECUTED",
+  "llm_provider_tokens": 0
+}

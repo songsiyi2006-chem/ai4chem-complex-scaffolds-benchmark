@@ -1,0 +1,4 @@
+# Preserve original fixed-column PDB and RDKit/CCD SDF evidence bytes.
+# Format-required padding is not a source-code whitespace defect.
+*.pdb -text -whitespace
+*.sdf -text -whitespace

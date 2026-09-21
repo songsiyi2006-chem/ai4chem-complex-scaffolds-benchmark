@@ -1,0 +1,17 @@
+{
+  "manifest.json": "54c6aba7b7d3707cdefe8568054a0c184453e6c9d4c4cedd0e40fe895c130cdb",
+  "preflight.json": "43a1aeb08a620292190a5e139ff4452ca6251bb2c60d658235ae01eea0ce62be",
+  "figures/macrocycle_strain_map.png": "33a650c2af1cf2ec62f8682846bcdc383364af0f9db181168f2ca6dd917d8047",
+  "figures/swarm_dialogue_dynamics.png": "18a17ac20a603943cbd9056980618d44e50003119604ab35a5cf202ae73785c9",
+  "reports/error_healing_log.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "reports/events.jsonl": "eaf98c75abddce05043be6dc70d2ed083fc3b5170fbae6dc02c3ad523c1681e3",
+  "reports/run_report.md": "3e4656cf24dde3ebd51d08bd98e93c834d0dc6082c1ecf2314d28460f562ae0f",
+  "results/artifact_status.json": "976f4ea386d8725b002aaffeb8d9344885dddf3e0867ab5e0aadc439250c30f0",
+  "results/pareto_top_leads.json": "1188480874f54f16067c9399781718734f08d17f71b47e407aaac38da65243f7",
+  "results/status.json": "5ace4fb18a68be2cc174e55102cd7c8a0b3a903fb0affd5613058e91769f180a",
+  "attempts/Alpha_1_969fed13426041d088d1e2213c62572c/conformers.json": "705ff02a345425df4dc8ccf7d17572bad699cf238c87dc0d39b2d2796439001c",
+  "attempts/Delta_1_969fed13426041d088d1e2213c62572c/lambda_plan.json": "eb66b766f4ccfc6695ee4ea4b898d14b2686100803bf945fa9b5011e2d08025e",
+  "attempts/Alpha_1_969fed13426041d088d1e2213c62572c/conformers/fixture_1.sdf": "a4eba0f703f921a5195d73e62253b2e27df5148fc0426213c049bddfee21f5ab",
+  "attempts/Alpha_1_969fed13426041d088d1e2213c62572c/conformers/fixture_2.sdf": "0f8002774e8562c86bbe9626c5009461afb7a903ae3cbe843ab8d6ecb249b403",
+  "attempts/Alpha_1_969fed13426041d088d1e2213c62572c/conformers/fixture_3.sdf": "752714abe12a00f7ddc3bfd1688266d0ca50f5217d5e119ab4896883fb5fcb59"
+}

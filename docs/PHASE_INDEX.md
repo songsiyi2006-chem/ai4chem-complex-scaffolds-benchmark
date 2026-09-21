@@ -77,6 +77,8 @@
 
 ## 跨阶段审计入口
 
+新增 [Phase31](../projects/phase31/)：大环分子胶 QM/MM–FEP 七角色系统规格与本地工程试验。[技术报告](../projects/phase31/reports/phase31_scientific_full.md) · [真实运行边界](../projects/phase31/reports/local_validation.md)。已有 BRD4–VHL 公开结构与 MMFF 软件样例；没有执行第一性原理 QM/MM–FEP、IRC 或发现新先导。
+
 | 范围 | 更正与来源 |
 |---|---|
 | 1–19 | [收尾清单](../shared/audit/reports/PHASE1_19_CLOSEOUT.md) · [有时间戳的重算表](../shared/audit/reports/PHASE1_19_RERUN_STATUS.md) · [公开证据](../shared/audit/evidence/phase1_19_rerun_20260910/README.md) |

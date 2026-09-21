@@ -1,0 +1,29 @@
+{
+  "packages": {
+    "rdkit": true,
+    "numpy": true,
+    "scipy": true,
+    "matplotlib": true,
+    "pyscf": false,
+    "openmm": true,
+    "openmmplumed": false,
+    "pymbar": false,
+    "ase": true
+  },
+  "distribution_versions": {
+    "rdkit": "2026.3.5",
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "matplotlib": "3.11.1",
+    "pyscf": null,
+    "openmm": "8.6.0",
+    "openmmplumed": null,
+    "pymbar": null,
+    "ase": "3.29.0"
+  },
+  "production_enabled": false,
+  "llm_provider_connected": false,
+  "requested_method": "original omegaB97X-D/def2-TZVP",
+  "method_blocker": "PySCF original omegaB97X-D dispersion interface not supported",
+  "reference": "BRD4 BD2 / VHL / macroPROTAC-1 (6SIS); PROTAC, not a proven molecular glue"
+}

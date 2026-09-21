@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "mode": "local-pilot",
+  "token_cap": 100000000,
+  "source_hashes": {
+    "code/01_macrocycle_generator.py": "ee5222453ce512275b5cbe7c01e881879a660c7a6cde64fdc8ffac64819418f7",
+    "code/02_pyscf_qm_engine.py": "9b710b545cc49cd1868066771087da25cd3e31c0d2b17f2ed970b4b9a05c514b",
+    "code/03_neb_transition_state.py": "9f5198e7306d08d8e5be27b2bd47775d2de656dabe38c566068c6cda2c5059db",
+    "code/04_qmmm_openmm_fep.py": "53fec75b0811fdc507b4538d8ec57b2f6e8f335d590808a33ddf072191e7b05e",
+    "code/05_retrosynthesis_check.py": "4852e7658f940b406cdf3457258d4d526cd7abdb6e95a2112f0f03d154b0218a",
+    "code/06_cooperativity_eval.py": "c95ac63c7c15209c1e02c67ce394210a2dd7292296f2f7f78dfd7e9ab31c8b5d",
+    "code/__init__.py": "e79d1a611a3aa90fe31a40176241ca1198e309240bb8ba97113b0227b12df615",
+    "code/common.py": "1c456e6956aadc026aa52ef01d49cb689e82a51925fd0ee59663aaeb1bbc20f0",
+    "code/reference_data.py": "e1bb1748acd2a303d40fb626eb66222bdd492872c097477b621c93e20b7093be",
+    "code/render.py": "284aa47ced581301be3c49aa6b9017faab14a93d036d3f679cab2ded7da239f0",
+    "run.py": "8041ca8fe996d963fbe1e8e3280097037036972541fb719245f2ddee6b4aee90",
+    "swarm/__init__.py": "edb4f00b71c32fee58b9b43baab32b57fb6a34202732894b452f30f87212b7a5",
+    "swarm/coordinator.py": "4dca4c1caf6db9364e96bf1e5ebb5c393908e2d930df7863872bc4e05cb42812",
+    "swarm/memory_ledger.py": "469ca0db5d67aa99a8b02f1c827bf4fa2ec03540cd8e232a18fae3c257556f55",
+    "swarm/provider_contract.py": "e3e36c00dd1b487c4b9f71d88c48b1a00ddc0e46864f27ee2f27513bccd071ba",
+    "swarm/sandbox_executor.py": "171989e619ad97a679a6795407da1d670d8c588020ebf2abaa1f083763c0f66b",
+    "tests/test_phase31.py": "3cce507546bb4743826d768a3e91387023111f28921778bd7f92d7a178b817dc",
+    "swarm/prompts/alpha.md": "736a79cd96dff41ede86f7c26321460cbc6092e20e8a9765a0152ef26539e5a4",
+    "swarm/prompts/beta.md": "7553b3295b1ddfee4c43665260ded39df504dfad54bf6147f523ecfcb3c05d6d",
+    "swarm/prompts/delta.md": "7796f4d61d8cabe7fe1e89ea884f9ecd5e28cc035fce599941b1e0ced5bab4ea",
+    "swarm/prompts/epsilon.md": "6497963301d2c8f9e5b1df32bc9fcdfedd40002327d592cfbcb2639c7ccca1f1",
+    "swarm/prompts/gamma.md": "726e0fba01623b9680c1cbd37128f275e3e2890e0e0ffb6a376c03e90fcdfe75",
+    "swarm/prompts/omega.md": "806cb1987b86a9c2fa9c3af5e150e7e73abc3fd8f1dc27dcff43b6d344908037",
+    "swarm/prompts/zeta.md": "63f3b1897c253621505f293d8213719351c89fa7ecb18e09ef825439ab520272"
+  },
+  "reference_hashes": {
+    "results/reference/6SIS.pdb": "53893820ff68058a449d71b81ce648d9a99d3b0f3f5bccf4b239f7992d4a88f5",
+    "results/reference/LFE_ideal.sdf": "da8f6d499d6f6b57f753b258f7093cd31a94bd6875ef23bef30a6240d3a90609",
+    "results/reference/provenance.json": "f8315f160164348051f2f69fb8298e9f5a293081d89e479d3c7df058b87d8103"
+  },
+  "execution": "LOCAL_DETERMINISTIC_ROLES_NO_LLM"
+}

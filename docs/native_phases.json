@@ -11,6 +11,12 @@
     "entrypoint": "projects/phase30/run.py",
     "execution": "native"
   },
+  "31": {
+    "title": "大环分子胶 QM/MM-FEP：蜂群规格与证据门控骨架",
+    "folder": "projects/phase31",
+    "entrypoint": "projects/phase31/run.py",
+    "execution": "native"
+  },
   "29": {
     "title": "医药吡啶：位点控制与可制造性",
     "folder": "projects/phase29",

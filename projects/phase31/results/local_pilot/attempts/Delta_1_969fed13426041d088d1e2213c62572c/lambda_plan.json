@@ -1,0 +1,47 @@
+{
+  "status": "SPECIFICATION_ONLY",
+  "lambda_values": [
+    0.0,
+    0.0625,
+    0.125,
+    0.1875,
+    0.25,
+    0.3125,
+    0.375,
+    0.4375,
+    0.5,
+    0.5625,
+    0.625,
+    0.6875,
+    0.75,
+    0.8125,
+    0.875,
+    0.9375,
+    1.0
+  ],
+  "independent_replica_seeds": [
+    3101,
+    3102,
+    3103
+  ],
+  "legs": [
+    "ligand_in_solvent",
+    "ligand_in_binary_VHL",
+    "ligand_in_ternary_BRD4_VHL"
+  ],
+  "temperature_K": 298.15,
+  "units": "kJ/mol",
+  "softcore": "REQUIRES_VALIDATED_IMPLEMENTATION",
+  "rest2": "distinct replica dimension, NOT lambda windows",
+  "required": [
+    "atom_mapping",
+    "forcefield_parameters",
+    "charge_and_protonation",
+    "equilibration",
+    "restraint_and_standard_state_corrections",
+    "finite_size_charge_corrections",
+    "overlap_and_effective_samples",
+    "replicate_and_time_convergence",
+    "closed_thermodynamic_cycle"
+  ]
+}

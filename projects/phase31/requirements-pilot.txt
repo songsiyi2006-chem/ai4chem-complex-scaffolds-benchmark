@@ -1,0 +1,7 @@
+# Use an existing compatible environment; no automatic install/upgrade.
+numpy>=1.26
+scipy>=1.11
+matplotlib>=3.8
+rdkit>=2024.3
+# Optional scientific adapters are intentionally NOT silently installed.
+# pyscf + reviewed method backend; ase; geometric; OpenMM; OpenMM-PLUMED; pymbar
